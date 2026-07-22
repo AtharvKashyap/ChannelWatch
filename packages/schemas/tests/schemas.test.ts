@@ -1,0 +1,146 @@
+import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import {
+  YoutubeChannelId,
+  Channel,
+  Entity,
+  Relationship,
+  Source,
+  ChannelLookupResponse,
+} from "../src/schemas.js";
+
+const fixture = JSON.parse(
+  readFileSync(
+    fileURLToPath(new URL("./fixtures/channel-lookup-response.json", import.meta.url)),
+    "utf8",
+  ),
+);
+
+describe("YoutubeChannelId", () => {
+  it("accepts UC + 22 valid chars", () => {
+    expect(YoutubeChannelId.parse("UCX6OQ3DkcsbYNE6H8uQQuVA")).toBe("UCX6OQ3DkcsbYNE6H8uQQuVA");
+    expect(YoutubeChannelId.parse("UC_-0123456789abcdefABCD")).toBe("UC_-0123456789abcdefABCD");
+  });
+
+  it("rejects handles, names, and wrong lengths", () => {
+    expect(() => YoutubeChannelId.parse("@mkbhd")).toThrow();
+    expect(() => YoutubeChannelId.parse("Example Channel")).toThrow();
+    expect(() => YoutubeChannelId.parse("UC123456789")).toThrow(); // too short
+    expect(() => YoutubeChannelId.parse("UCX6OQ3DkcsbYNE6H8uQQuVAextra")).toThrow(); // too long
+    expect(() => YoutubeChannelId.parse("XCX6OQ3DkcsbYNE6H8uQQuVA")).toThrow(); // wrong prefix
+    expect(() => YoutubeChannelId.parse("UCX6OQ3DkcsbYNE6H8uQQu!A")).toThrow(); // bad char
+  });
+});
+
+describe("Entity", () => {
+  it("parses a valid entity", () => {
+    const e = Entity.parse({ id: "entity-1", name: "Example Media LLC", type: "COMPANY" });
+    expect(e.type).toBe("COMPANY");
+  });
+
+  it("rejects invalid entity type", () => {
+    expect(() => Entity.parse({ id: "e", name: "x", type: "BANK" })).toThrow();
+  });
+});
+
+describe("Channel", () => {
+  it("parses a valid channel", () => {
+    const c = Channel.parse({
+      youtube_channel_id: "UCX6OQ3DkcsbYNE6H8uQQuVA",
+      display_name: "Example Channel",
+    });
+    expect(c.youtube_channel_id).toBe("UCX6OQ3DkcsbYNE6H8uQQuVA");
+  });
+
+  it("rejects an invalid channel id", () => {
+    expect(() => Channel.parse({ youtube_channel_id: "@handle", display_name: "x" })).toThrow();
+  });
+});
+
+describe("Relationship (§15.3)", () => {
+  it("parses a full relationship with nullable percentage", () => {
+    const r = Relationship.parse({
+      type: "PORTFOLIO_COMPANY_OF",
+      from_entity_id: "entity-123",
+      to_entity_id: "entity-456",
+      effective_from: "2025-03-12",
+      effective_to: null,
+      ownership_percentage: null,
+      control_level: "CONTROLLING",
+      confidence: 0.93,
+      source_ids: ["src-1", "src-2"],
+    });
+    expect(r.ownership_percentage).toBeNull();
+    expect(r.control_level).toBe("CONTROLLING");
+  });
+
+  it("accepts a numeric ownership percentage in range", () => {
+    const r = Relationship.parse({
+      type: "PARTIALLY_OWNS",
+      from_entity_id: "a",
+      to_entity_id: "b",
+      ownership_percentage: 40,
+      control_level: "MINORITY",
+      confidence: 0.6,
+      source_ids: [],
+    });
+    expect(r.ownership_percentage).toBe(40);
+  });
+
+  it("rejects confidence outside 0–1", () => {
+    expect(() =>
+      Relationship.parse({
+        type: "OWNS",
+        from_entity_id: "a",
+        to_entity_id: "b",
+        control_level: "CONTROLLING",
+        confidence: 1.5,
+        source_ids: [],
+      }),
+    ).toThrow();
+  });
+});
+
+describe("Source", () => {
+  it("parses a valid source with tier and status", () => {
+    const s = Source.parse({
+      id: "src-1",
+      url: "https://example.com/press-release",
+      tier: 1,
+      status: "ACTIVE",
+      archive_url: "https://web.archive.org/x",
+      content_hash: "abc123",
+    });
+    expect(s.tier).toBe(1);
+  });
+
+  it("rejects an invalid tier", () => {
+    expect(() =>
+      Source.parse({ id: "s", url: "https://x.com", tier: 5, status: "ACTIVE" }),
+    ).toThrow();
+  });
+
+  it("rejects a non-url", () => {
+    expect(() => Source.parse({ id: "s", url: "not-a-url", tier: 1, status: "ACTIVE" })).toThrow();
+  });
+});
+
+describe("ChannelLookupResponse (§17.2)", () => {
+  it("parses the SPEC §17.2 example verbatim", () => {
+    const parsed = ChannelLookupResponse.parse(fixture);
+    expect(parsed.classification.label).toBe("PE_BACKED");
+    expect(parsed.classification.confidence_label).toBe("CONFIRMED");
+    expect(parsed.classification.confidence).toBe(0.93);
+    expect(parsed.direct_owner?.type).toBe("COMPANY");
+    expect(parsed.ultimate_parent?.type).toBe("PRIVATE_EQUITY_FIRM");
+    expect(parsed.creator_status?.status).toBe("REMAINS_HOST");
+    expect(parsed.evidence_count).toBe(4);
+    expect(parsed.disputed).toBe(false);
+  });
+
+  it("round-trips the fixture unchanged", () => {
+    const parsed = ChannelLookupResponse.parse(fixture);
+    expect(parsed).toEqual(fixture);
+  });
+});
