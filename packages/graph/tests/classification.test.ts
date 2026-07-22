@@ -243,6 +243,93 @@ describe("deriveClassification — ambiguous direct owner", () => {
   });
 });
 
+describe("deriveClassification — joint creator ownership (smosh case)", () => {
+  // Smosh-shaped fixture: two co-founders each hold an OWNS/CONTROLLING edge
+  // into the channel at the same confidence — a tie among creator owners.
+  const smoshEntities = [
+    entity("padilla", "CREATOR", "Anthony Padilla"),
+    entity("hecox", "CREATOR", "Ian Hecox"),
+    entity("mythical", "COMPANY", "Mythical Entertainment"),
+  ];
+  const smoshRelationships = [
+    rel({
+      type: "OWNS",
+      from_entity_id: "padilla",
+      to_entity_id: CHAN,
+      control_level: "CONTROLLING",
+      confidence: 0.85,
+    }),
+    rel({
+      type: "OWNS",
+      from_entity_id: "hecox",
+      to_entity_id: CHAN,
+      control_level: "CONTROLLING",
+      confidence: 0.85,
+    }),
+    rel({
+      type: "PARTIALLY_OWNS",
+      from_entity_id: "mythical",
+      to_entity_id: CHAN,
+      control_level: "MINORITY",
+      confidence: 0.8,
+    }),
+  ];
+
+  it("is CREATOR_OWNED with JOINTLY_CREATOR_OWNED when tied owners are all creators", () => {
+    const r = deriveClassification({
+      channelId: CHAN,
+      relationships: smoshRelationships,
+      entities: smoshEntities,
+      asOf: ASOF,
+    });
+    expect(r.classification).toBe("CREATOR_OWNED");
+    expect(r.explanationCodes).toContain("JOINTLY_CREATOR_OWNED");
+  });
+
+  it("returns all tied co-owners as directOwners (directOwner kept as one of them)", () => {
+    const r = deriveClassification({
+      channelId: CHAN,
+      relationships: smoshRelationships,
+      entities: smoshEntities,
+      asOf: ASOF,
+    });
+    expect(r.directOwners.map((o) => o.id).sort()).toEqual(["hecox", "padilla"]);
+    expect(r.directOwner).not.toBeNull();
+    expect(["padilla", "hecox"]).toContain(r.directOwner!.id);
+    expect(r.confidence).toBeCloseTo(0.85, 10);
+  });
+
+  it("also works for PERSON owners", () => {
+    const r = deriveClassification({
+      channelId: CHAN,
+      relationships: [
+        rel({ type: "OWNS", from_entity_id: "p1", to_entity_id: CHAN, confidence: 0.7 }),
+        rel({ type: "OWNS", from_entity_id: "p2", to_entity_id: CHAN, confidence: 0.7 }),
+      ],
+      entities: [entity("p1", "PERSON", "Person One"), entity("p2", "PERSON", "Person Two")],
+      asOf: ASOF,
+    });
+    expect(r.classification).toBe("CREATOR_OWNED");
+    expect(r.explanationCodes).toContain("JOINTLY_CREATOR_OWNED");
+  });
+
+  it("remains OWNERSHIP_UNCLEAR for a MIXED-TYPE tie (company + person)", () => {
+    const r = deriveClassification({
+      channelId: CHAN,
+      relationships: [
+        rel({ type: "OWNS", from_entity_id: "co", to_entity_id: CHAN, confidence: 0.8 }),
+        rel({ type: "OWNS", from_entity_id: "person", to_entity_id: CHAN, confidence: 0.8 }),
+      ],
+      entities: [entity("co", "COMPANY", "Co"), entity("person", "PERSON", "A Person")],
+      asOf: ASOF,
+    });
+    expect(r.classification).toBe("OWNERSHIP_UNCLEAR");
+    expect(r.explanationCodes).toContain("MULTIPLE_OWNER_CANDIDATES");
+    expect(r.explanationCodes).not.toContain("JOINTLY_CREATOR_OWNED");
+    expect(r.directOwner).toBeNull();
+  });
+});
+
 describe("deriveClassification — cycle detection", () => {
   it("still classifies and reports OWNERSHIP_CYCLE_DETECTED", () => {
     const entities = [entity("pc", "COMPANY"), entity("mg", "COMPANY")];

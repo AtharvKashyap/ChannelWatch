@@ -126,6 +126,26 @@ describe("rowToSource", () => {
     expect(s.status).toBe("ACTIVE");
     expect(s.retrieved_at).toBe("2025-03-13T00:00:00.000Z");
   });
+
+  it("tolerates a null source_tier and null status instead of throwing", () => {
+    const row: SourceRow = {
+      id: "33333333-3333-5333-8333-333333333333",
+      url: "https://example.com/ungraded",
+      title: "Ungraded source",
+      publisher: null,
+      author: null,
+      publishedAt: null,
+      retrievedAt: null,
+      sourceTier: null,
+      sourceType: null,
+      archiveUrl: null,
+      contentHash: null,
+      status: null,
+    };
+    const s = rowToSource(row);
+    expect(s.tier).toBeNull();
+    expect(s.status).toBeNull();
+  });
 });
 
 describe("rowToClaim", () => {
@@ -152,6 +172,26 @@ describe("rowToClaim", () => {
     expect(c.object_id).toBe("aaaa1111-1111-5111-8111-111111111111");
     expect(c.confidence).toBeCloseTo(0.93, 10);
     expect(c.claim_status).toBe("PUBLISHED");
+  });
+
+  it("tolerates a null claim_status instead of throwing", () => {
+    const c = rowToClaim({
+      id: "44444444-4444-5444-8444-444444444444",
+      subjectType: "CHANNEL",
+      subjectId: "cccc1111-1111-5111-8111-111111111111",
+      predicate: "OWNED_BY",
+      objectType: null,
+      objectId: null,
+      literalValue: null,
+      confidence: null,
+      claimStatus: null,
+      effectiveDate: null,
+      expirationDate: null,
+      reviewNotes: null,
+      createdAt: null,
+      updatedAt: null,
+    });
+    expect(c.claim_status).toBeNull();
   });
 
   it("rejects an invalid claim_status at the boundary", () => {

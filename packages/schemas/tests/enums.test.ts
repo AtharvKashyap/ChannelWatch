@@ -171,13 +171,14 @@ describe("enums match SPEC lists exactly", () => {
       "DIRECT_OWNER_CONFIRMED",
       "OWNER_IS_PE_PORTFOLIO_COMPANY",
       "MULTIPLE_OWNER_CANDIDATES",
+      "JOINTLY_CREATOR_OWNED",
       "OWNERSHIP_CYCLE_DETECTED",
       "OWNERSHIP_RELATIONSHIP_DISPUTED",
       "NO_OWNERSHIP_EVIDENCE",
       "OWNERSHIP_CHANGED_RECENTLY",
       "RECORD_OUTDATED",
     ]);
-    expect(EXPLANATION_CODES).toHaveLength(8);
+    expect(EXPLANATION_CODES).toHaveLength(9);
   });
 
   it("ControlLevel", () => {

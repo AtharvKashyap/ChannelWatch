@@ -60,13 +60,18 @@ TypeScript-only monorepo: pnpm workspaces + Turborepo.
 
 ```
 pnpm dev              # turbo dev across workspaces
-pnpm test             # vitest everywhere
-pnpm lint             # eslint + prettier check
-pnpm db:migrate       # drizzle migrations
-pnpm db:seed          # seed reference data
-pnpm import:research  # validate + import data/research/*.yaml
-docker compose up     # postgres + api + web for local dev
+pnpm test             # vitest everywhere (DB-gated API tests need DATABASE_URL; they run in CI)
+pnpm lint             # eslint; pnpm format:check for prettier
+pnpm db:migrate       # drizzle migrations (needs DATABASE_URL, see .env.example)
+pnpm db:seed          # idempotent SPEC §35 dev seed
+pnpm import:research  # validate + import data/research/*.yaml (idempotent)
+pnpm --filter @channelwatch/api dev         # run the API (localhost:8787)
+pnpm --filter @channelwatch/extension build # MV3 bundle → apps/extension/dist (load unpacked)
+docker compose up -d postgres               # local Postgres
 ```
+
+Extension API origin is baked at build time from `VITE_API_BASE_URL`
+(manifest host_permissions AND the settings default read the same var).
 
 ## Conventions
 
@@ -85,9 +90,16 @@ docker compose up     # postgres + api + web for local dev
 
 ## Status
 
-Pre-code. Approved milestones: M0 scaffold + constitution docs → M1 data core +
-5 pilot channels → M2 API + extension → M3 review console + 100-channel dataset +
-launch prep. Package/npm namespace is `channelwatch`; directory is `YT_Channel_Watch`.
+M0 (scaffold + constitution docs), M1 (data core: schemas/scoring/graph/DB/importer,
+12 researched channels in `data/research/`), and M2 (public `/api/v1` read endpoints +
+corrections POST, MV3 extension with badge + evidence panel, selector-health suite)
+are complete. Next: M3 — reviewer console in `apps/web`, ~100-channel dataset, launch
+prep. Open taxonomy policy questions are tracked in `.superpowers/sdd/progress.md`.
+Package/npm namespace is `channelwatch`; directory is `YT_Channel_Watch`.
+
+Research records in `data/research/` are drafts until a human sets `reviewed_by`;
+records flagged for two-person review (PE chains, named individuals, disputed
+characterizations) need both reviewers before public launch.
 
 ## Git
 

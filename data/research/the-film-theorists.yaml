@@ -1,0 +1,232 @@
+# CHANNELWATCH research record — The Film Theorists
+#
+# Pilot channel-ownership research record. DRAFT FOR HUMAN REVIEW — nothing here
+# is published without human verification (Spec §12.7). ACQUISITION case:
+#
+#   channel (The Film Theorists)
+#     └─ OWNS ───────────── Theorist Media  (production studio operating the channels;
+#          │                                 founded by Matthew & Stephanie Patrick)
+#          └─ OWNS (control) ─ Lunar X GmbH  (acquired majority of Theorist Media, 2022-12-20)
+#
+# NOTE (see review.notes): the brief's premise that Lunar X is "a GoDigital Media
+# Group company" could NOT be verified. Sources describe Lunar X as an
+# independent Berlin-based, VC-backed company (Lunar X GmbH, founded 2021 by Lucas
+# Kollmann). No T1/T2 source documents a GoDigital -> Lunar X ownership edge, so
+# GoDigital is NOT modeled here. Also correcting the brief: the acquisition was
+# announced 2022-12-20 (late 2022), NOT early 2024. Classification is COMPUTED by
+# the importer, never asserted here.
+
+channel:
+  youtube_channel_id: UC3sznuotAs2ohg_U__Jzj_Q
+  display_name: The Film Theorists
+  handle: "@FilmTheory"
+
+entities:
+  - slug: theorist_media
+    canonical_name: Theorist Media
+    entity_type: COMPANY
+    aliases:
+      - Theorist
+      - Theorist Media Inc.
+  - slug: lunar_x
+    canonical_name: Lunar X
+    entity_type: COMPANY
+    legal_name: Lunar X GmbH
+    jurisdiction: DE
+    website: https://lunar-x.com
+    aliases:
+      - Lunar X GmbH
+      - LunarX
+  - slug: matpat
+    canonical_name: MatPat
+    entity_type: CREATOR
+    aliases:
+      - Matthew Patrick
+      - Matthew Robert Patrick
+      - Matthew Patthew
+  - slug: stephanie
+    canonical_name: Stephanie Patrick
+    entity_type: PERSON
+    aliases:
+      - Steph Patrick
+  - slug: lee_collins
+    canonical_name: Lee Collins
+    entity_type: PERSON
+
+relationships:
+  # 0: Theorist Media operates/owns the channel. The Film Theorists is one of the
+  # channels of the production studio Theorist Media.
+  - subject: theorist_media
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.85
+    status: ACTIVE
+  # 1: Lunar X acquired the MAJORITY of Theorist Media (announced 2022-12-20);
+  # Lunar X is Theorist Media's controlling corporate parent. Not a PE-implying edge.
+  - subject: lunar_x
+    type: OWNS
+    object: theorist_media
+    control_level: CONTROLLING
+    effective_from: "2022-12-20"
+    confidence: 0.85
+    status: ACTIVE
+  # 2: The Film Theorists was founded/created by MatPat.
+  - subject: channel
+    type: FOUNDED_BY
+    object: matpat
+    confidence: 0.8
+    status: ACTIVE
+  # 3: Theorist Media was founded by Matthew Patrick.
+  - subject: theorist_media
+    type: FOUNDED_BY
+    object: matpat
+    confidence: 0.85
+    status: ACTIVE
+  # 4: Theorist Media was co-founded by Stephanie Patrick.
+  - subject: theorist_media
+    type: FOUNDED_BY
+    object: stephanie
+    confidence: 0.75
+    status: ACTIVE
+  # 5: MatPat hosted The Film Theorists until his final Theory episode 2024-03-09.
+  - subject: channel
+    type: HOSTED_BY
+    object: matpat
+    effective_to: "2024-03-09"
+    confidence: 0.85
+    status: ENDED
+  # 6: Lee Collins took over as host of Film Theory after MatPat's final episode.
+  - subject: channel
+    type: HOSTED_BY
+    object: lee_collins
+    effective_from: "2024-03-09"
+    confidence: 0.75
+    status: ACTIVE
+  # 7: MatPat's continued involvement — after stepping down as host he remained a
+  # creative director leading programming/ideas for upcoming episodes.
+  - subject: channel
+    type: CREATIVE_CONTROL_BY
+    object: matpat
+    control_level: MANAGEMENT
+    effective_from: "2024-03-09"
+    confidence: 0.55
+    status: ACTIVE
+
+sources:
+  - ref: gt_video_2022
+    url: https://www.youtube.com/watch?v=dJfE5U6gn9g
+    title: "Game Theory: This is Not My Channel"
+    publisher: The Game Theorists
+    published_at: "2022-12-20"
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >
+      MatPat announces he and Stephanie sold the majority of their company,
+      Theorist Media (the studio behind The Game Theorists, The Film Theorists,
+      The Food Theorists, and GTLive), to Lunar X. On-screen: "Steph and I just
+      sold Theorist. We sold our business. This channel is no longer just my
+      channel." He and his wife remain as CEO and COO; the team stays intact.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+  - ref: tubefilter_2022
+    url: https://www.tubefilter.com/2022/12/20/theorist-media-acquired-by-lunar-x/
+    title: 'The Game Theorist gets acquired: "Steph and I just sold Theorist. We sold our business."'
+    publisher: Tubefilter
+    published_at: "2022-12-20"
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      MatPat and Stephanie Patrick's production studio Theorist Media — behind
+      the channels The Game Theorists, The Film Theorists, The Food Theorists,
+      and GTLive — was acquired by startup Lunar X. MatPat remains CEO and
+      frontman of the channels; Stephanie Patrick continues as COO; the existing
+      team remains fully intact. "The financial details of Theorist Media's
+      acquisition are not being disclosed."
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+  - ref: tubefilter_2024
+    url: https://www.tubefilter.com/2024/01/09/matpat-stepping-down-hosting-game-theory/
+    title: MatPat is stepping down as host of Theory videos
+    publisher: Tubefilter
+    published_at: "2024-01-09"
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      MatPat is stepping down from hosting Game Theory, Film Theory, Food Theory,
+      and Style Theory; "his final episode on March 9." "Lee Collins, who has
+      been with Theorist for 10 years as a video editor and creative director,
+      will take over Film Theory." "Theorist Media was sold to Lunar X in late
+      2022." MatPat will remain "as a creative director, leading programming and
+      brainstorming ideas for upcoming episodes."
+    supports:
+      - relationship: 1
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted — not yet human-reviewed (schema rejects an
+  # explicit null; absence signals "unreviewed").
+  last_reviewed_at: "2026-07-22"
+  notes: >
+    DRAFT — requires human review. KEY CORRECTIONS TO THE BRIEF: (1) The
+    acquisition was announced 2022-12-20 (late 2022), NOT "early 2024." The 2024
+    event is a separate development — MatPat stepping down as on-camera host
+    (announced 2024-01-09; final Theory episode 2024-03-09). (2) The brief's
+    premise "Lunar X (a GoDigital Media Group company)" could NOT be verified.
+    Reputable coverage and company profiles describe Lunar X as an independent,
+    Berlin-based media company (Lunar X GmbH, founded 2021 by CEO Lucas Kollmann,
+    VC-backed by Cadence Growth Capital, Claret Capital Partners, Creandum, 468
+    Capital). GoDigital Media Group is a separate Los Angeles conglomerate
+    (founded 2006 by Jason Peterson). No T1/T2 source documents a GoDigital ->
+    Lunar X ownership/parent edge; per PRECISION-OVER-RECALL, GoDigital is OMITTED
+    from the graph. A reviewer should independently confirm whether any GoDigital
+    connection exists before adding it.
+
+    CHAIN & CONFIDENCE. (0) Theorist Media OWNS the channel: HIGH-ish. The Film
+    Theorists is consistently listed as one of Theorist Media's channels (T1
+    creator video + T2 Tubefilter). Exact operating/holding legal entity for the
+    channel not pinned; control modeled as CONTROLLING. (1) Lunar X OWNS Theorist
+    Media: HIGH. MatPat's own video (T1) + Tubefilter x2 (T2). Note MatPat sold
+    the MAJORITY (not necessarily 100%); ownership_percentage undisclosed, so
+    omitted; deal price undisclosed. (2-4) Founding edges: MatPat created Film
+    Theory; MatPat & Stephanie Patrick founded/ran Theorist Media (he=CEO,
+    she=COO post-sale). (5) MatPat HOSTED_BY ended 2024-03-09. (6) Lee Collins new
+    Film Theory host from 2024-03-09 (T2). (7) MatPat continued involvement:
+    modeled as CREATIVE_CONTROL_BY (MANAGEMENT), confidence LOW — the "creative
+    director" quote is framed across the Theory channels generally, not Film
+    Theory specifically; reviewer may drop or refine this edge.
+
+    DATES. All full YYYY-MM-DD. Acquisition 2022-12-20 (announcement/video date).
+    MatPat final host episode 2024-03-09 (Tubefilter "March 9"; year 2024 from
+    context). No partial dates asserted.
+
+    ENTITY GAPS. Theorist Media legal name/jurisdiction/incorporation not verified
+    (Los Angeles based). Lunar X legal entity "Lunar X GmbH" per lunar-x.com
+    footer; jurisdiction DE. Founders' exact equity split and Lunar X's stake
+    percentage undisclosed.
+
+    NON-OWNERSHIP CONTEXT. MatPat later announced a fuller step-back; his final
+    GTLive stream aired 2024-10-26. This does not change the Theorist Media <-
+    Lunar X ownership chain but the reviewer should re-verify currency and any
+    later change in the Patricks' roles.
+
+    SOURCES. T1: The Game Theorists video "Game Theory: This is Not My Channel"
+    (2022-12-20, DIRECT_CREATOR_CONFIRMATION). T2: Tubefilter (2022-12-20 and
+    2024-01-09). No Tier 4 used. Excerpts are close paraphrase/quote from fetched
+    content and should be re-verified verbatim against originals at review.
+    Channel ID UC3sznuotAs2ohg_U__Jzj_Q extracted from the "externalId" and
+    <link rel="canonical"> in the youtube.com/@FilmTheory page source (title
+    "The Film Theorists - YouTube"). Variety's retirement article
+    (variety.com/2024/.../matpat-youtube-retirement-game-theorists-1235866896)
+    was paywalled (307->402) and not used.

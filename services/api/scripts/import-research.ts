@@ -12,6 +12,7 @@ import {
 import { canPublishPeLabel, scoreClaimConfidence, type PeLabelSource } from "@channelwatch/scoring";
 import { deriveClassification } from "@channelwatch/graph";
 import { getDb, closeDb, type Database } from "../src/db/client.js";
+import { syncRow } from "../src/db/sync-row.js";
 import {
   channelId as channelIdFor,
   claimId as claimIdFor,
@@ -113,45 +114,6 @@ export function validateResearchRecord(raw: unknown): ResearchRecord {
   const record = ResearchRecord.parse(raw);
   assertPePublishable(record);
   return record;
-}
-
-function normalizeForCompare(value: unknown): unknown {
-  if (value === null || value === undefined) return null;
-  if (value instanceof Date) return value.getTime();
-  return value;
-}
-
-/**
- * A drizzle executor: either the top-level db or an open transaction handle.
- * `importRecord` runs all of a file's writes inside a single transaction, so the
- * write helpers accept whichever is in scope.
- */
-type Executor = Database | Parameters<Parameters<Database["transaction"]>[0]>[0];
-
-/**
- * Change-detected upsert of a single row keyed by its deterministic `id`.
- * Returns whether the row was inserted, updated, or left untouched, and the
- * before/after states for the audit trail. Only the columns in `desired` (minus
- * `id`) are compared and written.
- */
-async function syncRow(
-  db: Executor,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  table: any,
-  id: string,
-  desired: Record<string, unknown>,
-): Promise<{ result: "inserted" | "updated" | "unchanged"; before: unknown; after: unknown }> {
-  const [existing] = await db.select().from(table).where(eq(table.id, id));
-  if (!existing) {
-    await db.insert(table).values({ id, ...desired });
-    return { result: "inserted", before: null, after: { id, ...desired } };
-  }
-  const changed = Object.keys(desired).some(
-    (k) => normalizeForCompare(existing[k]) !== normalizeForCompare(desired[k]),
-  );
-  if (!changed) return { result: "unchanged", before: existing, after: existing };
-  await db.update(table).set(desired).where(eq(table.id, id));
-  return { result: "updated", before: existing, after: { ...existing, ...desired } };
 }
 
 export async function importRecord(

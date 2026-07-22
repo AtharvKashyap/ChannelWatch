@@ -1,0 +1,211 @@
+# CHANNELWATCH research record — Veritasium (Derek Muller)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: creator-founded channel with a documented EXTERNAL INVESTMENT.
+# Electrify Video Partners ("Electrify") announced a majority investment in
+# Veritasium on 2023-04-21. Electrify's own announcement and multiple
+# secondary sources describe this as a "majority investment" / the channel
+# becoming "majority-owned" by Electrify, while Derek Muller — in his own
+# words, quoted by Tubefilter in Jan 2026 when he first publicly disclosed
+# the deal — says he "would remain an owner" and retained creative control
+# and on-camera hosting. Exact percentages are NOT publicly disclosed by
+# either party, so ownership_percentage is omitted throughout; only the
+# qualitative "majority" / "remain an owner" characterizations are recorded.
+
+channel:
+  # Extracted from the canonical channelId/externalId embedded in the raw HTML
+  # of https://www.youtube.com/@veritasium (curl fetch); the page's ytInitialData
+  # lists this as the channel's own externalId (browseId), distinct from the
+  # "channelId" values of unrelated featured/recommended channels also present
+  # in the page source.
+  youtube_channel_id: UCHnyfMqiRRG1u-2MsSQLbXA
+  display_name: Veritasium
+  handle: "@veritasium"
+
+entities:
+  - slug: muller
+    canonical_name: Derek Muller
+    entity_type: CREATOR
+    aliases:
+      - Veritasium
+
+  - slug: electrify
+    canonical_name: Electrify Video Partners
+    entity_type: INVESTMENT_FIRM
+    # legal_name matches data/research/fern.yaml — shared entity, keep fields consistent
+    legal_name: Electrify Video Partners Ltd
+    jurisdiction: GB
+    website: https://www.electrify.video
+    aliases:
+      - Electrify
+
+relationships:
+  # 0: Channel was founded by Derek Muller (pre-dates the 2023 Electrify deal;
+  # Veritasium launched in 2011, long before any outside investment).
+  - subject: channel
+    type: FOUNDED_BY
+    object: muller
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: Electrify's own 2023-04-21 announcement is headlined "Electrify
+  # completes majority investment in Veritasium" and Wikipedia independently
+  # states the channel is "majority-owned" by Electrify. Recorded as
+  # PARTIALLY_OWNS (not OWNS — no source claims 100%) with control_level
+  # CONTROLLING, since "majority" denotes >50% / controlling stake by
+  # definition. Exact percentage is not disclosed by either party.
+  - subject: electrify
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2023-04-21
+    confidence: 0.8
+    status: ACTIVE
+
+  # 2: Derek Muller's own account (quoted by Tubefilter, Jan 2026, when he
+  # first disclosed the deal publicly) is that "Electrify would buy some of
+  # the business, but I would remain an owner." No source states his exact
+  # retained percentage. control_level is inferred as MINORITY only because
+  # Electrify's stake is documented as a majority/controlling one (rel 1) —
+  # the remainder held by Muller is therefore necessarily a minority stake.
+  # Flagged for reviewer: this is an inference from the two other documented
+  # facts, not a directly stated percentage or control label.
+  - subject: muller
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: MINORITY
+    effective_from: 2023-04-21
+    confidence: 0.6
+    status: ACTIVE
+
+  # 3: Muller continues as on-camera host/creator post-investment; confirmed
+  # by Electrify's own announcement, Tubefilter's 2023 and 2026 coverage, and
+  # Muller's own statements. Distinct from ownership/control edges above.
+  - subject: channel
+    type: HOSTED_BY
+    object: muller
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: electrify_announcement
+    url: https://www.electrify.video/news/electrify-completes-majority-investment-in-veritasium
+    title: Electrify completes majority investment in Veritasium
+    publisher: Electrify Video Partners
+    published_at: 2023-04-21
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >-
+      Electrify announced today that it has made a strategic investment in
+      Veritasium [...] "But over the last twelve years the channel has grown
+      so much that there is a lot more to the business these days. I'm
+      excited to partner with Electrify so I can hand off a lot of those
+      things and focus on my core passion of making great videos," Derek
+      Muller said.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 3
+
+  - ref: tubefilter_2023
+    url: https://www.tubefilter.com/2023/05/08/electrify-video-partners-invest-derek-muller-veritasium-science-math-education/
+    title: Creator funding firm Electrify invests in education YouTube channel Veritasium
+    publisher: Tubefilter
+    published_at: 2023-05-08
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Electrify typically takes a stake in the creator channels it backs, and
+      the Veritasium pact is no exception. An Electrify rep confirmed that the
+      company will acquire an ownership stake in Muller's learning hub.
+    supports:
+      - relationship: 1
+      - relationship: 3
+
+  - ref: tubefilter_2026_disclosure
+    url: https://www.tubefilter.com/2026/01/06/veritasium-derek-muller-electrify-investment/
+    title: For almost a decade, Veritasium was a one-man show. Then it got an investment.
+    publisher: Tubefilter
+    published_at: 2026-01-06
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "The deal they offered was this: Electrify would buy some of the
+      business, but I would remain an owner. They would take care of things
+      like hiring, production, logistics, corporate compliance, taxes, all
+      that sort of stuff, and they would reduce my working hours," Muller
+      explains.
+    supports:
+      - relationship: 2
+      - relationship: 3
+
+  - ref: wikipedia_derek_muller
+    url: https://en.wikipedia.org/wiki/Derek_Muller
+    title: Derek Muller
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      As of 21 April 2023, Veritasium is majority-owned by the private equity
+      media company Electrify Video Partners.
+    supports:
+      - relationship: 1
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by omitted: not yet reviewed (schema field is optional, not nullable).
+  notes: >-
+    DRAFT for human review — "creator-founded with external investment" case.
+
+    CHANNEL ID: UCHnyfMqiRRG1u-2MsSQLbXA, extracted from the externalId field
+    in ytInitialData embedded in the raw HTML of https://www.youtube.com/@veritasium
+    (curl fetch, no JS execution). This value matches the long-publicly-known
+    Veritasium channel ID and differs from several unrelated "channelId"
+    values also present in the page (those belong to featured/recommended
+    channels in page modules, not the page's own channel).
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) Electrify entity_type is recorded as INVESTMENT_FIRM. Sources
+    characterize Electrify inconsistently: Tubefilter calls it a "creator
+    funding firm," Wikipedia calls it a "private equity media company." No
+    PE-backed label is asserted here (that requires the separate §14.3
+    PE-label rule, out of scope for this record) — a reviewer should confirm
+    which characterization/entity_type the DB prefers (INVESTMENT_FIRM vs
+    PRIVATE_EQUITY_FIRM) if a firmer classification is later needed.
+    (2) Electrify->channel (rel 1): recorded PARTIALLY_OWNS + CONTROLLING
+    based on Electrify's own announcement headline ("completes majority
+    investment") and Wikipedia's independent "majority-owned" statement.
+    Exact percentage is NOT disclosed by any source found — ownership_percentage
+    is deliberately omitted rather than guessed.
+    (3) Muller->channel (rel 2): recorded PARTIALLY_OWNS + MINORITY. Muller's
+    own quoted statement ("I would remain an owner") documents that he
+    retained SOME ownership post-deal, but not a percentage or an explicit
+    "minority" label. MINORITY is an inference from the fact that Electrify's
+    stake is documented as majority/controlling (rel 1), so the remainder
+    must be a minority stake. This is the weakest-documented edge in this
+    record and should be the reviewer's primary focus; confidence set
+    deliberately lower (0.6) to reflect that this control_level is inferred
+    rather than directly stated.
+    (4) The 2023-04-21 effective_from date is Electrify's own announcement
+    date (and matches Wikipedia and Muller's later account that the deal
+    dates to 2023); Muller did not publicly disclose the deal to his audience
+    until a video around December 2025, reported by Tubefilter on
+    2026-01-06 — that disclosure date is NOT recorded as a relationship date
+    since it postdates the actual deal and would misrepresent effective_from.
+    (5) No Tier 1 "official regulatory filing" or "investor portfolio listing"
+    for this specific deal was located (Electrify does not appear to publish a
+    public portfolio page listing exact stakes); the one Tier 1 source used is
+    Electrify's own acquisition-announcement page, which does not itself state
+    a percentage. No relationship here should be treated as CONFIRMED without
+    further primary-source diligence (e.g., UK Companies House filings for
+    Electrify Video Partners Ltd. or a Veritasium-related subsidiary, if any
+    exist) — flagged for a reviewer with access to UK corporate registry
+    search tools.
+    (6) FOUNDED_BY (rel 0) confidence is 0.85, sourced only indirectly (general
+    knowledge that Veritasium predates 2023 investment by over a decade,
+    corroborated implicitly by the Electrify announcement's "over the last
+    twelve years" framing from Muller); no dedicated founding-date source
+    with an exact ISO date was located, so no effective_from date is set for
+    this relationship.
+  last_reviewed_at: 2026-07-22

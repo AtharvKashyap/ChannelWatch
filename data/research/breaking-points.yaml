@@ -1,0 +1,171 @@
+# CHANNELWATCH research record — Breaking Points
+#
+# The "independent by design" political-media case: Krystal Ball and Saagar
+# Enjeti left The Hill's Rising and launched Breaking Points as an explicitly
+# subscriber-funded, no-corporate-sponsor show in June 2021. No publicly
+# documented operating company/LLC name was found for the show during this
+# research pass, so no COMPANY entity is modeled — ownership is recorded only
+# to the extent the hosts' own statements and contemporaneous press support it
+# (founders/hosts, subscriber-funded, independent of a corporate parent).
+# Real record (not a fixture).
+
+channel:
+  youtube_channel_id: UCDRIjKy6eZOvKtOELtTdeUA
+  display_name: Breaking Points
+  handle: "@breakingpoints"
+
+entities:
+  - slug: krystal_ball
+    canonical_name: Krystal Ball
+    entity_type: CREATOR
+  - slug: saagar_enjeti
+    canonical_name: Saagar Enjeti
+    entity_type: CREATOR
+
+relationships:
+  # 0: Krystal Ball co-founded the show, which premiered June 7, 2021, after she
+  # and Saagar Enjeti announced their departure from The Hill's Rising in late
+  # May 2021.
+  - subject: channel
+    type: FOUNDED_BY
+    object: krystal_ball
+    effective_from: 2021-06-07
+    confidence: 0.9
+    status: ACTIVE
+  # 1: Saagar Enjeti co-founded the show on the same terms.
+  - subject: channel
+    type: FOUNDED_BY
+    object: saagar_enjeti
+    effective_from: 2021-06-07
+    confidence: 0.9
+    status: ACTIVE
+  # 2: Krystal Ball remains a host of the channel.
+  - subject: channel
+    type: HOSTED_BY
+    object: krystal_ball
+    confidence: 0.9
+    status: ACTIVE
+  # 3: Saagar Enjeti remains a host of the channel.
+  - subject: channel
+    type: HOSTED_BY
+    object: saagar_enjeti
+    confidence: 0.9
+    status: ACTIVE
+  # 4: Krystal Ball, jointly with Saagar Enjeti, is described by the hosts'
+  # own launch statement and contemporaneous press as running an independent,
+  # subscriber-funded venture with no corporate or billionaire backer, i.e. no
+  # external owner distinct from the two hosts. No source names a specific
+  # operating company/LLC or a percentage split, so this is recorded as OWNS
+  # with control_level UNKNOWN and moderate confidence rather than a stronger
+  # claim.
+  - subject: krystal_ball
+    type: OWNS
+    object: channel
+    control_level: UNKNOWN
+    effective_from: 2021-06-07
+    confidence: 0.55
+    status: ACTIVE
+  # 5: Saagar Enjeti, same basis as relationship 4.
+  - subject: saagar_enjeti
+    type: OWNS
+    object: channel
+    control_level: UNKNOWN
+    effective_from: 2021-06-07
+    confidence: 0.55
+    status: ACTIVE
+
+sources:
+  - ref: saagar_launch_tweet_2021
+    url: https://x.com/esaagar/status/1399713307666399232
+    title: "1/ HERE WE GO: Proud to announce Breaking Points with Krystal and Saagar..."
+    publisher: X (Saagar Enjeti, personal account)
+    published_at: 2021-06-01
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >
+      Proud to announce Breaking Points with Krystal and Saagar. Help us BEAT
+      Corporate Media today. We don't have billionaires backing our high end
+      TV production but we are putting our faith in YOU. Become a premium
+      member today for $10/month.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 4
+      - relationship: 5
+  - ref: post_millennial_2021
+    url: https://thepostmillennial.com/krystal-ball-and-saager-enjeti-depart-the-hill-start-independent-podcast
+    title: Krystal Ball and Saager Enjeti depart The Hill, start independent podcast
+    publisher: The Post Millennial
+    published_at: 2021-06-01
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Krystal Ball and Saager Enjeti announced on May 28 that they were
+      leaving The Hill to pursue an independent venture. ... "We don't have
+      soulless billionaires or corporations backing our high end TV
+      production, but we do have YOU." ... "We took a big risk going
+      independent and we need your help to fulfill our mission."
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 4
+      - relationship: 5
+  - ref: podcast_business_journal_2021
+    url: https://podcastbusinessjournal.com/new-breaking-points-with-krystal-and-saagar/
+    title: "New: Breaking Points with Krystal and Saagar"
+    publisher: Podcast Business Journal
+    published_at: 2021-06-03
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Krystal Ball and Saagar Enjeti, formerly of The Hill's Rising, launch
+      Breaking Points with Krystal and Saagar, with the first full episode
+      launching on June 7th; three different tiers of monthly, year, and
+      onetime lifetime payments are available to support the show.
+    supports:
+      - relationship: 0
+      - relationship: 1
+  - ref: fast_company_2021
+    url: https://www.fastcompany.com/90646413/why-breaking-points-with-krystal-and-saagar-became-the-number-one-political-podcast-in-a-week
+    title: Why 'Breaking Points with Krystal and Saagar' became the No. 1 political podcast in a week
+    publisher: Fast Company
+    published_at: 2021-06-12
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      The hosts have editorial control over the show ... Most of the show's
+      revenue comes from premium subscribers, with some additional revenue
+      from YouTube and podcast ads.
+    supports:
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >
+    No publicly documented operating company/LLC name for Breaking Points was
+    located in this research pass (searched for "Breaking Points Media LLC",
+    Delaware filings, corporate registries — none found), so no COMPANY
+    entity is declared and no relationship asserts a corporate owner distinct
+    from the two hosts. The OWNS edges (relationships 4-5) rest on the hosts'
+    own launch-day framing ("we don't have billionaires/corporations backing
+    ... we do have YOU") plus press describing it as their "independent
+    venture" / hosts holding "editorial control" — this is suggestive of
+    creator ownership but no source gives a percentage split, a legal entity
+    name, or an explicit "we own this show" statement, hence UNKNOWN
+    control_level and moderate (0.55) confidence rather than high. A human
+    reviewer with access to corporate-registry search tools (Delaware/other
+    state filings) should check for a "Breaking Points Media" or similar LLC
+    that could upgrade these to Tier-1-backed COMPANY-entity relationships.
+    Also could not access an Axios (2021-07-06, "Corporate Media Backlash
+    Fuels New Upstarts") or New Yorker (2022-06-15, "The Rise of the
+    Internet's Creative Middle Class") piece that Wikipedia cites and that
+    may contain additional detail on revenue structure — both are leads for
+    follow-up, not used as sources here. Rotational/guest hosts (e.g. Ryan
+    Grim, Emily Jashinsky) who joined later are out of scope for this record,
+    which covers only the two founding hosts. YouTube channel id confirmed by
+    fetching https://www.youtube.com/@breakingpoints and extracting the
+    canonical "externalId" from the raw page HTML.
+  last_reviewed_at: 2026-07-22

@@ -4,6 +4,13 @@
 # It exists to exercise the importer end to end (it derives PE_BACKED). The
 # `fixture: true` flag keeps it OUT of real imports — the importer only processes
 # it when invoked with `--include-fixtures`.
+#
+# INDEPENDENCE FROM THE SEED: deterministic row ids are derived from natural keys
+# (entity canonical_name, reviewer email, source url, …). This fixture therefore
+# uses "Fixture …"-prefixed names, a fixture-only reviewer email, and fixture
+# URLs so it shares NO deterministic id with `scripts/seed.ts` (which seeds the
+# real §35 record). If the two overlapped, the seed and this importer would write
+# conflicting values to the same rows and ping-pong them across runs.
 fixture: true
 
 channel:
@@ -16,19 +23,19 @@ channel:
 
 entities:
   - slug: media
-    canonical_name: Example Media LLC
+    canonical_name: Fixture Media LLC
     entity_type: COMPANY
-    legal_name: Example Media LLC
+    legal_name: Fixture Media LLC
   - slug: capital
-    canonical_name: Example Capital Partners
+    canonical_name: Fixture Capital Partners
     entity_type: PRIVATE_EQUITY_FIRM
-    legal_name: Example Capital Partners, L.P.
+    legal_name: Fixture Capital Partners, L.P.
   - slug: creator
-    canonical_name: Original Creator
+    canonical_name: Fixture Creator
     entity_type: CREATOR
 
 relationships:
-  # 0: Example Media LLC OWNS the channel (direct owner).
+  # 0: Fixture Media LLC OWNS the channel (direct owner).
   - subject: media
     type: OWNS
     object: channel
@@ -36,13 +43,13 @@ relationships:
     effective_from: 2025-03-12
     confidence: 0.93
     status: ACTIVE
-  # 1: Example Media is a portfolio company of the PE firm (PE-implying edge).
+  # 1: Fixture Media is a portfolio company of the PE firm (PE-implying edge).
   - subject: media
     type: PORTFOLIO_COMPANY_OF
     object: capital
     confidence: 0.93
     status: ACTIVE
-  # 2: the original creator still hosts the channel.
+  # 2: the creator still hosts the channel.
   - subject: channel
     type: HOSTED_BY
     object: creator
@@ -51,40 +58,40 @@ relationships:
 
 sources:
   - ref: acquisition
-    url: https://example.com/press/example-media-acquires-example-channel
-    title: Example Media Acquires Example Channel
-    publisher: Example Media
+    url: https://fixture.example/press/fixture-media-acquires-example-channel
+    title: Fixture Media Acquires Example Channel
+    publisher: Fixture Media
     published_at: 2025-03-12
     source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
     tier: 1
     excerpt: >
-      Example Media LLC announced today that it has acquired Example Channel,
+      Fixture Media LLC announced today that it has acquired Example Channel,
       taking a controlling ownership stake effective March 12, 2025.
     supports:
       - relationship: 0
       - claim: 0
   - ref: portfolio
-    url: https://examplecapital.com/portfolio/example-media
-    title: Example Media Portfolio Listing
-    publisher: Example Capital Partners
+    url: https://fixturecapital.example/portfolio/fixture-media
+    title: Fixture Media Portfolio Listing
+    publisher: Fixture Capital Partners
     source_type: INVESTOR_PORTFOLIO_LISTING
     tier: 1
     excerpt: >
-      Example Media LLC is listed among Example Capital Partners' active
+      Fixture Media LLC is listed among Fixture Capital Partners' active
       portfolio companies.
     supports:
       - relationship: 1
       - claim: 1
   - ref: trade
-    url: https://tradepress.example/example-media-expands-creator-portfolio
-    title: Example Media Expands Creator Portfolio
+    url: https://tradepress.example/fixture-media-expands-creator-portfolio
+    title: Fixture Media Expands Creator Portfolio
     publisher: Trade Press
     published_at: 2025-03-13
     source_type: ESTABLISHED_INDUSTRY_PUBLICATION
     tier: 2
     excerpt: >
-      Original Creator will remain as host of the channel following the
-      acquisition by Example Media.
+      The creator will remain as host of the channel following the acquisition
+      by Fixture Media.
     supports:
       - relationship: 0
       - relationship: 2
@@ -113,7 +120,7 @@ claims:
       contradictionPenalty: 1.0
 
 review:
-  researched_by: dev@channelwatch.local
-  reviewed_by: reviewer@channelwatch.local
+  researched_by: fixture-importer@channelwatch.local
+  reviewed_by: fixture-reviewer@channelwatch.local
   notes: Fictional §35 example used to verify the importer.
   last_reviewed_at: 2026-07-18

@@ -1,0 +1,20 @@
+<!--
+  Synthetic, hand-written snippet standing in for a POST-hydration YouTube
+  channel page header. `apps/extension/tests/fixtures/channel-page.html` is a
+  real, sanitized snapshot, but (per its README) it is a pre-hydration shell
+  with no header node at all — so it never exercises `channelBadgeAnchor`.
+  This snippet fills that gap with the minimal DOM shape the current
+  `yt-page-header-view-model` header takes. Not a real YouTube fetch — kept
+  intentionally small; update by hand alongside `selectors.ts` if the
+  hydrated header shape changes.
+-->
+<!doctype html>
+<html>
+  <body>
+    <yt-page-header-view-model>
+      <div class="page-header-view-model-wiz__page-header-title">
+        <h1>Veritasium</h1>
+      </div>
+    </yt-page-header-view-model>
+  </body>
+</html>
