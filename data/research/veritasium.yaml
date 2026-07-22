@@ -33,6 +33,8 @@ entities:
   - slug: electrify
     canonical_name: Electrify Video Partners
     entity_type: INVESTMENT_FIRM
+    # legal_name matches data/research/fern.yaml — shared entity, keep fields consistent
+    legal_name: Electrify Video Partners Ltd
     jurisdiction: GB
     website: https://www.electrify.video
     aliases:
