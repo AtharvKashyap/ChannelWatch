@@ -100,6 +100,11 @@ export const CLASSIFICATION_LABELS = [
   "CREATOR_OWNED",
   "EXTERNALLY_FUNDED",
   "CORPORATE_OWNED",
+  // NONPROFIT_OWNED: the direct owner is a NONPROFIT and is not creator-controlled.
+  // An honest, specific label for the case a 501(c)(3)-style organization holds
+  // the channel — distinct from CORPORATE_OWNED (for-profit) though it shares the
+  // PURPLE badge color (organization-owned, §9.2).
+  "NONPROFIT_OWNED",
   "PE_BACKED",
   "OWNERSHIP_CHANGED",
   "OWNERSHIP_UNCLEAR",
@@ -215,6 +220,16 @@ export const EXPLANATION_CODES = [
   // Derivation-emitted.
   "MULTIPLE_OWNER_CANDIDATES",
   "JOINTLY_CREATOR_OWNED",
+  // A documented majority stake IS ownership (ownership rules v2). Emitted when
+  // the qualifying direct-owner edge is a PARTIALLY_OWNS/INVESTED_IN stake that
+  // is CONTROLLING or >50% — the owner is resolved from a majority stake rather
+  // than a bare OWNS/ACQUIRED/CONTROLS edge.
+  "MAJORITY_STAKE_OWNER",
+  // The direct owner is a company/brand/nonprofit that is itself controlled by a
+  // CREATOR/PERSON (via CONTROLS/OWNS/PARTIALLY_OWNS at CONTROLLING or >50%, or
+  // FOUNDED_BY + a controlling stake). The channel is creator-owned through the
+  // company, which is kept as the named direct owner.
+  "CREATOR_CONTROLLED_COMPANY",
   "OWNERSHIP_CYCLE_DETECTED",
   "OWNERSHIP_RELATIONSHIP_DISPUTED",
   "NO_OWNERSHIP_EVIDENCE",

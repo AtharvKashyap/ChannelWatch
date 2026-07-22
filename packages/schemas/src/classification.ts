@@ -7,7 +7,7 @@ import type { BadgeColor, ClassificationLabel } from "./enums.js";
  * - Neutral: ownership unknown / not researched / change in progress.
  * - Green:   creator-owned or independently controlled.
  * - Blue:    externally funded or managed.
- * - Purple:  corporate-owned.
+ * - Purple:  organization-owned — corporate-owned or nonprofit-owned.
  * - Orange:  private-equity-backed.
  * - Red:     disputed or materially misleading public ownership information.
  *
@@ -19,6 +19,7 @@ const CLASSIFICATION_TO_BADGE_COLOR: Record<ClassificationLabel, BadgeColor> = {
   CREATOR_OWNED: "GREEN",
   EXTERNALLY_FUNDED: "BLUE",
   CORPORATE_OWNED: "PURPLE",
+  NONPROFIT_OWNED: "PURPLE",
   PE_BACKED: "ORANGE",
   OWNERSHIP_CHANGED: "NEUTRAL",
   OWNERSHIP_UNCLEAR: "NEUTRAL",

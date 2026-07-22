@@ -19,6 +19,7 @@ export const BADGE_LABELS: Record<ClassificationLabel, string> = {
   CREATOR_OWNED: "Creator-Owned",
   EXTERNALLY_FUNDED: "Externally Funded",
   CORPORATE_OWNED: "Corporate-Owned",
+  NONPROFIT_OWNED: "Nonprofit-Owned",
   PE_BACKED: "PE-Backed",
   OWNERSHIP_CHANGED: "Ownership Changed",
   OWNERSHIP_UNCLEAR: "Ownership Unclear",
@@ -114,6 +115,11 @@ export function classificationSummary(input: ClassificationSummaryInput): string
       }
       if (owner !== null) return ownedBy(channelName, owner);
       return `Public records indicate that ${channelName} is owned by a corporate parent.`;
+    case "NONPROFIT_OWNED":
+      if (owner !== null) {
+        return `Public records indicate that ${owner}, a nonprofit organization, owns ${channelName}.`;
+      }
+      return `Public records indicate that ${channelName} is owned by a nonprofit organization.`;
     case "CREATOR_OWNED":
       if (owner !== null) return ownedBy(channelName, owner);
       return `Public records indicate that ${channelName} is owned by its creator.`;
@@ -160,6 +166,8 @@ export const EXPLANATION_TEXT: Record<ExplanationCode, string> = {
   OWNER_IS_PE_PORTFOLIO_COMPANY: "The owner is a private-equity portfolio company.",
   MULTIPLE_OWNER_CANDIDATES: "Public sources point to more than one possible owner.",
   JOINTLY_CREATOR_OWNED: "Public records indicate joint ownership with the creator.",
+  MAJORITY_STAKE_OWNER: "The owner is documented as holding a majority stake.",
+  CREATOR_CONTROLLED_COMPANY: "The owning company is controlled by its creator.",
   OWNERSHIP_CYCLE_DETECTED: "The ownership records reference each other in a loop.",
   OWNERSHIP_RELATIONSHIP_DISPUTED: "The ownership relationship is currently disputed.",
   NO_OWNERSHIP_EVIDENCE: "No public ownership evidence was found.",
