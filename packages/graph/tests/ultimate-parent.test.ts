@@ -54,4 +54,20 @@ describe("findUltimateParent", () => {
     // chain-so-far is returned rather than looping forever
     expect(r.chain.length).toBeGreaterThanOrEqual(1);
   });
+
+  it("picks the higher-confidence parent when a node has multiple parents", () => {
+    const r = findUltimateParent("sub", [
+      rel({ type: "SUBSIDIARY_OF", from_entity_id: "sub", to_entity_id: "p1", confidence: 0.7 }),
+      rel({ type: "SUBSIDIARY_OF", from_entity_id: "sub", to_entity_id: "p2", confidence: 0.95 }),
+    ]);
+    expect(r.ultimateParentId).toBe("p2");
+  });
+
+  it("breaks a same-confidence multi-parent tie deterministically by lexical parent id", () => {
+    const r = findUltimateParent("sub", [
+      rel({ type: "SUBSIDIARY_OF", from_entity_id: "sub", to_entity_id: "zzz", confidence: 0.9 }),
+      rel({ type: "SUBSIDIARY_OF", from_entity_id: "sub", to_entity_id: "aaa", confidence: 0.9 }),
+    ]);
+    expect(r.ultimateParentId).toBe("aaa");
+  });
 });

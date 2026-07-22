@@ -126,6 +126,16 @@ describe("deriveClassification — externally funded", () => {
     const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
     expect(r.classification).toBe("EXTERNALLY_FUNDED");
   });
+
+  it("is EXTERNALLY_FUNDED when the minority funding flows into the channel directly", () => {
+    const entities = [entity("creator", "CREATOR", "Creator"), entity("fund", "FUND", "Fund")];
+    const relationships = [
+      rel({ type: "OWNS", from_entity_id: "creator", to_entity_id: CHAN }),
+      rel({ type: "FUNDS", from_entity_id: "fund", to_entity_id: CHAN, control_level: "MINORITY" }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("EXTERNALLY_FUNDED");
+  });
 });
 
 describe("deriveClassification — disputed", () => {
@@ -141,6 +151,46 @@ describe("deriveClassification — disputed", () => {
     });
     expect(r.classification).toBe("DISPUTED");
     expect(r.explanationCodes).toContain("OWNERSHIP_RELATIONSHIP_DISPUTED");
+  });
+
+  it("is DISPUTED when an UPWARD chain edge (not the owning edge) is DISPUTED", () => {
+    // OWNS is active; the SUBSIDIARY_OF above the owner is disputed. This
+    // exercises the upward-chain branch of rule 1, distinct from the
+    // owning-edge branch above.
+    const entities = [
+      entity("pc", "COMPANY", "Production Co"),
+      entity("mg", "COMPANY", "Media Group"),
+    ];
+    const relationships = [
+      rel({ type: "OWNS", from_entity_id: "pc", to_entity_id: CHAN }),
+      rel({ type: "SUBSIDIARY_OF", from_entity_id: "pc", to_entity_id: "mg", status: "DISPUTED" }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("DISPUTED");
+    expect(r.explanationCodes).toContain("OWNERSHIP_RELATIONSHIP_DISPUTED");
+  });
+
+  it("does NOT fire DISPUTED for a disputed edge disconnected from the ownership chain", () => {
+    // A creator plainly owns the channel; a separate dispute between two
+    // unrelated companies must not poison this channel's classification.
+    const entities = [
+      entity("creator", "CREATOR", "Creator"),
+      entity("x", "COMPANY", "X"),
+      entity("y", "COMPANY", "Y"),
+    ];
+    const relationships = [
+      rel({ type: "OWNS", from_entity_id: "creator", to_entity_id: CHAN }),
+      rel({
+        type: "OWNS",
+        from_entity_id: "x",
+        to_entity_id: "y",
+        control_level: "CONTROLLING",
+        status: "DISPUTED",
+      }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("CREATOR_OWNED");
+    expect(r.explanationCodes).not.toContain("OWNERSHIP_RELATIONSHIP_DISPUTED");
   });
 });
 
