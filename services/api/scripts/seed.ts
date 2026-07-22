@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import {
   ClassificationLabelSchema,
@@ -13,6 +12,17 @@ import {
   SourceTypeSchema,
 } from "@channelwatch/schemas";
 import { getDb, closeDb, type Database } from "../src/db/client.js";
+import {
+  auditId,
+  channelId,
+  claimId,
+  claimSourceId,
+  entityId,
+  relationshipId,
+  reviewId,
+  reviewerId,
+  sourceId,
+} from "../src/db/deterministic-ids.js";
 import {
   auditEvents,
   channels,
@@ -46,41 +56,35 @@ import {
  * apply to this fixture).
  */
 
-// Fixed namespace UUID for deterministic v5 ids across seed runs.
-const SEED_NAMESPACE = "6b1b3f2e-3c9a-5c7d-8e10-0f1a2b3c4d5e";
-
-function uuidToBytes(uuid: string): Buffer {
-  return Buffer.from(uuid.replace(/-/g, ""), "hex");
-}
-
-/** RFC 4122 v5 UUID (SHA-1) — deterministic id for a natural key. */
-function deterministicId(kind: string, key: string): string {
-  const hash = createHash("sha1")
-    .update(Buffer.concat([uuidToBytes(SEED_NAMESPACE), Buffer.from(`${kind}:${key}`)]))
-    .digest();
-  const b = Buffer.from(hash.subarray(0, 16));
-  b[6] = (b[6]! & 0x0f) | 0x50; // version 5
-  b[8] = (b[8]! & 0x3f) | 0x80; // RFC 4122 variant
-  const hex = b.toString("hex");
-  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
-}
-
 // ---- Deterministic ids for the §35 record --------------------------------
+// Ids are derived from STABLE LOGICAL IDENTITY via the shared builders in
+// `src/db/deterministic-ids.ts` — the exact same natural-key scheme the
+// research-record importer uses. This is what makes the two write paths
+// converge on identical ids for the same logical record (channel by
+// youtube_channel_id, entity by canonical_name, relationship by
+// subject-id:type:object-id, source by url, claim by subject-id:predicate:
+// object-id), so neither path can produce a duplicate of a row the other wrote.
+const channel = channelId("UC123456789");
+const media = entityId("Example Media LLC");
+const capital = entityId("Example Capital Partners");
+const creator = entityId("Original Creator");
+const claimOwned = claimId(channel, "OWNED_BY", media);
+
 const ids = {
-  reviewer: deterministicId("reviewer", "dev@channelwatch.local"),
-  channel: deterministicId("channel", "UC123456789"),
-  media: deterministicId("entity", "Example Media LLC"),
-  capital: deterministicId("entity", "Example Capital Partners"),
-  creator: deterministicId("entity", "Original Creator"),
-  relOwns: deterministicId("relationship", "media-owns-channel"),
-  relPortfolio: deterministicId("relationship", "media-portfolio-of-capital"),
-  relHost: deterministicId("relationship", "channel-hosted-by-creator"),
-  srcAcq: deterministicId("source", "example-media-acquires-example-channel"),
-  srcPortfolio: deterministicId("source", "example-media-portfolio-listing"),
-  srcTrade: deterministicId("source", "example-media-expands-creator-portfolio"),
-  claimOwned: deterministicId("claim", "channel-owned-by-media"),
-  claimPortfolio: deterministicId("claim", "media-portfolio-of-capital"),
-  review: deterministicId("review", "channel-owned-by-media"),
+  reviewer: reviewerId("dev@channelwatch.local"),
+  channel,
+  media,
+  capital,
+  creator,
+  relOwns: relationshipId(media, "OWNS", channel),
+  relPortfolio: relationshipId(media, "PORTFOLIO_COMPANY_OF", capital),
+  relHost: relationshipId(channel, "HOSTED_BY", creator),
+  srcAcq: sourceId("https://example.com/press/example-media-acquires-example-channel"),
+  srcPortfolio: sourceId("https://examplecapital.com/portfolio/example-media"),
+  srcTrade: sourceId("https://tradepress.example/example-media-expands-creator-portfolio"),
+  claimOwned,
+  claimPortfolio: claimId(media, "PORTFOLIO_COMPANY_OF", capital),
+  review: reviewId(claimOwned),
 } as const;
 
 /** Seed all §35 rows. Reusable from the integration test. */
@@ -101,7 +105,7 @@ export async function runSeed(db: Database = getDb()): Promise<typeof ids> {
   const auditRows: (typeof auditEvents.$inferInsert)[] = [];
   const audit = (objectType: string, objectId: string, after: unknown): void => {
     auditRows.push({
-      id: deterministicId("audit", `${objectType}:${objectId}`),
+      id: auditId("SEED_UPSERT", objectId),
       actorId: ids.reviewer,
       action: "SEED_UPSERT",
       objectType,
@@ -270,7 +274,7 @@ export async function runSeed(db: Database = getDb()): Promise<typeof ids> {
   for (const row of claimSourceRows) {
     // claim_sources has a composite key, not a single uuid; the audit row's
     // object_id is a uuid column, so derive a stable one for the pair.
-    audit("claim_source", deterministicId("claim_source", `${row.claimId}:${row.sourceId}`), row);
+    audit("claim_source", claimSourceId(row.claimId, row.sourceId), row);
   }
 
   // ---- review ------------------------------------------------------------
