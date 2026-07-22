@@ -17,8 +17,13 @@ import { LOOKUP_CHANNEL, type LookupChannelResponse } from "../shared/messages.j
 
 /** What subscribers receive: the resolved channel and its lookup outcome. */
 export interface ChannelResolved {
-  channelId: string;
-  /** The SW response, or `null` if the lookup could not be completed. */
+  /**
+   * The resolved immutable channel ID, or `null` when the current page has no
+   * unambiguous channel (navigated away, or ambiguous) — Task 5 treats `null`
+   * as "clear any badge".
+   */
+  channelId: string | null;
+  /** The SW response, or `null` if there was no lookup / it could not complete. */
   response: LookupChannelResponse | null;
 }
 
@@ -26,6 +31,14 @@ type Subscriber = (resolved: ChannelResolved) => void;
 
 const subscribers = new Set<Subscriber>();
 let lastResolved: ChannelResolved | null = null;
+/**
+ * The last channel ID we notified subscribers about (`null` = "nothing shown").
+ * Used to suppress duplicate work: the body-level MutationObserver fires
+ * onNavigate continuously, but we only send `LOOKUP_CHANNEL` / notify when the
+ * resolved ID actually CHANGES — including genuine A→B changes and A→null
+ * (clear) transitions.
+ */
+let lastChannelId: string | null = null;
 
 /**
  * Register a callback invoked whenever a channel is resolved and looked up.
@@ -61,7 +74,19 @@ function notify(resolved: ChannelResolved): void {
 export async function resolveAndLookup(doc: Document, url: string): Promise<void> {
   try {
     const channelId = resolveChannelId(doc, url);
-    if (!channelId) return;
+
+    // Nothing changed since the last notification — no re-send, no re-notify.
+    // (Covers the continuous MutationObserver firings on a stable page, and
+    // null→null on non-channel pages.)
+    if (channelId === lastChannelId) return;
+
+    // Transitioned to "no channel" (navigated away / became ambiguous): tell
+    // subscribers to clear, without sending a lookup.
+    if (channelId === null) {
+      lastChannelId = null;
+      notify({ channelId: null, response: null });
+      return;
+    }
 
     let response: LookupChannelResponse | null = null;
     try {
@@ -75,6 +100,7 @@ export async function resolveAndLookup(doc: Document, url: string): Promise<void
       response = null;
     }
 
+    lastChannelId = channelId;
     notify({ channelId, response });
   } catch (err) {
     console.debug("[channelwatch] resolveAndLookup failed", err);
@@ -93,10 +119,12 @@ export function bootstrap(): void {
   });
 }
 
-/** Stop the pipeline (mainly for tests / hot-reload). */
+/** Stop the pipeline and reset resolution state (mainly for tests / hot-reload). */
 export function teardown(): void {
   observer?.teardown();
   observer = null;
+  lastChannelId = null;
+  lastResolved = null;
 }
 
 // Auto-start only inside a real extension content-script context (where

@@ -34,7 +34,7 @@ describe("resolveChannelId — watch page strategies", () => {
 
   it("prefers ytInitialPlayerResponse.videoDetails.channelId", () => {
     const doc = parse(
-      `<html><body><script>var ytInitialPlayerResponse = {"videoDetails":{"channelId":"${VERITASIUM}"}};</script></body></html>`,
+      `<html><body><script>var ytInitialPlayerResponse = {"videoDetails":{"videoId":"x","channelId":"${VERITASIUM}"}};</script></body></html>`,
     );
     expect(resolveChannelId(doc, url)).toBe(VERITASIUM);
   });
@@ -53,6 +53,13 @@ describe("resolveChannelId — watch page strategies", () => {
     expect(resolveChannelId(doc, url)).toBeNull();
   });
 
+  it("reads the microdata author URL from a <meta content> (not just href)", () => {
+    const doc = parse(
+      `<html><body><span itemprop="author"><meta itemprop="url" content="https://www.youtube.com/channel/${VERITASIUM}"></span></body></html>`,
+    );
+    expect(resolveChannelId(doc, url)).toBe(VERITASIUM);
+  });
+
   it("NEVER resolves by display name", () => {
     const doc = parse(
       `<html><body><ytd-video-owner-renderer><a>Veritasium</a></ytd-video-owner-renderer></body></html>`,
@@ -64,11 +71,51 @@ describe("resolveChannelId — watch page strategies", () => {
     const other = "UCXuqSBlHAE6Xw-yeJA0Tunw";
     const doc = parse(
       `<html><body>` +
-        `<script>var ytInitialPlayerResponse = {"videoDetails":{"channelId":"${VERITASIUM}"}};</script>` +
+        `<script>var ytInitialPlayerResponse = {"videoDetails":{"videoId":"x","channelId":"${VERITASIUM}"}};</script>` +
         `<ytd-video-owner-renderer><a href="/channel/${other}">X</a></ytd-video-owner-renderer>` +
         `</body></html>`,
     );
     expect(resolveChannelId(doc, url)).toBeNull();
+  });
+});
+
+describe("resolveChannelId — stale initial-state after SPA navigation", () => {
+  // ytInitialData / ytInitialPlayerResponse are injected on first load and never
+  // rewritten on SPA nav. These simulate having navigated video A → video B while
+  // the scripts still describe A. The resolver must NEVER report A's channel for B.
+  const A_CHANNEL = "UCXuqSBlHAE6Xw-yeJA0Tunw"; // video A's channel (stale)
+  const B_CHANNEL = VERITASIUM; // video B's channel (fresh)
+  const staleScripts =
+    `<script>var ytInitialPlayerResponse = {"videoDetails":{"videoId":"AAA","channelId":"${A_CHANNEL}"}};</script>` +
+    `<script>var ytInitialData = {"currentVideoEndpoint":{"watchEndpoint":{"videoId":"AAA"}},` +
+    `"contents":{"twoColumnWatchNextResults":{"results":{"results":{"contents":[{},` +
+    `{"videoSecondaryInfoRenderer":{"owner":{"videoOwnerRenderer":{"navigationEndpoint":{"browseEndpoint":{"browseId":"${A_CHANNEL}"}}}}}}]}}}}};</script>`;
+  const urlB = "https://www.youtube.com/watch?v=BBB";
+
+  it("does NOT resolve the stale channel when the DOM has not yet hydrated (null in between)", () => {
+    const doc = parse(`<html><body>${staleScripts}</body></html>`);
+    expect(resolveChannelId(doc, urlB)).toBeNull();
+  });
+
+  it("resolves the NEW channel once the owner anchor has hydrated to B", () => {
+    const doc = parse(
+      `<html><body>${staleScripts}` +
+        `<ytd-video-owner-renderer><a href="/channel/${B_CHANNEL}">B</a></ytd-video-owner-renderer>` +
+        `</body></html>`,
+    );
+    expect(resolveChannelId(doc, urlB)).toBe(B_CHANNEL);
+  });
+
+  it("trusts the scripts again when their video ID matches the current URL", () => {
+    const doc = parse(`<html><body>${staleScripts}</body></html>`);
+    expect(resolveChannelId(doc, "https://www.youtube.com/watch?v=AAA")).toBe(A_CHANNEL);
+  });
+
+  it("resolves /shorts/<id> from a script whose videoId matches the path segment", () => {
+    const doc = parse(
+      `<html><body><script>var ytInitialPlayerResponse = {"videoDetails":{"videoId":"SHORT123","channelId":"${VERITASIUM}"}};</script></body></html>`,
+    );
+    expect(resolveChannelId(doc, "https://www.youtube.com/shorts/SHORT123")).toBe(VERITASIUM);
   });
 });
 

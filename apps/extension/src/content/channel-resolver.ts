@@ -30,6 +30,23 @@ function channelIdFromUrl(url: string | null | undefined): string | null {
   return match ? match[1]! : null;
 }
 
+/**
+ * The video ID the URL is CURRENTLY pointing at (`?v=` on `/watch`, or the path
+ * segment on `/shorts/…` and `/live/…`). Used to detect stale initial-state
+ * scripts after SPA navigation (see `scriptIsFresh`). Null if unknown.
+ */
+function currentVideoId(url: string): string | null {
+  try {
+    const u = new URL(url, "https://www.youtube.com");
+    const v = u.searchParams.get("v");
+    if (v) return v;
+    const m = /^\/(?:shorts|live)\/([^/?#]+)/.exec(u.pathname);
+    return m ? m[1]! : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Which kind of page is this, by URL path? */
 type PageKind = "watch" | "channel" | "other";
 function pageKind(url: string): PageKind {
@@ -109,13 +126,33 @@ function dig(obj: unknown, path: (string | number)[]): unknown {
 
 // ---- watch-page strategies -------------------------------------------------
 
-function fromPlayerResponse(doc: Document): string | null {
-  const id = dig(parseInitialState(doc, "ytInitialPlayerResponse"), ["videoDetails", "channelId"]);
+/**
+ * Is a script's own video ID fresh for the page we're on? YouTube injects
+ * `ytInitialData` / `ytInitialPlayerResponse` on the FIRST HTML load and never
+ * rewrites them on subsequent SPA navigations. So after navigating video A → B,
+ * these scripts still describe A while the DOM hydrates to B. Trusting them then
+ * would emit A's channel for B — the project's worst-case failure (a wrong
+ * attribution). We therefore only trust a script whose embedded video ID equals
+ * the current URL's video ID; otherwise the script is stale and dropped, leaving
+ * resolution to the freshly-hydrated DOM (owner anchor) — or null until it is.
+ */
+function scriptIsFresh(scriptVideoId: unknown, expected: string | null): boolean {
+  return expected !== null && typeof scriptVideoId === "string" && scriptVideoId === expected;
+}
+
+function fromPlayerResponse(doc: Document, expectedVideoId: string | null): string | null {
+  const details = dig(parseInitialState(doc, "ytInitialPlayerResponse"), ["videoDetails"]);
+  const videoId = dig(details, ["videoId"]);
+  if (!scriptIsFresh(videoId, expectedVideoId)) return null;
+  const id = dig(details, ["channelId"]);
   return isChannelId(id) ? id : null;
 }
 
-function fromWatchInitialData(doc: Document): string | null {
-  const id = dig(parseInitialState(doc, "ytInitialData"), [
+function fromWatchInitialData(doc: Document, expectedVideoId: string | null): string | null {
+  const data = parseInitialState(doc, "ytInitialData");
+  const videoId = dig(data, ["currentVideoEndpoint", "watchEndpoint", "videoId"]);
+  if (!scriptIsFresh(videoId, expectedVideoId)) return null;
+  const id = dig(data, [
     "contents",
     "twoColumnWatchNextResults",
     "results",
@@ -137,10 +174,15 @@ function fromOwnerLink(doc: Document): string | null {
   return channelIdFromUrl(el?.getAttribute("href"));
 }
 
+/** Read a URL off a microdata node: `href` on `<a>`/`<link>`, `content` on `<meta>`. */
+function microdataUrl(el: Element | null): string | null {
+  if (!el) return null;
+  return el.getAttribute("href") ?? el.getAttribute("content");
+}
+
 function fromMicrodataAuthor(doc: Document): string | null {
-  const el = queryFirst(doc, "microdataAuthorUrl");
   // Author microdata usually carries only a `/@handle` → not resolvable (M3).
-  return channelIdFromUrl(el?.getAttribute("href"));
+  return channelIdFromUrl(microdataUrl(queryFirst(doc, "microdataAuthorUrl")));
 }
 
 // ---- channel-page strategies -----------------------------------------------
@@ -182,13 +224,15 @@ function reconcile(strategies: Array<() => string | null>): string | null {
 export function resolveChannelId(doc: Document, url: string): string | null {
   try {
     switch (pageKind(url)) {
-      case "watch":
+      case "watch": {
+        const videoId = currentVideoId(url);
         return reconcile([
-          () => fromPlayerResponse(doc),
-          () => fromWatchInitialData(doc),
+          () => fromPlayerResponse(doc, videoId),
+          () => fromWatchInitialData(doc, videoId),
           () => fromOwnerLink(doc),
           () => fromMicrodataAuthor(doc),
         ]);
+      }
       case "channel":
         return reconcile([
           () => fromCanonical(doc),
