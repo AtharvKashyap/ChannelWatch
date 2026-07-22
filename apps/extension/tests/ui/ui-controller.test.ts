@@ -53,6 +53,40 @@ describe("startUi", () => {
     stop();
   });
 
+  it("closes the panel when a NEW channel resolves (no stale panel over the new page)", async () => {
+    const doc = watchDoc();
+    const { deps, emit, closePanel } = makeDeps(doc);
+    const stop = startUi(deps);
+
+    // Channel A resolves and its badge renders; the user opens the panel.
+    emit({
+      channelId: "UCaaa",
+      response: {
+        ok: true,
+        payload: researchedFixture({ youtube_channel_id: "UCaaa" }),
+        cached: false,
+      },
+    });
+    await flush();
+    closePanel.mockClear();
+
+    // Navigate to channel B: a new resolution arrives.
+    emit({
+      channelId: "UCbbb",
+      response: {
+        ok: true,
+        payload: researchedFixture({ youtube_channel_id: "UCbbb" }),
+        cached: false,
+      },
+    });
+    await flush();
+
+    // A's panel must be torn down, and B's badge must be present.
+    expect(closePanel).toHaveBeenCalled();
+    expect(doc.querySelectorAll(`#${BADGE_HOST_ID}`)).toHaveLength(1);
+    stop();
+  });
+
   it("clears the badge and closes the panel on a null (clear) resolution", async () => {
     const doc = watchDoc();
     const { deps, emit, closePanel } = makeDeps(doc);

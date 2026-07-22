@@ -214,6 +214,27 @@ export const PANEL_COPY = {
   submitError: "Could not submit the correction. Please try again later.",
 } as const;
 
+/**
+ * Accessible label for the badge control. Built here (not inline in the
+ * renderer) so ALL user-facing copy stays in the reviewed module (CLAUDE.md
+ * rule 2). Embeds the reviewed `BADGE_LABELS` text.
+ */
+export function badgeAriaLabel(label: ClassificationLabel): string {
+  return `Ownership: ${BADGE_LABELS[label]}. Open details.`;
+}
+
+/**
+ * Static strings for the toolbar popup (SPEC §18.1). The popup shows no
+ * ownership data; these are chrome/status strings, kept in the reviewed module
+ * so no user-facing copy is inlined in the component.
+ */
+export const POPUP_COPY = {
+  title: "CHANNELWATCH",
+  description:
+    "Ownership badges appear next to channel names on watch and channel pages. Click a badge to see who owns the channel and the sources behind it.",
+  openSettings: "Open settings",
+} as const;
+
 /** "N sources reviewed", pluralized; "No sources reviewed" for zero. */
 export function evidenceCountText(count: number): string {
   if (count <= 0) return "No sources reviewed";

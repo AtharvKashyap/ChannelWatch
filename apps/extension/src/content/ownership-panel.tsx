@@ -18,7 +18,7 @@
  * title/publisher/tier list needs a schema/API field this task's scope does not
  * add; it is deferred (see task report).
  */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   BADGE_LABELS,
   CONFIDENCE_LABEL_TEXT,
@@ -52,8 +52,31 @@ export function OwnershipPanel({ payload, onClose, onSubmitCorrection }: Ownersh
   const [email, setEmail] = useState("");
   const [relationship, setRelationship] = useState("");
   const [form, setForm] = useState<FormState>({ kind: "editing", error: null });
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   const label = payload.classification.label;
+
+  // Accessibility: move focus into the dialog on open, close on Escape, and
+  // restore focus to whatever was focused before (the badge) on unmount.
+  useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus();
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.stopPropagation();
+        onClose();
+      }
+    }
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      if (previouslyFocused && typeof previouslyFocused.focus === "function") {
+        previouslyFocused.focus();
+      }
+    };
+  }, [onClose]);
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -81,11 +104,17 @@ export function OwnershipPanel({ payload, onClose, onSubmitCorrection }: Ownersh
   }
 
   return (
-    <section className="cw-panel" role="dialog" aria-label={PANEL_COPY.panelTitle}>
+    <section
+      className="cw-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-label={PANEL_COPY.panelTitle}
+    >
       <header className="cw-panel__head">
         <h2 className="cw-panel__title">{PANEL_COPY.panelTitle}</h2>
         <button
           type="button"
+          ref={closeRef}
           className="cw-panel__close"
           aria-label={PANEL_COPY.close}
           onClick={onClose}

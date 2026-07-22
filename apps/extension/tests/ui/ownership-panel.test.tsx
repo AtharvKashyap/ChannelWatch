@@ -18,6 +18,7 @@ import type { SubmitCorrectionResponse } from "../../src/shared/messages.js";
 
 let container: HTMLElement;
 let root: Root;
+let mounted = false;
 
 function mount(node: React.ReactElement) {
   container = document.createElement("div");
@@ -26,11 +27,18 @@ function mount(node: React.ReactElement) {
     root = createRoot(container);
     root.render(node);
   });
+  mounted = true;
+}
+
+function unmount() {
+  if (!mounted) return;
+  act(() => root.unmount());
+  container.remove();
+  mounted = false;
 }
 
 afterEach(() => {
-  act(() => root.unmount());
-  container.remove();
+  unmount();
   vi.restoreAllMocks();
 });
 
@@ -123,6 +131,53 @@ describe("OwnershipPanel — display", () => {
     )!;
     act(() => closeBtn.click());
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("moves focus into the dialog on open", () => {
+    mount(
+      <OwnershipPanel
+        payload={researchedFixture()}
+        onClose={() => {}}
+        onSubmitCorrection={noopSubmit}
+      />,
+    );
+    const dialog = container.querySelector('[role="dialog"]')!;
+    expect(dialog.contains(document.activeElement)).toBe(true);
+  });
+
+  it("closes on Escape", () => {
+    const onClose = vi.fn();
+    mount(
+      <OwnershipPanel
+        payload={researchedFixture()}
+        onClose={onClose}
+        onSubmitCorrection={noopSubmit}
+      />,
+    );
+    act(() => {
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    });
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it("restores focus to the opener when unmounted", () => {
+    const opener = document.createElement("button");
+    document.body.appendChild(opener);
+    opener.focus();
+    expect(document.activeElement).toBe(opener);
+
+    mount(
+      <OwnershipPanel
+        payload={researchedFixture()}
+        onClose={() => {}}
+        onSubmitCorrection={noopSubmit}
+      />,
+    );
+    expect(document.activeElement).not.toBe(opener); // focus moved into dialog
+
+    unmount();
+    expect(document.activeElement).toBe(opener); // restored on close
+    opener.remove();
   });
 });
 

@@ -34,9 +34,13 @@ export function startUi(deps: UiDeps): () => void {
     if (stopped) return;
     try {
       const current = latest;
+      // Any new resolution invalidates an open panel — it described the PREVIOUS
+      // channel, and the pipeline only re-notifies on an actual channel change.
+      // Close it (safer than hot-swapping content mid-read) before we (re)render
+      // the badge for the current channel.
+      deps.closePanel();
       if (!current || current.channelId === null) {
         removeBadge(deps.doc);
-        deps.closePanel();
         return;
       }
       const settings = await deps.getSettings();

@@ -24,6 +24,8 @@
  */
 import {
   BADGE_LABELS,
+  badgeAriaLabel,
+  classificationToBadgeColor,
   type BadgeColor,
   type ClassificationLabel,
   type ResearchedChannelLookup,
@@ -97,7 +99,20 @@ export function resolveBadgeDecision(
     return null;
   }
 
-  return { label, color: researched.badge_color };
+  // Derive the color from the label CLIENT-SIDE (single source of truth in
+  // schemas) rather than trusting `payload.badge_color` off the wire. This
+  // enforces the §9.2 invariant locally — RED means DISPUTED, PE is ORANGE —
+  // so a stale/tampered payload can never paint the wrong semantics.
+  const color = classificationToBadgeColor(label);
+  if (researched.badge_color !== color) {
+    console.debug("[channelwatch] badge_color mismatch; using label-derived color", {
+      label,
+      wire: researched.badge_color,
+      derived: color,
+    });
+  }
+
+  return { label, color };
 }
 
 /** The badge anchor for a page kind, or null on pages we don't badge. */
@@ -204,7 +219,7 @@ function buildHost(
   badge.type = "button";
   badge.className = "cw-badge";
   badge.setAttribute("data-cw-color", decision.color);
-  badge.setAttribute("aria-label", `Ownership: ${label}. Open details.`);
+  badge.setAttribute("aria-label", badgeAriaLabel(decision.label));
   badge.textContent = label;
 
   badge.addEventListener("click", (event) => {

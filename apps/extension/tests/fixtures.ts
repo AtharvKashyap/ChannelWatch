@@ -20,7 +20,10 @@ export function researchedFixture(
     disputed: false,
     researched: true,
     research_status: "PUBLISHED",
-    badge_color: "NEUTRAL",
+    // Consistent with the INDEPENDENT label above (classificationToBadgeColor →
+    // GREEN). The renderer derives color from the label, so a mismatched default
+    // here would just emit a debug warning in every test that uses the fixture.
+    badge_color: "GREEN",
     disclaimer: "This is not an editorial conclusion.",
     warnings: [],
     ...overrides,

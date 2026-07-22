@@ -7,6 +7,7 @@
 import { createRoot, type Root } from "react-dom/client";
 import { createElement } from "react";
 import { OwnershipPanel } from "./ownership-panel.js";
+import { FailSilentBoundary } from "./error-boundary.js";
 import type { CorrectionSubmission, ResearchedChannelLookup } from "@channelwatch/schemas";
 import type { SubmitCorrectionResponse } from "../shared/messages.js";
 
@@ -105,11 +106,15 @@ export function openPanel(
 
     activeRoot = createRoot(mountPoint);
     activeRoot.render(
-      createElement(OwnershipPanel, {
-        payload,
-        onClose: () => closePanel(doc),
-        onSubmitCorrection,
-      }),
+      createElement(
+        FailSilentBoundary,
+        null,
+        createElement(OwnershipPanel, {
+          payload,
+          onClose: () => closePanel(doc),
+          onSubmitCorrection,
+        }),
+      ),
     );
   } catch (err) {
     console.debug("[channelwatch] openPanel failed", err);

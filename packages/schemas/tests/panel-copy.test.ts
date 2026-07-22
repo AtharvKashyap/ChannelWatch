@@ -4,13 +4,21 @@ import {
   EXPLANATION_TEXT,
   CREATOR_STATUS_TEXT,
   PANEL_COPY,
+  POPUP_COPY,
+  BADGE_LABELS,
+  badgeAriaLabel,
   evidenceCountText,
   lastReviewedText,
   EDITORIAL_DISCLAIMER,
   CORRECTION_CTA,
   CORRECTION_RECEIVED,
 } from "../src/copy.js";
-import { CONFIDENCE_LABELS, EXPLANATION_CODES, CREATOR_STATUSES } from "../src/enums.js";
+import {
+  CONFIDENCE_LABELS,
+  EXPLANATION_CODES,
+  CREATOR_STATUSES,
+  CLASSIFICATION_LABELS,
+} from "../src/enums.js";
 
 describe("confidence label display text", () => {
   it("has non-empty text for every confidence label", () => {
@@ -110,6 +118,25 @@ describe("panel copy constants", () => {
   });
 });
 
+describe("badgeAriaLabel", () => {
+  it("embeds the exact badge label for every classification", () => {
+    for (const label of CLASSIFICATION_LABELS) {
+      const aria = badgeAriaLabel(label);
+      expect(aria).toContain(BADGE_LABELS[label]);
+      expect(aria.length).toBeGreaterThan(BADGE_LABELS[label].length);
+    }
+  });
+});
+
+describe("popup copy constants", () => {
+  it("exposes the popup description and settings-button label", () => {
+    for (const key of ["title", "description", "openSettings"] as const) {
+      expect(typeof POPUP_COPY[key]).toBe("string");
+      expect(POPUP_COPY[key].length).toBeGreaterThan(0);
+    }
+  });
+});
+
 describe("banned language (§23.1) across panel copy", () => {
   const banned = [
     /sold out/i,
@@ -124,6 +151,8 @@ describe("banned language (§23.1) across panel copy", () => {
       ...Object.values(EXPLANATION_TEXT),
       ...Object.values(CREATOR_STATUS_TEXT),
       ...Object.values(PANEL_COPY),
+      ...Object.values(POPUP_COPY),
+      ...CLASSIFICATION_LABELS.map((l) => badgeAriaLabel(l)),
       evidenceCountText(3),
       lastReviewedText("2026-01-01"),
     ];

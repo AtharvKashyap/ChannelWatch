@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { BADGE_LABELS } from "@channelwatch/schemas";
+import { BADGE_LABELS, badgeAriaLabel } from "@channelwatch/schemas";
 import {
   BADGE_HOST_ID,
   pageKindFromUrl,
@@ -110,6 +110,41 @@ describe("resolveBadgeDecision", () => {
       resolveBadgeDecision(creator, settings({ hideCreatorOwnedBadges: false })),
     ).not.toBeNull();
   });
+
+  it("derives color from the label, overriding a mismatched payload badge_color", () => {
+    // A tampered/stale payload claims GREEN for DISPUTED; the client must enforce
+    // RED-only-DISPUTED locally and never trust the wire color blindly.
+    const tampered = ok(
+      researchedFixture({
+        classification: {
+          label: "DISPUTED",
+          confidence: 0.5,
+          confidence_label: "DISPUTED",
+          summary: "s",
+        },
+        badge_color: "GREEN",
+      }),
+    );
+    expect(resolveBadgeDecision(tampered, settings())).toEqual({ label: "DISPUTED", color: "RED" });
+  });
+
+  it("never emits RED for a non-DISPUTED label even if the payload says RED", () => {
+    const tampered = ok(
+      researchedFixture({
+        classification: {
+          label: "PE_BACKED",
+          confidence: 0.9,
+          confidence_label: "CONFIRMED",
+          summary: "s",
+        },
+        badge_color: "RED",
+      }),
+    );
+    expect(resolveBadgeDecision(tampered, settings())).toEqual({
+      label: "PE_BACKED",
+      color: "ORANGE",
+    });
+  });
 });
 
 describe("renderBadge — insertion", () => {
@@ -176,6 +211,28 @@ describe("renderBadge — insertion", () => {
     const badge = host!.shadowRoot!.querySelector("[data-cw-color]")!;
     expect(badge.getAttribute("data-cw-color")).toBe(color);
     expect(host!.shadowRoot!.textContent).toContain(BADGE_LABELS[label]);
+  });
+
+  it("uses the reviewed copy-module aria-label (no inline English)", () => {
+    const doc = watchDoc();
+    const host = renderBadge({
+      doc,
+      url: WATCH_URL,
+      response: ok(
+        researchedFixture({
+          classification: {
+            label: "PE_BACKED",
+            confidence: 0.9,
+            confidence_label: "CONFIRMED",
+            summary: "s",
+          },
+          badge_color: "ORANGE",
+        }),
+      ),
+      settings: settings(),
+    });
+    const badge = host!.shadowRoot!.querySelector("[data-cw-color]")!;
+    expect(badge.getAttribute("aria-label")).toBe(badgeAriaLabel("PE_BACKED"));
   });
 
   it("does not create a duplicate badge on re-render (teardown before insert)", () => {
