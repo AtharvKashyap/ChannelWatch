@@ -90,9 +90,13 @@ export function assertPePublishable(record: ResearchRecord): void {
     const isPeImplying = rel.type === "PORTFOLIO_COMPANY_OF" || subjectIsPe || objectIsPe;
     if (!isPeImplying) return;
 
+    // Pass the publisher verbatim (null when absent). NEVER fall back to the
+    // title/url: those are not publisher identities, and substituting them would
+    // let two publisher-less Tier 2 sources with different titles count as two
+    // independent publishers and wrongly satisfy the §14.3 rule.
     const supporting: PeLabelSource[] = record.sources
       .filter((s) => s.supports.some((sup) => "relationship" in sup && sup.relationship === i))
-      .map((s) => ({ tier: s.tier, publisher: s.publisher ?? s.title }));
+      .map((s) => ({ tier: s.tier, publisher: s.publisher ?? null }));
 
     if (!canPublishPeLabel(supporting)) {
       throw new Error(
@@ -118,13 +122,20 @@ function normalizeForCompare(value: unknown): unknown {
 }
 
 /**
+ * A drizzle executor: either the top-level db or an open transaction handle.
+ * `importRecord` runs all of a file's writes inside a single transaction, so the
+ * write helpers accept whichever is in scope.
+ */
+type Executor = Database | Parameters<Parameters<Database["transaction"]>[0]>[0];
+
+/**
  * Change-detected upsert of a single row keyed by its deterministic `id`.
  * Returns whether the row was inserted, updated, or left untouched, and the
  * before/after states for the audit trail. Only the columns in `desired` (minus
  * `id`) are compared and written.
  */
 async function syncRow(
-  db: Database,
+  db: Executor,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   table: any,
   id: string,
@@ -223,169 +234,174 @@ export async function importRecord(
 
   let changed = 0;
 
-  // ---- reviewer (audit actor provenance) ---------------------------------
-  changed += await record_(
-    "reviewer",
-    actorId,
-    await syncRow(db, reviewers, actorId, {
-      email: record.review.researched_by,
-      displayName: record.review.researched_by,
-      role: "RESEARCHER",
-    }),
-  );
-
-  // ---- entities ----------------------------------------------------------
-  for (const entity of record.entities) {
-    const id = entityIdBySlug.get(entity.slug)!;
+  // All of a file's writes run in ONE transaction: a mid-write failure rolls
+  // back the whole record rather than leaving a channel half-imported. Reads
+  // and writes inside use the transaction handle `tx`.
+  await db.transaction(async (tx) => {
+    // ---- reviewer (audit actor provenance) -------------------------------
     changed += await record_(
-      "entity",
-      id,
-      await syncRow(db, entities, id, {
-        entityType: entity.entity_type,
-        canonicalName: entity.canonical_name,
-        legalName: entity.legal_name ?? null,
-        jurisdiction: entity.jurisdiction ?? null,
-        website: entity.website ?? null,
+      "reviewer",
+      actorId,
+      await syncRow(tx, reviewers, actorId, {
+        email: record.review.researched_by,
+        displayName: record.review.researched_by,
+        role: "RESEARCHER",
       }),
     );
-    // aliases (natural key: entity_id + alias)
-    for (const alias of entity.aliases ?? []) {
-      const aliasId = entityAliasId(id, alias);
+
+    // ---- entities ----------------------------------------------------------
+    for (const entity of record.entities) {
+      const id = entityIdBySlug.get(entity.slug)!;
       changed += await record_(
-        "entity_alias",
-        aliasId,
-        await syncRow(db, entityAliases, aliasId, {
-          entityId: id,
-          alias,
-          aliasType: "ALSO_KNOWN_AS",
+        "entity",
+        id,
+        await syncRow(tx, entities, id, {
+          entityType: entity.entity_type,
+          canonicalName: entity.canonical_name,
+          legalName: entity.legal_name ?? null,
+          jurisdiction: entity.jurisdiction ?? null,
+          website: entity.website ?? null,
+        }),
+      );
+      // aliases (natural key: entity_id + alias)
+      for (const alias of entity.aliases ?? []) {
+        const aliasId = entityAliasId(id, alias);
+        changed += await record_(
+          "entity_alias",
+          aliasId,
+          await syncRow(tx, entityAliases, aliasId, {
+            entityId: id,
+            alias,
+            aliasType: "ALSO_KNOWN_AS",
+          }),
+        );
+      }
+    }
+
+    // ---- sources -----------------------------------------------------------
+    for (const source of record.sources) {
+      const id = sourceIdByRef.get(source.ref)!;
+      changed += await record_(
+        "source",
+        id,
+        await syncRow(tx, sources, id, {
+          url: source.url,
+          title: source.title,
+          publisher: source.publisher ?? null,
+          publishedAt: source.published_at ? new Date(source.published_at) : null,
+          sourceTier: source.tier,
+          sourceType: source.source_type,
+          archiveUrl: source.archive_url ?? null,
+          status: "ACTIVE",
         }),
       );
     }
-  }
 
-  // ---- sources -----------------------------------------------------------
-  for (const source of record.sources) {
-    const id = sourceIdByRef.get(source.ref)!;
+    // ---- channel (with COMPUTED classification) ----------------------------
     changed += await record_(
-      "source",
-      id,
-      await syncRow(db, sources, id, {
-        url: source.url,
-        title: source.title,
-        publisher: source.publisher ?? null,
-        publishedAt: source.published_at ? new Date(source.published_at) : null,
-        sourceTier: source.tier,
-        sourceType: source.source_type,
-        archiveUrl: source.archive_url ?? null,
-        status: "ACTIVE",
+      "channel",
+      channelId,
+      await syncRow(tx, channels, channelId, {
+        youtubeChannelId: record.channel.youtube_channel_id,
+        handle: record.channel.handle ?? null,
+        displayName: record.channel.display_name,
+        researchStatus: "PUBLISHED",
+        publishedClassification: classification.classification,
+        classificationConfidence: String(classification.confidence),
+        lastReviewedAt: new Date(record.review.last_reviewed_at),
       }),
     );
-  }
 
-  // ---- channel (with COMPUTED classification) ----------------------------
-  changed += await record_(
-    "channel",
-    channelId,
-    await syncRow(db, channels, channelId, {
-      youtubeChannelId: record.channel.youtube_channel_id,
-      handle: record.channel.handle ?? null,
-      displayName: record.channel.display_name,
-      researchStatus: "PUBLISHED",
-      publishedClassification: classification.classification,
-      classificationConfidence: String(classification.confidence),
-      lastReviewedAt: new Date(record.review.last_reviewed_at),
-    }),
-  );
+    // ---- relationships -----------------------------------------------------
+    for (let i = 0; i < record.relationships.length; i++) {
+      const rel = record.relationships[i]!;
+      const id = relationshipIds[i]!;
+      const subjectId = resolveRef(rel.subject);
+      const objectId = resolveRef(rel.object);
+      const subjectIsChannel = rel.subject === CHANNEL_REF;
+      const objectIsChannel = rel.object === CHANNEL_REF;
+      changed += await record_(
+        "relationship",
+        id,
+        await syncRow(tx, relationships, id, {
+          subjectEntityId: subjectIsChannel ? null : subjectId,
+          subjectChannelId: subjectIsChannel ? subjectId : null,
+          objectEntityId: objectIsChannel ? null : objectId,
+          objectChannelId: objectIsChannel ? objectId : null,
+          relationshipType: rel.type,
+          ownershipPercentage:
+            rel.ownership_percentage != null ? String(rel.ownership_percentage) : null,
+          controlLevel: rel.control_level ?? "UNKNOWN",
+          effectiveFrom: rel.effective_from ?? null,
+          effectiveTo: rel.effective_to ?? null,
+          confidence: String(rel.confidence),
+          status: rel.status,
+        }),
+      );
+    }
 
-  // ---- relationships -----------------------------------------------------
-  for (let i = 0; i < record.relationships.length; i++) {
-    const rel = record.relationships[i]!;
-    const id = relationshipIds[i]!;
-    const subjectId = resolveRef(rel.subject);
-    const objectId = resolveRef(rel.object);
-    const subjectIsChannel = rel.subject === CHANNEL_REF;
-    const objectIsChannel = rel.object === CHANNEL_REF;
-    changed += await record_(
-      "relationship",
-      id,
-      await syncRow(db, relationships, id, {
-        subjectEntityId: subjectIsChannel ? null : subjectId,
-        subjectChannelId: subjectIsChannel ? subjectId : null,
-        objectEntityId: objectIsChannel ? null : objectId,
-        objectChannelId: objectIsChannel ? objectId : null,
-        relationshipType: rel.type,
-        ownershipPercentage:
-          rel.ownership_percentage != null ? String(rel.ownership_percentage) : null,
-        controlLevel: rel.control_level ?? "UNKNOWN",
-        effectiveFrom: rel.effective_from ?? null,
-        effectiveTo: rel.effective_to ?? null,
-        confidence: String(rel.confidence),
-        status: rel.status,
-      }),
-    );
-  }
+    // ---- claims + claim_sources --------------------------------------------
+    for (let i = 0; i < claimList.length; i++) {
+      const claim = claimList[i]!;
+      const id = claimIds[i]!;
+      const confidence = claim.confidence_factors
+        ? scoreClaimConfidence(claim.confidence_factors)
+        : null;
+      const claimStatus =
+        confidence !== null && confidence < PUBLICATION_THRESHOLD ? "UNDER_REVIEW" : "PUBLISHED";
+      const subjectIsChannel = claim.subject === CHANNEL_REF;
+      const objectIsChannel = claim.object === CHANNEL_REF;
+      changed += await record_(
+        "claim",
+        id,
+        await syncRow(tx, claims, id, {
+          subjectType: subjectIsChannel ? "CHANNEL" : "ENTITY",
+          subjectId: resolveRef(claim.subject),
+          predicate: claim.predicate,
+          objectType: objectIsChannel ? "CHANNEL" : "ENTITY",
+          objectId: resolveRef(claim.object),
+          confidence: confidence !== null ? String(confidence) : null,
+          claimStatus,
+          effectiveDate: claim.effective_date ?? null,
+        }),
+      );
+    }
 
-  // ---- claims + claim_sources --------------------------------------------
-  for (let i = 0; i < claimList.length; i++) {
-    const claim = claimList[i]!;
-    const id = claimIds[i]!;
-    const confidence = claim.confidence_factors
-      ? scoreClaimConfidence(claim.confidence_factors)
-      : null;
-    const claimStatus =
-      confidence !== null && confidence < PUBLICATION_THRESHOLD ? "UNDER_REVIEW" : "PUBLISHED";
-    const subjectIsChannel = claim.subject === CHANNEL_REF;
-    const objectIsChannel = claim.object === CHANNEL_REF;
-    changed += await record_(
-      "claim",
-      id,
-      await syncRow(db, claims, id, {
-        subjectType: subjectIsChannel ? "CHANNEL" : "ENTITY",
-        subjectId: resolveRef(claim.subject),
-        predicate: claim.predicate,
-        objectType: objectIsChannel ? "CHANNEL" : "ENTITY",
-        objectId: resolveRef(claim.object),
-        confidence: confidence !== null ? String(confidence) : null,
-        claimStatus,
-        effectiveDate: claim.effective_date ?? null,
-      }),
-    );
-  }
-
-  // claim_sources: link each source that supports a claim index.
-  for (const source of record.sources) {
-    const sourceId = sourceIdByRef.get(source.ref)!;
-    for (const support of source.supports) {
-      if (!("claim" in support)) continue;
-      const claimId = claimIds[support.claim];
-      if (!claimId) continue;
-      const [existing] = await db
-        .select()
-        .from(claimSources)
-        .where(and(eq(claimSources.claimId, claimId), eq(claimSources.sourceId, sourceId)));
-      const desired = { supportType: "SUPPORTS", quotedExcerpt: source.excerpt };
-      const pairId = claimSourceId(claimId, sourceId);
-      if (!existing) {
-        await db.insert(claimSources).values({ claimId, sourceId, ...desired });
-        audit("claim_source", pairId, null, { claimId, sourceId, ...desired });
-        changed += 1;
-      } else if (
-        existing.supportType !== desired.supportType ||
-        existing.quotedExcerpt !== desired.quotedExcerpt
-      ) {
-        await db
-          .update(claimSources)
-          .set(desired)
+    // claim_sources: link each source that supports a claim index.
+    for (const source of record.sources) {
+      const sourceId = sourceIdByRef.get(source.ref)!;
+      for (const support of source.supports) {
+        if (!("claim" in support)) continue;
+        const claimId = claimIds[support.claim];
+        if (!claimId) continue;
+        const [existing] = await tx
+          .select()
+          .from(claimSources)
           .where(and(eq(claimSources.claimId, claimId), eq(claimSources.sourceId, sourceId)));
-        audit("claim_source", pairId, existing, { ...existing, ...desired });
-        changed += 1;
+        const desired = { supportType: "SUPPORTS", quotedExcerpt: source.excerpt };
+        const pairId = claimSourceId(claimId, sourceId);
+        if (!existing) {
+          await tx.insert(claimSources).values({ claimId, sourceId, ...desired });
+          audit("claim_source", pairId, null, { claimId, sourceId, ...desired });
+          changed += 1;
+        } else if (
+          existing.supportType !== desired.supportType ||
+          existing.quotedExcerpt !== desired.quotedExcerpt
+        ) {
+          await tx
+            .update(claimSources)
+            .set(desired)
+            .where(and(eq(claimSources.claimId, claimId), eq(claimSources.sourceId, sourceId)));
+          audit("claim_source", pairId, existing, { ...existing, ...desired });
+          changed += 1;
+        }
       }
     }
-  }
 
-  if (auditRows.length > 0) {
-    await db.insert(auditEvents).values(auditRows);
-  }
+    if (auditRows.length > 0) {
+      await tx.insert(auditEvents).values(auditRows);
+    }
+  });
 
   return {
     file,

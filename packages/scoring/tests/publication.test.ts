@@ -95,4 +95,36 @@ describe("canPublishPeLabel (SPEC §14.3 PE-label rule)", () => {
       ]),
     ).toBe(true);
   });
+
+  it("does not count two publisher-less Tier 2 sources as two independent publishers", () => {
+    expect(
+      canPublishPeLabel([
+        { tier: 2, publisher: null },
+        { tier: 2, publisher: undefined },
+      ]),
+    ).toBe(false);
+  });
+
+  it("does not count a blank/whitespace publisher as an independent publisher", () => {
+    expect(
+      canPublishPeLabel([
+        { tier: 2, publisher: "   " },
+        { tier: 2, publisher: "Forbes" },
+      ]),
+    ).toBe(false);
+  });
+
+  it("still qualifies when a publisher-less Tier 2 joins two independently named ones", () => {
+    expect(
+      canPublishPeLabel([
+        { tier: 2, publisher: null },
+        { tier: 2, publisher: "Forbes" },
+        { tier: 2, publisher: "Bloomberg" },
+      ]),
+    ).toBe(true);
+  });
+
+  it("a Tier 1 source qualifies even without a publisher", () => {
+    expect(canPublishPeLabel([{ tier: 1 }])).toBe(true);
+  });
 });
