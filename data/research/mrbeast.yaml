@@ -1,0 +1,183 @@
+# CHANNELWATCH research record — MrBeast (Jimmy Donaldson)
+#
+# Pilot record for the "externally funded but creator-controlled" case.
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Structure distinguished, per brief:
+#   (a) the channel  — the @MrBeast YouTube channel (UCX6OQ3DkcsbYNE6H8uQQuVA)
+#   (b) Beast Industries — the operating/holding company for MrBeast's ventures
+#   (c) outside investors — e.g. Alpha Wave Global (2024 Series C lead)
+# Investment, ownership, and control are recorded as DIFFERENT relationship
+# types. Where public sources do not document control terms, control_level is
+# UNKNOWN rather than inferred.
+
+channel:
+  youtube_channel_id: UCX6OQ3DkcsbYNE6H8uQQuVA
+  display_name: MrBeast
+  handle: "@MrBeast"
+
+entities:
+  - slug: donaldson
+    canonical_name: Jimmy Donaldson
+    entity_type: CREATOR
+    legal_name: James Stephen Donaldson
+    aliases:
+      - MrBeast
+
+  - slug: beast_industries
+    canonical_name: Beast Industries
+    entity_type: COMPANY
+    aliases:
+      - Beast Industries LLC
+
+  - slug: alpha_wave
+    canonical_name: Alpha Wave Global
+    entity_type: INVESTMENT_FIRM
+    aliases:
+      - Alpha Wave
+
+  - slug: housenbold
+    canonical_name: Jeff Housenbold
+    entity_type: PERSON
+    legal_name: Jeffrey Housenbold
+
+relationships:
+  # 0: Jimmy Donaldson holds a majority ("a little over half") of Beast
+  # Industries. Majority => CONTROLLING, but exact percentage is NOT publicly
+  # disclosed, so ownership_percentage is omitted. This is the core
+  # "creator-controlled" fact of the profile.
+  - subject: donaldson
+    type: PARTIALLY_OWNS
+    object: beast_industries
+    control_level: CONTROLLING
+    confidence: 0.72
+    status: ACTIVE
+
+  # 1: Alpha Wave Global led the 2024 Series C ($300M) that valued Beast
+  # Industries at ~$5B. This is an INVESTMENT, not ownership control. Minority
+  # is documented indirectly: the founder retains majority (rel 0), so external
+  # investors are collectively a minority; a ~$300M stake in a ~$5B company is
+  # single-digit percent.
+  - subject: alpha_wave
+    type: INVESTED_IN
+    object: beast_industries
+    control_level: MINORITY
+    effective_from: 2024-01-01
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Beast Industries is the company behind MrBeast's media business, which
+  # public reporting says "includes his YouTube channel." The exact legal
+  # ownership/control terms of the channel entity itself are NOT separately
+  # documented, so control_level is UNKNOWN. Recorded as OPERATES rather than
+  # OWNS for that reason.
+  - subject: beast_industries
+    type: OPERATES
+    object: channel
+    control_level: UNKNOWN
+    confidence: 0.55
+    status: ACTIVE
+
+  # 3: Jimmy Donaldson remains the creator/host of the channel.
+  - subject: channel
+    type: HOSTED_BY
+    object: donaldson
+    confidence: 0.9
+    status: ACTIVE
+
+  # 4: Jeff Housenbold serves as president & CEO of Beast Industries — external
+  # management. Management control only; does not imply ownership.
+  - subject: housenbold
+    type: MANAGES
+    object: beast_industries
+    control_level: MANAGEMENT
+    effective_from: 2024-01-01
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: entrepreneur_ownership
+    url: https://www.entrepreneur.com/business-news/youtuber-mrbeast-admits-he-has-no-work-life-balance
+    title: "MrBeast Admits He Has No Work-Life Balance: 'I Live to Work'"
+    publisher: Entrepreneur
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Donaldson owns a little over half of the $5 billion company, per Business
+      Insider.
+    supports:
+      - relationship: 0
+
+  - ref: fortune_funding
+    url: https://fortune.com/2025/03/11/youtube-biggest-star-mrbeast-makes-more-money-chocolate-videos/
+    title: YouTube's biggest star MrBeast makes more money from chocolate than videos
+    publisher: Fortune
+    published_at: 2025-03-11
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Last year, Alpha Wave, an investment firm with ties to the United Arab
+      Emirates, led a $300 million Series C round that valued Beast Industries
+      at about $5 billion. [...] Last year, MrBeast hired venture capitalist
+      Jeffrey Housenbold to serve as president and chief executive officer of
+      Beast Industries.
+    supports:
+      - relationship: 1
+      - relationship: 4
+
+  - ref: gulfnews_media
+    url: https://gulfnews.com/technology/media/mrbeast-makes-more-money-from-feastables-chocolate-than-youtube-1.500057111
+    title: YouTube's biggest star MrBeast makes more money from chocolate than videos
+    publisher: Gulf News
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      MrBeast's media business, which includes his YouTube channel and his
+      reality show for Amazon.com Inc.'s Prime Video [...] MrBeast's company,
+      Beast Industries, is majority owner of Feastables, a chocolate business.
+    supports:
+      - relationship: 2
+      - relationship: 3
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by omitted: not yet reviewed (schema field is optional, not nullable).
+  notes: >-
+    DRAFT for human review — pilot "externally funded but creator-controlled"
+    case. Channel ID UCX6OQ3DkcsbYNE6H8uQQuVA was extracted from the canonical
+    youtube.com/channel/ link in the @MrBeast page source (verified against
+    channelId/canonical URL in source HTML).
+
+    JUDGMENT CALLS:
+    (1) Donaldson->Beast Industries (rel 0): recorded PARTIALLY_OWNS +
+    CONTROLLING. Sources state he owns "a little over half"; that is majority
+    (=> CONTROLLING) but NOT a precise figure, so ownership_percentage is
+    omitted rather than guessed. The "little over half" figure traces to a 2024
+    deposition reported by Business Insider (accessed here via Entrepreneur,
+    Tier 2). A reviewer should ideally confirm against the primary Business
+    Insider / deposition reporting.
+    (2) Alpha Wave->Beast Industries (rel 1): INVESTED_IN, not any OWNS/CONTROLS
+    type, to keep investment distinct from control. control_level MINORITY is
+    inferred from the documented facts that the founder retains a majority and
+    that ~$300M of a ~$5B valuation is a small stake; the exact investor
+    percentage is NOT publicly disclosed. Flagged for reviewer.
+    (3) Beast Industries->channel (rel 2): recorded OPERATES with control_level
+    UNKNOWN. Reporting consistently places the YouTube channel inside Beast
+    Industries' "media business," but no source documents the precise legal
+    ownership or control terms of the channel entity, so control is UNKNOWN and
+    confidence is deliberately low. This is the weakest-documented edge and the
+    main item needing human attention.
+    (4) Housenbold->Beast Industries (rel 4): MANAGES / MANAGEMENT only —
+    president & CEO. No ownership or editorial-control assertion is made.
+
+    NOT recorded (insufficient public documentation): exact cap-table
+    percentages; whether the channel is held by a specific Beast Industries
+    subsidiary vs. Donaldson personally; other 2024 Series C participants
+    (undisclosed). Later reported financings (e.g. Bitmine, Step acquisition)
+    were seen in search results but are out of scope for this ownership record
+    and were not included.
+
+    All supporting sources are Tier 2 reputable business press; no Tier 1
+    primary filing was located, so no relationship is above HIGH confidence and
+    none should be published as CONFIRMED without further primary sourcing.
+  last_reviewed_at: 2026-07-22
