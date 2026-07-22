@@ -87,4 +87,8 @@ docker compose up     # postgres + api + web for local dev
 
 Pre-code. Approved milestones: M0 scaffold + constitution docs → M1 data core +
 5 pilot channels → M2 API + extension → M3 review console + 100-channel dataset +
-launch prep. Repo name is `channelwatch` (directory name is legacy and may be renamed).
+launch prep. Package/npm namespace is `channelwatch`; directory is `YT_Channel_Watch`.
+
+## Git
+
+Plain commit messages only — no Co-Authored-By or generated-with trailers.
