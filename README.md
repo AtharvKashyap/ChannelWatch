@@ -4,13 +4,17 @@ Know who is behind the channel.
 
 ## Status
 
-Pre-MVP, milestone M1 (data core). The repository contains the monorepo
-tooling, the project's founding documents, and the data layer: taxonomy and
-Zod schemas (`packages/schemas`), confidence scoring (`packages/scoring`),
-the ownership-classification engine (`packages/graph`), the PostgreSQL
-schema/migrations/seed (`services/api`), and the YAML research-record
-importer (`data/research/`). The browser extension and public API endpoints
-arrive in M2.
+Milestone M2 (public API + Chrome extension) complete. The repository contains:
+the monorepo tooling and founding documents; the data layer — taxonomy and Zod
+schemas (`packages/schemas`), confidence scoring (`packages/scoring`), the
+ownership-classification engine (`packages/graph`), PostgreSQL
+schema/migrations/seed and the public read API (`services/api`), the YAML
+research-record importer with 12 researched channel records
+(`data/research/`); and the Manifest V3 Chrome extension (`apps/extension`)
+that shows ownership badges and an evidence panel on YouTube watch and channel
+pages. See `apps/extension/README.md` for build/load and the local
+end-to-end workflow. Next (M3): reviewer console, ~100-channel dataset,
+launch prep.
 
 ## Quickstart
 
