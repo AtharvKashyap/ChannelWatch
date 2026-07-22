@@ -7,6 +7,7 @@ import {
   Entity,
   Relationship,
   Source,
+  Claim,
   ChannelLookupResponse,
 } from "../src/schemas.js";
 
@@ -75,6 +76,29 @@ describe("Relationship (§15.3)", () => {
     expect(r.control_level).toBe("CONTROLLING");
   });
 
+  it("defaults status to ACTIVE when omitted and accepts an explicit status", () => {
+    const implicit = Relationship.parse({
+      type: "OWNS",
+      from_entity_id: "a",
+      to_entity_id: "b",
+      control_level: "CONTROLLING",
+      confidence: 0.9,
+      source_ids: [],
+    });
+    expect(implicit.status).toBe("ACTIVE");
+
+    const explicit = Relationship.parse({
+      type: "OWNS",
+      from_entity_id: "a",
+      to_entity_id: "b",
+      control_level: "CONTROLLING",
+      confidence: 0.9,
+      source_ids: [],
+      status: "DISPUTED",
+    });
+    expect(explicit.status).toBe("DISPUTED");
+  });
+
   it("accepts a numeric ownership percentage in range", () => {
     const r = Relationship.parse({
       type: "PARTIALLY_OWNS",
@@ -123,6 +147,74 @@ describe("Source", () => {
 
   it("rejects a non-url", () => {
     expect(() => Source.parse({ id: "s", url: "not-a-url", tier: 1, status: "ACTIVE" })).toThrow();
+  });
+});
+
+describe("Claim (§7, §8.3, §16)", () => {
+  it("parses a valid subject/predicate/object claim", () => {
+    const c = Claim.parse({
+      id: "claim-1",
+      subject_type: "CHANNEL",
+      subject_id: "chan-1",
+      predicate: "OWNED_BY",
+      object_type: "ENTITY",
+      object_id: "entity-1",
+      confidence: 0.85,
+      claim_status: "PUBLISHED",
+      effective_date: "2025-03-12",
+    });
+    expect(c.claim_status).toBe("PUBLISHED");
+    expect(c.predicate).toBe("OWNED_BY");
+    expect(c.object_id).toBe("entity-1");
+  });
+
+  it("parses a claim with a JSONB literal value and no object reference", () => {
+    const c = Claim.parse({
+      id: "claim-2",
+      subject_type: "CHANNEL",
+      subject_id: "chan-1",
+      predicate: "SUBSCRIBER_RANGE",
+      literal_value: { min: 1_000_000, max: 5_000_000 },
+      claim_status: "DRAFT",
+    });
+    expect(c.literal_value).toEqual({ min: 1_000_000, max: 5_000_000 });
+    expect(c.object_id).toBeUndefined();
+  });
+
+  it("rejects confidence outside 0–1", () => {
+    expect(() =>
+      Claim.parse({
+        id: "claim-1",
+        subject_type: "CHANNEL",
+        subject_id: "chan-1",
+        predicate: "OWNED_BY",
+        confidence: 1.2,
+        claim_status: "PUBLISHED",
+      }),
+    ).toThrow();
+  });
+
+  it("rejects an invalid claim_status enum value", () => {
+    expect(() =>
+      Claim.parse({
+        id: "claim-1",
+        subject_type: "CHANNEL",
+        subject_id: "chan-1",
+        predicate: "OWNED_BY",
+        confidence: 0.85,
+        claim_status: "APPROVED",
+      }),
+    ).toThrow();
+  });
+
+  it("rejects a claim missing the subject", () => {
+    expect(() =>
+      Claim.parse({
+        id: "claim-1",
+        predicate: "OWNED_BY",
+        claim_status: "PUBLISHED",
+      }),
+    ).toThrow();
   });
 });
 

@@ -5,6 +5,7 @@
 The user has a comprehensive 40-section brainstormed spec for **CHANNELWATCH**: an open-source browser extension + research platform that shows YouTube viewers who owns, finances, or commercially controls the channels they watch — with an evidence-first, defamation-aware, human-reviewed data model. The project directory (`/Users/atharvk/Desktop/Claude projects/Double_Anonymity_Platform`) is currently **empty**; nothing exists yet.
 
 Decisions made with the user:
+
 - **Full backend from day 1** (API + PostgreSQL + reviewer console), not a static-dataset MVP.
 - **TypeScript-only** codebase (this overrides the spec's Python/FastAPI backend).
 - **Claude-assisted, human-verified** seed research (~25 → ~100 channels).
@@ -58,23 +59,27 @@ Monorepo tooling: **pnpm workspaces + Turborepo**, Vitest everywhere, Playwright
 ## Milestones
 
 ### Milestone 0 — Foundation (this is what gets executed first)
+
 1. Scaffold monorepo (pnpm + turbo + tsconfig base + CI + docker-compose + .env.example).
 2. Write **CLAUDE.md** (contents below).
 3. Write core docs, adapted from the spec: `docs/METHODOLOGY.md` (evidence tiers §7, confidence model §8, review checklist §20), `docs/data-model.md` (with modification #5 resolved), `docs/legal-risk.md` (§23 safe-language table), `MANIFESTO.md`, `PRIVACY.md`, `SECURITY.md`, `CONTRIBUTING.md`. These are the project's constitution — the spec's First Build Order puts them before code, deliberately.
 4. `packages/schemas`: all enums (entity types, relationship types, claim/evidence/confidence statuses — spec §8, §15) + Zod schemas + reviewed copy module. **TDD.**
 
 ### Milestone 1 — Data core
+
 5. `services/api` skeleton + Drizzle schema + migrations + seed script.
 6. `packages/scoring` (confidence formula §14.2, thresholds §14.3, explanation codes) and `packages/graph` (traversal, ultimate parent, classification derivation §26.2) as pure, heavily-tested functions.
 7. YAML research-record format + validator + importer (`data/research/`).
-8. Research **5 pilot channels** (Claude-assisted, user-verified) to pressure-test the taxonomy *before* building UI — the spec's stated biggest risk is the taxonomy, not the tech.
+8. Research **5 pilot channels** (Claude-assisted, user-verified) to pressure-test the taxonomy _before_ building UI — the spec's stated biggest risk is the taxonomy, not the tech.
 
 ### Milestone 2 — API + extension
+
 9. Public read endpoints + rate limiting + audit middleware; corrections POST.
 10. Extension: channel resolver (structured data → canonical URL → backend handle resolution, §18.4), badge on channel + watch pages, ownership panel with evidence + disclaimer, settings, local cache with §18.6 TTLs, fail-silent DOM handling.
 11. Selector-health test suite against stored YouTube HTML snapshots.
 
 ### Milestone 3 — Review + launch prep
+
 12. `/review` console: claim queue, approve/reject with reasoning, entity CRUD, correction inbox, audit viewer. Two-person-review flag for sensitive claims (§20.3).
 13. Expand dataset to ~25, then ~100 channels (balanced per §37.3).
 14. Public site: channel pages, methodology page, correction form.
@@ -87,6 +92,7 @@ Each milestone ends with a review checkpoint with the user. Phases 2–8 of the 
 ## CLAUDE.md contents (to be written in Milestone 0, step 2)
 
 Concise (~1 page), containing:
+
 - **What this is**: one paragraph + pointer to MANIFESTO.md / METHODOLOGY.md.
 - **Non-negotiable project rules** (the ones an AI or contributor could silently violate):
   - Never present uncertain ownership as fact; all published claims trace to sources; Tier 4 evidence never supports a published claim.

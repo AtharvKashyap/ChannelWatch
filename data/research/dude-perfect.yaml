@@ -1,0 +1,231 @@
+# CHANNELWATCH research record — Dude Perfect
+#
+# Pilot record for HUMAN REVIEW. Nothing here is published without human
+# verification per docs/METHODOLOGY.md §4-6.
+
+channel:
+  youtube_channel_id: UCRijo3ddMTht_IHyNSNXpNQ
+  display_name: Dude Perfect
+  handle: "@DudePerfect"
+
+entities:
+  - slug: highmount
+    canonical_name: Highmount Capital
+    entity_type: INVESTMENT_FIRM
+    legal_name: Highmount Capital Management, LLC # per PrivSource deal record; not independently confirmed on a Highmount-owned page
+    jurisdiction: US-NY
+    aliases:
+      - Highmount Capital Management, LLC
+
+  - slug: founders
+    canonical_name: Dude Perfect Co-Founders
+    entity_type: CREATOR
+    aliases:
+      - Tyler Toney
+      - Cody Jones
+      - Garrett Hilbert
+      - Cory Cotton
+      - Coby Cotton
+
+relationships:
+  # 0: Highmount Capital made a growth-capital investment in Dude Perfect
+  # (announced 2024-04-09). No Tier 1 or Tier 2 source located during this
+  # research discloses the resulting ownership percentage or whether the
+  # stake is minority or majority — control_level is therefore UNKNOWN, not
+  # MINORITY, per the precision-over-recall rule. See review notes.
+  - subject: highmount
+    type: INVESTED_IN
+    object: channel
+    control_level: UNKNOWN
+    effective_from: 2024-04-09
+    confidence: 0.8
+    status: ACTIVE
+
+  # 1: The channel/group was founded by and remains creatively fronted by its
+  # five namesake co-founders (well documented, predates and is independent
+  # of the Highmount investment).
+  - subject: channel
+    type: FOUNDED_BY
+    object: founders
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: press_release
+    url: https://www.prnewswire.com/news-releases/dude-perfect-and-highmount-capital-announce-partnership-inclusive-of-strategic-growth-capital-302111238.html
+    title: "Dude Perfect® and Highmount Capital® Announce Partnership Inclusive of Strategic Growth Capital"
+    publisher: PR Newswire (joint release by Dude Perfect and Highmount Capital)
+    published_at: 2024-04-09
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >
+      Dude Perfect, the leading family-friendly sports and entertainment
+      group, and Highmount Capital, a private investment firm focused on
+      early growth-stage and middle market investments in transformative
+      technology, media and growth-oriented platforms, today announced a
+      strategic partnership to fuel Dude Perfect's growth. The partnership
+      includes a 9-figure growth capital investment.
+    supports:
+      - relationship: 0
+      - claim: 0
+
+  - ref: press_release_bg
+    url: https://www.prnewswire.com/news-releases/dude-perfect-and-highmount-capital-announce-partnership-inclusive-of-strategic-growth-capital-302111238.html
+    title: "Dude Perfect® and Highmount Capital® Announce Partnership Inclusive of Strategic Growth Capital"
+    publisher: PR Newswire (joint release by Dude Perfect and Highmount Capital)
+    published_at: 2024-04-09
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >
+      Dude Perfect - composed of Cody Jones, Garrett Hilbert, Tyler Toney,
+      Cory Cotton, and Coby Cotton - started with a trickshot video in 2009
+      and has since amassed a following of 100 million+.
+    supports:
+      - relationship: 1
+      - claim: 1
+
+  - ref: hollywood_reporter
+    url: https://www.hollywoodreporter.com/business/digital/youtube-dude-perfect-100m-investment-highmount-1235868550/
+    title: YouTube Stars Dude Perfect Score $100M-Plus Investment From Highmount Capital
+    publisher: The Hollywood Reporter
+    published_at: 2024-04-09
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >
+      Dude Perfect have secured a nine-figure investment from Highmount
+      Capital; a source pegged the value of the investment at greater than
+      $100 million.
+    supports:
+      - relationship: 0
+
+  - ref: sportico
+    url: https://www.sportico.com/personalities/people/2024/dude-perfect-nine-figure-investment-highmark-capital-1234774497/
+    title: Dude Perfect Picks Up Major Investment from Highmount Capital
+    publisher: Sportico
+    published_at: 2024-04-09
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >
+      This union includes a nine-figure capital investment. The five
+      co-founders are Cory Cotton, Coby Cotton, Cody Jones, Garrett Hilbert
+      and Tyler Toney.
+    supports:
+      - relationship: 0
+      - relationship: 1
+
+  - ref: c21media
+    url: https://www.c21media.net/news/youtube-comedy-group-dude-perfect-lands-100m-backing-from-highmount-capital/
+    title: YouTube comedy group Dude Perfect lands $100m backing from Highmount Capital
+    publisher: C21Media
+    published_at: 2024-04-12
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Highmount said it is making a "nine-figure" investment in Dude Perfect.
+    supports:
+      - relationship: 0
+
+  - ref: tubefilter
+    url: https://www.tubefilter.com/2024/04/09/dude-perfect-100-million-funding-deal-highmount-capital/
+    title: Dude Perfect lands nine-figure private equity deal to fund its next phase of growth
+    publisher: Tubefilter
+    published_at: 2024-04-09
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Dude Perfect has landed a "nine-figure" investment deal (over $100
+      million) that will support its continued growth and expansion.
+    supports:
+      - relationship: 0
+
+  # RockWater's analysis explicitly frames "40% ownership" and "minority
+  # owner" as the AUTHOR'S modeling assumption for an ROI calculation, not a
+  # disclosed deal term ("Assume Highmount targets a 40% ownership stake...").
+  # Included here for reviewer audit trail only; it does NOT support any
+  # relationship and must not be used to assert control_level: MINORITY.
+  - ref: rockwater_analysis
+    url: https://wearerockwater.com/dude-perfect-raises-100m/
+    title: Dude Perfect Raises $100M + Investor ROI Math
+    publisher: RockWater Industries
+    published_at: 2024-04-15
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Assume Highmount targets a 40% ownership stake (which is high, but
+      I'll explain why below). ... a large minority owner.
+    supports: []
+
+claims:
+  - predicate: INVESTED_IN
+    subject: highmount
+    object: channel
+    effective_date: 2024-04-09
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 0.9
+      entityMatch: 1.0
+      recencyFactor: 0.9
+      corroborationFactor: 0.95
+      contradictionPenalty: 1.0
+  - predicate: FOUNDED_BY
+    subject: channel
+    object: founders
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 1.0
+      entityMatch: 1.0
+      recencyFactor: 0.8
+      corroborationFactor: 0.9
+      contradictionPenalty: 1.0
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted: not yet human-reviewed.
+  notes: >
+    JUDGMENT CALLS FOR HUMAN REVIEWER:
+    (1) Stake type UNDOCUMENTED: the official joint press release (PR
+    Newswire, Tier 1) and every Tier 2 business-press article located
+    (Hollywood Reporter, Sportico, C21Media, Tubefilter, plus CNBC/Axios/
+    Variety/SportsPro which returned 403/blocked on direct fetch and so were
+    not used as cited sources) describe this only as a "strategic
+    partnership" / "9-figure growth capital investment." None of them state
+    a minority or majority stake, an ownership percentage, or board/control
+    terms. The only source found that uses the word "minority" (RockWater,
+    a media-industry analysis newsletter) explicitly labels its 40%/
+    "minority owner" figure as the author's own modeling ASSUMPTION for an
+    ROI calculation, not a disclosed deal term. Per the precision-over-
+    recall rule, control_level is therefore recorded as UNKNOWN, not
+    MINORITY — do not upgrade this without a primary or reputable-secondary
+    source that states the stake type explicitly.
+    (2) Relationship type: used INVESTED_IN (not OWNS/CONTROLS/ACQUIRED)
+    because no source describes a change of ownership or an acquisition —
+    only a capital investment/partnership.
+    (3) Possible co-investor: PrivSource (privsource.com), a deal-tracking
+    database, names a second investor, Pittco Management LLC (family office
+    of AutoZone founder Joseph "Pitt" Hyde III), alongside Highmount. This
+    was NOT independently corroborated by any Tier 1/2 source successfully
+    fetched during this research, so it is omitted from entities/
+    relationships entirely (not even as a leads-only source) pending
+    verification — flagging for reviewer follow-up rather than including a
+    thinly-sourced entity.
+    (4) Highmount's entity_type is set to INVESTMENT_FIRM, matching its own
+    self-description in the joint press release ("a private investment firm
+    focused on early growth-stage and middle market investments"). Some
+    secondary coverage (e.g. Hollywood Reporter's headline) labels Highmount
+    a "private equity firm" instead; reviewer should confirm which
+    classification the platform wants to use before any PE-backed labeling
+    is considered — note per methodology §3.4 that a PE-BACKED label
+    additionally requires the investment to be by/through a PE firm AND
+    control/backing, neither of which is established here.
+    (5) Highmount's `website` field is omitted; no official Highmount
+    Capital site was independently verified during this research. Reviewer
+    should add if confirmed.
+    (6) `founders` is modeled as a single CREATOR entity representing the
+    five named co-founders (aliases list each name) rather than five
+    separate PERSON entities, to keep this pilot record simple; reviewer may
+    prefer to split them.
+    (7) Channel id UCRijo3ddMTht_IHyNSNXpNQ was corroborated by cross-
+    referencing multiple independent third-party stats sites
+    (Wikidata, HypeAuditor, filmot, mixerno.space) after YouTube's own page
+    did not return channel metadata to the fetch tool (JS-rendered content).
+  last_reviewed_at: 2026-07-22

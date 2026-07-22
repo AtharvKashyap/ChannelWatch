@@ -1,0 +1,199 @@
+# CHANNELWATCH research record — vlogbrothers
+#
+# Pilot record for the "independent creator" baseline case. Real record (not a
+# fixture). Verified rather than assumed per the ground rules in
+# docs/METHODOLOGY.md.
+
+channel:
+  youtube_channel_id: UCGaVdbSav8xWuFWTadK6loA
+  display_name: vlogbrothers
+  handle: "@vlogbrothers"
+
+entities:
+  - slug: complexly
+    canonical_name: Complexly
+    entity_type: NONPROFIT
+    legal_name: Complexly (formerly EcoGeek LLC)
+    website: https://complexly.org
+    aliases:
+      - EcoGeek LLC
+      - Vlogbrothers Industries
+  - slug: hank_green
+    canonical_name: Hank Green
+    entity_type: CREATOR
+  - slug: john_green
+    canonical_name: John Green
+    entity_type: CREATOR
+
+relationships:
+  # 0: Complexly (formerly EcoGeek LLC) handles the business affairs of the
+  # channel; Hank Green's own 2014 statement describes EcoGeek/Complexly as the
+  # entity that "owns" Vlogbrothers, distinct from creative production, which the
+  # Greens do themselves. Control level left UNKNOWN because no source specifies
+  # a percentage or a controlling-stake structure, and a Feb 2026 secondary
+  # source explicitly distinguishes vlogbrothers (personal channel) from
+  # Complexly-produced shows (Crash Course, SciShow).
+  - subject: complexly
+    type: OWNS
+    object: channel
+    control_level: UNKNOWN
+    confidence: 0.6
+    status: ACTIVE
+  # 1: Hank Green co-founded and co-hosts the channel since its Jan 1, 2007
+  # launch.
+  - subject: channel
+    type: FOUNDED_BY
+    object: hank_green
+    effective_from: 2007-01-01
+    confidence: 0.9
+    status: ACTIVE
+  # 2: John Green co-founded and co-hosts the channel since its Jan 1, 2007
+  # launch.
+  - subject: channel
+    type: FOUNDED_BY
+    object: john_green
+    effective_from: 2007-01-01
+    confidence: 0.9
+    status: ACTIVE
+  # 3: Hank Green remains a host of the channel (current, per 2024 posting
+  # schedule reporting and the channel's own ongoing uploads).
+  - subject: channel
+    type: HOSTED_BY
+    object: hank_green
+    confidence: 0.9
+    status: ACTIVE
+  # 4: John Green remains a host of the channel.
+  - subject: channel
+    type: HOSTED_BY
+    object: john_green
+    confidence: 0.9
+    status: ACTIVE
+  # 5: Hank Green's own 2014 statement: he originally solely owned EcoGeek LLC
+  # (Complexly's predecessor), then gave John half, making it their joint
+  # venture. Recorded as a founding relationship on the current legal entity.
+  - subject: complexly
+    type: FOUNDED_BY
+    object: hank_green
+    confidence: 0.85
+    status: ACTIVE
+  # 6: Following Complexly's February 2026 conversion to a 501(c)(3) nonprofit,
+  # Hank Green joined its board of directors (both Greens donated their personal
+  # equity in the restructuring; John Green became "founder emeritus").
+  - subject: hank_green
+    type: MANAGES
+    object: complexly
+    control_level: MANAGEMENT
+    effective_from: 2026-02-01
+    confidence: 0.7
+    status: ACTIVE
+
+sources:
+  - ref: hank_2014_tumblr
+    url: http://edwardspoonhands.tumblr.com/post/95924995380/why-does-your-company-seem-to-have-so-many
+    title: Why does your "company" seem to have so many names?
+    publisher: Tumblr (Hank Green, personal blog)
+    published_at: 2014-08-27
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >
+      EcoGeek LLC remains the thing that "owns" Vlogbrothers, SciShow, Crash
+      Course, and The Art Assignment. Eventually, as Vlogbrothers grew to be
+      much bigger than EcoGeek, I just gave John half of that company and it
+      became the joint venture of Hank and John.
+    supports:
+      - relationship: 0
+      - relationship: 5
+  - ref: goodbye_brotherhood_2007
+    url: https://www.youtube.com/watch?v=3meQ-1OAoAU
+    title: "Dec 31: Goodbye Brotherhood 2.0"
+    publisher: vlogbrothers (YouTube)
+    published_at: 2007-12-31
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >
+      The brothers' Dec 31, 2007 video, closing out the year-long
+      "Brotherhood 2.0" project that launched the Vlogbrothers channel on
+      Jan 1, 2007, and announcing they would continue posting videos as
+      Vlogbrothers due to the audience it had built.
+    supports:
+      - relationship: 1
+      - relationship: 2
+  - ref: npr_2008
+    url: https://www.npr.org/templates/story/story.php?storyId=18272166
+    title: Brothers Reconnect Using Video Blogging
+    publisher: NPR (All Things Considered)
+    published_at: 2008-01-20
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Profile of the Green brothers' "Brotherhood 2.0" video-blogging project,
+      launched January 1, 2007, in which John and Hank Green communicated
+      only via posted videos for a year, the origin of the Vlogbrothers
+      channel.
+    supports:
+      - relationship: 1
+      - relationship: 2
+  - ref: tubefilter_2026
+    url: https://www.tubefilter.com/2026/02/04/hank-john-green-vlogbrothers-complexly-nonprofit/
+    title: Hank and John Green are cultivating trust by turning their production company into a nonprofit
+    publisher: Tubefilter
+    published_at: 2026-02-04
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      The fraternal duo long known as the Vlogbrothers are converting
+      Complexly, their production company, into a 501(c)(3) nonprofit. The
+      brothers are giving up their personal equity in the company they
+      co-founded; John Green becomes "founder emeritus" while Hank Green
+      joins the Board of Directors.
+    supports:
+      - relationship: 3
+      - relationship: 4
+      - relationship: 6
+  - ref: verge_campus_2017
+    url: http://vergecampus.com/2017/01/vlogbrothers-celebrate-10-years-youtube/
+    title: Vlogbrothers Celebrate 10 years on YouTube
+    publisher: Verge Campus
+    published_at: 2017-01-01
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Retrospective on ten years of the Vlogbrothers channel, hosted since
+      2007 by brothers Hank and John Green.
+    supports:
+      - relationship: 3
+      - relationship: 4
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted: not yet reviewed (schema treats reviewed_by
+  # as optional-string; null is not a valid value, so the field is left unset).
+  notes: >
+    Pilot record for the "independent creator" baseline. Findings are more
+    nuanced than a pure independent/self-owned case, so flagging several
+    judgment calls for human review: (1) The channel's business affairs have,
+    since at least 2014, been handled by EcoGeek LLC / Complexly (a Green
+    brothers company), per Hank Green's own 2014 statement — this is a real,
+    sourced relationship, not "fully independent," though Complexly does not
+    produce vlogbrothers' content (the Greens do). Recorded as OWNS with
+    control_level UNKNOWN and moderate confidence (0.6) because no source
+    states a percentage or describes creative control over vlogbrothers
+    itself. (2) In February 2026 Complexly converted to a 501(c)(3) nonprofit
+    and the Greens donated their personal equity in it; I could not find a
+    source that explicitly states whether/how this affects the
+    business-affairs arrangement for vlogbrothers specifically (Tubefilter's
+    coverage distinguishes vlogbrothers, the Greens' personal channel, from
+    Complexly-produced shows like Crash Course and SciShow, but does not
+    revisit the vlogbrothers arrangement). A human reviewer should judge
+    whether the OWNS edge needs an effective_to / status change, or a second
+    "formerly" edge, given this restructuring. (3) I could not access a 2016
+    Hank Green video ("Changing Our Business a Bit") or a paywalled Dec 2025
+    Financial Times piece that reportedly cover the same territory in more
+    detail — both are leads for a follow-up researcher, not used as sources
+    here. (4) I classified Complexly's current entity_type as NONPROFIT
+    reflecting its Feb 2026 status; prior to that it was a for-profit LLC
+    (EcoGeek LLC, then Complexly LLC) — a reviewer may prefer COMPANY with a
+    note instead, depending on how the schema intends entity_type to be used
+    over time. No relationship or claim in this record implies PE backing or
+    corporate acquisition; none was found.
+  last_reviewed_at: 2026-07-22

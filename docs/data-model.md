@@ -18,7 +18,7 @@ Concretely:
 
 - A **claim** is a discrete, sourced assertion (e.g. "Entity A ACQUIRED Channel
   B") that moves through the review lifecycle (`DRAFT → UNDER_REVIEW → PUBLISHED
-  …`, Spec §8.3). Claims are what reviewers approve, dispute, correct, and retract.
+…`, Spec §8.3). Claims are what reviewers approve, dispute, correct, and retract.
 - A **relationship** is what a published, approved claim produces. The set of
   **active** relationships (those whose `effective_from`/`effective_to` window
   covers the current date and whose status is published) is the graph the
@@ -42,19 +42,19 @@ in `packages/graph`; confidence math and thresholds live in `packages/scoring`.
 
 The MVP schema (Drizzle over PostgreSQL) comprises:
 
-| Table | Role |
-| --- | --- |
-| `channels` | YouTube channels, keyed by immutable `youtube_channel_id`; holds the cached `published_classification`, `classification_confidence`, and `last_reviewed_at`. |
-| `entities` | Canonical organizations and persons (companies, funds, PE firms, creators…). |
-| `entity_aliases` | Alternate names/spellings resolving to a canonical entity (entity resolution, Spec §12.4). |
-| `relationships` | **The published artifact.** Typed, time-bounded edges between channels and entities; the classifier's input. |
-| `sources` | Evidence items with tier, type, content hash, archive URL, and status (Spec §8.2). |
-| `claims` | **The review-workflow artifact.** Sourced assertions moving through the claim lifecycle (Spec §8.3). |
-| `claim_sources` | Join table linking claims to the sources that support them, with support type and quoted excerpt. |
-| `reviews` | Reviewer decisions and reasoning per claim (Spec §20.2). |
-| `correction_requests` | Public correction/appeal submissions and their resolution (Spec §23.3, §24). |
-| `audit_events` | Immutable who/what/when/why record for every material change (Spec §26.5). |
-| `reviewers` | Reviewer accounts and authentication (added by `plan.md`; the classifier and audit trail reference `reviewer_id`). |
+| Table                 | Role                                                                                                                                                         |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `channels`            | YouTube channels, keyed by immutable `youtube_channel_id`; holds the cached `published_classification`, `classification_confidence`, and `last_reviewed_at`. |
+| `entities`            | Canonical organizations and persons (companies, funds, PE firms, creators…).                                                                                 |
+| `entity_aliases`      | Alternate names/spellings resolving to a canonical entity (entity resolution, Spec §12.4).                                                                   |
+| `relationships`       | **The published artifact.** Typed, time-bounded edges between channels and entities; the classifier's input.                                                 |
+| `sources`             | Evidence items with tier, type, content hash, archive URL, and status (Spec §8.2).                                                                           |
+| `claims`              | **The review-workflow artifact.** Sourced assertions moving through the claim lifecycle (Spec §8.3).                                                         |
+| `claim_sources`       | Join table linking claims to the sources that support them, with support type and quoted excerpt.                                                            |
+| `reviews`             | Reviewer decisions and reasoning per claim (Spec §20.2).                                                                                                     |
+| `correction_requests` | Public correction/appeal submissions and their resolution (Spec §23.3, §24).                                                                                 |
+| `audit_events`        | Immutable who/what/when/why record for every material change (Spec §26.5).                                                                                   |
+| `reviewers`           | Reviewer accounts and authentication (added by `plan.md`; the classifier and audit trail reference `reviewer_id`).                                           |
 
 Every mutation writes an `audit_events` record; published records are never
 silently edited (Spec §23.3, §26.5).

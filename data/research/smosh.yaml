@@ -1,0 +1,218 @@
+# CHANNELWATCH research record — Smosh
+#
+# Pilot ownership-timeline record. DRAFT for human review; nothing published
+# until verified. Ownership modeled as: CURRENT (ACTIVE) = founders Anthony
+# Padilla & Ian Hecox hold majority, Mythical Entertainment retains a minority
+# stake (June 20, 2023 buyback). HISTORICAL (ENDED / FORMERLY_OWNED_BY) =
+# Mythical (2019–2023) and Defy Media (2011–2018).
+
+channel:
+  youtube_channel_id: UCY30JRSgfhYXA6i6xX1erWg
+  display_name: Smosh
+  handle: "@smosh"
+
+entities:
+  - slug: padilla
+    canonical_name: Anthony Padilla
+    entity_type: CREATOR
+    aliases:
+      - Anthony Padilla
+  - slug: hecox
+    canonical_name: Ian Hecox
+    entity_type: CREATOR
+    aliases:
+      - Ian Hecox
+  - slug: mythical
+    canonical_name: Mythical Entertainment
+    entity_type: COMPANY
+    aliases:
+      - Mythical
+      - Rhett & Link's Mythical
+  - slug: defy
+    canonical_name: Defy Media
+    entity_type: COMPANY
+    aliases:
+      - Defy Media, LLC
+      - Alloy Digital
+
+relationships:
+  # --- CURRENT ownership (ACTIVE), effective 2023-06-20 ---
+  # 0: Anthony Padilla — co-founder, joint majority owner.
+  - subject: padilla
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2023-06-20
+    confidence: 0.85
+    status: ACTIVE
+  # 1: Ian Hecox — co-founder, joint majority owner.
+  - subject: hecox
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2023-06-20
+    confidence: 0.85
+    status: ACTIVE
+  # 2: Mythical Entertainment retained a minority stake after the 2023 sale.
+  - subject: mythical
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: MINORITY
+    effective_from: 2023-06-20
+    confidence: 0.8
+    status: ACTIVE
+  # 3: channel founded by Padilla.
+  - subject: channel
+    type: FOUNDED_BY
+    object: padilla
+    confidence: 0.9
+    status: ACTIVE
+  # 4: channel founded by Hecox.
+  - subject: channel
+    type: FOUNDED_BY
+    object: hecox
+    confidence: 0.9
+    status: ACTIVE
+  # --- HISTORICAL ownership (ENDED) ---
+  # 5: Mythical Entertainment owned Smosh Feb 2019 – Jun 2023.
+  - subject: channel
+    type: FORMERLY_OWNED_BY
+    object: mythical
+    control_level: CONTROLLING
+    effective_from: 2019-02-22
+    effective_to: 2023-06-20
+    confidence: 0.9
+    status: ENDED
+  # 6: Defy Media (formerly Alloy Digital) owned Smosh ~2011 – Nov 2018.
+  - subject: channel
+    type: FORMERLY_OWNED_BY
+    object: defy
+    control_level: CONTROLLING
+    effective_from: "2011"
+    effective_to: "2018-11"
+    confidence: 0.7
+    status: ENDED
+
+sources:
+  - ref: smosh_video
+    url: https://www.youtube.com/watch?v=DwsZggwPRKc
+    title: WE BOUGHT SMOSH!
+    publisher: Smosh
+    published_at: 2023-06-20
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >
+      Official Smosh video (June 20, 2023) in which co-founders Anthony Padilla
+      and Ian Hecox announce they have bought Smosh back from Mythical
+      Entertainment, opening the independent, founder-owned era. Padilla: "What
+      if we owned this again? What if we had another chance at doing this
+      exactly the way that we want?"
+    supports:
+      - relationship: 0
+      - relationship: 1
+  - ref: forbes_pequeno_2023
+    url: https://www.forbes.com/sites/antoniopequenoiv/2023/06/20/rhett--link-sell-pioneering-youtube-brand-smosh-back-to-original-co-founders/
+    title: Rhett & Link Sell Pioneering YouTube Brand Smosh Back To Original Co-Founders
+    publisher: Forbes
+    published_at: 2023-06-20
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >
+      "The channel, created by childhood friends Hecox and Padilla..." "Hecox
+      and Padilla acquired a majority ownership stake in Smosh for an
+      undisclosed price—taking back the company from YouTube comedy and talk
+      show duo Rhett & Link... Rhett & Link will remain involved in an advisory
+      capacity through a minority stake in Smosh..."
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+  - ref: tubefilter_2023
+    url: https://www.tubefilter.com/2023/06/20/anthony-padilla-ian-hecox-buy-smosh/
+    title: Anthony Padilla and Ian Hecox just bought Smosh
+    publisher: Tubefilter
+    published_at: 2023-06-20
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      "Padilla and Hecox are buying majority ownership of Smosh from Rhett &
+      Link's Mythical, which acquired the brand after its former owner Defy
+      Media collapsed in 2018. Financial details of the acquisition are not
+      being publicized, but we do know Mythical will retain a minority stake
+      with Rhett & Link serving as advisors."
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 5
+  - ref: forbes_youshaei_2023
+    url: https://www.forbes.com/sites/jonyoushaei/2023/10/02/smoshs-next-chapter-how-anthony-padilla--ian-hecox-bought-back-their-historic-youtube-channel/
+    title: "Smosh's Next Chapter: How Anthony Padilla & Ian Hecox Bought Back Their Historic YouTube Channel"
+    publisher: Forbes
+    published_at: 2023-10-02
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >
+      Describes the founders selling "Smosh to Alloy Digital (which later became
+      Defy Media) in 2011," and that "When Defy Media (formerly Alloy) shut down
+      in 2018, those stock options were suddenly worthless." "On June 20, 2023,
+      Padilla and Hecox uploaded a video to announce that they had bought the
+      company back from Rhett & Link."
+    supports:
+      - relationship: 6
+  - ref: hollywood_reporter_2019
+    url: https://www.hollywoodreporter.com/news/general-news/inside-rhett-links-10-million-deal-smosh-1192233/
+    title: Inside Rhett & Link's $10 Million Deal for Smosh
+    publisher: The Hollywood Reporter
+    published_at: 2019-02-22
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >
+      "On Feb. 22, the Rhett & Link's Mythical Entertainment agreed to buy Smosh
+      in a deal that would unite two long-running YouTube channels." "Smosh had
+      multiple channels and some 40 million subscribers in November when Defy
+      suddenly announced that it would shut down and lay off almost all of its
+      staff." Acquired as "the bank that had assumed the Defy assets" neared a
+      sale.
+    supports:
+      - relationship: 5
+      - relationship: 6
+  - ref: thewrap_2019
+    url: https://www.thewrap.com/smosh-acquired-by-rhett-links-mythical-entertainment/
+    title: Smosh Acquired by Rhett & Link's Mythical Entertainment
+    publisher: TheWrap
+    published_at: 2019-02-22
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      "Smosh, the sketch comedy YouTube channel previously owned by Defy Media,
+      has been acquired by Mythical Entertainment, the company founded by
+      YouTuber's Rhett McLaughlin and Charles Lincoln 'Link' Neal." "Smosh has
+      been without a parent company after Defy Media shut down in November 2018."
+    supports:
+      - relationship: 5
+      - relationship: 6
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >
+    DRAFT for human review; reviewed_by intentionally unset (null / pending
+    review). Judgment calls: (1) Corporate entity — reputable press refers only
+    to the "Smosh" brand; wiki-tier sources cite "Smosh Productions Inc." /
+    "Smosh, LLC". No T1/T2 source documents an exact post-buyback legal entity,
+    so none is asserted; "Smosh Enterprises" from the brief could NOT be
+    verified and was rejected. Owners modeled as the two founders directly.
+    (2) The two founders hold a JOINT majority; the individual ownership split
+    between Padilla and Hecox is undocumented — each OWNS edge is marked
+    CONTROLLING to reflect joint control, ownership_percentage omitted.
+    (3) Mythical minority stake exact percentage undisclosed. (4) Founding year
+    disputed across sources: Forbes (Pequeno) says "2006"; most other accounts
+    say 2005 — effective_from omitted on FOUNDED_BY edges rather than assert a
+    contested date. (5) Defy era effective_from set to 2011 (2011 Alloy Digital
+    sale, later renamed Defy Media) per Forbes; effective_to 2018-11 (Defy
+    shutdown, Nov 2018). Mythical acquisition dated 2019-02-22 (announcement).
+    All backing sources are Tier 1–2; no Tier 4 used. Deal terms (price) for the
+    2023 buyback were not disclosed publicly.
+  last_reviewed_at: 2026-07-22

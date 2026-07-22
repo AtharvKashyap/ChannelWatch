@@ -1,0 +1,119 @@
+# FICTIONAL EXAMPLE — reproduces SPEC §35 "Example Channel Record".
+#
+# This is a fixture: every entity, channel id, source, and URL below is invented.
+# It exists to exercise the importer end to end (it derives PE_BACKED). The
+# `fixture: true` flag keeps it OUT of real imports — the importer only processes
+# it when invoked with `--include-fixtures`.
+fixture: true
+
+channel:
+  # §35 uses the placeholder "UC123456789", which is not a canonical 24-char id;
+  # this fixture uses a valid (still fictional) canonical id so it passes the
+  # strict schema regex.
+  youtube_channel_id: UCExampleFixtureChannel1
+  display_name: Example Channel
+  handle: "@examplechannel"
+
+entities:
+  - slug: media
+    canonical_name: Example Media LLC
+    entity_type: COMPANY
+    legal_name: Example Media LLC
+  - slug: capital
+    canonical_name: Example Capital Partners
+    entity_type: PRIVATE_EQUITY_FIRM
+    legal_name: Example Capital Partners, L.P.
+  - slug: creator
+    canonical_name: Original Creator
+    entity_type: CREATOR
+
+relationships:
+  # 0: Example Media LLC OWNS the channel (direct owner).
+  - subject: media
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2025-03-12
+    confidence: 0.93
+    status: ACTIVE
+  # 1: Example Media is a portfolio company of the PE firm (PE-implying edge).
+  - subject: media
+    type: PORTFOLIO_COMPANY_OF
+    object: capital
+    confidence: 0.93
+    status: ACTIVE
+  # 2: the original creator still hosts the channel.
+  - subject: channel
+    type: HOSTED_BY
+    object: creator
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: acquisition
+    url: https://example.com/press/example-media-acquires-example-channel
+    title: Example Media Acquires Example Channel
+    publisher: Example Media
+    published_at: 2025-03-12
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >
+      Example Media LLC announced today that it has acquired Example Channel,
+      taking a controlling ownership stake effective March 12, 2025.
+    supports:
+      - relationship: 0
+      - claim: 0
+  - ref: portfolio
+    url: https://examplecapital.com/portfolio/example-media
+    title: Example Media Portfolio Listing
+    publisher: Example Capital Partners
+    source_type: INVESTOR_PORTFOLIO_LISTING
+    tier: 1
+    excerpt: >
+      Example Media LLC is listed among Example Capital Partners' active
+      portfolio companies.
+    supports:
+      - relationship: 1
+      - claim: 1
+  - ref: trade
+    url: https://tradepress.example/example-media-expands-creator-portfolio
+    title: Example Media Expands Creator Portfolio
+    publisher: Trade Press
+    published_at: 2025-03-13
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Original Creator will remain as host of the channel following the
+      acquisition by Example Media.
+    supports:
+      - relationship: 0
+      - relationship: 2
+
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: media
+    effective_date: 2025-03-12
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 1.0
+      entityMatch: 1.0
+      recencyFactor: 1.0
+      corroborationFactor: 1.0
+      contradictionPenalty: 1.0
+  - predicate: PORTFOLIO_COMPANY_OF
+    subject: media
+    object: capital
+    confidence_factors:
+      sourceQuality: 0.9
+      directness: 1.0
+      entityMatch: 1.0
+      recencyFactor: 1.0
+      corroborationFactor: 1.0
+      contradictionPenalty: 1.0
+
+review:
+  researched_by: dev@channelwatch.local
+  reviewed_by: reviewer@channelwatch.local
+  notes: Fictional §35 example used to verify the importer.
+  last_reviewed_at: 2026-07-18

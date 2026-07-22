@@ -26,7 +26,7 @@ These are policy, not preference. Do not violate them even if a change "works":
 6. **Every DB mutation writes an `audit_events` record** (who/what/when/why/evidence).
    No silent edits to published records — corrections leave a visible trail.
 7. **LLMs draft, humans publish.** There is no code path that publishes a claim
-   without human review. Classification is *computed* from reviewed relationships
+   without human review. Classification is _computed_ from reviewed relationships
    via `packages/graph`, never stored as unexplained truth.
 8. **Precision over recall.** A missed acquisition is acceptable; a false
    accusation is not. When evidence is thin, the answer is "Unknown", not a guess.

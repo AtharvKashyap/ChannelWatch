@@ -1,0 +1,4 @@
+pnpm-lock.yaml
+
+# Drizzle-kit generated migration artifacts (checked in, not hand-edited).
+services/api/migrations/

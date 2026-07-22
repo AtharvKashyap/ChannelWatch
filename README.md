@@ -4,9 +4,13 @@ Know who is behind the channel.
 
 ## Status
 
-Pre-MVP, milestone M0 (foundation scaffold). No application code exists yet —
-this repository currently contains the monorepo tooling skeleton and the
-project's founding documents.
+Pre-MVP, milestone M1 (data core). The repository contains the monorepo
+tooling, the project's founding documents, and the data layer: taxonomy and
+Zod schemas (`packages/schemas`), confidence scoring (`packages/scoring`),
+the ownership-classification engine (`packages/graph`), the PostgreSQL
+schema/migrations/seed (`services/api`), and the YAML research-record
+importer (`data/research/`). The browser extension and public API endpoints
+arrive in M2.
 
 ## Quickstart
 

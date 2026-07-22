@@ -1424,10 +1424,7 @@ Likely permissions:
 ```json
 {
   "permissions": ["storage"],
-  "host_permissions": [
-    "https://www.youtube.com/*",
-    "https://api.channelwatch.example/*"
-  ]
+  "host_permissions": ["https://www.youtube.com/*", "https://api.channelwatch.example/*"]
 }
 ```
 
@@ -1861,10 +1858,7 @@ Output:
   "direct_owner": "Example Media",
   "ultimate_parent": "Example Capital",
   "confidence": 0.93,
-  "explanation_codes": [
-    "DIRECT_OWNER_CONFIRMED",
-    "OWNER_IS_PE_PORTFOLIO_COMPANY"
-  ]
+  "explanation_codes": ["DIRECT_OWNER_CONFIRMED", "OWNER_IS_PE_PORTFOLIO_COMPANY"]
 }
 ```
 

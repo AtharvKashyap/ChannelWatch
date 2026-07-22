@@ -1,0 +1,88 @@
+# CHANNELWATCH research record — TEMPLATE
+#
+# One YAML file per channel. Copy this file to `<channel-slug>.yaml`, fill it in,
+# and open a pull request. On merge, `pnpm import:research` validates and imports
+# it. See ./README.md for the full workflow and docs/METHODOLOGY.md for the
+# evidence standards these fields encode.
+#
+# Files whose name starts with "_" (like this template) are ignored by the
+# importer. Lines starting with "#" are comments.
+
+# Set to `true` ONLY for fictional example/test records. Fixtures are skipped by
+# the importer unless it is run with `--include-fixtures`. Omit for real records.
+# fixture: false
+
+channel:
+  # Canonical YouTube channel id: literal "UC" + 22 base64url chars. NOT an
+  # @handle or a custom URL. This is the record's natural key.
+  youtube_channel_id: UCxxxxxxxxxxxxxxxxxxxxxx
+  display_name: Channel Display Name
+  handle: "@channelhandle" # optional
+
+# Every entity referenced by a relationship or claim must be declared here. The
+# `slug` is a local, file-only name used to wire up references; the DB natural
+# key is `canonical_name`.
+entities:
+  - slug: owner_co
+    canonical_name: Owner Company LLC
+    entity_type: COMPANY # see SPEC §15.1 node types
+    legal_name: Owner Company, LLC # optional
+    jurisdiction: US-DE # optional
+    website: https://ownerco.example # optional
+    aliases: # optional
+      - OwnerCo
+
+# Directed ownership/relationship edges. `subject` and `object` are each either
+# an entity `slug` above or the literal "channel". Classification is COMPUTED
+# from these edges by the importer — never assert a classification here.
+relationships:
+  - subject: owner_co
+    type: OWNS # see SPEC §15.2 relationship types
+    object: channel
+    control_level: CONTROLLING # CONTROLLING | MINORITY | MANAGEMENT | LICENSE | UNKNOWN (optional)
+    ownership_percentage: 100 # optional, 0–100
+    effective_from: 2025-01-01 # optional, ISO date
+    effective_to: null # optional, ISO date
+    confidence: 0.9 # 0–1
+    # Lifecycle status: ACTIVE (published) | ENDED | DISPUTED | PENDING_REVIEW.
+    # A Tier 4 source may NOT back an ACTIVE relationship (Tier 4 is leads-only).
+    status: ACTIVE
+
+# Evidence. A source's `tier` MUST match the tier implied by its `source_type`
+# (§7.1 / §14.1) or validation fails. `supports` links a source to the
+# relationships/claims it backs, by their 0-based index in the lists above.
+# Every relationship must have at least one supporting source.
+sources:
+  - ref: source_a # file-local id; must be unique within this file
+    url: https://example.com/filing
+    title: Source Title
+    publisher: Publisher Name # optional but required to satisfy the PE-label rule
+    published_at: 2025-01-02 # optional, ISO date
+    source_type: OFFICIAL_REGULATORY_FILING # see SPEC §14.1
+    tier: 1 # must agree with source_type's tier
+    archive_url: https://web.archive.org/... # optional
+    excerpt: A short verbatim quote (<=500 chars) establishing the relationship.
+    supports:
+      - relationship: 0
+      - claim: 0
+
+# Optional discrete claims. When `confidence_factors` is given, the importer
+# computes the claim's confidence via the §14.2 formula in @channelwatch/scoring.
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: owner_co
+    effective_date: 2025-01-01 # optional
+    confidence_factors: # optional; all six factors in [0,1] if present
+      sourceQuality: 1.0
+      directness: 1.0
+      entityMatch: 1.0
+      recencyFactor: 1.0
+      corroborationFactor: 1.0
+      contradictionPenalty: 1.0
+
+review:
+  researched_by: you@channelwatch.local
+  reviewed_by: reviewer@channelwatch.local # optional
+  notes: Anything a future reviewer should know. # optional
+  last_reviewed_at: 2026-01-01 # ISO date; written to channels.last_reviewed_at

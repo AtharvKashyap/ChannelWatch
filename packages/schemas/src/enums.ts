@@ -118,6 +118,54 @@ export const SOURCE_TIERS = [1, 2, 3, 4] as const;
 export type SourceTier = (typeof SOURCE_TIERS)[number];
 export const SourceTierSchema = z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]);
 
+// §14.1 Evidence source types (14 values), ordered by descending suggested
+// weight. Backs the `EVIDENCE_WEIGHTS` record in @channelwatch/scoring.
+export const SOURCE_TYPES = [
+  "OFFICIAL_REGULATORY_FILING",
+  "OFFICIAL_ACQUISITION_ANNOUNCEMENT",
+  "INVESTOR_PORTFOLIO_LISTING",
+  "DIRECT_CREATOR_CONFIRMATION",
+  "CORPORATE_REGISTRY_RECORD",
+  "REPUTABLE_BUSINESS_PUBLICATION",
+  "ESTABLISHED_INDUSTRY_PUBLICATION",
+  "NAMED_EXECUTIVE_INTERVIEW",
+  "ARCHIVED_CORPORATE_PAGE",
+  "TRADEMARK_TRANSFER",
+  "SHARED_LEGAL_DOCUMENTATION",
+  "TECHNICAL_INFRASTRUCTURE_LINKAGE",
+  "ANONYMOUS_TIP",
+  "BEHAVIORAL_CONTENT_CHANGE",
+] as const;
+export type SourceType = (typeof SOURCE_TYPES)[number];
+export const SourceTypeSchema = z.enum(SOURCE_TYPES);
+
+/**
+ * Maps each SourceType to its SourceTier (§7.1), grouped by the §14.1
+ * ordering: filings through registry records are Tier 1 (primary/direct),
+ * publications and named interviews are Tier 2, archived pages through
+ * technical infrastructure linkage are Tier 3, and tips/behavioral signals
+ * are Tier 4 (leads only). This is pure SourceType→SourceTier taxonomy, so it
+ * lives here alongside the enums; `@channelwatch/scoring` re-exports it. It is
+ * the single source of truth the ResearchRecord importer validates each
+ * source's declared `tier` against.
+ */
+export const SOURCE_TYPE_TIERS: Record<SourceType, SourceTier> = {
+  OFFICIAL_REGULATORY_FILING: 1,
+  OFFICIAL_ACQUISITION_ANNOUNCEMENT: 1,
+  INVESTOR_PORTFOLIO_LISTING: 1,
+  DIRECT_CREATOR_CONFIRMATION: 1,
+  CORPORATE_REGISTRY_RECORD: 1,
+  REPUTABLE_BUSINESS_PUBLICATION: 2,
+  ESTABLISHED_INDUSTRY_PUBLICATION: 2,
+  NAMED_EXECUTIVE_INTERVIEW: 2,
+  ARCHIVED_CORPORATE_PAGE: 3,
+  TRADEMARK_TRANSFER: 3,
+  SHARED_LEGAL_DOCUMENTATION: 3,
+  TECHNICAL_INFRASTRUCTURE_LINKAGE: 3,
+  ANONYMOUS_TIP: 4,
+  BEHAVIORAL_CONTENT_CHANGE: 4,
+};
+
 // §20.1 Research Queue States (10 values).
 export const RESEARCH_STATUSES = [
   "UNRESEARCHED",
@@ -144,6 +192,37 @@ export const CONTROL_LEVELS = [
 ] as const;
 export type ControlLevel = (typeof CONTROL_LEVELS)[number];
 export const ControlLevelSchema = z.enum(CONTROL_LEVELS);
+
+// Relationship lifecycle status. The published `relationships` artifact carries
+// a lifecycle status distinct from the review-workflow `review_status` string
+// (docs/data-model.md). The ownership classifier reads only ACTIVE edges; ENDED
+// edges have been superseded, DISPUTED edges are contested, PENDING_REVIEW edges
+// are not yet published. Added for `packages/graph` (task-3 brief).
+export const RELATIONSHIP_STATUSES = ["ACTIVE", "ENDED", "DISPUTED", "PENDING_REVIEW"] as const;
+export type RelationshipStatus = (typeof RELATIONSHIP_STATUSES)[number];
+export const RelationshipStatusSchema = z.enum(RELATIONSHIP_STATUSES);
+
+// Machine-readable explanation codes attached to a computed classification
+// (§26.2). Every non-obvious ownership outcome carries one or more of these so
+// the label is always auditable ("why does this badge appear?"). The first two
+// are the §26.2 canonical example codes; the rest are emitted by the derivation
+// in `packages/graph` (task-3 brief). The final two are warning codes (not
+// classification drivers).
+export const EXPLANATION_CODES = [
+  // §26.2 canonical example.
+  "DIRECT_OWNER_CONFIRMED",
+  "OWNER_IS_PE_PORTFOLIO_COMPANY",
+  // Derivation-emitted.
+  "MULTIPLE_OWNER_CANDIDATES",
+  "OWNERSHIP_CYCLE_DETECTED",
+  "OWNERSHIP_RELATIONSHIP_DISPUTED",
+  "NO_OWNERSHIP_EVIDENCE",
+  // Warning codes (§9.4).
+  "OWNERSHIP_CHANGED_RECENTLY",
+  "RECORD_OUTDATED",
+] as const;
+export type ExplanationCode = (typeof EXPLANATION_CODES)[number];
+export const ExplanationCodeSchema = z.enum(EXPLANATION_CODES);
 
 // §6.5 Creator Involvement states, mapped to stable codes.
 export const CREATOR_STATUSES = [

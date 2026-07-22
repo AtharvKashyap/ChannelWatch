@@ -8,12 +8,18 @@ import {
   CLASSIFICATION_LABELS,
   BADGE_COLORS,
   SOURCE_TIERS,
+  SOURCE_TYPES,
   RESEARCH_STATUSES,
   CONTROL_LEVELS,
   CREATOR_STATUSES,
+  RELATIONSHIP_STATUSES,
+  EXPLANATION_CODES,
   EntityTypeSchema,
   RelationshipTypeSchema,
   BadgeColorSchema,
+  SourceTypeSchema,
+  RelationshipStatusSchema,
+  ExplanationCodeSchema,
 } from "../src/enums.js";
 
 describe("enums match SPEC lists exactly", () => {
@@ -119,6 +125,26 @@ describe("enums match SPEC lists exactly", () => {
     expect(SOURCE_TIERS).toEqual([1, 2, 3, 4]);
   });
 
+  it("SourceType (§14.1) — 14 evidence source types in weight order", () => {
+    expect(SOURCE_TYPES).toEqual([
+      "OFFICIAL_REGULATORY_FILING",
+      "OFFICIAL_ACQUISITION_ANNOUNCEMENT",
+      "INVESTOR_PORTFOLIO_LISTING",
+      "DIRECT_CREATOR_CONFIRMATION",
+      "CORPORATE_REGISTRY_RECORD",
+      "REPUTABLE_BUSINESS_PUBLICATION",
+      "ESTABLISHED_INDUSTRY_PUBLICATION",
+      "NAMED_EXECUTIVE_INTERVIEW",
+      "ARCHIVED_CORPORATE_PAGE",
+      "TRADEMARK_TRANSFER",
+      "SHARED_LEGAL_DOCUMENTATION",
+      "TECHNICAL_INFRASTRUCTURE_LINKAGE",
+      "ANONYMOUS_TIP",
+      "BEHAVIORAL_CONTENT_CHANGE",
+    ]);
+    expect(SOURCE_TYPES).toHaveLength(14);
+  });
+
   it("ResearchStatus (§20.1) — 10 values in order", () => {
     expect(RESEARCH_STATUSES).toEqual([
       "UNRESEARCHED",
@@ -133,6 +159,25 @@ describe("enums match SPEC lists exactly", () => {
       "ARCHIVED",
     ]);
     expect(RESEARCH_STATUSES).toHaveLength(10);
+  });
+
+  it("RelationshipStatus — 4 lifecycle states in order", () => {
+    expect(RELATIONSHIP_STATUSES).toEqual(["ACTIVE", "ENDED", "DISPUTED", "PENDING_REVIEW"]);
+    expect(RELATIONSHIP_STATUSES).toHaveLength(4);
+  });
+
+  it("ExplanationCode (§26.2) — canonical codes first, then derivation + warnings", () => {
+    expect(EXPLANATION_CODES).toEqual([
+      "DIRECT_OWNER_CONFIRMED",
+      "OWNER_IS_PE_PORTFOLIO_COMPANY",
+      "MULTIPLE_OWNER_CANDIDATES",
+      "OWNERSHIP_CYCLE_DETECTED",
+      "OWNERSHIP_RELATIONSHIP_DISPUTED",
+      "NO_OWNERSHIP_EVIDENCE",
+      "OWNERSHIP_CHANGED_RECENTLY",
+      "RECORD_OUTDATED",
+    ]);
+    expect(EXPLANATION_CODES).toHaveLength(8);
   });
 
   it("ControlLevel", () => {
@@ -166,5 +211,22 @@ describe("Zod enums accept/reject", () => {
 
   it("BadgeColorSchema rejects lowercase", () => {
     expect(() => BadgeColorSchema.parse("green")).toThrow();
+  });
+
+  it("SourceTypeSchema accepts members and rejects non-members", () => {
+    expect(SourceTypeSchema.parse("CORPORATE_REGISTRY_RECORD")).toBe("CORPORATE_REGISTRY_RECORD");
+    expect(() => SourceTypeSchema.parse("RUMOR")).toThrow();
+  });
+
+  it("RelationshipStatusSchema accepts members and rejects non-members", () => {
+    expect(RelationshipStatusSchema.parse("ACTIVE")).toBe("ACTIVE");
+    expect(() => RelationshipStatusSchema.parse("LIVE")).toThrow();
+  });
+
+  it("ExplanationCodeSchema accepts members and rejects non-members", () => {
+    expect(ExplanationCodeSchema.parse("OWNER_IS_PE_PORTFOLIO_COMPANY")).toBe(
+      "OWNER_IS_PE_PORTFOLIO_COMPANY",
+    );
+    expect(() => ExplanationCodeSchema.parse("BECAUSE_I_SAID_SO")).toThrow();
   });
 });

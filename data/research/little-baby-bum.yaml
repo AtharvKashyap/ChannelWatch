@@ -1,0 +1,246 @@
+# CHANNELWATCH research record — Little Baby Bum
+#
+# Pilot channel-ownership research record. DRAFT FOR HUMAN REVIEW — nothing here
+# is published without human verification (Spec §12.7). This is the flagship
+# multi-level PE-backed chain:
+#
+#   channel (Little Baby Bum)
+#     └─ OWNS ──────────────── Moonbug Entertainment Ltd.   (acquired 2018)
+#          └─ OWNS (control) ── Candle Media                 (acquired Moonbug 2021)
+#               └─ PORTFOLIO_COMPANY_OF ── Blackstone        (principal backer)
+#
+# Classification is COMPUTED by the importer, never asserted here. See
+# review.notes for the Blackstone entity-type nuance and open items.
+
+channel:
+  youtube_channel_id: UCKAqou7V9FAWXpZd9xtOg3Q
+  display_name: Little Baby Bum - Nursery Rhymes & Kids Songs
+  handle: "@LittleBabyBum"
+
+entities:
+  - slug: moonbug
+    canonical_name: Moonbug Entertainment
+    entity_type: COMPANY
+    legal_name: Moonbug Entertainment Limited
+    jurisdiction: GB
+    website: https://www.moonbug.com
+    aliases:
+      - Moonbug
+      - Moonbug Entertainment Ltd.
+  - slug: candle
+    canonical_name: Candle Media
+    entity_type: COMPANY
+    website: https://www.candlemedia.com
+    aliases:
+      - Candle
+  - slug: blackstone
+    # See review.notes: Blackstone Inc. is a diversified alternative asset
+    # manager. Classified PRIVATE_EQUITY_FIRM because the founding investment in
+    # Candle was led by Blackstone's Global Head of Private Equity and Blackstone
+    # is Candle's principal equity backer; the specific investing fund vehicle is
+    # not named in the sources.
+    canonical_name: Blackstone Inc.
+    entity_type: PRIVATE_EQUITY_FIRM
+    legal_name: Blackstone Inc.
+    jurisdiction: US-DE
+    website: https://www.blackstone.com
+    aliases:
+      - Blackstone
+      - The Blackstone Group
+
+relationships:
+  # 0: Moonbug owns the Little Baby Bum channel (its first franchise acquisition,
+  # 2018). Not a PE-implying edge.
+  - subject: moonbug
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2018-09
+    confidence: 0.9
+    status: ACTIVE
+  # 1: Candle Media acquired Moonbug (Nov 2021, ~$3B); Candle is Moonbug's
+  # controlling corporate parent. Not a PE-implying edge (both COMPANY).
+  - subject: candle
+    type: OWNS
+    object: moonbug
+    control_level: CONTROLLING
+    effective_from: 2021-11-04
+    confidence: 0.9
+    status: ACTIVE
+  # 2: Candle Media is a portfolio company of Blackstone (PE-implying: object is
+  # a PRIVATE_EQUITY_FIRM). Sources' own words: "backed by investment capital
+  # from Blackstone." Stake/control NOT stated by sources -> control_level UNKNOWN.
+  - subject: candle
+    type: PORTFOLIO_COMPANY_OF
+    object: blackstone
+    control_level: UNKNOWN
+    effective_from: "2021"
+    confidence: 0.75
+    status: ACTIVE
+
+sources:
+  - ref: blackstone_moonbug_pr
+    url: https://www.blackstone.com/news/press/moonbug-entertainment-to-be-acquired-by-next-generation-media-company-backed-by-kevin-mayer-tom-staggs-and-blackstone/
+    title: Moonbug Entertainment to Be Acquired by Next Generation Media Company Backed by Kevin Mayer, Tom Staggs and Blackstone
+    publisher: Blackstone
+    published_at: 2021-11-04
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    archive_url: https://web.archive.org/web/20260525061900/https://www.blackstone.com/news/press/moonbug-entertainment-to-be-acquired-by-next-generation-media-company-backed-by-kevin-mayer-tom-staggs-and-blackstone/
+    excerpt: >
+      Moonbug Entertainment Ltd., the digital-first, global children's
+      entertainment company, today announced it has entered into a definitive
+      agreement to be acquired by the recently formed media company run by
+      leading entertainment executives Kevin Mayer and Tom Staggs and backed by
+      investment capital from Blackstone. [...] Founded in 2018, Moonbug has
+      rapidly built [...] popular shows such as CoComelon, Blippi, Little Baby
+      Bum, and many others.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - claim: 0
+      - claim: 1
+      - claim: 2
+  - ref: blackstone_westbrook_pr
+    url: https://www.blackstone.com/news/press/westbrook-inc-announces-strategic-minority-investment-from-candle-media-next-generation-media-company-backed-by-kevin-mayer-tom-staggs-and-blackstone/
+    title: Westbrook Inc. Announces Strategic Minority Investment from Candle Media, Next-Generation Media Company Backed by Kevin Mayer, Tom Staggs, and Blackstone
+    publisher: Blackstone
+    published_at: 2022-01-04
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    archive_url: https://web.archive.org/web/20260329164256/https://www.blackstone.com/news/press/westbrook-inc-announces-strategic-minority-investment-from-candle-media-next-generation-media-company-backed-by-kevin-mayer-tom-staggs-and-blackstone/
+    excerpt: >
+      Candle Media ("Candle"), the next-generation media company run by leading
+      entertainment executives Kevin Mayer and Tom Staggs and backed by
+      investment capital from Blackstone, today announced a strategic minority
+      investment in Westbrook Inc.
+    supports:
+      - relationship: 2
+      - claim: 2
+  - ref: kidscreen_lbb
+    url: https://kidscreen.com/2018/12/19/little-baby-bum-owner-raises-us145-million/
+    title: Little Baby Bum owner raises US$145 million
+    publisher: Kidscreen
+    published_at: 2018-12-19
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      It plans to use the money to develop and distribute safe but fun content
+      for kids, following its recent IP acquisition of popular digital property
+      Little Baby Bum. Moonbug wants to acquire more kids media properties that
+      it can create, grow and distribute to build essential life skills for
+      children.
+    supports:
+      - relationship: 0
+      - claim: 0
+  - ref: thr_candle_moonbug
+    url: https://www.hollywoodreporter.com/business/business-news/miptv-2022-kevin-mayer-candle-media-deals-buying-moonbug-1235124766/
+    title: Candle Media's Kevin Mayer on Billion-Dollar Deals, the Future of Entertainment
+    publisher: The Hollywood Reporter
+    published_at: 2022-04-04
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >
+      Candle acquired [Moonbug] for a reported $3 billion in a deal in November
+      [...] the fast-growing Blackstone-backed media company he runs with Tom
+      Staggs.
+    supports:
+      - relationship: 1
+      - relationship: 2
+      - claim: 1
+
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: moonbug
+    effective_date: 2018-09
+    confidence_factors:
+      sourceQuality: 0.9
+      directness: 0.95
+      entityMatch: 0.95
+      recencyFactor: 0.85
+      corroborationFactor: 1.0
+      contradictionPenalty: 1.0
+  - predicate: OWNED_BY
+    subject: moonbug
+    object: candle
+    effective_date: 2021-11-04
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 0.95
+      entityMatch: 0.95
+      recencyFactor: 0.9
+      corroborationFactor: 1.0
+      contradictionPenalty: 1.0
+  - predicate: PORTFOLIO_COMPANY_OF
+    subject: candle
+    object: blackstone
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 0.7
+      entityMatch: 0.9
+      recencyFactor: 0.9
+      corroborationFactor: 1.0
+      contradictionPenalty: 1.0
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted — not yet human-reviewed (schema rejects
+  # an explicit null; absence signals "unreviewed").
+  last_reviewed_at: "2026-07-22"
+  notes: >
+    DRAFT — requires two-person human review (Spec §20.3: PE involvement +
+    named individuals).
+
+    CHAIN & CONFIDENCE. (0) Moonbug OWNS Little Baby Bum: HIGH. Moonbug's first
+    franchise acquisition; Kidscreen (T2) states the "recent IP acquisition of
+    ...Little Baby Bum," and Blackstone's own PR lists Little Baby Bum among
+    Moonbug's shows (T1). (1) Candle Media OWNS Moonbug: HIGH/CONFIRMED. Nov 4
+    2021 official announcement (T1) + THR (T2); deal reportedly ~$2.75-3B and
+    has closed. (2) Candle Media PORTFOLIO_COMPANY_OF Blackstone: MODERATE.
+    Two Blackstone T1 PRs describe Candle as "backed by investment capital from
+    Blackstone"; THR calls it "Blackstone-backed."
+
+    BLACKSTONE ENTITY-TYPE NUANCE (reviewer decision). Blackstone Inc. is a
+    diversified alternative asset manager, NOT solely a private equity firm.
+    It is classified here as PRIVATE_EQUITY_FIRM because (a) the founding Candle
+    investment was led by Blackstone's Global Head of Private Equity (Joe
+    Baratta, per the Westbrook PR) and (b) Blackstone is Candle's principal
+    equity backer. The actual investing VEHICLE is almost certainly a specific
+    Blackstone-managed fund that the sources do NOT name; if a fund is later
+    identified, consider modeling it as a FUND entity that Blackstone MANAGES,
+    with the FUND (not the parent) holding the Candle stake. Alternative honest
+    classification: INVESTMENT_FIRM — but that would not trigger the PE-label
+    gate and would suppress the PE_BACKED signal this chain is meant to surface.
+
+    RELATIONSHIP-TYPE / STAKE CAVEAT. Sources' verbatim characterization is
+    "backed by investment capital from Blackstone" / "Blackstone-backed." No
+    source I found states Blackstone's ownership percentage or a controlling
+    stake, so control_level and ownership_percentage are UNKNOWN. PORTFOLIO_
+    COMPANY_OF is used as the structural term for a company a PE firm has taken
+    an equity position in (founders "retain equity stakes" alongside Blackstone).
+    Reviewer to confirm PORTFOLIO_COMPANY_OF vs. downgrading to FUNDS if the
+    equity/portfolio characterization is judged unsupported.
+
+    DATE PRECISION. Moonbug's acquisition of Little Baby Bum is widely dated to
+    September 2018 (Wikipedia; Kidscreen Dec 2018 calls it "recent"); Crunchbase
+    lists 2018-10-11. Exact close date not pinned by a fetched T1/T2 source —
+    effective_from recorded as 2018-09 (approximate). Candle's formation and the
+    Blackstone backing are 2021; effective_from recorded as 2021 (year only).
+
+    ENTITY GAPS. Candle Media legal name and jurisdiction of incorporation not
+    verified (website candlemedia.com). Moonbug is a UK entity (Moonbug
+    Entertainment Limited); confirm registry number at review.
+
+    CONTEXT (not ownership-changing). By 2024 Candle reorganized and unified its
+    animation business under the Moonbug brand and pursued debt restructuring;
+    this does not alter the ownership chain above (Candle still owns Moonbug,
+    Blackstone still backs Candle) but the reviewer should re-verify currency.
+
+    SOURCES. T1: Blackstone press releases (Moonbug acquisition 2021-11-04;
+    Westbrook/Candle 2022-01-04) — both blocked to WebFetch by Cloudflare, so
+    archive_url (Wayback) is provided and excerpts were taken from the archived
+    copies. T2: Kidscreen (2018), The Hollywood Reporter (2022). Channel ID
+    UCKAqou7V9FAWXpZd9xtOg3Q extracted from the "externalId"/canonical
+    channel URL in the youtube.com/@LittleBabyBum page source.
