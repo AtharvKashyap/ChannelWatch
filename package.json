@@ -12,6 +12,7 @@
     "test": "turbo run test",
     "lint": "turbo run lint",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "typecheck": "turbo run typecheck",
     "db:migrate": "echo 'not implemented until M1' && exit 0",
     "db:seed": "echo 'not implemented until M1' && exit 0",

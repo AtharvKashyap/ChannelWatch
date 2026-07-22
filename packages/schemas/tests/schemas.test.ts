@@ -7,6 +7,7 @@ import {
   Entity,
   Relationship,
   Source,
+  Claim,
   ChannelLookupResponse,
 } from "../src/schemas.js";
 
@@ -123,6 +124,60 @@ describe("Source", () => {
 
   it("rejects a non-url", () => {
     expect(() => Source.parse({ id: "s", url: "not-a-url", tier: 1, status: "ACTIVE" })).toThrow();
+  });
+});
+
+describe("Claim (§7, §8.3)", () => {
+  it("parses a valid claim", () => {
+    const c = Claim.parse({
+      id: "claim-1",
+      statement: "Example Media LLC owns Example Channel.",
+      status: "PUBLISHED",
+      confidence: 0.85,
+      confidence_label: "HIGH",
+      source_ids: ["src-1"],
+      relationship_ids: ["rel-1"],
+    });
+    expect(c.status).toBe("PUBLISHED");
+    expect(c.confidence_label).toBe("HIGH");
+  });
+
+  it("rejects confidence outside 0–1", () => {
+    expect(() =>
+      Claim.parse({
+        id: "claim-1",
+        statement: "Example Media LLC owns Example Channel.",
+        status: "PUBLISHED",
+        confidence: 1.2,
+        confidence_label: "HIGH",
+        source_ids: ["src-1"],
+      }),
+    ).toThrow();
+  });
+
+  it("rejects an invalid status enum value", () => {
+    expect(() =>
+      Claim.parse({
+        id: "claim-1",
+        statement: "Example Media LLC owns Example Channel.",
+        status: "APPROVED",
+        confidence: 0.85,
+        confidence_label: "HIGH",
+        source_ids: ["src-1"],
+      }),
+    ).toThrow();
+  });
+
+  it("rejects a claim missing the statement (subject)", () => {
+    expect(() =>
+      Claim.parse({
+        id: "claim-1",
+        status: "PUBLISHED",
+        confidence: 0.85,
+        confidence_label: "HIGH",
+        source_ids: ["src-1"],
+      }),
+    ).toThrow();
   });
 });
 

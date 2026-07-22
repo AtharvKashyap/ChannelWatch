@@ -59,10 +59,10 @@ export type Relationship = z.infer<typeof Relationship>;
 /** An evidence source backing one or more claims (§7.1, §8.2). */
 export const Source = z.object({
   id: z.string().min(1),
-  url: z.string().url(),
+  url: z.url(),
   tier: SourceTierSchema,
   status: EvidenceStatusSchema,
-  archive_url: z.string().url().nullable().optional(),
+  archive_url: z.url().nullable().optional(),
   content_hash: z.string().nullable().optional(),
   retrieved_at: z.string().nullable().optional(),
   title: z.string().nullable().optional(),
@@ -83,8 +83,8 @@ export type Claim = z.infer<typeof Claim>;
 
 /** Owner/parent reference embedded in the lookup response. */
 export const EntityRef = z.object({
-  id: z.string(),
-  name: z.string(),
+  id: z.string().min(1),
+  name: z.string().min(1),
   type: EntityTypeSchema,
 });
 export type EntityRef = z.infer<typeof EntityRef>;
