@@ -54,7 +54,11 @@ const PANEL_STYLE = `
   .cw-fact { display: grid; grid-template-columns: 1fr; }
   .cw-fact dt { font-weight: 600; font-size: 11px; text-transform: uppercase; opacity: 0.7; }
   .cw-fact dd { margin: 0; }
-  .cw-panel__warnings h3, .cw-panel__correction h3 { margin: 12px 0 6px; font-size: 13px; }
+  .cw-panel__chain h3, .cw-panel__warnings h3, .cw-panel__correction h3 { margin: 12px 0 6px; font-size: 13px; }
+  .cw-chain { margin: 0 0 12px; padding-left: 18px; display: grid; gap: 6px; }
+  .cw-chain__hop { }
+  .cw-chain__name { display: block; font-weight: 600; }
+  .cw-chain__meta { display: block; font-size: 11px; opacity: 0.8; }
   .cw-panel__warnings ul { margin: 0; padding-left: 18px; }
   .cw-panel__reviewed { font-size: 11px; opacity: 0.7; margin: 4px 0; }
   .cw-panel__disclaimer { font-size: 11px; font-style: italic; opacity: 0.8; margin: 4px 0 8px; }

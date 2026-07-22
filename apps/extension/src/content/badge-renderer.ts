@@ -23,7 +23,7 @@
  * badge here.
  */
 import {
-  BADGE_LABELS,
+  badgeText,
   badgeAriaLabel,
   classificationToBadgeColor,
   type BadgeColor,
@@ -73,6 +73,29 @@ export function pageKindFromUrl(url: string): PageKind {
 export interface BadgeDecision {
   label: ClassificationLabel;
   color: BadgeColor;
+  /**
+   * The operative entity name appended to the badge for the name-suffixed labels
+   * (adjudicated rule): PE_BACKED → ultimate PE firm; CORPORATE_/NONPROFIT_OWNED
+   * → direct owner. Undefined for every other label (no name suffix). Full,
+   * untruncated — the copy module truncates it for the chip.
+   */
+  name?: string;
+}
+
+/**
+ * The operative entity name to show on the badge for `label`, per the
+ * adjudicated naming rule. Returns undefined when the label carries no name
+ * suffix, or when the relevant entity is absent.
+ */
+function operativeName(
+  payload: ResearchedChannelLookup,
+  label: ClassificationLabel,
+): string | undefined {
+  if (label === "PE_BACKED") return payload.ultimate_parent?.name ?? undefined;
+  if (label === "CORPORATE_OWNED" || label === "NONPROFIT_OWNED") {
+    return payload.direct_owner?.name ?? undefined;
+  }
+  return undefined;
 }
 
 /**
@@ -112,7 +135,7 @@ export function resolveBadgeDecision(
     });
   }
 
-  return { label, color };
+  return { label, color, name: operativeName(researched, label) };
 }
 
 /** The badge anchor for a page kind, or null on pages we don't badge. */
@@ -214,13 +237,12 @@ function buildHost(
   `;
   shadow.appendChild(style);
 
-  const label = BADGE_LABELS[decision.label];
   const badge = doc.createElement("button");
   badge.type = "button";
   badge.className = "cw-badge";
   badge.setAttribute("data-cw-color", decision.color);
-  badge.setAttribute("aria-label", badgeAriaLabel(decision.label));
-  badge.textContent = label;
+  badge.setAttribute("aria-label", badgeAriaLabel(decision.label, decision.name));
+  badge.textContent = badgeText(decision.label, decision.name);
 
   badge.addEventListener("click", (event) => {
     event.preventDefault();

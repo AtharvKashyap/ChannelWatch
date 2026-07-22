@@ -8,6 +8,7 @@ import {
   CREATOR_STATUS_TEXT,
   EXPLANATION_TEXT,
   PANEL_COPY,
+  CHAIN_COPY,
   CORRECTION_RECEIVED,
   evidenceCountText,
   type CorrectionSubmission,
@@ -98,6 +99,79 @@ describe("OwnershipPanel — display", () => {
     expect(text).toContain("Big Capital");
     expect(text).toContain(CREATOR_STATUS_TEXT.MINORITY_OWNER);
     expect(text).toContain(EXPLANATION_TEXT.OWNERSHIP_CHANGED_RECENTLY);
+  });
+
+  it("renders the ownership chain with full names, mechanism, percentage-or-not-disclosed, and dates", () => {
+    mount(
+      <OwnershipPanel
+        payload={researchedFixture({
+          classification: {
+            label: "PE_BACKED",
+            confidence: 0.9,
+            confidence_label: "CONFIRMED",
+            summary: "s",
+          },
+          badge_color: "ORANGE",
+          direct_owner: { id: "e1", name: "Moonbug Entertainment", type: "COMPANY" },
+          ultimate_parent: { id: "e3", name: "Blackstone Inc.", type: "PRIVATE_EQUITY_FIRM" },
+          ownership_chain: [
+            {
+              name: "Moonbug Entertainment",
+              type: "COMPANY",
+              relationship: "OWNS",
+              ownership_percentage: null,
+              control_level: "CONTROLLING",
+              effective_from: null,
+            },
+            {
+              name: "Candle Media",
+              type: "COMPANY",
+              relationship: "OWNS",
+              ownership_percentage: 75,
+              control_level: "CONTROLLING",
+              effective_from: "2021-11-04",
+            },
+            {
+              name: "Blackstone Inc.",
+              type: "PRIVATE_EQUITY_FIRM",
+              relationship: "PORTFOLIO_COMPANY_OF",
+              ownership_percentage: null,
+              control_level: "UNKNOWN",
+              effective_from: null,
+            },
+          ],
+        })}
+        onClose={() => {}}
+        onSubmitCorrection={noopSubmit}
+      />,
+    );
+    const text = container.textContent ?? "";
+    expect(text).toContain(CHAIN_COPY.heading);
+    // full names in the panel (not truncated)
+    expect(text).toContain("Moonbug Entertainment");
+    expect(text).toContain("Candle Media");
+    expect(text).toContain("Blackstone Inc.");
+    // mechanism words + stake handling
+    expect(text).toContain("portfolio company of");
+    expect(text).toContain("controlling stake");
+    expect(text).toContain("75% stake");
+    expect(text).toContain("stake not publicly disclosed");
+    // a date when present
+    expect(text).toContain("2021-11-04");
+    // an ordered list with one <li> per hop
+    expect(container.querySelectorAll("ol.cw-chain li")).toHaveLength(3);
+  });
+
+  it("omits the chain section when no ownership_chain is present", () => {
+    mount(
+      <OwnershipPanel
+        payload={researchedFixture({ ownership_chain: undefined })}
+        onClose={() => {}}
+        onSubmitCorrection={noopSubmit}
+      />,
+    );
+    expect(container.querySelector("ol.cw-chain")).toBeNull();
+    expect(container.textContent ?? "").not.toContain(CHAIN_COPY.heading);
   });
 
   it("does not render owner rows when owners are null", () => {

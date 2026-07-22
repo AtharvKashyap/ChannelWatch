@@ -96,6 +96,32 @@ describe.skipIf(!reachable)("public API endpoints (§17)", () => {
     expect(res.headers.get("RateLimit-Limit")).toBe("60");
   });
 
+  it("carries the additive 3-hop ownership_chain (Moonbug → Candle Media → Blackstone) for Little Baby Bum", async () => {
+    const app = createApp();
+    const res = await app.request(`/api/v1/channels/youtube/${LBB_YT_ID}`);
+    expect(res.status).toBe(200);
+    const payload = ChannelLookupPayload.parse(await res.json());
+    if (!payload.researched) throw new Error("expected researched payload");
+
+    // Chain, channel-owner upward: the direct owner (Moonbug), its corporate
+    // parent (Candle Media), and the ultimate PE backer (Blackstone).
+    const chain = payload.ownership_chain ?? [];
+    expect(chain.map((s) => s.name)).toEqual([
+      "Moonbug Entertainment",
+      "Candle Media",
+      "Blackstone Inc.",
+    ]);
+    // Blackstone is reached via a portfolio-company relationship; the sources
+    // disclose no percentage, so every hop's percentage is null (legal-safe).
+    expect(chain.map((s) => s.relationship)).toEqual(["OWNS", "OWNS", "PORTFOLIO_COMPANY_OF"]);
+    expect(chain.every((s) => s.ownership_percentage === null)).toBe(true);
+    expect(chain.at(-1)?.type).toBe("PRIVATE_EQUITY_FIRM");
+
+    // The direct owner carries a neutral, sourced mechanism phrase.
+    expect(payload.direct_owner?.name).toBe("Moonbug Entertainment");
+    expect(payload.direct_owner?.mechanism).toBe("controlling stake");
+  });
+
   it("GET /channels/youtube/:id returns a neutral UNRESEARCHED 200 for an unknown channel", async () => {
     const app = createApp();
     const res = await app.request("/api/v1/channels/youtube/UCaaaaaaaaaaaaaaaaaaaaaa");

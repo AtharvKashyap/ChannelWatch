@@ -130,6 +130,35 @@ export const EntityRef = z.object({
 });
 export type EntityRef = z.infer<typeof EntityRef>;
 
+/**
+ * One hop of the ownership chain surfaced on the lookup response, ordered
+ * channel-owner upward. ADDITIVE (M3): each step names the higher entity and
+ * carries the ownership MECHANISM sourced from the relationship data —
+ * relationship type, control level, and either a public percentage or null
+ * ("stake not publicly disclosed"). Percentage is shown only when non-null
+ * (legal-safe: never inferred). Dates are surfaced when present.
+ */
+export const OwnershipChainStep = z.object({
+  name: z.string().min(1),
+  type: EntityTypeSchema,
+  relationship: RelationshipTypeSchema,
+  ownership_percentage: z.number().min(0).max(100).nullable(),
+  control_level: ControlLevelSchema,
+  effective_from: z.string().nullable(),
+});
+export type OwnershipChainStep = z.infer<typeof OwnershipChainStep>;
+
+/**
+ * The lookup response's direct-owner reference: an `EntityRef` plus an OPTIONAL,
+ * ADDITIVE (M3) `mechanism` — a neutral, data-driven phrase for how the owner
+ * holds the channel (e.g. "acquired", "controlling stake"). Optional so the
+ * pristine §17.2 example (which has no mechanism) still round-trips 1:1.
+ */
+export const DirectOwnerRef = EntityRef.extend({
+  mechanism: z.string().optional(),
+});
+export type DirectOwnerRef = z.infer<typeof DirectOwnerRef>;
+
 /** Public channel-lookup API response, shape per SPEC §17.2. */
 export const ChannelLookupResponse = z.object({
   // §17.2 uses a placeholder ID ("UC123456789") that is not a canonical 24-char
@@ -142,7 +171,9 @@ export const ChannelLookupResponse = z.object({
     confidence_label: ConfidenceLabelSchema,
     summary: z.string(),
   }),
-  direct_owner: EntityRef.nullable(),
+  // ADDITIVE (M3): `mechanism` is an optional field on the direct owner; the
+  // §17.2 example omits it, so the canonical fixture still round-trips.
+  direct_owner: DirectOwnerRef.nullable(),
   ultimate_parent: EntityRef.nullable(),
   creator_status: z
     .object({
@@ -153,6 +184,10 @@ export const ChannelLookupResponse = z.object({
   last_reviewed_at: z.string().nullable(),
   evidence_count: z.number().int().nonnegative(),
   disputed: z.boolean(),
+  // ADDITIVE (M3): the ownership chain, channel-owner upward. Optional so the
+  // pristine §17.2 example (which itemizes no chain) still validates and
+  // round-trips unchanged; always populated by the live API assembler.
+  ownership_chain: z.array(OwnershipChainStep).optional(),
 });
 export type ChannelLookupResponse = z.infer<typeof ChannelLookupResponse>;
 

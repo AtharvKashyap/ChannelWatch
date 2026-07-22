@@ -21,6 +21,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   BADGE_LABELS,
+  CHAIN_COPY,
   CONFIDENCE_LABEL_TEXT,
   CREATOR_STATUS_TEXT,
   EXPLANATION_TEXT,
@@ -29,7 +30,10 @@ import {
   CORRECTION_RECEIVED,
   evidenceCountText,
   lastReviewedText,
+  ownershipMechanismText,
+  ownershipStakeText,
   type CorrectionSubmission,
+  type OwnershipChainStep,
   type ResearchedChannelLookup,
 } from "@channelwatch/schemas";
 import type { SubmitCorrectionResponse } from "../shared/messages.js";
@@ -148,6 +152,17 @@ export function OwnershipPanel({ payload, onClose, onSubmitCorrection }: Ownersh
         <Fact term={PANEL_COPY.evidenceLabel} value={evidenceCountText(payload.evidence_count)} />
       </dl>
 
+      {payload.ownership_chain && payload.ownership_chain.length > 0 && (
+        <div className="cw-panel__chain">
+          <h3>{CHAIN_COPY.heading}</h3>
+          <ol className="cw-chain">
+            {payload.ownership_chain.map((step, i) => (
+              <ChainHop key={`${step.name}-${i}`} step={step} />
+            ))}
+          </ol>
+        </div>
+      )}
+
       {payload.warnings.length > 0 && (
         <div className="cw-panel__warnings">
           <h3>{PANEL_COPY.warningsLabel}</h3>
@@ -207,6 +222,26 @@ export function OwnershipPanel({ payload, onClose, onSubmitCorrection }: Ownersh
         )}
       </form>
     </section>
+  );
+}
+
+/**
+ * One hop of the ownership chain: the FULL (untruncated) entity name, the
+ * neutral sourced mechanism, the stake (exact percentage when disclosed, else
+ * "stake not publicly disclosed"), and the effective-from date when present. All
+ * strings come from the reviewed copy module.
+ */
+function ChainHop({ step }: { step: OwnershipChainStep }) {
+  const mechanism = ownershipMechanismText(step.relationship, step.control_level);
+  const stake = ownershipStakeText(step.ownership_percentage);
+  return (
+    <li className="cw-chain__hop">
+      <span className="cw-chain__name">{step.name}</span>
+      <span className="cw-chain__meta">
+        {mechanism} · {stake}
+        {step.effective_from ? ` · ${CHAIN_COPY.effectiveFromPrefix} ${step.effective_from}` : ""}
+      </span>
+    </li>
   );
 }
 
