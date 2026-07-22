@@ -88,8 +88,8 @@ relationships:
     type: FORMERLY_OWNED_BY
     object: defy
     control_level: CONTROLLING
-    effective_from: "2011"
-    effective_to: "2018-11"
+    # effective_from omitted: sources say 2011 without a day (see notes)
+    # effective_to omitted: Defy shutdown reported November 2018 without a day (see notes)
     confidence: 0.7
     status: ENDED
 

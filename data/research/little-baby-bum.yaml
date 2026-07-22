@@ -55,7 +55,7 @@ relationships:
     type: OWNS
     object: channel
     control_level: CONTROLLING
-    effective_from: 2018-09
+    # effective_from omitted: sources say September 2018 without a day (see notes)
     confidence: 0.9
     status: ACTIVE
   # 1: Candle Media acquired Moonbug (Nov 2021, ~$3B); Candle is Moonbug's
@@ -74,7 +74,7 @@ relationships:
     type: PORTFOLIO_COMPANY_OF
     object: blackstone
     control_level: UNKNOWN
-    effective_from: "2021"
+    # effective_from omitted: sources date the Blackstone backing to 2021 without a day (see notes)
     confidence: 0.75
     status: ACTIVE
 
@@ -154,7 +154,7 @@ claims:
   - predicate: OWNED_BY
     subject: channel
     object: moonbug
-    effective_date: 2018-09
+    # effective_date omitted: month-precision only (see notes)
     confidence_factors:
       sourceQuality: 0.9
       directness: 0.95
