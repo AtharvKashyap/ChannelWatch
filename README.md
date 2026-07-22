@@ -18,9 +18,14 @@ launch prep.
 
 ## Quickstart
 
+Requires Node ≥ 20 and pnpm 9 (`brew install pnpm`, or use `npx pnpm@9` as a
+drop-in for every `pnpm` command below — no other environment setup needed).
+
 ```
 pnpm install
-docker compose up
+docker compose up -d postgres
+export DATABASE_URL='postgres://channelwatch:channelwatch@localhost:5432/channelwatch'
+pnpm db:migrate && pnpm import:research
 pnpm dev
 ```
 
