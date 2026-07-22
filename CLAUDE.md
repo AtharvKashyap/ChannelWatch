@@ -1,0 +1,90 @@
+# CHANNELWATCH
+
+Open-source browser extension + research platform showing YouTube viewers who owns,
+finances, or operates the channels they watch — evidence-first, human-reviewed,
+defamation-aware. See `docs/SPEC.md` for the full founding spec and
+`docs/plan.md` for the approved build plan. Once written, `docs/METHODOLOGY.md`
+and `MANIFESTO.md` are the project's constitution.
+
+## Non-negotiable project rules
+
+These are policy, not preference. Do not violate them even if a change "works":
+
+1. **Never present uncertain ownership as fact.** Every published claim traces to
+   inspectable sources. Tier 4 evidence (speculation, style changes, anonymous tips)
+   may create research leads, never published claims.
+2. **All user-facing ownership language comes from the reviewed copy module**
+   (`packages/schemas/src/copy.ts`) — never ad-hoc strings in components. Badge
+   labels are enum values, never free text.
+3. **Red badge ≠ private equity.** Red is reserved for data-quality/disclosure
+   disputes. PE-backed is orange. Badges describe structure, not misconduct.
+4. **Channels are identified by immutable YouTube channel ID** (`UC…`), never by
+   display name or handle alone. Handles and names change.
+5. **Privacy: the extension sends only channel ID + extension version.** No page
+   URLs, no video IDs unless required, no cookies, no user identity, no telemetry
+   by default. Never widen extension permissions without explicit discussion.
+6. **Every DB mutation writes an `audit_events` record** (who/what/when/why/evidence).
+   No silent edits to published records — corrections leave a visible trail.
+7. **LLMs draft, humans publish.** There is no code path that publishes a claim
+   without human review. Classification is *computed* from reviewed relationships
+   via `packages/graph`, never stored as unexplained truth.
+8. **Precision over recall.** A missed acquisition is acceptable; a false
+   accusation is not. When evidence is thin, the answer is "Unknown", not a guess.
+9. **Separate investment from ownership from editorial control.** They are
+   different relationship types in the graph and different words in the UI.
+
+## Stack
+
+TypeScript-only monorepo: pnpm workspaces + Turborepo.
+
+- `apps/extension` — Manifest V3, React + Vite. Content script: youtube-observer →
+  channel-resolver → badge-renderer → ownership-panel. Background SW: API client +
+  `chrome.storage` cache.
+- `apps/web` — Next.js. Public site (channel pages, methodology, corrections form)
+  plus authenticated `/review` console (claim queue, entity CRUD, audit viewer).
+- `services/api` — Hono + Drizzle ORM + PostgreSQL. Public read endpoints under
+  `/api/v1`, corrections POST, authed reviewer endpoints, rate limiting, audit
+  middleware.
+- `packages/schemas` — Zod schemas, enums (entity/relationship/claim/confidence
+  taxonomies), and the reviewed UI copy module. **Single source of truth** — API,
+  web, extension, and data importer all validate against these.
+- `packages/graph` — ownership traversal, ultimate-parent resolution,
+  classification derivation. Pure functions, heavily unit-tested.
+- `packages/scoring` — confidence formula, publication thresholds, explanation
+  codes. Pure functions, heavily unit-tested.
+- `data/research/` — one YAML file per researched channel (claims + sources +
+  excerpts), Zod-validated, imported to Postgres by script. PR review of these
+  files IS the research review workflow during the seed phase.
+
+## Commands
+
+```
+pnpm dev              # turbo dev across workspaces
+pnpm test             # vitest everywhere
+pnpm lint             # eslint + prettier check
+pnpm db:migrate       # drizzle migrations
+pnpm db:seed          # seed reference data
+pnpm import:research  # validate + import data/research/*.yaml
+docker compose up     # postgres + api + web for local dev
+```
+
+## Conventions
+
+- TDD for `packages/scoring`, `packages/graph`, and the extension channel-resolver —
+  these carry the correctness risk.
+- All YouTube DOM selectors live in `apps/extension/src/content/selectors.ts`;
+  selector-health tests run against stored page snapshots in `tests/selector_health/`.
+  The extension fails silently — it must never break YouTube.
+- Extension cache TTLs: confirmed 7d, recently-changed 6h, unknown 24h,
+  disputed 1h, API error 10m.
+- Confidence bands: ≥0.90 Confirmed, 0.75 High, 0.55 Moderate, 0.30 Low,
+  below = research lead only (not publishable). A public PE-backed label requires
+  one Tier 1 source or two independent Tier 2 sources + strong entity match.
+- Sensitive claims (hidden ownership, fraud, named individuals, political
+  influence) require two-person review before publication.
+
+## Status
+
+Pre-code. Approved milestones: M0 scaffold + constitution docs → M1 data core +
+5 pilot channels → M2 API + extension → M3 review console + 100-channel dataset +
+launch prep. Repo name is `channelwatch` (directory name is legacy and may be renamed).
