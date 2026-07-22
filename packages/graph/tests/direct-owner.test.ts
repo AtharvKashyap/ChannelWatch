@@ -61,3 +61,130 @@ describe("findDirectOwner", () => {
     expect(r.ambiguous).toBe(false);
   });
 });
+
+describe("findDirectOwner — owner-edge widening (ownership rules v2)", () => {
+  it("treats a CONTROLLING PARTIALLY_OWNS stake as ownership, with MAJORITY_STAKE_OWNER", () => {
+    const r = findDirectOwner(CHAN, [
+      rel({
+        type: "PARTIALLY_OWNS",
+        from_entity_id: "firm",
+        to_entity_id: CHAN,
+        control_level: "CONTROLLING",
+      }),
+    ]);
+    expect(r.ownerId).toBe("firm");
+    expect(r.edge?.type).toBe("PARTIALLY_OWNS");
+    expect(r.explanationCodes).toContain("MAJORITY_STAKE_OWNER");
+  });
+
+  it("treats a >50% PARTIALLY_OWNS stake as ownership even when control_level is UNKNOWN", () => {
+    const r = findDirectOwner(CHAN, [
+      rel({
+        type: "PARTIALLY_OWNS",
+        from_entity_id: "firm",
+        to_entity_id: CHAN,
+        control_level: "UNKNOWN",
+        ownership_percentage: 50.1,
+      }),
+    ]);
+    expect(r.ownerId).toBe("firm");
+    expect(r.explanationCodes).toContain("MAJORITY_STAKE_OWNER");
+  });
+
+  it("treats a majority INVESTED_IN stake as ownership", () => {
+    const r = findDirectOwner(CHAN, [
+      rel({
+        type: "INVESTED_IN",
+        from_entity_id: "firm",
+        to_entity_id: CHAN,
+        control_level: "CONTROLLING",
+      }),
+    ]);
+    expect(r.ownerId).toBe("firm");
+    expect(r.edge?.type).toBe("INVESTED_IN");
+    expect(r.explanationCodes).toContain("MAJORITY_STAKE_OWNER");
+  });
+
+  it(">50% boundary: exactly 50% does NOT qualify as ownership", () => {
+    const r = findDirectOwner(CHAN, [
+      rel({
+        type: "PARTIALLY_OWNS",
+        from_entity_id: "firm",
+        to_entity_id: CHAN,
+        control_level: "MINORITY",
+        ownership_percentage: 50,
+      }),
+    ]);
+    expect(r.ownerId).toBeNull();
+  });
+
+  it(">50% boundary: 50.1% DOES qualify as ownership", () => {
+    const r = findDirectOwner(CHAN, [
+      rel({
+        type: "PARTIALLY_OWNS",
+        from_entity_id: "firm",
+        to_entity_id: CHAN,
+        control_level: "MINORITY",
+        ownership_percentage: 50.1,
+      }),
+    ]);
+    expect(r.ownerId).toBe("firm");
+  });
+
+  it("a non-controlling, sub-majority INVESTED_IN edge is NOT an owner edge", () => {
+    const r = findDirectOwner(CHAN, [
+      rel({
+        type: "INVESTED_IN",
+        from_entity_id: "vc",
+        to_entity_id: CHAN,
+        control_level: "MINORITY",
+      }),
+    ]);
+    expect(r.ownerId).toBeNull();
+  });
+
+  it("prefers OWNS over a majority PARTIALLY_OWNS, and PARTIALLY_OWNS over INVESTED_IN", () => {
+    const r = findDirectOwner(CHAN, [
+      rel({
+        type: "INVESTED_IN",
+        from_entity_id: "i",
+        to_entity_id: CHAN,
+        control_level: "CONTROLLING",
+        confidence: 0.99,
+      }),
+      rel({
+        type: "PARTIALLY_OWNS",
+        from_entity_id: "p",
+        to_entity_id: CHAN,
+        control_level: "CONTROLLING",
+        confidence: 0.98,
+      }),
+      rel({ type: "OWNS", from_entity_id: "o", to_entity_id: CHAN, confidence: 0.5 }),
+    ]);
+    expect(r.ownerId).toBe("o");
+    // A bare OWNS win is a direct confirmation, not a majority-stake resolution.
+    expect(r.explanationCodes).toContain("DIRECT_OWNER_CONFIRMED");
+    expect(r.explanationCodes).not.toContain("MAJORITY_STAKE_OWNER");
+  });
+
+  it("PARTIALLY_OWNS beats INVESTED_IN when both are majority stakes", () => {
+    const r = findDirectOwner(CHAN, [
+      rel({
+        type: "INVESTED_IN",
+        from_entity_id: "i",
+        to_entity_id: CHAN,
+        control_level: "CONTROLLING",
+        confidence: 0.99,
+      }),
+      rel({
+        type: "PARTIALLY_OWNS",
+        from_entity_id: "p",
+        to_entity_id: CHAN,
+        control_level: "CONTROLLING",
+        confidence: 0.5,
+      }),
+    ]);
+    expect(r.ownerId).toBe("p");
+    expect(r.explanationCodes).toContain("MAJORITY_STAKE_OWNER");
+  });
+});

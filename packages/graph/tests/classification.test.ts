@@ -330,6 +330,296 @@ describe("deriveClassification — joint creator ownership (smosh case)", () => 
   });
 });
 
+describe("deriveClassification — majority-stake owner (ownership rules v2)", () => {
+  it("Veritasium-shaped: majority PARTIALLY_OWNS by an INVESTMENT_FIRM → CORPORATE_OWNED, not UNCLEAR", () => {
+    // Isolated fixture (no PE upward). Electrify holds a documented majority
+    // (CONTROLLING) stake; Muller retains a minority stake and hosts.
+    const entities = [
+      entity("firm", "INVESTMENT_FIRM", "Electrify"),
+      entity("muller", "CREATOR", "Derek Muller"),
+    ];
+    const relationships = [
+      rel({ type: "FOUNDED_BY", from_entity_id: CHAN, to_entity_id: "muller", confidence: 0.85 }),
+      rel({
+        type: "PARTIALLY_OWNS",
+        from_entity_id: "firm",
+        to_entity_id: CHAN,
+        control_level: "CONTROLLING",
+        confidence: 0.8,
+      }),
+      rel({
+        type: "PARTIALLY_OWNS",
+        from_entity_id: "muller",
+        to_entity_id: CHAN,
+        control_level: "MINORITY",
+        confidence: 0.6,
+      }),
+      rel({ type: "HOSTED_BY", from_entity_id: CHAN, to_entity_id: "muller", confidence: 0.9 }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("CORPORATE_OWNED");
+    expect(r.directOwner?.id).toBe("firm");
+    expect(r.explanationCodes).toContain("MAJORITY_STAKE_OWNER");
+  });
+
+  it("PE still wins: a majority-stake owner that is PE-backed upward → PE_BACKED", () => {
+    const entities = [
+      entity("firm", "INVESTMENT_FIRM", "Electrify"),
+      entity("pe", "PRIVATE_EQUITY_FIRM", "Capital D"),
+    ];
+    const relationships = [
+      rel({
+        type: "PARTIALLY_OWNS",
+        from_entity_id: "firm",
+        to_entity_id: CHAN,
+        control_level: "CONTROLLING",
+        confidence: 0.8,
+      }),
+      rel({
+        type: "PORTFOLIO_COMPANY_OF",
+        from_entity_id: "firm",
+        to_entity_id: "pe",
+        confidence: 0.7,
+      }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("PE_BACKED");
+    expect(r.ultimateParent?.id).toBe("pe");
+  });
+
+  it("minority-only stake is still NOT ownership → OWNERSHIP_UNCLEAR (dude-perfect shape)", () => {
+    const entities = [
+      entity("firm", "INVESTMENT_FIRM", "Highmount"),
+      entity("founders", "CREATOR", "Founders"),
+    ];
+    const relationships = [
+      rel({
+        type: "INVESTED_IN",
+        from_entity_id: "firm",
+        to_entity_id: CHAN,
+        control_level: "UNKNOWN",
+        confidence: 0.7,
+      }),
+      rel({ type: "FOUNDED_BY", from_entity_id: CHAN, to_entity_id: "founders", confidence: 0.8 }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("OWNERSHIP_UNCLEAR");
+    expect(r.explanationCodes).toContain("NO_OWNERSHIP_EVIDENCE");
+  });
+});
+
+describe("deriveClassification — creator-controlled company (ownership rules v2)", () => {
+  it("TLDR-shaped: company owner controlled by a creator via OWNS → CREATOR_OWNED + code", () => {
+    const entities = [
+      entity("co", "COMPANY", "THREE26 LTD"),
+      entity("creator", "CREATOR", "Jack Kelly"),
+    ];
+    const relationships = [
+      rel({
+        type: "OWNS",
+        from_entity_id: "co",
+        to_entity_id: CHAN,
+        control_level: "CONTROLLING",
+        confidence: 0.9,
+      }),
+      rel({ type: "FOUNDED_BY", from_entity_id: CHAN, to_entity_id: "creator", confidence: 0.85 }),
+      rel({
+        type: "OWNS",
+        from_entity_id: "creator",
+        to_entity_id: "co",
+        control_level: "CONTROLLING",
+        confidence: 0.9,
+      }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("CREATOR_OWNED");
+    expect(r.explanationCodes).toContain("CREATOR_CONTROLLED_COMPANY");
+    // The company remains the named direct owner (the panel names it).
+    expect(r.directOwner?.id).toBe("co");
+  });
+
+  it("creator controls the company via a >50% PARTIALLY_OWNS stake → CREATOR_OWNED", () => {
+    const entities = [
+      entity("co", "COMPANY", "Creator Co"),
+      entity("creator", "PERSON", "A Person"),
+    ];
+    const relationships = [
+      rel({ type: "OWNS", from_entity_id: "co", to_entity_id: CHAN, control_level: "CONTROLLING" }),
+      rel({
+        type: "PARTIALLY_OWNS",
+        from_entity_id: "creator",
+        to_entity_id: "co",
+        control_level: "MINORITY",
+        ownership_percentage: 60,
+      }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("CREATOR_OWNED");
+    expect(r.explanationCodes).toContain("CREATOR_CONTROLLED_COMPANY");
+  });
+
+  it("keeps the legacy FOUNDED_BY + controlling PARTIALLY_OWNS path", () => {
+    const entities = [
+      entity("llc", "COMPANY", "Creator LLC"),
+      entity("creator", "CREATOR", "Creator"),
+    ];
+    const relationships = [
+      rel({ type: "OWNS", from_entity_id: "llc", to_entity_id: CHAN }),
+      rel({ type: "FOUNDED_BY", from_entity_id: "llc", to_entity_id: "creator" }),
+      rel({
+        type: "PARTIALLY_OWNS",
+        from_entity_id: "creator",
+        to_entity_id: "llc",
+        control_level: "CONTROLLING",
+      }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("CREATOR_OWNED");
+    expect(r.explanationCodes).toContain("CREATOR_CONTROLLED_COMPANY");
+  });
+
+  it("a company owner merely FOUNDED_BY a creator (no controlling stake) is NOT creator-controlled", () => {
+    const entities = [
+      entity("co", "COMPANY", "Studio"),
+      entity("creator", "CREATOR", "Founder"),
+    ];
+    const relationships = [
+      rel({ type: "OWNS", from_entity_id: "co", to_entity_id: CHAN, control_level: "CONTROLLING" }),
+      rel({ type: "FOUNDED_BY", from_entity_id: "co", to_entity_id: "creator" }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("CORPORATE_OWNED");
+    expect(r.explanationCodes).not.toContain("CREATOR_CONTROLLED_COMPANY");
+  });
+});
+
+describe("deriveClassification — nonprofit owner (ownership rules v2)", () => {
+  it("vlogbrothers-shaped: NONPROFIT owner, creators not controlling → NONPROFIT_OWNED", () => {
+    const entities = [
+      entity("np", "NONPROFIT", "Complexly"),
+      entity("hank", "CREATOR", "Hank Green"),
+      entity("john", "CREATOR", "John Green"),
+    ];
+    const relationships = [
+      rel({
+        type: "OWNS",
+        from_entity_id: "np",
+        to_entity_id: CHAN,
+        control_level: "UNKNOWN",
+        confidence: 0.6,
+      }),
+      rel({ type: "FOUNDED_BY", from_entity_id: "np", to_entity_id: "hank", confidence: 0.85 }),
+      rel({ type: "FOUNDED_BY", from_entity_id: CHAN, to_entity_id: "hank", confidence: 0.9 }),
+      rel({ type: "FOUNDED_BY", from_entity_id: CHAN, to_entity_id: "john", confidence: 0.9 }),
+      rel({
+        type: "MANAGES",
+        from_entity_id: "hank",
+        to_entity_id: "np",
+        control_level: "MANAGEMENT",
+        confidence: 0.7,
+      }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("NONPROFIT_OWNED");
+    expect(r.directOwner?.id).toBe("np");
+  });
+
+  it("a creator-controlled NONPROFIT is CREATOR_OWNED, not NONPROFIT_OWNED", () => {
+    const entities = [
+      entity("np", "NONPROFIT", "Creator Foundation"),
+      entity("creator", "CREATOR", "Creator"),
+    ];
+    const relationships = [
+      rel({ type: "OWNS", from_entity_id: "np", to_entity_id: CHAN, control_level: "CONTROLLING" }),
+      rel({
+        type: "CONTROLS",
+        from_entity_id: "creator",
+        to_entity_id: "np",
+        control_level: "CONTROLLING",
+      }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("CREATOR_OWNED");
+    expect(r.explanationCodes).toContain("CREATOR_CONTROLLED_COMPANY");
+  });
+});
+
+describe("deriveClassification — ownership chain output (ownership rules v2)", () => {
+  it("LBB-shaped chain steps carry relationship type, null percentage, and control levels", () => {
+    const entities = [
+      entity("moonbug", "COMPANY", "Moonbug"),
+      entity("candle", "COMPANY", "Candle Media"),
+      entity("bx", "PRIVATE_EQUITY_FIRM", "Blackstone"),
+    ];
+    const relationships = [
+      rel({
+        type: "OWNS",
+        from_entity_id: "moonbug",
+        to_entity_id: CHAN,
+        control_level: "CONTROLLING",
+        confidence: 0.9,
+      }),
+      rel({
+        type: "OWNS",
+        from_entity_id: "candle",
+        to_entity_id: "moonbug",
+        control_level: "CONTROLLING",
+        confidence: 0.9,
+      }),
+      rel({
+        type: "PORTFOLIO_COMPANY_OF",
+        from_entity_id: "candle",
+        to_entity_id: "bx",
+        control_level: "UNKNOWN",
+        confidence: 0.8,
+      }),
+    ];
+    const r = deriveClassification({ channelId: CHAN, relationships, entities, asOf: ASOF });
+    expect(r.classification).toBe("PE_BACKED");
+    expect(r.ownershipChain.map((s) => s.relationshipType)).toEqual([
+      "OWNS",
+      "OWNS",
+      "PORTFOLIO_COMPANY_OF",
+    ]);
+    // Names resolved from entities input; entity ids are the upward node per step.
+    expect(r.ownershipChain.map((s) => s.entityId)).toEqual(["moonbug", "candle", "bx"]);
+    expect(r.ownershipChain.map((s) => s.name)).toEqual(["Moonbug", "Candle Media", "Blackstone"]);
+    expect(r.ownershipChain.map((s) => s.entityType)).toEqual([
+      "COMPANY",
+      "COMPANY",
+      "PRIVATE_EQUITY_FIRM",
+    ]);
+    expect(r.ownershipChain.every((s) => s.ownershipPercentage === null)).toBe(true);
+    expect(r.ownershipChain.map((s) => s.controlLevel)).toEqual([
+      "CONTROLLING",
+      "CONTROLLING",
+      "UNKNOWN",
+    ]);
+  });
+
+  it("carries ownership_percentage and effective_from when present", () => {
+    const entities = [entity("co", "COMPANY", "Co")];
+    const r = deriveClassification({
+      channelId: CHAN,
+      relationships: [
+        rel({
+          type: "PARTIALLY_OWNS",
+          from_entity_id: "co",
+          to_entity_id: CHAN,
+          control_level: "CONTROLLING",
+          ownership_percentage: 75,
+          effective_from: "2023-04-21",
+        }),
+      ],
+      entities,
+      asOf: ASOF,
+    });
+    expect(r.ownershipChain[0]?.ownershipPercentage).toBe(75);
+    expect(r.ownershipChain[0]?.effectiveFrom).toBe("2023-04-21");
+    expect(r.ownershipChain[0]?.relationshipType).toBe("PARTIALLY_OWNS");
+  });
+});
+
 describe("deriveClassification — cycle detection", () => {
   it("still classifies and reports OWNERSHIP_CYCLE_DETECTED", () => {
     const entities = [entity("pc", "COMPANY"), entity("mg", "COMPANY")];

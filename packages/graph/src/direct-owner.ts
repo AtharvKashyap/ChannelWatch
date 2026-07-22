@@ -1,19 +1,62 @@
 import type { ExplanationCode, Relationship, RelationshipType } from "@channelwatch/schemas";
 
 /**
- * Direct-owner resolution (task-3 brief). The direct owner of a channel is the
- * entity holding an active OWNS / ACQUIRED / CONTROLS edge into the channel.
+ * Direct-owner resolution (task-3 brief; ownership rules v2). The direct owner
+ * of a channel is the entity holding an active edge into the channel that
+ * expresses ownership. As of rules v2 that edge set is widened from the bare
+ * OWNS / ACQUIRED / CONTROLS trio to also include a PARTIALLY_OWNS or
+ * INVESTED_IN edge that is a *majority* stake — i.e. `control_level` is
+ * CONTROLLING OR `ownership_percentage` is strictly greater than 50. A
+ * documented majority stake IS ownership; UNCLEAR is reserved for genuinely
+ * undocumented cases. A minority / sub-majority PARTIALLY_OWNS or INVESTED_IN
+ * edge is NOT ownership (it may still drive EXTERNALLY_FUNDED downstream).
  */
 
-/** Edge types that can express direct ownership of a channel, most-authoritative first. */
+/**
+ * Edge types that can express direct ownership of a channel, most-authoritative
+ * first: OWNS > ACQUIRED > CONTROLS > PARTIALLY_OWNS > INVESTED_IN. The last two
+ * only count when the specific edge is a majority stake (see `isOwnerEdge`).
+ */
 const OWNER_PRECEDENCE: Record<string, number> = {
-  OWNS: 3,
-  ACQUIRED: 2,
-  CONTROLS: 1,
+  OWNS: 5,
+  ACQUIRED: 4,
+  CONTROLS: 3,
+  PARTIALLY_OWNS: 2,
+  INVESTED_IN: 1,
 };
+
+/** Types whose ownership only holds at a majority (controlling or >50%) stake. */
+const MAJORITY_STAKE_TYPES: ReadonlySet<RelationshipType> = new Set([
+  "PARTIALLY_OWNS",
+  "INVESTED_IN",
+]);
 
 function ownerPrecedence(type: RelationshipType): number {
   return OWNER_PRECEDENCE[type] ?? 0;
+}
+
+/**
+ * A stake is a *majority* stake when it is explicitly CONTROLLING or its
+ * disclosed `ownership_percentage` is strictly greater than 50. The `> 50`
+ * boundary is strict: exactly 50% does NOT qualify (precision over recall).
+ */
+function isMajorityStake(edge: Relationship): boolean {
+  return (
+    edge.control_level === "CONTROLLING" ||
+    (edge.ownership_percentage !== null &&
+      edge.ownership_percentage !== undefined &&
+      edge.ownership_percentage > 50)
+  );
+}
+
+/**
+ * Whether an edge expresses direct channel ownership. OWNS/ACQUIRED/CONTROLS
+ * always do; PARTIALLY_OWNS/INVESTED_IN do so only as a majority stake.
+ */
+function isOwnerEdge(edge: Relationship): boolean {
+  if (ownerPrecedence(edge.type) === 0) return false;
+  if (MAJORITY_STAKE_TYPES.has(edge.type)) return isMajorityStake(edge);
+  return true;
 }
 
 export interface DirectOwnerResult {
@@ -47,9 +90,7 @@ export interface DirectOwnerResult {
  * owner are not a tie.
  */
 export function findDirectOwner(channelId: string, activeEdges: Relationship[]): DirectOwnerResult {
-  const owning = activeEdges.filter(
-    (e) => e.to_entity_id === channelId && ownerPrecedence(e.type) > 0,
-  );
+  const owning = activeEdges.filter((e) => e.to_entity_id === channelId && isOwnerEdge(e));
   if (owning.length === 0) {
     return { ownerId: null, edge: null, ambiguous: false, tiedOwners: [], explanationCodes: [] };
   }
@@ -89,11 +130,18 @@ export function findDirectOwner(channelId: string, activeEdges: Relationship[]):
     };
   }
 
+  // A win on a widened PARTIALLY_OWNS/INVESTED_IN edge is a majority-stake
+  // resolution, flagged so the label stays auditable ("owner from a majority
+  // stake, not a bare OWNS edge").
+  const explanationCodes: ExplanationCode[] = MAJORITY_STAKE_TYPES.has(best.type)
+    ? ["DIRECT_OWNER_CONFIRMED", "MAJORITY_STAKE_OWNER"]
+    : ["DIRECT_OWNER_CONFIRMED"];
+
   return {
     ownerId: best.from_entity_id,
     edge: best,
     ambiguous: false,
     tiedOwners: [best],
-    explanationCodes: ["DIRECT_OWNER_CONFIRMED"],
+    explanationCodes,
   };
 }

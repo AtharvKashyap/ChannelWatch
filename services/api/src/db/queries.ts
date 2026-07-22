@@ -303,12 +303,18 @@ export async function getOwnership(db: Database, channel: ChannelRow) {
     classification: result.classification,
     direct_owner: result.directOwner,
     ultimate_parent: result.ultimateParent,
-    chain: result.chain.map((e) => ({
-      type: e.type,
-      from_entity_id: e.from_entity_id,
-      to_entity_id: e.to_entity_id,
-      control_level: e.control_level,
-      confidence: e.confidence,
+    // Ownership chain, channel-owner upward, each step carrying its mechanism
+    // (relationship type, percentage, control level, effective_from) and the
+    // resolved entity identity (ownership rules v2).
+    chain: result.ownershipChain.map((s) => ({
+      entity_id: s.entityId,
+      name: s.name ?? null,
+      entity_type: s.entityType,
+      relationship_type: s.relationshipType,
+      ownership_percentage: s.ownershipPercentage,
+      control_level: s.controlLevel,
+      effective_from: s.effectiveFrom,
+      confidence: s.confidence,
     })),
     relationships: subgraph,
   };
