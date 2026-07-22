@@ -23,6 +23,12 @@ export interface PeLabelSource {
  *   - two (or more) Tier 2 sources from independent (different) publishers.
  *
  * Tier 3 and Tier 4 sources never satisfy this rule on their own.
+ *
+ * Publisher strings are normalized (trimmed + lowercased) before the
+ * independence comparison, so "Forbes" and " forbes " count as the SAME
+ * publisher rather than two independent ones — closing a loophole where casing
+ * or whitespace differences would spuriously satisfy the two-independent-source
+ * rule.
  */
 export function canPublishPeLabel(sources: readonly PeLabelSource[]): boolean {
   if (sources.some((source) => source.tier === 1)) {
@@ -30,7 +36,9 @@ export function canPublishPeLabel(sources: readonly PeLabelSource[]): boolean {
   }
 
   const independentTier2Publishers = new Set(
-    sources.filter((source) => source.tier === 2).map((source) => source.publisher),
+    sources
+      .filter((source) => source.tier === 2)
+      .map((source) => source.publisher.trim().toLowerCase()),
   );
 
   return independentTier2Publishers.size >= 2;

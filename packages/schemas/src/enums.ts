@@ -139,6 +139,33 @@ export const SOURCE_TYPES = [
 export type SourceType = (typeof SOURCE_TYPES)[number];
 export const SourceTypeSchema = z.enum(SOURCE_TYPES);
 
+/**
+ * Maps each SourceType to its SourceTier (§7.1), grouped by the §14.1
+ * ordering: filings through registry records are Tier 1 (primary/direct),
+ * publications and named interviews are Tier 2, archived pages through
+ * technical infrastructure linkage are Tier 3, and tips/behavioral signals
+ * are Tier 4 (leads only). This is pure SourceType→SourceTier taxonomy, so it
+ * lives here alongside the enums; `@channelwatch/scoring` re-exports it. It is
+ * the single source of truth the ResearchRecord importer validates each
+ * source's declared `tier` against.
+ */
+export const SOURCE_TYPE_TIERS: Record<SourceType, SourceTier> = {
+  OFFICIAL_REGULATORY_FILING: 1,
+  OFFICIAL_ACQUISITION_ANNOUNCEMENT: 1,
+  INVESTOR_PORTFOLIO_LISTING: 1,
+  DIRECT_CREATOR_CONFIRMATION: 1,
+  CORPORATE_REGISTRY_RECORD: 1,
+  REPUTABLE_BUSINESS_PUBLICATION: 2,
+  ESTABLISHED_INDUSTRY_PUBLICATION: 2,
+  NAMED_EXECUTIVE_INTERVIEW: 2,
+  ARCHIVED_CORPORATE_PAGE: 3,
+  TRADEMARK_TRANSFER: 3,
+  SHARED_LEGAL_DOCUMENTATION: 3,
+  TECHNICAL_INFRASTRUCTURE_LINKAGE: 3,
+  ANONYMOUS_TIP: 4,
+  BEHAVIORAL_CONTENT_CHANGE: 4,
+};
+
 // §20.1 Research Queue States (10 values).
 export const RESEARCH_STATUSES = [
   "UNRESEARCHED",

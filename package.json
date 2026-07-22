@@ -16,7 +16,7 @@
     "typecheck": "turbo run typecheck",
     "db:migrate": "pnpm --filter @channelwatch/api db:migrate",
     "db:seed": "pnpm --filter @channelwatch/api db:seed",
-    "import:research": "echo 'not implemented until M1' && exit 0"
+    "import:research": "pnpm --filter @channelwatch/api import:research"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

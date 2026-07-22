@@ -77,4 +77,22 @@ describe("canPublishPeLabel (SPEC §14.3 PE-label rule)", () => {
       ]),
     ).toBe(true);
   });
+
+  it("normalizes publisher casing/whitespace: 'Forbes' and ' forbes ' are the same publisher", () => {
+    expect(
+      canPublishPeLabel([
+        { tier: 2, publisher: "Forbes" },
+        { tier: 2, publisher: " forbes " },
+      ]),
+    ).toBe(false);
+  });
+
+  it("still allows two genuinely independent Tier 2 publishers after normalization", () => {
+    expect(
+      canPublishPeLabel([
+        { tier: 2, publisher: " Forbes " },
+        { tier: 2, publisher: "BLOOMBERG" },
+      ]),
+    ).toBe(true);
+  });
 });
