@@ -118,6 +118,27 @@ export const SOURCE_TIERS = [1, 2, 3, 4] as const;
 export type SourceTier = (typeof SOURCE_TIERS)[number];
 export const SourceTierSchema = z.union([z.literal(1), z.literal(2), z.literal(3), z.literal(4)]);
 
+// §14.1 Evidence source types (14 values), ordered by descending suggested
+// weight. Backs the `EVIDENCE_WEIGHTS` record in @channelwatch/scoring.
+export const SOURCE_TYPES = [
+  "OFFICIAL_REGULATORY_FILING",
+  "OFFICIAL_ACQUISITION_ANNOUNCEMENT",
+  "INVESTOR_PORTFOLIO_LISTING",
+  "DIRECT_CREATOR_CONFIRMATION",
+  "CORPORATE_REGISTRY_RECORD",
+  "REPUTABLE_BUSINESS_PUBLICATION",
+  "ESTABLISHED_INDUSTRY_PUBLICATION",
+  "NAMED_EXECUTIVE_INTERVIEW",
+  "ARCHIVED_CORPORATE_PAGE",
+  "TRADEMARK_TRANSFER",
+  "SHARED_LEGAL_DOCUMENTATION",
+  "TECHNICAL_INFRASTRUCTURE_LINKAGE",
+  "ANONYMOUS_TIP",
+  "BEHAVIORAL_CONTENT_CHANGE",
+] as const;
+export type SourceType = (typeof SOURCE_TYPES)[number];
+export const SourceTypeSchema = z.enum(SOURCE_TYPES);
+
 // §20.1 Research Queue States (10 values).
 export const RESEARCH_STATUSES = [
   "UNRESEARCHED",

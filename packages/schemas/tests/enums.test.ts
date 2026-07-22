@@ -8,12 +8,14 @@ import {
   CLASSIFICATION_LABELS,
   BADGE_COLORS,
   SOURCE_TIERS,
+  SOURCE_TYPES,
   RESEARCH_STATUSES,
   CONTROL_LEVELS,
   CREATOR_STATUSES,
   EntityTypeSchema,
   RelationshipTypeSchema,
   BadgeColorSchema,
+  SourceTypeSchema,
 } from "../src/enums.js";
 
 describe("enums match SPEC lists exactly", () => {
@@ -119,6 +121,26 @@ describe("enums match SPEC lists exactly", () => {
     expect(SOURCE_TIERS).toEqual([1, 2, 3, 4]);
   });
 
+  it("SourceType (§14.1) — 14 evidence source types in weight order", () => {
+    expect(SOURCE_TYPES).toEqual([
+      "OFFICIAL_REGULATORY_FILING",
+      "OFFICIAL_ACQUISITION_ANNOUNCEMENT",
+      "INVESTOR_PORTFOLIO_LISTING",
+      "DIRECT_CREATOR_CONFIRMATION",
+      "CORPORATE_REGISTRY_RECORD",
+      "REPUTABLE_BUSINESS_PUBLICATION",
+      "ESTABLISHED_INDUSTRY_PUBLICATION",
+      "NAMED_EXECUTIVE_INTERVIEW",
+      "ARCHIVED_CORPORATE_PAGE",
+      "TRADEMARK_TRANSFER",
+      "SHARED_LEGAL_DOCUMENTATION",
+      "TECHNICAL_INFRASTRUCTURE_LINKAGE",
+      "ANONYMOUS_TIP",
+      "BEHAVIORAL_CONTENT_CHANGE",
+    ]);
+    expect(SOURCE_TYPES).toHaveLength(14);
+  });
+
   it("ResearchStatus (§20.1) — 10 values in order", () => {
     expect(RESEARCH_STATUSES).toEqual([
       "UNRESEARCHED",
@@ -166,5 +188,10 @@ describe("Zod enums accept/reject", () => {
 
   it("BadgeColorSchema rejects lowercase", () => {
     expect(() => BadgeColorSchema.parse("green")).toThrow();
+  });
+
+  it("SourceTypeSchema accepts members and rejects non-members", () => {
+    expect(SourceTypeSchema.parse("CORPORATE_REGISTRY_RECORD")).toBe("CORPORATE_REGISTRY_RECORD");
+    expect(() => SourceTypeSchema.parse("RUMOR")).toThrow();
   });
 });
