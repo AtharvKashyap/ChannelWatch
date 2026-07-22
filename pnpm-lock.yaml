@@ -30,6 +30,19 @@ importers:
         specifier: ^8.19.0
         version: 8.65.0(eslint@9.39.5)(typescript@5.9.3)
 
+  packages/graph:
+    dependencies:
+      '@channelwatch/schemas':
+        specifier: workspace:*
+        version: link:../schemas
+    devDependencies:
+      '@types/node':
+        specifier: ^20.17.9
+        version: 20.19.43
+      vitest:
+        specifier: 2.1.9
+        version: 2.1.9(@types/node@20.19.43)
+
   packages/schemas:
     dependencies:
       zod:

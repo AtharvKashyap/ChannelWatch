@@ -76,6 +76,29 @@ describe("Relationship (§15.3)", () => {
     expect(r.control_level).toBe("CONTROLLING");
   });
 
+  it("defaults status to ACTIVE when omitted and accepts an explicit status", () => {
+    const implicit = Relationship.parse({
+      type: "OWNS",
+      from_entity_id: "a",
+      to_entity_id: "b",
+      control_level: "CONTROLLING",
+      confidence: 0.9,
+      source_ids: [],
+    });
+    expect(implicit.status).toBe("ACTIVE");
+
+    const explicit = Relationship.parse({
+      type: "OWNS",
+      from_entity_id: "a",
+      to_entity_id: "b",
+      control_level: "CONTROLLING",
+      confidence: 0.9,
+      source_ids: [],
+      status: "DISPUTED",
+    });
+    expect(explicit.status).toBe("DISPUTED");
+  });
+
   it("accepts a numeric ownership percentage in range", () => {
     const r = Relationship.parse({
       type: "PARTIALLY_OWNS",

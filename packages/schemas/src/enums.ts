@@ -166,6 +166,37 @@ export const CONTROL_LEVELS = [
 export type ControlLevel = (typeof CONTROL_LEVELS)[number];
 export const ControlLevelSchema = z.enum(CONTROL_LEVELS);
 
+// Relationship lifecycle status. The published `relationships` artifact carries
+// a lifecycle status distinct from the review-workflow `review_status` string
+// (docs/data-model.md). The ownership classifier reads only ACTIVE edges; ENDED
+// edges have been superseded, DISPUTED edges are contested, PENDING_REVIEW edges
+// are not yet published. Added for `packages/graph` (task-3 brief).
+export const RELATIONSHIP_STATUSES = ["ACTIVE", "ENDED", "DISPUTED", "PENDING_REVIEW"] as const;
+export type RelationshipStatus = (typeof RELATIONSHIP_STATUSES)[number];
+export const RelationshipStatusSchema = z.enum(RELATIONSHIP_STATUSES);
+
+// Machine-readable explanation codes attached to a computed classification
+// (§26.2). Every non-obvious ownership outcome carries one or more of these so
+// the label is always auditable ("why does this badge appear?"). The first two
+// are the §26.2 canonical example codes; the rest are emitted by the derivation
+// in `packages/graph` (task-3 brief). The final two are warning codes (not
+// classification drivers).
+export const EXPLANATION_CODES = [
+  // §26.2 canonical example.
+  "DIRECT_OWNER_CONFIRMED",
+  "OWNER_IS_PE_PORTFOLIO_COMPANY",
+  // Derivation-emitted.
+  "MULTIPLE_OWNER_CANDIDATES",
+  "OWNERSHIP_CYCLE_DETECTED",
+  "OWNERSHIP_RELATIONSHIP_DISPUTED",
+  "NO_OWNERSHIP_EVIDENCE",
+  // Warning codes (§9.4).
+  "OWNERSHIP_CHANGED_RECENTLY",
+  "RECORD_OUTDATED",
+] as const;
+export type ExplanationCode = (typeof EXPLANATION_CODES)[number];
+export const ExplanationCodeSchema = z.enum(EXPLANATION_CODES);
+
 // §6.5 Creator Involvement states, mapped to stable codes.
 export const CREATOR_STATUSES = [
   "OWNER_OPERATOR",

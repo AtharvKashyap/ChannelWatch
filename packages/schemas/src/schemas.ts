@@ -9,6 +9,7 @@ import {
   ControlLevelSchema,
   CreatorStatusSchema,
   SourceTierSchema,
+  RelationshipStatusSchema,
 } from "./enums.js";
 
 /**
@@ -51,6 +52,12 @@ export const Relationship = z.object({
   control_level: ControlLevelSchema,
   confidence: z.number().min(0).max(1),
   source_ids: z.array(z.string()),
+  // Lifecycle status of the published edge. The ownership classifier
+  // (`packages/graph`) treats an edge as ACTIVE iff `status === "ACTIVE"` (and
+  // its time window is current). Distinct from `review_status`, the free-text
+  // review-workflow marker. Defaults to ACTIVE so existing callers that omit it
+  // keep the pre-status "published edge is live" semantics.
+  status: RelationshipStatusSchema.default("ACTIVE"),
   review_status: z.string().optional(),
   notes: z.string().optional(),
 });
