@@ -14,8 +14,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "turbo run typecheck",
-    "db:migrate": "echo 'not implemented until M1' && exit 0",
-    "db:seed": "echo 'not implemented until M1' && exit 0",
+    "db:migrate": "pnpm --filter @channelwatch/api db:migrate",
+    "db:seed": "pnpm --filter @channelwatch/api db:seed",
     "import:research": "echo 'not implemented until M1' && exit 0"
   },
   "devDependencies": {

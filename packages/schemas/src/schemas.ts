@@ -13,6 +13,14 @@ import {
 } from "./enums.js";
 
 /**
+ * An ISO 8601 date or date-time string. Used for the DATE / TIMESTAMPTZ columns
+ * that Drizzle rows surface as strings (see `services/api` mappers). Kept as a
+ * lenient string rather than a coerced Date so schema objects round-trip 1:1
+ * with database rows.
+ */
+const isoDateString = z.string().min(1);
+
+/**
  * Zod schemas for CHANNELWATCH data structures. Shapes track docs/SPEC.md
  * (notably §15.3 relationship properties and the §17.2 example response).
  */
@@ -52,13 +60,12 @@ export const Relationship = z.object({
   control_level: ControlLevelSchema,
   confidence: z.number().min(0).max(1),
   source_ids: z.array(z.string()),
-  // Lifecycle status of the published edge. The ownership classifier
-  // (`packages/graph`) treats an edge as ACTIVE iff `status === "ACTIVE"` (and
-  // its time window is current). Distinct from `review_status`, the free-text
-  // review-workflow marker. Defaults to ACTIVE so existing callers that omit it
-  // keep the pre-status "published edge is live" semantics.
+  // Lifecycle status of the published edge, 1:1 with the `relationships.status`
+  // column (SPEC §16). The ownership classifier (`packages/graph`) treats an
+  // edge as ACTIVE iff `status === "ACTIVE"` (and its time window is current).
+  // Defaults to ACTIVE so existing callers that omit it keep the pre-status
+  // "published edge is live" semantics.
   status: RelationshipStatusSchema.default("ACTIVE"),
-  review_status: z.string().optional(),
   notes: z.string().optional(),
 });
 export type Relationship = z.infer<typeof Relationship>;
@@ -76,15 +83,31 @@ export const Source = z.object({
 });
 export type Source = z.infer<typeof Source>;
 
-/** A discrete reviewed ownership claim (§7, §8.3). */
+/**
+ * A discrete reviewed ownership claim (§7, §8.3). Shape is 1:1 with the
+ * `claims` table (SPEC §16): a subject/predicate/object triple plus optional
+ * literal value, its review lifecycle (`claim_status`), effective window, and
+ * confidence. Evidence links live in the `claim_sources` join table, not here.
+ * `subject_type`/`object_type`/`predicate` are free TEXT in the DDL (no closed
+ * enum in the SPEC), so they are validated only as non-empty strings.
+ */
 export const Claim = z.object({
   id: z.string().min(1),
-  statement: z.string().min(1),
-  status: ClaimStatusSchema,
-  confidence: z.number().min(0).max(1),
-  confidence_label: ConfidenceLabelSchema,
-  source_ids: z.array(z.string()),
-  relationship_ids: z.array(z.string()).optional(),
+  subject_type: z.string().min(1),
+  subject_id: z.string().min(1),
+  predicate: z.string().min(1),
+  object_type: z.string().nullable().optional(),
+  object_id: z.string().nullable().optional(),
+  // JSONB literal payload for claims whose object is a scalar rather than an
+  // entity/channel reference. Any JSON value (or null).
+  literal_value: z.unknown().nullable().optional(),
+  confidence: z.number().min(0).max(1).nullable().optional(),
+  claim_status: ClaimStatusSchema,
+  effective_date: isoDateString.nullable().optional(),
+  expiration_date: isoDateString.nullable().optional(),
+  review_notes: z.string().nullable().optional(),
+  created_at: isoDateString.nullable().optional(),
+  updated_at: isoDateString.nullable().optional(),
 });
 export type Claim = z.infer<typeof Claim>;
 
