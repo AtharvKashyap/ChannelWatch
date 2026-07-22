@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   DEFAULT_SETTINGS,
   getSettings,
+  isValidApiBaseUrl,
   setSettings,
   type BadgeScope,
   type Settings,
@@ -16,11 +17,13 @@ import {
 export function Options() {
   const [settings, setLocalSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [loaded, setLoaded] = useState(false);
+  const [apiBaseUrlDraft, setApiBaseUrlDraft] = useState(DEFAULT_SETTINGS.apiBaseUrl);
 
   useEffect(() => {
     getSettings()
       .then((s) => {
         setLocalSettings(s);
+        setApiBaseUrlDraft(s.apiBaseUrl);
         setLoaded(true);
       })
       .catch(() => setLoaded(true));
@@ -31,6 +34,16 @@ export function Options() {
     setLocalSettings(next);
     void setSettings(patch);
   }
+
+  function updateApiBaseUrlDraft(value: string) {
+    setApiBaseUrlDraft(value);
+    // Only persist once it parses as a proper http(s) origin — junk stays in
+    // the input's local draft state instead of being written to
+    // chrome.storage.sync (and then handed to the background SW's fetch).
+    if (isValidApiBaseUrl(value)) update({ apiBaseUrl: value });
+  }
+
+  const apiBaseUrlIsValid = isValidApiBaseUrl(apiBaseUrlDraft);
 
   if (!loaded) return <p>Loading settings…</p>;
 
@@ -71,10 +84,16 @@ export function Options() {
         API base URL (dev):
         <input
           type="text"
-          value={settings.apiBaseUrl}
-          onChange={(e) => update({ apiBaseUrl: e.target.value })}
+          value={apiBaseUrlDraft}
+          aria-invalid={!apiBaseUrlIsValid}
+          onChange={(e) => updateApiBaseUrlDraft(e.target.value)}
         />
       </label>
+      {!apiBaseUrlIsValid && (
+        <p role="alert">
+          Must be a plain http:// or https:// origin (no path, query, or fragment).
+        </p>
+      )}
     </main>
   );
 }

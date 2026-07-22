@@ -1,4 +1,4 @@
-import { getCacheEntry, setCacheEntry } from "./cache.js";
+import { flushPendingWrites, getCacheEntry, setCacheEntry } from "./cache.js";
 import { fetchChannelLookup } from "./api-client.js";
 import { selectTtlMs } from "./ttl.js";
 import { getSettings } from "../shared/settings.js";
@@ -46,4 +46,11 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   // Signal to the extension messaging runtime that `sendResponse` will be
   // called asynchronously.
   return true;
+});
+
+// Best-effort attempt to persist any pending cache-recency (LRU) bumps before
+// Chrome tears the service worker down (see `cache.ts` flushPendingWrites for
+// why this is "best effort" rather than a hard guarantee).
+chrome.runtime.onSuspend.addListener(() => {
+  void flushPendingWrites();
 });

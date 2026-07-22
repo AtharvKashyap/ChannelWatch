@@ -3,13 +3,16 @@ import { installChromeMock } from "../mocks/chrome.js";
 import {
   CACHE_LRU_CAP,
   cacheSize,
+  flushPendingWrites,
   getCacheEntry,
+  resetRecencyStateForTests,
   setCacheEntry,
 } from "../../src/background/cache.js";
 import { researchedFixture } from "../fixtures.js";
 
 beforeEach(() => {
   installChromeMock();
+  resetRecencyStateForTests();
 });
 
 describe("cache TTL expiry", () => {
@@ -34,16 +37,37 @@ describe("cache TTL expiry", () => {
     expect(await getCacheEntry("UC_never")).toBeUndefined();
   });
 
-  it("bumps lastAccessedAt on a hit", async () => {
+  it("reflects the bumped lastAccessedAt on the entry returned from a hit", async () => {
     const payload = researchedFixture();
     await setCacheEntry("UC_touch", { kind: "success", payload }, 60_000, 1_000);
 
+    const entry = await getCacheEntry("UC_touch", 2_000);
+    expect(entry?.lastAccessedAt).toBe(2_000);
+  });
+
+  it("does NOT synchronously rewrite storage.local on a hit (batched recency writes)", async () => {
+    const payload = researchedFixture();
+    await setCacheEntry("UC_touch", { kind: "success", payload }, 60_000, 1_000);
+    const setCallsAfterWrite = (await installedLocalSetCallCount()) as number;
+
     await getCacheEntry("UC_touch", 2_000);
-    const store = (await installedLocalDump())["cw_channel_cache_v1"] as Record<
+
+    // A hit must not itself call chrome.storage.local.set — the recency bump
+    // is deferred (see cache.ts flushPendingWrites doc).
+    expect(await installedLocalSetCallCount()).toBe(setCallsAfterWrite);
+
+    const storeBeforeFlush = (await installedLocalDump())["cw_channel_cache_v1"] as Record<
       string,
       { lastAccessedAt: number }
     >;
-    expect(store["UC_touch"]?.lastAccessedAt).toBe(2_000);
+    expect(storeBeforeFlush["UC_touch"]?.lastAccessedAt).toBe(1_000);
+
+    await flushPendingWrites();
+    const storeAfterFlush = (await installedLocalDump())["cw_channel_cache_v1"] as Record<
+      string,
+      { lastAccessedAt: number }
+    >;
+    expect(storeAfterFlush["UC_touch"]?.lastAccessedAt).toBe(2_000);
   });
 });
 
@@ -78,4 +102,14 @@ async function installedLocalDump(): Promise<Record<string, unknown>> {
     globalThis as { chrome: { storage: { local: { get: () => Promise<unknown> } } } }
   ).chrome;
   return (await chromeGlobal.storage.local.get()) as Record<string, unknown>;
+}
+
+// Helper: how many times chrome.storage.local.set has been called so far.
+async function installedLocalSetCallCount(): Promise<number> {
+  const chromeGlobal = (
+    globalThis as unknown as {
+      chrome: { storage: { local: { set: { mock: { calls: unknown[] } } } } };
+    }
+  ).chrome;
+  return chromeGlobal.storage.local.set.mock.calls.length;
 }

@@ -51,6 +51,8 @@ export function installChromeMock(manifestVersion = "0.0.0") {
     ) => boolean | undefined
   > = [];
 
+  const suspendListeners: Array<() => void> = [];
+
   const chromeMock = {
     storage: { local, sync },
     runtime: {
@@ -60,10 +62,15 @@ export function installChromeMock(manifestVersion = "0.0.0") {
           messageListeners.push(listener);
         }),
       },
+      onSuspend: {
+        addListener: vi.fn((listener: () => void) => {
+          suspendListeners.push(listener);
+        }),
+      },
     },
   };
 
   (globalThis as { chrome?: unknown }).chrome = chromeMock;
 
-  return { chromeMock, local, sync, messageListeners };
+  return { chromeMock, local, sync, messageListeners, suspendListeners };
 }
