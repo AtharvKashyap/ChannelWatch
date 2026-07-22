@@ -1,0 +1,27 @@
+{
+  "youtube_channel_id": "UC123456789",
+  "display_name": "Example Channel",
+  "classification": {
+    "label": "PE_BACKED",
+    "confidence": 0.93,
+    "confidence_label": "CONFIRMED",
+    "summary": "Owned by Example Media, a portfolio company of Example Capital."
+  },
+  "direct_owner": {
+    "id": "entity-123",
+    "name": "Example Media LLC",
+    "type": "COMPANY"
+  },
+  "ultimate_parent": {
+    "id": "entity-456",
+    "name": "Example Capital Partners",
+    "type": "PRIVATE_EQUITY_FIRM"
+  },
+  "creator_status": {
+    "status": "REMAINS_HOST",
+    "ownership_stake": "UNKNOWN"
+  },
+  "last_reviewed_at": "2026-07-18T14:30:00Z",
+  "evidence_count": 4,
+  "disputed": false
+}

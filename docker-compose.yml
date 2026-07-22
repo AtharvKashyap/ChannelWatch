@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: channelwatch
+      POSTGRES_PASSWORD: channelwatch
+      POSTGRES_DB: channelwatch
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U channelwatch -d channelwatch"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # api:
+  #   build: ./services/api
+  #   env_file: .env
+  #   ports:
+  #     - "8787:8787"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   # enabled in M1
+
+  # web:
+  #   build: ./apps/web
+  #   env_file: .env
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - api
+  #   # enabled in M2
+
+volumes:
+  postgres_data:
