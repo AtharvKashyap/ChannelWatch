@@ -4,11 +4,14 @@ import {
   classificationSummary,
   classificationToBadgeColor,
   confidenceLabelFromScore,
+  ownershipMechanismText,
   EDITORIAL_DISCLAIMER,
   UNRESEARCHED_SUMMARY,
   type ChannelLookupPayload,
   type ClassificationLabel,
+  type DirectOwnerRef,
   type Entity,
+  type OwnershipChainStep,
   type Relationship,
   type ResearchStatus,
 } from "@channelwatch/schemas";
@@ -212,6 +215,9 @@ export async function assembleLookup(
   let confidence = result.confidence;
   let directOwner = result.directOwner;
   let ultimateParent = result.ultimateParent;
+  // The display chain, channel-owner upward (ADDITIVE, M3). Empty in the degraded
+  // fallback path below, where the live graph inputs are incomplete.
+  let ownershipChainSteps = result.ownershipChain;
   const noEvidence = result.explanationCodes.includes("NO_OWNERSHIP_EVIDENCE");
   const degraded = noEvidence || (skipped > 0 && result.classification === "OWNERSHIP_UNCLEAR");
   if (degraded && channel.publishedClassification) {
@@ -219,9 +225,37 @@ export async function assembleLookup(
     confidence = channel.classificationConfidence ? Number(channel.classificationConfidence) : 0;
     directOwner = null;
     ultimateParent = null;
+    ownershipChainSteps = [];
   }
 
   const sourceIds = await evidenceSourceIds(db, nodeIds);
+
+  // Response-shaped ownership chain: only hops whose entity name resolved (an
+  // unnamed hop cannot be displayed), each carrying its sourced mechanism.
+  const ownershipChain: OwnershipChainStep[] = ownershipChainSteps
+    .filter((s): s is typeof s & { name: string } => typeof s.name === "string" && s.name !== "")
+    .map((s) => ({
+      name: s.name,
+      type: s.entityType ?? "UNKNOWN_ENTITY",
+      relationship: s.relationshipType,
+      ownership_percentage: s.ownershipPercentage,
+      control_level: s.controlLevel,
+      effective_from: s.effectiveFrom,
+    }));
+
+  // The direct owner's mechanism is how it holds the CHANNEL — the first
+  // (channel-owning) hop of the live chain. Null owner → no mechanism.
+  const firstStep = ownershipChainSteps[0];
+  const directOwnerRef: DirectOwnerRef | null = directOwner
+    ? {
+        ...directOwner,
+        ...(firstStep && directOwner.id === firstStep.entityId
+          ? {
+              mechanism: ownershipMechanismText(firstStep.relationshipType, firstStep.controlLevel),
+            }
+          : {}),
+      }
+    : null;
 
   const summary = classificationSummary({
     label,
@@ -244,8 +278,9 @@ export async function assembleLookup(
     badge_color: classificationToBadgeColor(label),
     disclaimer: EDITORIAL_DISCLAIMER,
     warnings: result.warnings,
-    direct_owner: directOwner,
+    direct_owner: directOwnerRef,
     ultimate_parent: ultimateParent,
+    ownership_chain: ownershipChain,
     // Creator involvement is only asserted when explicitly modeled; the pilot
     // records do not carry a creator entity, so this is null rather than a guess.
     creator_status: null,
@@ -303,12 +338,18 @@ export async function getOwnership(db: Database, channel: ChannelRow) {
     classification: result.classification,
     direct_owner: result.directOwner,
     ultimate_parent: result.ultimateParent,
-    chain: result.chain.map((e) => ({
-      type: e.type,
-      from_entity_id: e.from_entity_id,
-      to_entity_id: e.to_entity_id,
-      control_level: e.control_level,
-      confidence: e.confidence,
+    // Ownership chain, channel-owner upward, each step carrying its mechanism
+    // (relationship type, percentage, control level, effective_from) and the
+    // resolved entity identity (ownership rules v2).
+    chain: result.ownershipChain.map((s) => ({
+      entity_id: s.entityId,
+      name: s.name ?? null,
+      entity_type: s.entityType,
+      relationship_type: s.relationshipType,
+      ownership_percentage: s.ownershipPercentage,
+      control_level: s.controlLevel,
+      effective_from: s.effectiveFrom,
+      confidence: s.confidence,
     })),
     relationships: subgraph,
   };

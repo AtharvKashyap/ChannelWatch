@@ -110,6 +110,7 @@ describe("enums match SPEC lists exactly", () => {
       "CREATOR_OWNED",
       "EXTERNALLY_FUNDED",
       "CORPORATE_OWNED",
+      "NONPROFIT_OWNED",
       "PE_BACKED",
       "OWNERSHIP_CHANGED",
       "OWNERSHIP_UNCLEAR",
@@ -172,13 +173,15 @@ describe("enums match SPEC lists exactly", () => {
       "OWNER_IS_PE_PORTFOLIO_COMPANY",
       "MULTIPLE_OWNER_CANDIDATES",
       "JOINTLY_CREATOR_OWNED",
+      "MAJORITY_STAKE_OWNER",
+      "CREATOR_CONTROLLED_COMPANY",
       "OWNERSHIP_CYCLE_DETECTED",
       "OWNERSHIP_RELATIONSHIP_DISPUTED",
       "NO_OWNERSHIP_EVIDENCE",
       "OWNERSHIP_CHANGED_RECENTLY",
       "RECORD_OUTDATED",
     ]);
-    expect(EXPLANATION_CODES).toHaveLength(9);
+    expect(EXPLANATION_CODES).toHaveLength(11);
   });
 
   it("ControlLevel", () => {

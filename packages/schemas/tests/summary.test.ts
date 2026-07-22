@@ -59,6 +59,23 @@ describe("classificationSummary (§23.1 safer language)", () => {
     expect(s).toContain("subsidiary of MegaCorp");
   });
 
+  it("describes nonprofit ownership, naming the nonprofit owner", () => {
+    const s = classificationSummary({
+      label: "NONPROFIT_OWNED",
+      channelName: "vlogbrothers",
+      directOwnerName: "Complexly",
+    });
+    expect(s).toContain("Complexly");
+    expect(s).toContain("vlogbrothers");
+    expect(s).toContain("nonprofit");
+  });
+
+  it("stays neutral for nonprofit ownership when the owner is unknown", () => {
+    const s = classificationSummary({ label: "NONPROFIT_OWNED", channelName: "Chan" });
+    expect(s).toContain("Chan");
+    expect(s).toContain("nonprofit");
+  });
+
   it("names the creator-owner when present", () => {
     expect(
       classificationSummary({

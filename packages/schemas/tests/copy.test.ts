@@ -16,6 +16,7 @@ describe("badge display text (§9.1)", () => {
     expect(BADGE_LABELS.CREATOR_OWNED).toBe("Creator-Owned");
     expect(BADGE_LABELS.EXTERNALLY_FUNDED).toBe("Externally Funded");
     expect(BADGE_LABELS.CORPORATE_OWNED).toBe("Corporate-Owned");
+    expect(BADGE_LABELS.NONPROFIT_OWNED).toBe("Nonprofit-Owned");
     expect(BADGE_LABELS.PE_BACKED).toBe("PE-Backed");
     expect(BADGE_LABELS.OWNERSHIP_CHANGED).toBe("Ownership Changed");
     expect(BADGE_LABELS.OWNERSHIP_UNCLEAR).toBe("Ownership Unclear");

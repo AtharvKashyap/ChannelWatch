@@ -8,6 +8,7 @@ describe("classificationToBadgeColor (§9.2)", () => {
     expect(classificationToBadgeColor("CREATOR_OWNED")).toBe("GREEN");
     expect(classificationToBadgeColor("EXTERNALLY_FUNDED")).toBe("BLUE");
     expect(classificationToBadgeColor("CORPORATE_OWNED")).toBe("PURPLE");
+    expect(classificationToBadgeColor("NONPROFIT_OWNED")).toBe("PURPLE");
     expect(classificationToBadgeColor("PE_BACKED")).toBe("ORANGE");
     expect(classificationToBadgeColor("DISPUTED")).toBe("RED");
     expect(classificationToBadgeColor("OWNERSHIP_CHANGED")).toBe("NEUTRAL");

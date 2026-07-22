@@ -1,8 +1,10 @@
 import type {
   ClassificationLabel,
   ConfidenceLabel,
+  ControlLevel,
   CreatorStatus,
   ExplanationCode,
+  RelationshipType,
 } from "./enums.js";
 
 /**
@@ -19,6 +21,7 @@ export const BADGE_LABELS: Record<ClassificationLabel, string> = {
   CREATOR_OWNED: "Creator-Owned",
   EXTERNALLY_FUNDED: "Externally Funded",
   CORPORATE_OWNED: "Corporate-Owned",
+  NONPROFIT_OWNED: "Nonprofit-Owned",
   PE_BACKED: "PE-Backed",
   OWNERSHIP_CHANGED: "Ownership Changed",
   OWNERSHIP_UNCLEAR: "Ownership Unclear",
@@ -62,6 +65,93 @@ export function portfolioCompanyOf(owner: string, sponsor: string): string {
  */
 export function undisclosedStake(creator: string): string {
   return `${creator} retains a stake, but the exact ownership percentage was not publicly disclosed.`;
+}
+
+/**
+ * Maximum length of an entity name rendered INSIDE a badge before it is
+ * truncated with an ellipsis (§9.1: the badge is a compact chip, not a label
+ * for a full legal name). The full, untruncated name is always shown in the
+ * ownership panel — truncation is a display concern of the badge only.
+ */
+export const BADGE_NAME_MAX_LENGTH = 24;
+
+/** Truncate a display name to `max` chars, replacing the overflow with "…". */
+export function truncateName(name: string, max: number = BADGE_NAME_MAX_LENGTH): string {
+  const trimmed = name.trim();
+  if (trimmed.length <= max) return trimmed;
+  return `${trimmed.slice(0, max - 1).trimEnd()}…`;
+}
+
+/**
+ * Classification labels whose badge appends the operative entity name (the
+ * adjudicated naming rule): PE_BACKED names the ultimate PE firm; CORPORATE_/
+ * NONPROFIT_OWNED name the direct owner. CREATOR_OWNED and every other label
+ * carry no name suffix.
+ */
+const NAME_SUFFIXED_LABELS: ReadonlySet<ClassificationLabel> = new Set([
+  "PE_BACKED",
+  "CORPORATE_OWNED",
+  "NONPROFIT_OWNED",
+]);
+
+/**
+ * Badge display text: the reviewed `BADGE_LABELS[label]`, optionally followed by
+ * the operative entity name for the name-suffixed labels (PE_BACKED,
+ * CORPORATE_OWNED, NONPROFIT_OWNED) as `${label} · ${name}`. The name is
+ * truncated to `BADGE_NAME_MAX_LENGTH` for the chip; the panel shows it in full.
+ * When no name applies (creator-owned, unclear, disputed, or no name resolved)
+ * this is exactly `BADGE_LABELS[label]`.
+ */
+export function badgeText(label: ClassificationLabel, name?: string | null): string {
+  const base = BADGE_LABELS[label];
+  if (name != null && name.trim() !== "" && NAME_SUFFIXED_LABELS.has(label)) {
+    return `${base} · ${truncateName(name)}`;
+  }
+  return base;
+}
+
+/**
+ * Neutral, data-driven mechanism phrase for one ownership-chain hop (§23.1
+ * safer language). Describes HOW the higher entity relates to the lower one,
+ * using only structural terms sourced from the relationship data — never loaded
+ * phrasing. `controlLevel` refines the stake edges (a controlling OWNS reads as
+ * a "controlling stake"; a majority PARTIALLY_OWNS/INVESTED_IN as a "majority
+ * investment"; otherwise a neutral "minority investment").
+ */
+export function ownershipMechanismText(
+  relationship: RelationshipType,
+  controlLevel: ControlLevel,
+): string {
+  switch (relationship) {
+    case "ACQUIRED":
+      return "acquired";
+    case "SUBSIDIARY_OF":
+      return "subsidiary of";
+    case "PORTFOLIO_COMPANY_OF":
+      return "portfolio company of";
+    case "CONTROLS":
+      return "controlling stake";
+    case "OWNS":
+      return controlLevel === "CONTROLLING" ? "controlling stake" : "ownership stake";
+    case "PARTIALLY_OWNS":
+    case "INVESTED_IN":
+      return controlLevel === "CONTROLLING" ? "majority investment" : "minority investment";
+    case "FUNDS":
+      return "minority investment";
+    default:
+      return "ownership stake";
+  }
+}
+
+/**
+ * Neutral text for an ownership stake size (§23.1): the exact percentage when
+ * publicly sourced (`ownership_percentage` non-null), otherwise the honest
+ * "stake not publicly disclosed" — never an assertion that the stake is
+ * controlling or that the creator lost control.
+ */
+export function ownershipStakeText(ownershipPercentage: number | null): string {
+  if (ownershipPercentage == null) return "stake not publicly disclosed";
+  return `${ownershipPercentage}% stake`;
 }
 
 /**
@@ -114,6 +204,11 @@ export function classificationSummary(input: ClassificationSummaryInput): string
       }
       if (owner !== null) return ownedBy(channelName, owner);
       return `Public records indicate that ${channelName} is owned by a corporate parent.`;
+    case "NONPROFIT_OWNED":
+      if (owner !== null) {
+        return `Public records indicate that ${owner}, a nonprofit organization, owns ${channelName}.`;
+      }
+      return `Public records indicate that ${channelName} is owned by a nonprofit organization.`;
     case "CREATOR_OWNED":
       if (owner !== null) return ownedBy(channelName, owner);
       return `Public records indicate that ${channelName} is owned by its creator.`;
@@ -160,6 +255,8 @@ export const EXPLANATION_TEXT: Record<ExplanationCode, string> = {
   OWNER_IS_PE_PORTFOLIO_COMPANY: "The owner is a private-equity portfolio company.",
   MULTIPLE_OWNER_CANDIDATES: "Public sources point to more than one possible owner.",
   JOINTLY_CREATOR_OWNED: "Public records indicate joint ownership with the creator.",
+  MAJORITY_STAKE_OWNER: "The owner is documented as holding a majority stake.",
+  CREATOR_CONTROLLED_COMPANY: "The owning company is controlled by its creator.",
   OWNERSHIP_CYCLE_DETECTED: "The ownership records reference each other in a loop.",
   OWNERSHIP_RELATIONSHIP_DISPUTED: "The ownership relationship is currently disputed.",
   NO_OWNERSHIP_EVIDENCE: "No public ownership evidence was found.",
@@ -217,11 +314,27 @@ export const PANEL_COPY = {
 /**
  * Accessible label for the badge control. Built here (not inline in the
  * renderer) so ALL user-facing copy stays in the reviewed module (CLAUDE.md
- * rule 2). Embeds the reviewed `BADGE_LABELS` text.
+ * rule 2). Embeds the reviewed `badgeText` — so a name-suffixed badge announces
+ * the operative entity name too (PE-Backed · Blackstone). The name, when given,
+ * is announced IN FULL (screen readers are not space-constrained like the chip).
  */
-export function badgeAriaLabel(label: ClassificationLabel): string {
-  return `Ownership: ${BADGE_LABELS[label]}. Open details.`;
+export function badgeAriaLabel(label: ClassificationLabel, name?: string | null): string {
+  const named =
+    name != null && name.trim() !== "" && NAME_SUFFIXED_LABELS.has(label)
+      ? `${BADGE_LABELS[label]} · ${name.trim()}`
+      : BADGE_LABELS[label];
+  return `Ownership: ${named}. Open details.`;
 }
+
+/**
+ * Static UI strings for the ownership-chain list in the panel (§18.3). Section
+ * heading + the "not disclosed" fallback live here, not inline in the component,
+ * so ALL user-facing copy stays in the single reviewed module (CLAUDE.md rule 2).
+ */
+export const CHAIN_COPY = {
+  heading: "Ownership chain",
+  effectiveFromPrefix: "since",
+} as const;
 
 /**
  * Static strings for the toolbar popup (SPEC §18.1). The popup shows no

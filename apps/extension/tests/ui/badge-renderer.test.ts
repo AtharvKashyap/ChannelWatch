@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { BADGE_LABELS, badgeAriaLabel } from "@channelwatch/schemas";
+import { BADGE_LABELS, badgeAriaLabel, badgeText } from "@channelwatch/schemas";
 import {
   BADGE_HOST_ID,
   pageKindFromUrl,
@@ -302,6 +302,138 @@ describe("renderBadge — insertion", () => {
     const badge = host!.shadowRoot!.querySelector<HTMLElement>("[data-cw-color]")!;
     badge.click();
     expect(onActivate).toHaveBeenCalledWith(payload);
+  });
+});
+
+describe("resolveBadgeDecision — operative entity name (adjudicated naming)", () => {
+  it("uses the ULTIMATE PE firm name for PE_BACKED", () => {
+    const d = resolveBadgeDecision(
+      ok(
+        researchedFixture({
+          classification: {
+            label: "PE_BACKED",
+            confidence: 0.95,
+            confidence_label: "CONFIRMED",
+            summary: "s",
+          },
+          badge_color: "ORANGE",
+          direct_owner: { id: "e1", name: "Moonbug Entertainment", type: "COMPANY" },
+          ultimate_parent: { id: "e2", name: "Blackstone", type: "PRIVATE_EQUITY_FIRM" },
+        }),
+      ),
+      settings(),
+    );
+    expect(d).toEqual({ label: "PE_BACKED", color: "ORANGE", name: "Blackstone" });
+  });
+
+  it("uses the DIRECT owner name for CORPORATE_OWNED and NONPROFIT_OWNED", () => {
+    const corp = resolveBadgeDecision(
+      ok(
+        researchedFixture({
+          classification: {
+            label: "CORPORATE_OWNED",
+            confidence: 0.9,
+            confidence_label: "CONFIRMED",
+            summary: "s",
+          },
+          badge_color: "PURPLE",
+          direct_owner: { id: "e1", name: "MegaCorp", type: "COMPANY" },
+        }),
+      ),
+      settings(),
+    );
+    expect(corp?.name).toBe("MegaCorp");
+
+    const np = resolveBadgeDecision(
+      ok(
+        researchedFixture({
+          classification: {
+            label: "NONPROFIT_OWNED",
+            confidence: 0.9,
+            confidence_label: "CONFIRMED",
+            summary: "s",
+          },
+          badge_color: "PURPLE",
+          direct_owner: { id: "e1", name: "Complexly", type: "NONPROFIT" },
+        }),
+      ),
+      settings(),
+    );
+    expect(np?.name).toBe("Complexly");
+  });
+
+  it("carries no name for CREATOR_OWNED even when an owner is present", () => {
+    const d = resolveBadgeDecision(
+      ok(
+        researchedFixture({
+          classification: {
+            label: "CREATOR_OWNED",
+            confidence: 0.9,
+            confidence_label: "CONFIRMED",
+            summary: "s",
+          },
+          badge_color: "GREEN",
+          direct_owner: { id: "e1", name: "Jane Creator", type: "PERSON" },
+        }),
+      ),
+      settings(),
+    );
+    expect(d?.name).toBeUndefined();
+  });
+});
+
+describe("renderBadge — named badge text", () => {
+  it("renders '${label} · ${name}' for a PE_BACKED channel with a PE parent", () => {
+    const doc = watchDoc();
+    const host = renderBadge({
+      doc,
+      url: WATCH_URL,
+      response: ok(
+        researchedFixture({
+          classification: {
+            label: "PE_BACKED",
+            confidence: 0.95,
+            confidence_label: "CONFIRMED",
+            summary: "s",
+          },
+          badge_color: "ORANGE",
+          direct_owner: { id: "e1", name: "Moonbug Entertainment", type: "COMPANY" },
+          ultimate_parent: { id: "e2", name: "Blackstone", type: "PRIVATE_EQUITY_FIRM" },
+        }),
+      ),
+      settings: settings(),
+    });
+    const badge = host!.shadowRoot!.querySelector("[data-cw-color]")!;
+    expect(badge.textContent).toBe(badgeText("PE_BACKED", "Blackstone"));
+    expect(badge.textContent).toBe("PE-Backed · Blackstone");
+    expect(badge.getAttribute("aria-label")).toBe(badgeAriaLabel("PE_BACKED", "Blackstone"));
+  });
+
+  it("truncates a long owner name inside the chip (full name lives in the panel)", () => {
+    const long = "The Very Long Holding Company International Group";
+    const doc = watchDoc();
+    const host = renderBadge({
+      doc,
+      url: WATCH_URL,
+      response: ok(
+        researchedFixture({
+          classification: {
+            label: "CORPORATE_OWNED",
+            confidence: 0.95,
+            confidence_label: "CONFIRMED",
+            summary: "s",
+          },
+          badge_color: "PURPLE",
+          direct_owner: { id: "e1", name: long, type: "COMPANY" },
+        }),
+      ),
+      settings: settings(),
+    });
+    const badge = host!.shadowRoot!.querySelector("[data-cw-color]")!;
+    expect(badge.textContent).toBe(badgeText("CORPORATE_OWNED", long));
+    expect(badge.textContent!.endsWith("…")).toBe(true);
+    // the aria-label announces the FULL name (screen readers aren't chip-width limited)
+    expect(badge.getAttribute("aria-label")).toContain(long);
   });
 });
 

@@ -235,4 +235,40 @@ describe("ChannelLookupResponse (§17.2)", () => {
     const parsed = ChannelLookupResponse.parse(fixture);
     expect(parsed).toEqual(fixture);
   });
+
+  it("additive ownership_chain is optional (the §17.2 example omits it)", () => {
+    const parsed = ChannelLookupResponse.parse(fixture);
+    expect(parsed.ownership_chain).toBeUndefined();
+  });
+
+  it("parses an additive ownership_chain and direct_owner.mechanism when present", () => {
+    const withChain = {
+      ...fixture,
+      direct_owner: { ...fixture.direct_owner, mechanism: "acquired" },
+      ownership_chain: [
+        {
+          name: "Moonbug Entertainment",
+          type: "COMPANY",
+          relationship: "OWNS",
+          ownership_percentage: null,
+          control_level: "CONTROLLING",
+          effective_from: null,
+        },
+        {
+          name: "Blackstone",
+          type: "PRIVATE_EQUITY_FIRM",
+          relationship: "PORTFOLIO_COMPANY_OF",
+          ownership_percentage: null,
+          control_level: "UNKNOWN",
+          effective_from: "2021-11-04",
+        },
+      ],
+    };
+    const parsed = ChannelLookupResponse.parse(withChain);
+    expect(parsed.direct_owner?.mechanism).toBe("acquired");
+    expect(parsed.ownership_chain).toHaveLength(2);
+    expect(parsed.ownership_chain?.[0]?.name).toBe("Moonbug Entertainment");
+    expect(parsed.ownership_chain?.[1]?.relationship).toBe("PORTFOLIO_COMPANY_OF");
+    expect(parsed.ownership_chain?.[1]?.ownership_percentage).toBeNull();
+  });
 });

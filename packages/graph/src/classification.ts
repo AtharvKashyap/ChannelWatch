@@ -18,22 +18,37 @@ import { findUltimateParent } from "./ultimate-parent.js";
  * match, the answer is OWNERSHIP_UNCLEAR, never a guess.
  *
  * NOTE on the classification label set (schemas `CLASSIFICATION_LABELS`):
- * `INDEPENDENT` and `OWNERSHIP_CHANGED` exist for API/UI use but this M1
+ * `INDEPENDENT` and `OWNERSHIP_CHANGED` exist for API/UI use but this
  * derivation NEVER emits them. Recent ownership change surfaces as the
  * OWNERSHIP_CHANGED_RECENTLY *warning*, not as a classification. The labels this
- * function can return are: PE_BACKED, CORPORATE_OWNED, EXTERNALLY_FUNDED,
- * CREATOR_OWNED, DISPUTED, OWNERSHIP_UNCLEAR.
+ * function can return are: PE_BACKED, CORPORATE_OWNED, NONPROFIT_OWNED,
+ * EXTERNALLY_FUNDED, CREATOR_OWNED, DISPUTED, OWNERSHIP_UNCLEAR.
  */
 
 const PE_ENTITY_TYPES: ReadonlySet<EntityType> = new Set(["PRIVATE_EQUITY_FIRM"]);
+// Corporate/institutional owner types (ownership rules v2). Beyond the for-profit
+// operating-company kinds, a documented majority owner that is an investment
+// firm / VC firm / fund is a real, non-creator commercial owner → CORPORATE_OWNED
+// (UNCLEAR is reserved for genuinely undocumented cases). PRIVATE_EQUITY_FIRM is
+// deliberately excluded (it drives PE_BACKED); NONPROFIT gets its own label; and
+// TRUST / UNKNOWN_ENTITY are left out because their nature is genuinely
+// undetermined (they stay OWNERSHIP_UNCLEAR rather than being guessed corporate).
 const CORPORATE_OWNER_TYPES: ReadonlySet<EntityType> = new Set([
   "COMPANY",
   "MEDIA_NETWORK",
   "SUBSIDIARY",
   "BRAND",
+  "INVESTMENT_FIRM",
+  "VENTURE_CAPITAL_FIRM",
+  "FUND",
 ]);
+const NONPROFIT_OWNER_TYPES: ReadonlySet<EntityType> = new Set(["NONPROFIT"]);
 const CREATOR_OWNER_TYPES: ReadonlySet<EntityType> = new Set(["CREATOR", "PERSON"]);
 const CHANNEL_OWNING_TYPES: ReadonlySet<string> = new Set(["OWNS", "ACQUIRED", "CONTROLS"]);
+// Edge types by which a CREATOR/PERSON can control a company/nonprofit that owns
+// the channel (creator-controlled-company rule). Each still requires a majority
+// stake (CONTROLLING or >50%), except CONTROLS which is controlling by meaning.
+const CREATOR_CONTROL_TYPES: ReadonlySet<string> = new Set(["CONTROLS", "OWNS", "PARTIALLY_OWNS"]);
 
 export interface DeriveClassificationInput {
   channelId: string;
@@ -43,6 +58,23 @@ export interface DeriveClassificationInput {
   asOf: Date;
   /** Optional last-reviewed timestamp used only for the RECORD_OUTDATED warning. */
   lastReviewedAt?: Date | string | null;
+}
+
+/**
+ * One step of the ownership chain, channel-owner upward, enriched with the
+ * mechanism of ownership and the resolved entity identity (ownership rules v2).
+ * `entityId` is the higher (parent/owner) node the step connects to; `name` and
+ * `entityType` are resolved from the `entities` input (null when not resolvable).
+ */
+export interface OwnershipChainStep {
+  entityId: string;
+  name?: string;
+  entityType: EntityType | null;
+  relationshipType: Relationship["type"];
+  ownershipPercentage: number | null;
+  controlLevel: Relationship["control_level"];
+  effectiveFrom: string | null;
+  confidence: number;
 }
 
 export interface ClassificationResult {
@@ -62,6 +94,14 @@ export interface ClassificationResult {
   ultimateParent: EntityRef | null;
   /** Load-bearing edges from the channel to the ultimate parent (owning edge first). */
   chain: Relationship[];
+  /**
+   * The same load-bearing chain as `chain`, ordered channel-owner upward, with
+   * each step carrying its ownership mechanism (relationship type, percentage,
+   * control level, effective_from, confidence) and the resolved entity identity
+   * (id, name, type). Empty when there is no resolvable owner. `chain` remains
+   * the raw edge list for existing consumers; this is the display-oriented view.
+   */
+  ownershipChain: OwnershipChainStep[];
   /** min(confidence) over the load-bearing edges; 0 when there are none. */
   confidence: number;
   explanationCodes: ExplanationCode[];
@@ -100,6 +140,28 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
   };
   const refsOf = (ids: string[]): EntityRef[] =>
     ids.map(refOf).filter((r): r is EntityRef => r !== null);
+
+  // Enrich the load-bearing edge chain into display steps: the "up" node of each
+  // edge (parent for SUBSIDIARY_OF/PORTFOLIO_COMPANY_OF, owner otherwise) with
+  // its resolved identity and the ownership mechanism carried on the edge.
+  const buildChain = (edges: Relationship[]): OwnershipChainStep[] =>
+    edges.map((edge) => {
+      const upId =
+        edge.type === "SUBSIDIARY_OF" || edge.type === "PORTFOLIO_COMPANY_OF"
+          ? edge.to_entity_id
+          : edge.from_entity_id;
+      const e = entityMap.get(upId);
+      return {
+        entityId: upId,
+        name: e?.name,
+        entityType: e?.type ?? null,
+        relationshipType: edge.type,
+        ownershipPercentage: edge.ownership_percentage ?? null,
+        controlLevel: edge.control_level,
+        effectiveFrom: edge.effective_from ?? null,
+        confidence: edge.confidence,
+      };
+    });
 
   const { activeEdges } = buildOwnershipGraph(relationships, asOf);
   const direct = findDirectOwner(channelId, activeEdges);
@@ -145,6 +207,7 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
       directOwners: direct.ownerId !== null ? refsOf([direct.ownerId]) : [],
       ultimateParent: refOf(ultimateParentId),
       chain,
+      ownershipChain: buildChain(chain),
       confidence: minConfidence([...chain, ...disputedLoadBearing]),
       explanationCodes: ["OWNERSHIP_RELATIONSHIP_DISPUTED"],
       warnings: buildWarnings(chain, input.lastReviewedAt, asOf),
@@ -175,6 +238,7 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
         // Co-ownership has no single ultimate parent; each creator is a leaf.
         ultimateParent: null,
         chain: jointChain,
+        ownershipChain: buildChain(jointChain),
         confidence: minConfidence(jointChain),
         explanationCodes: ["JOINTLY_CREATOR_OWNED"],
         warnings: buildWarnings(jointChain, input.lastReviewedAt, asOf),
@@ -186,6 +250,7 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
       directOwners: [],
       ultimateParent: null,
       chain: [],
+      ownershipChain: [],
       confidence: 0,
       explanationCodes: ["MULTIPLE_OWNER_CANDIDATES"],
       warnings: [],
@@ -200,6 +265,7 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
       directOwners: [],
       ultimateParent: null,
       chain: [],
+      ownershipChain: [],
       confidence: 0,
       explanationCodes: ["NO_OWNERSHIP_EVIDENCE"],
       warnings: [],
@@ -208,7 +274,10 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
 
   const ownerType = typeOf(direct.ownerId);
   const ultimateType = typeOf(ultimateParentId);
-  const baseCodes: ExplanationCode[] = ["DIRECT_OWNER_CONFIRMED", ...cycleCodes];
+  // Base codes carry the direct-owner codes (DIRECT_OWNER_CONFIRMED, plus
+  // MAJORITY_STAKE_OWNER when the owner was resolved from a majority stake) and
+  // any cycle code from the upward walk.
+  const baseCodes: ExplanationCode[] = [...direct.explanationCodes, ...cycleCodes];
   const warnings = buildWarnings(chain, input.lastReviewedAt, asOf);
   const loadBearing = [...chain];
 
@@ -223,6 +292,8 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
     (ultimateType !== null && PE_ENTITY_TYPES.has(ultimateType)) ||
     portfolioOfPe;
   if (peInChain) {
+    // PE precedence is deliberate: a majority-stake owner that is itself PE-backed
+    // upward classifies PE_BACKED, not CORPORATE_OWNED (ownership rules v2).
     return finalize(
       "PE_BACKED",
       direct.ownerId,
@@ -232,17 +303,33 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
       [...baseCodes, "OWNER_IS_PE_PORTFOLIO_COMPANY"],
       warnings,
       refOf,
+      buildChain,
     );
   }
 
-  // ---- Rule 5 (case B) short-circuit: a creator-controlled company is
-  // CREATOR_OWNED even though its entity type is COMPANY. The two rules overlap
-  // on this structure; the brief's named "creator LLC" test adjudicates the
-  // outcome as CREATOR_OWNED, so it is resolved before the corporate rule.
+  // ---- Creator-controlled company/nonprofit (ownership rules v2). A direct
+  // owner that is a COMPANY / BRAND / NONPROFIT (etc.) but is itself controlled
+  // by a CREATOR/PERSON is creator ownership through the company; the company is
+  // kept as the named direct owner. Resolved before the corporate/nonprofit
+  // rules because it overrides both. Emits CREATOR_CONTROLLED_COMPANY.
   const creatorControlledCompany = isCreatorControlledCompany(direct.ownerId, activeEdges, typeOf);
+  if (creatorControlledCompany) {
+    return finalize(
+      "CREATOR_OWNED",
+      direct.ownerId,
+      ultimateParentId,
+      chain,
+      loadBearing,
+      [...baseCodes, "CREATOR_CONTROLLED_COMPANY"],
+      warnings,
+      refOf,
+      buildChain,
+    );
+  }
 
-  // ---- Rule 3: CORPORATE_OWNED (no PE, not a creator-controlled company).
-  if (ownerType !== null && CORPORATE_OWNER_TYPES.has(ownerType) && !creatorControlledCompany) {
+  // ---- Rule 3: CORPORATE_OWNED (corporate/institutional owner, no PE, not
+  // creator-controlled).
+  if (ownerType !== null && CORPORATE_OWNER_TYPES.has(ownerType)) {
     return finalize(
       "CORPORATE_OWNED",
       direct.ownerId,
@@ -252,10 +339,30 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
       baseCodes,
       warnings,
       refOf,
+      buildChain,
+    );
+  }
+
+  // ---- NONPROFIT_OWNED (ownership rules v2): a NONPROFIT direct owner that is
+  // not creator-controlled gets its own honest label.
+  if (ownerType !== null && NONPROFIT_OWNER_TYPES.has(ownerType)) {
+    return finalize(
+      "NONPROFIT_OWNED",
+      direct.ownerId,
+      ultimateParentId,
+      chain,
+      loadBearing,
+      baseCodes,
+      warnings,
+      refOf,
+      buildChain,
     );
   }
 
   // ---- Rule 4: EXTERNALLY_FUNDED (creator/person owner + active minority funding).
+  // Only NON-controlling funding edges qualify (`control_level === "MINORITY"`),
+  // so there is no overlap with the majority-stake owner rule (which requires
+  // CONTROLLING or >50%): a controlling stake is never external funding.
   if (ownerType !== null && CREATOR_OWNER_TYPES.has(ownerType)) {
     const fundingEdge = activeEdges.find(
       (e) =>
@@ -273,12 +380,14 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
         baseCodes,
         warnings,
         refOf,
+        buildChain,
       );
     }
   }
 
-  // ---- Rule 5: CREATOR_OWNED (creator/person owner, or creator-controlled company).
-  if ((ownerType !== null && CREATOR_OWNER_TYPES.has(ownerType)) || creatorControlledCompany) {
+  // ---- Rule 5: CREATOR_OWNED (creator/person direct owner). Creator-controlled
+  // companies were already resolved above.
+  if (ownerType !== null && CREATOR_OWNER_TYPES.has(ownerType)) {
     return finalize(
       "CREATOR_OWNED",
       direct.ownerId,
@@ -288,11 +397,12 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
       baseCodes,
       warnings,
       refOf,
+      buildChain,
     );
   }
 
-  // Owner found but not classifiable under the M1 rules (e.g. FUND / TRUST /
-  // investment firm owner). Precision over recall: OWNERSHIP_UNCLEAR.
+  // Owner found but not classifiable (e.g. TRUST / UNKNOWN_ENTITY owner whose
+  // nature is genuinely undetermined). Precision over recall: OWNERSHIP_UNCLEAR.
   return finalize(
     "OWNERSHIP_UNCLEAR",
     direct.ownerId,
@@ -302,6 +412,7 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
     baseCodes,
     warnings,
     refOf,
+    buildChain,
   );
 }
 
@@ -314,6 +425,7 @@ function finalize(
   explanationCodes: ExplanationCode[],
   warnings: ExplanationCode[],
   refOf: (id: string | null) => EntityRef | null,
+  buildChain: (edges: Relationship[]) => OwnershipChainStep[],
 ): ClassificationResult {
   const directOwner = refOf(ownerId);
   return {
@@ -322,6 +434,7 @@ function finalize(
     directOwners: directOwner ? [directOwner] : [],
     ultimateParent: refOf(ultimateParentId),
     chain,
+    ownershipChain: buildChain(chain),
     confidence: minConfidence(loadBearing),
     explanationCodes: unique(explanationCodes),
     warnings,
@@ -329,23 +442,48 @@ function finalize(
 }
 
 /**
- * True when the owner is a company FOUNDED_BY a creator/person who also holds a
- * CONTROLLING PARTIALLY_OWNS stake in that company (brief rule 5 case B).
+ * Whether the direct owner (a company / brand / nonprofit) is itself controlled
+ * by a CREATOR/PERSON — the creator-controlled-company rule (ownership rules v2).
+ *
+ * Two qualifying paths, both requiring a CREATOR/PERSON controller:
+ *  (a) a direct control edge into the owner — CONTROLS, or OWNS/PARTIALLY_OWNS at
+ *      a majority stake (CONTROLLING or >50%). This is the widened path (e.g.
+ *      TLDR: the creator OWNS the company at a controlling stake).
+ *  (b) the legacy path: the owner is FOUNDED_BY the creator who also holds a
+ *      CONTROLLING PARTIALLY_OWNS stake in it. Kept as an additional path.
+ *
+ * A bare FOUNDED_BY with no controlling stake does NOT qualify (precision).
  */
 function isCreatorControlledCompany(
   ownerId: string,
   activeEdges: Relationship[],
   typeOf: (id: string | null) => EntityType | null,
 ): boolean {
-  const founders = activeEdges
-    .filter((e) => e.type === "FOUNDED_BY" && e.from_entity_id === ownerId)
-    .map((e) => e.to_entity_id)
-    .filter((founderId) => {
-      const t = typeOf(founderId);
-      return t !== null && CREATOR_OWNER_TYPES.has(t);
-    });
-  if (founders.length === 0) return false;
-  const founderSet = new Set(founders);
+  const isCreator = (id: string): boolean => {
+    const t = typeOf(id);
+    return t !== null && CREATOR_OWNER_TYPES.has(t);
+  };
+  const isMajorityStake = (e: Relationship): boolean =>
+    e.control_level === "CONTROLLING" ||
+    (e.ownership_percentage != null && e.ownership_percentage > 50);
+
+  // Path (a): a creator directly controls the owner.
+  const directlyControlled = activeEdges.some((e) => {
+    if (e.to_entity_id !== ownerId || !CREATOR_CONTROL_TYPES.has(e.type)) return false;
+    if (!isCreator(e.from_entity_id)) return false;
+    // CONTROLS is controlling by definition; OWNS/PARTIALLY_OWNS need a majority.
+    return e.type === "CONTROLS" || isMajorityStake(e);
+  });
+  if (directlyControlled) return true;
+
+  // Path (b): legacy FOUNDED_BY + controlling PARTIALLY_OWNS by the founder.
+  const founderSet = new Set(
+    activeEdges
+      .filter((e) => e.type === "FOUNDED_BY" && e.from_entity_id === ownerId)
+      .map((e) => e.to_entity_id)
+      .filter(isCreator),
+  );
+  if (founderSet.size === 0) return false;
   return activeEdges.some(
     (e) =>
       e.type === "PARTIALLY_OWNS" &&
