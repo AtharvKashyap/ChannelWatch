@@ -1,13 +1,29 @@
 import { Hono } from "hono";
 import { getSql } from "./db/client.js";
+import { cors, errorEnvelope, securityHeaders } from "./http/middleware.js";
+import { createV1Router, renderError } from "./routes.js";
 
 /**
- * CHANNELWATCH API (M1 skeleton). Only `GET /healthz` exists — the public
- * `/api/v1` endpoints (SPEC §17) arrive in M2. `createApp` is exported so tests
- * can exercise the app without binding a port.
+ * CHANNELWATCH API (SPEC §17). `GET /healthz` plus the public `/api/v1`
+ * read + intake endpoints, wrapped in cross-cutting middleware (CORS scoped to
+ * the extension + web origin, security headers, a uniform JSON error envelope,
+ * and per-IP rate limiting inside the v1 router). `createApp` is exported so
+ * tests can exercise the app without binding a port.
+ *
+ * The configured web origin comes from `WEB_ORIGIN` (defaults to the local dev
+ * origin); the browser extension's `chrome-extension://` / `moz-extension://`
+ * origins are always admitted (see `http/middleware.ts`).
  */
 export function createApp(): Hono {
   const app = new Hono();
+  const webOrigin = process.env.WEB_ORIGIN ?? "http://localhost:3000";
+
+  app.use("*", securityHeaders());
+  app.use("*", cors(webOrigin));
+
+  // Uniform error handling for everything below.
+  app.onError((err, c) => renderError(err, c));
+  app.notFound((c) => c.json(errorEnvelope("NOT_FOUND", "Route not found."), 404));
 
   app.get("/healthz", async (c) => {
     try {
@@ -20,6 +36,8 @@ export function createApp(): Hono {
       );
     }
   });
+
+  app.route("/api/v1", createV1Router());
 
   return app;
 }

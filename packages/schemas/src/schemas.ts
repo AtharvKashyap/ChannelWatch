@@ -10,6 +10,9 @@ import {
   CreatorStatusSchema,
   SourceTierSchema,
   RelationshipStatusSchema,
+  ResearchStatusSchema,
+  BadgeColorSchema,
+  ExplanationCodeSchema,
 } from "./enums.js";
 
 /**
@@ -152,3 +155,85 @@ export const ChannelLookupResponse = z.object({
   disputed: z.boolean(),
 });
 export type ChannelLookupResponse = z.infer<typeof ChannelLookupResponse>;
+
+/**
+ * The public lookup PAYLOAD actually returned by `GET /channels/youtube/:id` for
+ * a researched channel. It extends the pristine §17.2 `ChannelLookupResponse`
+ * with fields the extension/panel need but that §17.2 does not itemize:
+ *   - `research_status` — the channel's §20.1 queue state (PUBLISHED here);
+ *   - `badge_color`     — the §9.2 badge color the label maps to (PE_BACKED →
+ *     ORANGE; RED is reserved for DISPUTED — never PE);
+ *   - `disclaimer`      — the standing "no editorial conclusion" line (§23.1);
+ *   - `warnings`        — machine-readable §9.4 warning codes (e.g. ownership
+ *     changed recently), empty when none.
+ * `ChannelLookupResponse` is left untouched so the §17.2 canonical example
+ * fixture keeps validating against the exact spec shape.
+ */
+export const ResearchedChannelLookup = ChannelLookupResponse.extend({
+  researched: z.literal(true),
+  research_status: ResearchStatusSchema,
+  badge_color: BadgeColorSchema,
+  disclaimer: z.string(),
+  warnings: z.array(ExplanationCodeSchema),
+});
+export type ResearchedChannelLookup = z.infer<typeof ResearchedChannelLookup>;
+
+/**
+ * The neutral payload returned for a channel that is unknown or not yet
+ * researched. Per the adjudicated design decision the lookup endpoint returns
+ * 200 with this body (research_status UNRESEARCHED), NOT a 404: an unknown
+ * channel is a legitimate "no data yet" state, not a client error, and the
+ * extension renders a neutral "not researched" affordance from it. Asserts
+ * nothing about ownership.
+ */
+export const UnresearchedChannelLookup = z.object({
+  youtube_channel_id: z.string(),
+  researched: z.literal(false),
+  research_status: z.literal("UNRESEARCHED"),
+  summary: z.string(),
+  disclaimer: z.string(),
+});
+export type UnresearchedChannelLookup = z.infer<typeof UnresearchedChannelLookup>;
+
+/** Discriminated union of the two lookup outcomes, keyed by `researched`. */
+export const ChannelLookupPayload = z.discriminatedUnion("researched", [
+  ResearchedChannelLookup,
+  UnresearchedChannelLookup,
+]);
+export type ChannelLookupPayload = z.infer<typeof ChannelLookupPayload>;
+
+/**
+ * Body of `POST /api/v1/corrections` (§17.1, §23.3 "Report an Error"). A member
+ * of the public disputes a specific published record. The channel is identified
+ * by its immutable YouTube channel ID (never display name); an optional
+ * `claim_id` scopes the dispute to one claim. Submitter identity is OPTIONAL —
+ * anonymous corrections are allowed (§32.1 controls live in review, not intake)
+ * — but a substantive `explanation` is required so a reviewer has something to
+ * act on. All string fields are length-bounded to blunt abusive payloads.
+ */
+export const CorrectionSubmission = z.object({
+  youtube_channel_id: YoutubeChannelId,
+  claim_id: z.uuid().optional(),
+  submitter_name: z.string().min(1).max(200).optional(),
+  submitter_email: z.email().max(320).optional(),
+  submitter_relationship: z.string().min(1).max(200).optional(),
+  explanation: z.string().min(20).max(5000),
+});
+export type CorrectionSubmission = z.infer<typeof CorrectionSubmission>;
+
+/**
+ * Body of `POST /api/v1/submissions` (§17.1 "Submit Research Lead"). A member of
+ * the public proposes a channel worth researching, ideally with a supporting
+ * evidence URL. This is a LEAD, never a published claim (§7.1: leads are Tier-4
+ * intake), so it carries no classification and asserts nothing — it only queues
+ * work for reviewers. Submitter identity is optional; a note is optional but
+ * bounded.
+ */
+export const ResearchLeadSubmission = z.object({
+  youtube_channel_id: YoutubeChannelId,
+  evidence_url: z.url().max(2000).optional(),
+  submitter_name: z.string().min(1).max(200).optional(),
+  submitter_email: z.email().max(320).optional(),
+  note: z.string().min(1).max(5000).optional(),
+});
+export type ResearchLeadSubmission = z.infer<typeof ResearchLeadSubmission>;

@@ -1,0 +1,104 @@
+import type { Context, MiddlewareHandler } from "hono";
+import type { ContentfulStatusCode } from "hono/utils/http-status";
+
+/**
+ * Cross-cutting HTTP middleware for the public API (SPEC §17): a uniform JSON
+ * error envelope, security headers, and a CORS policy that admits the browser
+ * extension and the configured web origin only. Kept framework-thin and pure of
+ * business logic.
+ */
+
+/**
+ * A domain error that carries an HTTP status and a stable machine code. Route
+ * and query code throw this; `onError` renders it as the standard envelope. Any
+ * non-`ApiError` throwable is treated as an opaque 500 (its message is not
+ * leaked to the client).
+ */
+export class ApiError extends Error {
+  constructor(
+    readonly status: ContentfulStatusCode,
+    readonly code: string,
+    message: string,
+  ) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
+
+export const notFound = (message = "Resource not found"): ApiError =>
+  new ApiError(404, "NOT_FOUND", message);
+export const badRequest = (message: string, code = "BAD_REQUEST"): ApiError =>
+  new ApiError(400, code, message);
+
+export interface ErrorEnvelope {
+  error: { code: string; message: string; details?: unknown };
+}
+
+/** Build the canonical error-envelope body. */
+export function errorEnvelope(code: string, message: string, details?: unknown): ErrorEnvelope {
+  return details === undefined
+    ? { error: { code, message } }
+    : { error: { code, message, details } };
+}
+
+/**
+ * Resolve the client IP for rate limiting. Behind a proxy the real client is the
+ * first hop in `x-forwarded-for`; `x-real-ip` is a fallback. When neither is set
+ * (direct local calls, tests) we bucket under a single `"unknown"` key — the
+ * limiter still functions, it just cannot distinguish anonymous local callers.
+ */
+export function clientIp(c: Context): string {
+  const forwarded = c.req.header("x-forwarded-for");
+  if (forwarded) {
+    const first = forwarded.split(",")[0]?.trim();
+    if (first) return first;
+  }
+  return c.req.header("x-real-ip")?.trim() || "unknown";
+}
+
+/** Origins the API allows via CORS: the browser extension(s) + configured web origin. */
+function isAllowedOrigin(origin: string, webOrigin: string): boolean {
+  if (origin === webOrigin) return true;
+  // MV3 extension pages present a chrome-extension:// (or moz-extension://)
+  // origin. The extension id is per-install, so we admit the scheme rather than
+  // pin an id; the API is public-read + rate-limited, so this is not a secret
+  // boundary (SPEC §31/§32: extension sends only channel id + version).
+  return /^chrome-extension:\/\/[a-p]{32}$/.test(origin) || /^moz-extension:\/\//.test(origin);
+}
+
+/**
+ * CORS middleware. Reflects an allowed Origin (never a blanket `*`, so that
+ * credentialed and origin-scoped behavior is explicit), answers preflight
+ * OPTIONS, and always sends `Vary: Origin` so caches key on it.
+ */
+export function cors(webOrigin: string): MiddlewareHandler {
+  return async (c, next) => {
+    const origin = c.req.header("Origin");
+    c.header("Vary", "Origin");
+    if (origin && isAllowedOrigin(origin, webOrigin)) {
+      c.header("Access-Control-Allow-Origin", origin);
+      c.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+      c.header("Access-Control-Allow-Headers", "Content-Type");
+      c.header("Access-Control-Max-Age", "600");
+    }
+    if (c.req.method === "OPTIONS") {
+      return c.body(null, 204);
+    }
+    await next();
+  };
+}
+
+/**
+ * Baseline security headers appropriate for a JSON API: block content-type
+ * sniffing, deny framing, and send a conservative referrer policy. No CSP here —
+ * this API serves JSON, not HTML.
+ */
+export function securityHeaders(): MiddlewareHandler {
+  return async (c, next) => {
+    await next();
+    c.header("X-Content-Type-Options", "nosniff");
+    c.header("X-Frame-Options", "DENY");
+    c.header("Referrer-Policy", "no-referrer");
+    c.header("Cross-Origin-Resource-Policy", "cross-origin");
+  };
+}
