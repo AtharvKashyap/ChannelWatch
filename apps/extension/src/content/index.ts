@@ -129,10 +129,20 @@ export function teardown(): void {
 
 // Auto-start only inside a real extension content-script context (where
 // `chrome.runtime.id` exists). Guarded so importing this module in unit tests
-// has no side effects.
+// has no side effects. The UI controller (badge + panel) is wired here — it
+// subscribes to `onChannelResolved` before the observer starts resolving.
 if (typeof chrome !== "undefined" && chrome.runtime?.id) {
   try {
-    bootstrap();
+    // Imported lazily so unit tests that import the pipeline API don't pull the
+    // React panel bundle in.
+    void import("./ui-controller.js")
+      .then(({ mountUi }) => {
+        mountUi();
+        bootstrap();
+      })
+      .catch((err: unknown) => {
+        console.debug("[channelwatch] UI mount failed", err);
+      });
   } catch (err) {
     console.debug("[channelwatch] content bootstrap failed", err);
   }

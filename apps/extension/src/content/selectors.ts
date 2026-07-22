@@ -40,11 +40,39 @@ export const SELECTORS = {
   ],
 
   /**
-   * Where the ownership badge will be inserted next to the channel name
-   * (consumed by the Task 5 renderer, declared here so all DOM anchoring is
-   * centralized). Not used by the resolver.
+   * Where the ownership badge is inserted next to the channel name on a WATCH
+   * page (consumed by the Task 5 badge renderer; declared here so all DOM
+   * anchoring is centralized). Ordered most-specific/most-stable first: the
+   * hydrated owner renderer's channel-name node, then broader `#owner`
+   * containers, then the pre-hydration skeleton's `#video-owner #upload-info`
+   * (present in `tests/fixtures/watch-page.html`) as a last resort so the badge
+   * still has a home if it renders before hydration.
    */
-  watchBadgeAnchor: ["ytd-video-owner-renderer #channel-name", "#owner #channel-name", "#owner"],
+  watchBadgeAnchor: [
+    "ytd-video-owner-renderer #channel-name",
+    "#owner #channel-name",
+    "#owner ytd-channel-name",
+    "#owner",
+    "#video-owner #upload-info",
+    "#video-owner",
+  ],
+
+  /**
+   * Where the badge is inserted in a CHANNEL-page header, next to the channel
+   * title. YouTube's current channel header is the `yt-page-header` view-model;
+   * older/tabbed headers used `#channel-header`/`c4-tabbed-header-renderer`.
+   * Ordered newest→oldest with a broad `#channel-header-container` fallback. The
+   * sanitized `channel-page.html` fixture is a pre-hydration skeleton with no
+   * header node, so channel-page anchoring is covered by synthetic-DOM tests.
+   */
+  channelBadgeAnchor: [
+    "yt-page-header-view-model .page-header-view-model-wiz__page-header-title",
+    "yt-page-header-view-model h1",
+    "#channel-header #channel-name",
+    "#channel-header-container #channel-name",
+    "ytd-c4-tabbed-header-renderer #channel-name",
+    "#channel-header",
+  ],
 } as const;
 
 export type SelectorName = keyof typeof SELECTORS;

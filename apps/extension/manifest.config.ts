@@ -33,4 +33,8 @@ export default defineManifest({
     },
   ],
   options_page: "src/options/index.html",
+  action: {
+    default_title: "CHANNELWATCH",
+    default_popup: "src/popup/index.html",
+  },
 });

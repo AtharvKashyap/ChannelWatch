@@ -1,8 +1,13 @@
 import { flushPendingWrites, getCacheEntry, setCacheEntry } from "./cache.js";
-import { fetchChannelLookup } from "./api-client.js";
+import { fetchChannelLookup, submitCorrection } from "./api-client.js";
 import { selectTtlMs } from "./ttl.js";
 import { getSettings } from "../shared/settings.js";
-import { isLookupChannelRequest, type LookupChannelResponse } from "../shared/messages.js";
+import {
+  isLookupChannelRequest,
+  isSubmitCorrectionRequest,
+  type LookupChannelResponse,
+  type SubmitCorrectionResponse,
+} from "../shared/messages.js";
 
 /**
  * Handles a `LOOKUP_CHANNEL` request: serve from the local cache when a fresh
@@ -34,18 +39,42 @@ export async function handleLookupChannel(channelId: string): Promise<LookupChan
   return { ok: false, error: result.message };
 }
 
+/**
+ * Handles a `SUBMIT_CORRECTION` request: validate + POST the correction to the
+ * API. The submission is the only thing sent — channel id + what the user typed.
+ * Exported standalone so unit tests can drive it directly.
+ */
+export async function handleSubmitCorrection(
+  submission: unknown,
+): Promise<SubmitCorrectionResponse> {
+  const settings = await getSettings();
+  const extensionVersion = chrome.runtime.getManifest().version;
+  const result = await submitCorrection(submission, settings.apiBaseUrl, extensionVersion);
+  return result.ok ? { ok: true } : { ok: false, error: result.message };
+}
+
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-  if (!isLookupChannelRequest(message)) return undefined;
+  if (isLookupChannelRequest(message)) {
+    handleLookupChannel(message.channelId)
+      .then(sendResponse)
+      .catch((err: unknown) => {
+        sendResponse({ ok: false, error: err instanceof Error ? err.message : "Unknown error" });
+      });
+    // Signal to the extension messaging runtime that `sendResponse` will be
+    // called asynchronously.
+    return true;
+  }
 
-  handleLookupChannel(message.channelId)
-    .then(sendResponse)
-    .catch((err: unknown) => {
-      sendResponse({ ok: false, error: err instanceof Error ? err.message : "Unknown error" });
-    });
+  if (isSubmitCorrectionRequest(message)) {
+    handleSubmitCorrection(message.submission)
+      .then(sendResponse)
+      .catch((err: unknown) => {
+        sendResponse({ ok: false, error: err instanceof Error ? err.message : "Unknown error" });
+      });
+    return true;
+  }
 
-  // Signal to the extension messaging runtime that `sendResponse` will be
-  // called asynchronously.
-  return true;
+  return undefined;
 });
 
 // Best-effort attempt to persist any pending cache-recency (LRU) bumps before

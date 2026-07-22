@@ -1,4 +1,9 @@
-import type { ClassificationLabel } from "./enums.js";
+import type {
+  ClassificationLabel,
+  ConfidenceLabel,
+  CreatorStatus,
+  ExplanationCode,
+} from "./enums.js";
 
 /**
  * The ONLY place user-facing ownership copy lives.
@@ -127,4 +132,97 @@ export function classificationSummary(input: ClassificationSummaryInput): string
     default:
       return `Public sources do not clearly establish who owns ${channelName}.`;
   }
+}
+
+/**
+ * Human-readable confidence label shown in the ownership panel. Mirrors the
+ * §14.3 bands (`confidenceLabelFromScore`) — display text only, never a new
+ * threshold. DISPUTED/UNKNOWN are conflict/absence states, not score bands.
+ */
+export const CONFIDENCE_LABEL_TEXT: Record<ConfidenceLabel, string> = {
+  CONFIRMED: "Confirmed",
+  HIGH: "High confidence",
+  MODERATE: "Moderate confidence",
+  LOW: "Low confidence",
+  DISPUTED: "Disputed",
+  UNKNOWN: "Unknown",
+};
+
+/**
+ * Neutral, auditable text for each §26.2 explanation code. The panel surfaces
+ * the `warnings` array (a subset of these codes — the §9.4 warning codes) so a
+ * reader can see WHY a label was applied. Every branch describes ownership
+ * structure as public fact; none asserts editorial control or loss of control
+ * (§23.1).
+ */
+export const EXPLANATION_TEXT: Record<ExplanationCode, string> = {
+  DIRECT_OWNER_CONFIRMED: "The direct owner is confirmed by public sources.",
+  OWNER_IS_PE_PORTFOLIO_COMPANY: "The owner is a private-equity portfolio company.",
+  MULTIPLE_OWNER_CANDIDATES: "Public sources point to more than one possible owner.",
+  JOINTLY_CREATOR_OWNED: "Public records indicate joint ownership with the creator.",
+  OWNERSHIP_CYCLE_DETECTED: "The ownership records reference each other in a loop.",
+  OWNERSHIP_RELATIONSHIP_DISPUTED: "The ownership relationship is currently disputed.",
+  NO_OWNERSHIP_EVIDENCE: "No public ownership evidence was found.",
+  OWNERSHIP_CHANGED_RECENTLY: "Public records indicate the ownership changed recently.",
+  RECORD_OUTDATED: "This record may be out of date and is due for re-review.",
+};
+
+/**
+ * Neutral display text for each §6.5 creator-involvement state. Describes the
+ * creator's structural relationship to the channel as public fact — never
+ * asserts the creator "sold out" or lost editorial control (§23.1).
+ */
+export const CREATOR_STATUS_TEXT: Record<CreatorStatus, string> = {
+  OWNER_OPERATOR: "Creator owns and operates the channel",
+  OWNER_EXTERNAL_MGMT: "Creator owns the channel; operations are externally managed",
+  MAJORITY_OWNER: "Creator holds a majority stake",
+  MINORITY_OWNER: "Creator holds a minority stake",
+  HOST_NOT_IN_CONTROL: "Creator hosts the channel without an ownership stake",
+  REMAINS_HOST: "Creator remains the on-screen host",
+  EXITED: "Creator is no longer involved",
+  UNCLEAR: "Creator involvement is unclear",
+  CORPORATE_BRAND: "This is a corporate brand channel",
+};
+
+/**
+ * Static UI strings for the ownership panel and its in-panel correction form
+ * (§18.3 panel, §23.3 "Report an Error"). Section labels and form labels live
+ * here rather than inline in the component so ALL user-facing copy stays in the
+ * single reviewed module (CLAUDE.md rule 2).
+ */
+export const PANEL_COPY = {
+  panelTitle: "Ownership",
+  close: "Close",
+  directOwnerLabel: "Direct owner",
+  ultimateParentLabel: "Ultimate parent",
+  creatorStatusLabel: "Creator status",
+  confidenceLabel: "Confidence",
+  evidenceLabel: "Evidence",
+  lastReviewedLabel: "Last reviewed",
+  warningsLabel: "Notes",
+  neverReviewed: "Not yet reviewed",
+  unresearchedHeading: "Not yet researched",
+  correctionHeading: "Report an Error",
+  explanationLabel: "What is incorrect? (required)",
+  explanationPlaceholder: "Describe what is inaccurate and, if possible, link to a public source.",
+  nameLabel: "Your name (optional)",
+  emailLabel: "Your email (optional)",
+  relationshipLabel: "Your relationship to the channel (optional)",
+  submit: "Submit correction",
+  submitting: "Submitting…",
+  explanationTooShort: "Please provide at least 20 characters so a reviewer can act on it.",
+  submitError: "Could not submit the correction. Please try again later.",
+} as const;
+
+/** "N sources reviewed", pluralized; "No sources reviewed" for zero. */
+export function evidenceCountText(count: number): string {
+  if (count <= 0) return "No sources reviewed";
+  if (count === 1) return "1 source reviewed";
+  return `${count} sources reviewed`;
+}
+
+/** "Last reviewed {date}", or the neutral "not reviewed" line when null. */
+export function lastReviewedText(isoDate: string | null): string {
+  if (isoDate == null || isoDate === "") return PANEL_COPY.neverReviewed;
+  return `Last reviewed ${isoDate}`;
 }
