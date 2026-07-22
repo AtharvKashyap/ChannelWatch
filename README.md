@@ -21,4 +21,12 @@ pnpm dev
 - [`CLAUDE.md`](./CLAUDE.md) — project conventions and non-negotiable rules
 - [`docs/SPEC.md`](./docs/SPEC.md) — founding spec
 - [`docs/plan.md`](./docs/plan.md) — approved build plan
-- `docs/METHODOLOGY.md` and `MANIFESTO.md` — the project's constitution (once written)
+- [`MANIFESTO.md`](./MANIFESTO.md) — project vision and purpose
+- [`PRIVACY.md`](./PRIVACY.md) — privacy principles
+- [`SECURITY.md`](./SECURITY.md) — security guidelines
+- [`CONTRIBUTING.md`](./CONTRIBUTING.md) — contribution guidelines
+- [`docs/METHODOLOGY.md`](./docs/METHODOLOGY.md) — research methodology
+- [`docs/evidence-policy.md`](./docs/evidence-policy.md) — evidence standards
+- [`docs/legal-risk.md`](./docs/legal-risk.md) — legal risk assessment
+- [`docs/data-model.md`](./docs/data-model.md) — data model specification
+- [`docs/roadmap.md`](./docs/roadmap.md) — project roadmap
