@@ -1,0 +1,351 @@
+# CHANNELWATCH research record — fern
+#
+# Pilot record for the "opaque / production-team-operated" case. Real record
+# (not a fixture). DRAFT FOR HUMAN REVIEW — nothing here is published without
+# human verification (Spec §12.7). Two-person review required (Spec §20.3):
+# this record touches private-equity involvement and named individuals, and the
+# fern <-> Electrify characterization is publicly contested.
+#
+# Summary of what IS documented (see review.notes for the many caveats):
+#   - fern is the international/English "armchair documentary" channel MADE BY
+#     the German channel Simplicissimus (founders "Jonas" & "David", identities
+#     not public) together with Dutch video essayist Hoog; launched 2020.
+#   - The channel is operated with the support of 1UP Management GmbH (Cologne,
+#     Germany), Simplicissimus's artist management.
+#   - In early 2025 Electrify Video Partners (London) took a stake in
+#     Simplicissimus. Characterization is DISPUTED: Electrify/creators call it a
+#     "strategic partnership" with continued editorial independence; the Media
+#     Ownership Monitor calls it an acquired majority stake (50-80%). Electrify
+#     is itself backed by private-equity fund Capital D.
+# The specific registered legal entity that owns the fern CHANNEL is NOT named in
+# any public source found — ownership of the channel itself remains UNCLEAR.
+# Classification is COMPUTED by the importer, never asserted here.
+
+channel:
+  youtube_channel_id: UCODHrzPMGbNv67e84WDZhQQ
+  display_name: fern
+  handle: "@fern-tv"
+
+entities:
+  - slug: simpli
+    canonical_name: Simplicissimus
+    entity_type: BRAND # the German creator brand/operation behind fern; the
+    # specific registered operating company is not named in public sources.
+    website: https://www.youtube.com/@Simplicissimus
+    aliases:
+      - Simpli
+      - Simplicissimus YT
+  - slug: hoog
+    canonical_name: Hoog
+    entity_type: CREATOR # Dutch video essayist, co-creator of fern
+    website: https://www.youtube.com/@hoog-youtube
+  - slug: oneup
+    canonical_name: 1UP Management GmbH
+    entity_type: COMPANY
+    legal_name: 1UP Management GmbH
+    jurisdiction: DE
+    website: https://1up.management
+    aliases:
+      - 1UP
+      - 1UP Management
+  - slug: electrify
+    canonical_name: Electrify Video Partners
+    # entity_type INVESTMENT_FIRM (not PRIVATE_EQUITY_FIRM): Electrify describes
+    # itself as a "next-generation media company"; it invests in and acquires
+    # YouTube channels and is itself PE-backed (Capital D). See review.notes for
+    # the classification tradeoff.
+    entity_type: INVESTMENT_FIRM
+    legal_name: Electrify Video Partners Ltd
+    jurisdiction: GB
+    website: https://www.electrify.video
+    aliases:
+      - Electrify
+  - slug: capitald
+    canonical_name: Capital D
+    entity_type: PRIVATE_EQUITY_FIRM
+    aliases:
+      - Capital D Investment Management
+
+relationships:
+  # 0: fern was launched in 2020 as Simplicissimus's international project (with
+  # Hoog). Recorded as FOUNDED_BY the Simplicissimus brand/team.
+  - subject: channel
+    type: FOUNDED_BY
+    object: simpli
+    # effective_from omitted: sources give year 2020 only (see notes).
+    confidence: 0.85
+    status: ACTIVE
+  # 1: fern was created as a collaboration with Dutch video essayist Hoog.
+  - subject: channel
+    type: FOUNDED_BY
+    object: hoog
+    confidence: 0.85
+    status: ACTIVE
+  # 2: Simplicissimus makes/produces fern (channel's own About: "Made by
+  # @Simplicissimus"). Recorded as OPERATES with MANAGEMENT control — this is
+  # production/operational control, not an asserted legal-ownership stake.
+  - subject: simpli
+    type: OPERATES
+    object: channel
+    control_level: MANAGEMENT
+    confidence: 0.8
+    status: ACTIVE
+  # 3: 1UP Management GmbH is Simplicissimus's artist management and the channel
+  # is operated with 1UP's support ("mit Unterstuetzung von 1UP Management ...
+  # betrieben"). MANAGEMENT control; no ownership implied.
+  - subject: oneup
+    type: MANAGES
+    object: channel
+    control_level: MANAGEMENT
+    confidence: 0.6
+    status: ACTIVE
+  # 4: Electrify Video Partners took a stake in Simplicissimus in early 2025.
+  # DISPUTED characterization (see notes): Electrify/creators say "strategic
+  # partnership" with editorial independence; the Media Ownership Monitor says
+  # an acquired majority stake (50-80%). Recorded as OWNS/CONTROLLING per MOM but
+  # at low-moderate confidence and DISPUTED status pending human review. Note
+  # this edge targets the Simplicissimus BRAND/operation; whether it extends to
+  # legal ownership of the fern channel specifically is NOT documented.
+  - subject: electrify
+    type: OWNS
+    object: simpli
+    control_level: CONTROLLING
+    # effective_from omitted: sources say "beginning of 2025" / announced
+    # 2025-01-17; exact acquisition close date not documented (see notes).
+    confidence: 0.5
+    status: DISPUTED
+  # 5: Electrify Video Partners is backed by private-equity fund Capital D
+  # ($85M, Sept 2023). PE-implying edge; supported by two independent Tier 2
+  # publications (Tubefilter, Tech.eu) per the §14.3 PE-label rule.
+  - subject: electrify
+    type: PORTFOLIO_COMPANY_OF
+    object: capitald
+    control_level: UNKNOWN
+    effective_from: 2023-09-19
+    confidence: 0.6
+    status: ACTIVE
+
+sources:
+  - ref: fern_about
+    url: https://www.youtube.com/@fern-tv
+    title: fern — YouTube channel (About / channel description)
+    publisher: fern (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >
+      Armchair documentaries, almost weekly. Made by @Simplicissimus. Occasional
+      voice-overs by @hoog-youtube. [Verbatim channel description; canonical
+      externalId UCODHrzPMGbNv67e84WDZhQQ, vanityChannelUrl
+      http://www.youtube.com/@fern-tv, from the channel page source.]
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: mom_simpli
+    url: https://germany.mom-gmr.org/en/media/socialmedia/outlet/simplicissimus-115035/
+    title: simplicissimus — Media Ownership Monitor Germany
+    publisher: Media Ownership Monitor Germany (Reporters Without Borders)
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      In 2020, the channel Fern launched as a collaboration with Dutch video
+      essayist Hoog. [...] From 2019 to 2022, Simplicissimus was part of the
+      public broadcasting network Funk before leaving to operate independently.
+      At the beginning of 2025, private equity firm Electrify Video Partners
+      acquired a majority stake in Simplicissimus. [...] Depending on the level
+      of investment by Electrify Video Partners (50-80%) in the operating
+      company of Simplicissimus [...].
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 4
+  - ref: oneup_pr
+    url: https://1up.management/news/simplicissimus-hoog-fern/
+    title: Simplicissimus und Hoog starten internationales YouTube-Projekt „fern"
+    publisher: 1UP Management GmbH
+    published_at: 2023-07-09
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    archive_url: https://web.archive.org/web/20260722134832/https://1up.management/news/simplicissimus-hoog-fern/
+    excerpt: >
+      Simplicissimus und Hoog, zwei der relevantesten Educational-Kanaele auf
+      YouTube, sind stolz, ihr internationales Projekt fern bekannt zu geben.
+      [...] Der Kanal wird mit Unterstuetzung von 1UP Management, dem Artist
+      Management von Simplicissimus, betrieben. [The channel is operated with
+      the support of 1UP Management, the artist management of Simplicissimus.]
+    supports:
+      - relationship: 2
+      - relationship: 3
+  - ref: oneup_impressum
+    url: https://1up.management/impressum/
+    title: Impressum — 1UP
+    publisher: 1UP Management GmbH
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    archive_url: https://web.archive.org/web/20260708141447/https://1up.management/impressum/
+    excerpt: >
+      1UP Management GmbH, Emil-Hoffmann-Strasse 55-59, 50996 Koeln,
+      Deutschland. Handelsregister: Amtsgericht Koeln. Handelsregisternummer:
+      HRB 121333. Umsatzsteuer-Identifikationsnummer (VAT-ID): DE346703976.
+      Geschaeftsfuehrer sowie verantwortlich fuer den Inhalt i.S.d. § 18 Abs. 2
+      MStV: John-Dustin Martin. [German statutory Impressum, Tier 1 primary
+      disclosure; jurisdiction DE.]
+    supports:
+      - relationship: 3
+  - ref: electrify_pr
+    url: https://www.electrify.video/news/electrify-expands-into-investigative-journalism-with-partnership-in-leading-documentary-channels
+    title: Electrify expands into investigative journalism with partnership in leading documentary channels
+    publisher: Electrify Video Partners
+    published_at: 2025-01-17
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    archive_url: https://web.archive.org/web/20260525062012/https://www.electrify.video/news/electrify-expands-into-investigative-journalism-with-partnership-in-leading-documentary-channels
+    excerpt: >
+      Electrify Video Partners, a next-generation media company dedicated to
+      scaling digital creator businesses, today announced its strategic
+      partnership with leading YouTube documentary channels fern and
+      Simplicissimus, along with the podcast Unfassbar. The Simplicissimus and
+      Unfassbar properties mark Electrify's first expansion into the
+      German-language market [...].
+    supports:
+      - relationship: 4
+  - ref: dexerto_pe
+    url: https://www.dexerto.com/youtube/fern-responds-to-private-equity-backlash-after-gens-viral-youtube-expose-3353794/
+    title: Fern responds to private equity backlash after GEN's viral YouTube expose
+    publisher: Dexerto
+    published_at: 2026-04-19
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Electrify Video Partners announced a partnership with fern and
+      Simplicissimus in January 2025 as part of its expansion into documentary
+      content. Co-founder Jonas said the channel remained "editorially
+      independent" and that standards had "not dropped," explaining the
+      partnership "reduced administrative workload" and enabled "more ambitious
+      productions, deeper research, and on-the-ground reporting."
+    supports:
+      - relationship: 4
+  - ref: tubefilter_capitald
+    url: https://www.tubefilter.com/2023/09/19/electrify-capital-d-funding-round/
+    title: Electrify raises $85 million to invest in long-form YouTube content
+    publisher: Tubefilter
+    published_at: 2023-09-19
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >
+      Electrify Video Partners has raised $85 million from private equity fund
+      Capital D to invest in and acquire YouTube channels - particularly those
+      making long-form educational content. [...] London-based Electrify was
+      co-founded in May 2021 by Ian Shepherd [...].
+    supports:
+      - relationship: 5
+  - ref: techeu_capitald
+    url: https://tech.eu/2023/09/22/electrify-video-partners-raises-85m-from-capital-d-for-youtube-channel-investment/
+    title: Electrify Video Partners raises $85M from Capital D for YouTube channel investment
+    publisher: Tech.eu
+    published_at: 2023-09-22
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      [M]edia startup Electrify Video Partners announced [...] that it has
+      successfully raised $85 million in funding from private equity firm
+      Capital D. Founded in 2021, Electrify Video Partners is a media startup
+      specialising in YouTube content investment and acquisition.
+    supports:
+      - relationship: 5
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted — not yet human-reviewed (schema rejects an
+  # explicit null; absence signals "unreviewed").
+  last_reviewed_at: 2026-07-22
+  notes: >
+    DRAFT — requires TWO-PERSON human review (Spec §20.3: private-equity
+    involvement + named individuals + a publicly contested characterization).
+
+    CHANNEL ID. UCODHrzPMGbNv67e84WDZhQQ, extracted from the "externalId" field
+    in the page source of https://www.youtube.com/@fern-tv (display_name "fern",
+    the documentary/video-essay channel, ~3.9M subscribers). Distinct from
+    @fern (UCHyzc2Pp_fC5hfTLebF1ZiQ) and @fernvideos (UCiIhvrUqRGkevFC5grBr54g),
+    which are unrelated channels.
+
+    OWNERSHIP OF THE CHANNEL ITSELF IS UNCLEAR. No public source found names the
+    registered legal entity that owns the fern channel. What is documented is a
+    production/management arrangement (Simplicissimus + Hoog make it; 1UP
+    Management supports operations) and a corporate stake taken in the
+    Simplicissimus operation. A reviewer should treat the channel's legal owner
+    as UNKNOWN. OWNERSHIP_UNCLEAR is an honest expected outcome here.
+
+    (0/1) FOUNDING. fern launched 2020 as Simplicissimus's international,
+    English-language "armchair documentary" project in collaboration with Dutch
+    essayist Hoog (MOM, Tier 2; corroborated by the channel's own About and the
+    1UP press release). 1UP's press release publicly announcing fern is dated
+    2023-07-09, but MOM and the channel history place the launch in 2020 — the
+    channel externalId page and third-party wikis cite 2020-09-24, but that date
+    was NOT confirmed by a Tier 1/2 source, so effective_from is omitted
+    (year-precision only; DB rejects partial dates).
+
+    (2/3) OPERATION. Simplicissimus is credited on fern's own channel
+    description ("Made by @Simplicissimus. Occasional voice-overs by
+    @hoog-youtube") — a Tier 1 first-party statement. 1UP Management GmbH
+    (Cologne; HRB 121333, Amtsgericht Koeln; Geschaeftsfuehrer John-Dustin
+    Martin) is Simplicissimus's artist management and the fern channel is
+    operated "mit Unterstuetzung von 1UP Management." NOTE: 1UP is a talent/
+    artist-management agency (it also manages other creators, e.g. Gronkh); it is
+    NOT the same thing as "the operating company of Simplicissimus" referenced by
+    MOM as the entity Electrify invested in. Do not conflate them — the specific
+    Simplicissimus operating company is not named in accessible sources (MOM
+    cites UK Companies House director records without naming a German GmbH). The
+    1UP press release is a live first-party corporate page; mapped to the nearest
+    schema source_type (ARCHIVED_CORPORATE_PAGE, Tier 3) and archived to Wayback
+    on 2026-07-22 so the excerpt is citable. Reviewer may prefer to downgrade or
+    reword the 1UP MANAGES edge.
+
+    (4) ELECTRIFY STAKE — DISPUTED, recorded at low confidence (0.5) with status
+    DISPUTED, NOT ACTIVE. This is the crux. Electrify's own announcement
+    (2025-01-17, Tier 1) and Dexerto (Tier 2) call it a "strategic partnership,"
+    and co-founder Jonas publicly asserts the channel remains "editorially
+    independent" (fern responded to a viral GEN exposé alleging private-equity
+    capture). The Media Ownership Monitor (Tier 2), by contrast, states Electrify
+    "acquired a majority stake in Simplicissimus" of "50-80%." These accounts
+    conflict on whether control changed hands, hence DISPUTED. The edge targets
+    the Simplicissimus BRAND/operation; NO source establishes that it conveys
+    legal ownership of the fern CHANNEL specifically. effective_from omitted
+    ("beginning of 2025"; announcement 2025-01-17 is the announcement date, not a
+    confirmed close date). A reviewer must decide subject/object modeling,
+    OWNS vs. PARTIALLY_OWNS/INVESTED_IN, control level, and whether to publish at
+    all given the dispute.
+
+    (5) ELECTRIFY <- CAPITAL D. Electrify Video Partners (London, co-founded May
+    2021 by Ian Shepherd, Owen Maher, Justin Reizes) raised $85M from Capital D
+    in Sept 2023, described by both Tubefilter and Tech.eu (two independent Tier
+    2 publishers) as a "private equity fund"/"private equity firm" — satisfying
+    the §14.3 PE-label evidence rule for this PE-implying edge. Electrify also
+    raised ~$50M led by MEP Capital (Feb 2023). MOM additionally names Jean Marc
+    Jabre of Capital D and lists other backers (Equable Capital).
+
+    ENTITY-TYPE TRADEOFF (reviewer decision). Electrify is modeled as
+    INVESTMENT_FIRM, not PRIVATE_EQUITY_FIRM: it self-describes as a "media
+    company"/"media startup" that invests in and acquires YouTube channels, and
+    the actual PE capital sits one level up (Capital D). This keeps the
+    Electrify->Simplicissimus edge from mechanically forcing a PE label while the
+    genuine PE signal is carried by the well-evidenced Electrify->Capital D edge.
+    A reviewer who judges Electrify itself to be a PE roll-up vehicle (MOM calls
+    it a "private equity firm") may reclassify it PRIVATE_EQUITY_FIRM — which
+    would strengthen a PE_BACKED computation. The BRAND type on "Simplicissimus"
+    is a placeholder for an unnamed operating company; reconsider if the legal
+    entity is later identified (then model it as COMPANY with a jurisdiction).
+
+    IDENTITIES. The Simplicissimus founders are publicly known only as "Jonas"
+    and "David" (based in Amsterdam); real names not public, so no PERSON
+    entities were created (undocumented = omitted). Hoog is a Dutch creator whose
+    real name is likewise not asserted here. MOM names content-leadership
+    individuals (Creative Director Paul Luehnsdorf, Executive Producer Christian
+    Kiesling) and Electrify/Capital D principals — not modeled as entities absent
+    a documented ownership/control relationship.
+
+    SOURCES NOT USED. The GEN ("GEN" investigative) YouTube video that triggered
+    the controversy, and a Prezi/Fandom/SigmaStory secondary summaries, are Tier
+    4 leads only and are not cited to support any relationship. simpli.de/ueber-uns
+    (Simplicissimus's own imprint) was Cloudflare-blocked and could not be read;
+    it is a follow-up lead for confirming the Simplicissimus operating entity.

@@ -1,0 +1,273 @@
+# CHANNELWATCH research record — The Daily Wire (@DailyWire)
+#
+# DRAFT for human review. Nothing here is published without verification.
+# This record concerns a politically prominent channel and involves named
+# individuals; it is held to the project's highest neutrality bar and, per
+# METHODOLOGY.md §5, REQUIRES TWO-PERSON REVIEW before any publication.
+#
+# Scope of this record: ownership and funding facts only. Entity descriptions,
+# notes, and every authored field are strictly neutral — no ideology labels,
+# no political characterization, no commentary. Verbatim source excerpts are
+# quoted as evidence and are the words of the cited source, not of this record.
+#
+# Ownership chain documented (per The Daily Wire's own About page):
+#   original co-founders --(majority own)--> Bentkey Ventures, LLC
+#     --(wholly owns)--> The Daily Wire, LLC --(operates)--> the channel
+#   Farris Wilks provided the initial 2015 investment in the venture.
+
+channel:
+  youtube_channel_id: UCaeO5vkdj5xOQHp4UmIN6dw
+  display_name: The Daily Wire
+  handle: "@DailyWire"
+
+entities:
+  - slug: daily_wire_llc
+    canonical_name: The Daily Wire, LLC
+    entity_type: COMPANY
+    legal_name: The Daily Wire, LLC
+    website: https://www.dailywire.com
+    aliases:
+      - The Daily Wire
+      - DailyWire+
+      - DailyWire.com
+
+  - slug: bentkey
+    canonical_name: Bentkey Ventures, LLC
+    entity_type: COMPANY
+    legal_name: Bentkey Ventures, LLC
+    aliases:
+      - Forward Publishing, LLC
+      - Forward Publishing
+
+  - slug: shapiro
+    canonical_name: Ben Shapiro
+    entity_type: PERSON
+
+  - slug: boreing
+    canonical_name: Jeremy Boreing
+    entity_type: PERSON
+
+  - slug: robinson
+    canonical_name: Caleb Robinson
+    entity_type: PERSON
+
+  - slug: wilks
+    canonical_name: Farris Wilks
+    entity_type: PERSON
+
+relationships:
+  # 0: Bentkey Ventures, LLC wholly owns The Daily Wire, LLC. "Wholly owned" =>
+  # CONTROLLING and ownership_percentage 100. Stated on the company's own About
+  # page (Tier 1 official ownership disclosure).
+  - subject: bentkey
+    type: OWNS
+    object: daily_wire_llc
+    control_level: CONTROLLING
+    ownership_percentage: 100
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: The Daily Wire, LLC operates the channel. The About page states the
+  # DailyWire+ service is "owned and operated by The Daily Wire, LLC"; the
+  # YouTube channel itself is not separately named in a documented ownership
+  # instrument, so control_level is UNKNOWN and confidence is deliberately low.
+  # This is the weakest-documented edge — see notes.
+  - subject: daily_wire_llc
+    type: OPERATES
+    object: channel
+    control_level: UNKNOWN
+    confidence: 0.55
+    status: ACTIVE
+
+  # 2-4: The original co-founders collectively majority-own Bentkey Ventures,
+  # LLC ("remains majority owned by the original co-founders"). The source does
+  # NOT break the stake down per individual, so each edge is PARTIALLY_OWNS with
+  # control_level UNKNOWN and NO ownership_percentage. The collective-majority
+  # fact is recorded in notes, not attributed to any one person.
+  - subject: shapiro
+    type: PARTIALLY_OWNS
+    object: bentkey
+    control_level: UNKNOWN
+    confidence: 0.6
+    status: ACTIVE
+
+  - subject: boreing
+    type: PARTIALLY_OWNS
+    object: bentkey
+    control_level: UNKNOWN
+    confidence: 0.6
+    status: ACTIVE
+
+  - subject: robinson
+    type: PARTIALLY_OWNS
+    object: bentkey
+    control_level: UNKNOWN
+    confidence: 0.55
+    status: ACTIVE
+
+  # 5-6: The Daily Wire was co-founded by Ben Shapiro and Jeremy Boreing (2015).
+  # Corroborated by the company's About page and The Hollywood Reporter.
+  - subject: daily_wire_llc
+    type: FOUNDED_BY
+    object: shapiro
+    confidence: 0.85
+    status: ACTIVE
+
+  - subject: daily_wire_llc
+    type: FOUNDED_BY
+    object: boreing
+    confidence: 0.85
+    status: ACTIVE
+
+  # 7: Caleb Robinson is named as a launch partner / founding CEO. Documented on
+  # the About page only.
+  - subject: daily_wire_llc
+    type: FOUNDED_BY
+    object: robinson
+    confidence: 0.7
+    status: ACTIVE
+
+  # 8: Farris Wilks made the documented initial investment ($4.7M) that launched
+  # the venture in 2015. Recorded as INVESTED_IN, NOT any ownership/control type:
+  # no stake percentage is disclosed and no control terms are documented, so
+  # control_level is UNKNOWN and ownership_percentage is omitted. effective_from
+  # is OMITTED because the sources give the year only (2015), not a full date —
+  # see notes.
+  - subject: wilks
+    type: INVESTED_IN
+    object: daily_wire_llc
+    control_level: UNKNOWN
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: dw_about_ownership
+    url: https://www.dailywire.com/about
+    title: About — The Daily Wire
+    publisher: The Daily Wire
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      The Daily Wire, LLC is wholly owned by Bentkey Ventures, LLC (formerly
+      Forward Publishing, LLC) which remains majority owned by the original
+      co-founders.
+    supports:
+      - relationship: 0
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+
+  - ref: dw_about_operates
+    url: https://www.dailywire.com/about
+    title: About — The Daily Wire
+    publisher: The Daily Wire
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      DailyWire+ is a subscription podcast and video-on-demand over-the-top
+      streaming service owned and operated by The Daily Wire, LLC.
+    supports:
+      - relationship: 1
+
+  - ref: dw_about_founders
+    url: https://www.dailywire.com/about
+    title: About — The Daily Wire
+    publisher: The Daily Wire
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Conceived by Ben Shapiro and Jeremy Boreing, The Daily Wire was meant to
+      be something unique
+    supports:
+      - relationship: 5
+      - relationship: 6
+
+  - ref: dw_about_founding
+    url: https://www.dailywire.com/about
+    title: About — The Daily Wire
+    publisher: The Daily Wire
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      In partnership with Caleb Robinson, the team launched The Daily Wire in
+      2015 with an initial investment of $4.7M by Farris Wilks.
+    supports:
+      - relationship: 7
+      - relationship: 8
+
+  - ref: thr_shapiro_profile
+    url: https://www.hollywoodreporter.com/news/politics-news/how-ben-shapiro-conquered-maga-verse-trump-1236104674/
+    title: How Ben Shapiro Conquered the MAGA-verse
+    publisher: The Hollywood Reporter
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      An initial $4.7 million investment from Texas oil tycoon Farris Wilks has
+      blossomed into what Shapiro says is a $220 million empire
+    supports:
+      - relationship: 5
+      - relationship: 8
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by omitted: not yet reviewed.
+  notes: >-
+    DRAFT for human review. TWO-PERSON REVIEW REQUIRED (METHODOLOGY.md §5):
+    this record involves named individuals (and concerns a politically
+    prominent channel), a two-person-review trigger. Do not publish on a single
+    reviewer's approval.
+
+    CHANNEL ID: UCaeO5vkdj5xOQHp4UmIN6dw. Extracted from the @DailyWire page raw
+    HTML via curl — both the <link rel="canonical" .../channel/UC...> tag and
+    the ytInitialData "externalId" resolve to UCaeO5vkdj5xOQHp4UmIN6dw, and they
+    agree. (@DailyWire is the company's flagship channel; @BenShapiro is a
+    separate channel, UCnQC_G5Xsjhp9fEJKuIcrSw, not the subject of this record.)
+    Note: the first "channelId" token near the top of the @DailyWire page HTML
+    is a featured/recommended channel, not the page's own id — the canonical/
+    externalId pair is the authoritative extraction and was used.
+
+    OWNERSHIP CHAIN (all from the company's own About page, Tier 1): The Daily
+    Wire, LLC is wholly owned (100%, CONTROLLING) by Bentkey Ventures, LLC
+    (formerly Forward Publishing, LLC), which "remains majority owned by the
+    original co-founders." The per-person breakdown of that majority is NOT
+    disclosed, so Shapiro/Boreing/Robinson are each recorded PARTIALLY_OWNS
+    Bentkey with control_level UNKNOWN and no percentage; the collective majority
+    is not attributed to any single individual.
+
+    WILKS FUNDING (rel 8): recorded exactly as sourced — an initial investment
+    of $4.7M by Farris Wilks that launched the venture in 2015. Recorded as
+    INVESTED_IN (not OWNS/CONTROLS): no stake percentage and no control terms are
+    disclosed, so ownership_percentage is omitted and control_level is UNKNOWN.
+    effective_from is OMITTED because both sources give the YEAR ONLY (2015), not
+    a full YYYY-MM-DD date. Corroborated by The Daily Wire About page (T1) and
+    The Hollywood Reporter (T2). Some secondary coverage (e.g. Wikipedia) frames
+    this as seed funding from "brothers Dan and Farris Wilks"; the two sources
+    used here name only Farris Wilks and the $4.7M figure, so only that is
+    recorded. A reviewer may wish to confirm the primary-reporting origin of the
+    $4.7M figure and whether Dan Wilks was a co-investor.
+
+    JUDGMENT CALLS / ITEMS FOR HUMAN ATTENTION:
+    (1) SOURCE-TYPE MAPPING: the About page is the company's own official
+    ownership disclosure (a Tier 1 category in METHODOLOGY §1). The enum has no
+    "official company ownership disclosure" member, so it is mapped to
+    DIRECT_CREATOR_CONFIRMATION (also Tier 1), the closest official-statement
+    type. Reviewer should confirm this mapping is acceptable, or replace with a
+    corporate-registry record if a filing is located.
+    (2) daily_wire_llc OPERATES channel (rel 1): weakest edge. The About page
+    documents that The Daily Wire, LLC owns/operates the DailyWire+ service; it
+    does not name the YouTube channel entity in a documented ownership
+    instrument. Recorded as OPERATES with control_level UNKNOWN and low
+    confidence rather than asserting OWNS.
+    (3) Caleb Robinson (rel 7): named on the About page as launch partner
+    (widely reported as founding CEO). Backed by a single Tier 1 source; lower
+    confidence.
+
+    NOT RECORDED (insufficient/undocumented in the sources consulted): exact
+    cap-table percentages among the co-founders; the exact state/jurisdiction of
+    LLC formation; a "DailyWire Ventures, LLC" name variant that appears in some
+    tertiary sources but not on the company's own About page; Ben Shapiro's
+    "editor emeritus" title and other officer titles (not ownership facts);
+    reported 2024-2025 growth-investment discussions (out of scope for this
+    ownership record). No Tier 1 government/registry filing was located, so no
+    edge should be published as CONFIRMED without further primary sourcing.
+  last_reviewed_at: 2026-07-22

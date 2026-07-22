@@ -1,0 +1,362 @@
+# CHANNELWATCH research record — Vox
+#
+# DRAFT FOR HUMAN REVIEW — nothing here is published without human verification
+# (Spec §12.7).
+#
+# EXPECTED-PROFILE NOTE: this record was commissioned as the "corporate-native"
+# pilot case (channel is a brand of Vox Media, Inc., with documented outside
+# investors NBCUniversal 2015 and Penske Media 2023). Research found that
+# expectation is now HISTORICAL: on 2026-07-08, Lupa Systems (James Murdoch's
+# holding company) completed acquisition of the Vox brand (incl. this YouTube
+# channel) from the original Vox Media, Inc., which split in two. See
+# review.notes for the full chain and the reasoning behind each edge's status.
+#
+#   channel (Vox)
+#     └─ OWNS (ENDED 2026-07-08) ── Vox Media, Inc. [original, 2011-founded co.]
+#          ├─ INVESTED_IN (ENDED) ── NBCUniversal (2015, control UNKNOWN)
+#          └─ INVESTED_IN (ENDED) ── Penske Media Corp. (2023, 20%, MINORITY)
+#     └─ OWNS (ACTIVE, from 2026-07-08) ── Vox Media [new Lupa Systems subsidiary]
+#          └─ SUBSIDIARY_OF (ACTIVE) ── Lupa Systems, LLC (James Murdoch)
+#
+# Classification is COMPUTED by the importer from ACTIVE edges only, so the
+# current classification will resolve through the new Vox Media -> Lupa
+# Systems chain; the pre-2026 chain is retained as ENDED history for audit.
+
+channel:
+  youtube_channel_id: UCLXo7UDZvByw2ixzpQCufnA
+  display_name: Vox
+  handle: "@Vox"
+
+entities:
+  - slug: vox_media_original
+    # The company founded in 2011 by Jim Bankoff and Trei Brundrett that owned
+    # the Vox brand/channel from its 2014 launch until the 2026-07-08 sale to
+    # Lupa Systems. Distinguished by canonical_name from the entity below
+    # because both used/use the name "Vox Media" — see review.notes.
+    canonical_name: Vox Media, Inc. (2011-2026 entity)
+    entity_type: COMPANY
+    legal_name: Vox Media, Inc.
+    aliases:
+      - Vox Media
+  - slug: vox_media_current
+    # The new subsidiary formed by Lupa Systems on closing (2026-07-08) that now
+    # owns/operates the Vox brand, including this YouTube channel, and carries
+    # the "Vox Media" name forward.
+    canonical_name: Vox Media (Lupa Systems subsidiary, 2026-present)
+    entity_type: SUBSIDIARY
+    website: https://www.voxmedia.com
+    aliases:
+      - Vox Media
+  - slug: lupa_systems
+    canonical_name: Lupa Systems, LLC
+    entity_type: COMPANY
+    legal_name: LUPA Systems, LLC
+    aliases:
+      - Lupa Systems
+  - slug: nbcuniversal
+    canonical_name: NBCUniversal Media, LLC
+    entity_type: COMPANY
+    aliases:
+      - NBCUniversal
+      - Comcast NBCUniversal
+  - slug: penske_media
+    canonical_name: Penske Media Corporation
+    entity_type: COMPANY
+    aliases:
+      - PMC
+      - Penske Media
+
+relationships:
+  # 0: original Vox Media, Inc. owned the channel from launch until the 2026
+  # sale to Lupa Systems. Exact channel-launch day not independently confirmed
+  # to a T1/T2 source in this research pass, so effective_from is omitted
+  # (Vox.com/the channel are widely dated to April 2014; see notes).
+  - subject: vox_media_original
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_to: 2026-07-08
+    confidence: 0.8
+    status: ENDED
+  # 1: new Lupa Systems subsidiary (carrying the "Vox Media" name) owns the
+  # channel as of the deal's closing.
+  - subject: vox_media_current
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2026-07-08
+    confidence: 0.9
+    status: ACTIVE
+  # 2: the new Vox Media entity is a subsidiary of Lupa Systems (source's own
+  # words: "will operate as a new subsidiary of Lupa Systems"). No ownership
+  # percentage stated; CONTROLLING inferred from "subsidiary" language.
+  - subject: vox_media_current
+    type: SUBSIDIARY_OF
+    object: lupa_systems
+    control_level: CONTROLLING
+    effective_from: 2026-07-08
+    confidence: 0.85
+    status: ACTIVE
+  # 3: NBCUniversal's 2015 equity investment in the original Vox Media, Inc.
+  # No source found states an exact resulting ownership percentage (sources
+  # vary/are silent; see notes) -> control_level UNKNOWN. Marked ENDED because
+  # the entity it applies to (vox_media_original) no longer owns the channel
+  # as of 2026-07-08; whether/how this stake was resolved in the 2026
+  # restructuring was not confirmed by sources found.
+  - subject: nbcuniversal
+    type: INVESTED_IN
+    object: vox_media_original
+    control_level: UNKNOWN
+    effective_from: 2015-08-12
+    effective_to: 2026-07-08
+    confidence: 0.6
+    status: ENDED
+  # 4: Penske Media's 2023 investment: $100M for a stated ~20% stake, making
+  # PMC the "largest shareholder" (not stated/implied as majority control).
+  # Marked ENDED for the same reason as (3); reporting on the 2026 breakup
+  # indicates PMC (already the largest shareholder) separately acquired the
+  # remaining (non-Vox) Vox Media brands outright, but that transaction is
+  # outside this channel's ownership chain and not modeled here.
+  - subject: penske_media
+    type: INVESTED_IN
+    object: vox_media_original
+    control_level: MINORITY
+    ownership_percentage: 20
+    effective_from: 2023-02-06
+    effective_to: 2026-07-08
+    confidence: 0.75
+    status: ENDED
+
+sources:
+  - ref: comcast_nbcu_pr_2015
+    url: https://corporate.comcast.com/news-information/news-feed/nbcuniversal-announces-strategic-investment-in-vox-media
+    title: NBCUniversal Announces Strategic Investment in Vox Media
+    publisher: Comcast Corporation
+    published_at: 2015-08-12
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >
+      NBCUniversal and Vox Media today announced that NBCUniversal has agreed
+      to make a $200 million equity investment in Vox Media, one of the
+      world's largest and fastest growing digital media companies.
+    supports:
+      - relationship: 3
+      - claim: 3
+  - ref: techcrunch_nbcu_2015
+    url: https://techcrunch.com/2015/08/12/nbcuniversal-backs-vox-media/
+    title: NBCUniversal Backs Vox Media
+    publisher: TechCrunch
+    published_at: 2015-08-12
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      The Wall Street Journal and Re/code (which was acquired by Vox earlier
+      this year) both said that the deal values Vox at $1 billion, post-money.
+    supports:
+      - relationship: 3
+      - claim: 3
+  - ref: insideradio_penske_2023
+    url: https://www.insideradio.com/free/penske-media-buys-big-stake-in-vox-media-with-a-joint-focus-on-growth/article_3ce102f4-a736-11ed-9f3b-1f4d69607b87.html
+    title: Penske Media Buys Big Stake In Vox Media With A Joint Focus On Growth
+    publisher: Inside Radio
+    published_at: 2023-02-07
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Penske Media has struck a deal to become Vox Media's largest
+      shareholder. Penske will pump $100 million into Vox, giving it a
+      roughly 20% stake. Penske Media co-founder and CEO Jay Penske will join
+      the board of directors at Vox Media.
+    supports:
+      - relationship: 4
+      - claim: 4
+  - ref: celebrityaccess_penske_2023
+    url: https://celebrityaccess.com/2023/02/08/penske-media-becomes-vox-medias-largest-stakeholder/
+    title: Penske Media Becomes Vox Media's Largest Stakeholder
+    publisher: CelebrityAccess
+    published_at: 2023-02-08
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Penske Media Corporation (PMC) announced Monday (February 6) it has
+      made a significant investment in Vox Media and is now its largest
+      shareholder. Jay Penske, CEO and Founder of PMC joined the Vox board
+      of directors as part of the deal.
+    supports:
+      - relationship: 4
+      - claim: 4
+  - ref: prnewswire_lupa_agreement_2026
+    url: https://www.prnewswire.com/news-releases/lupa-systems-acquires-three-major-divisions-of-vox-media-new-york-magazine-vox-media-podcast-network-and-vox-302777619.html
+    title: "Lupa Systems Acquires Three Major Divisions of Vox Media: New York Magazine, Vox Media Podcast Network, and Vox"
+    publisher: Lupa Systems / PR Newswire
+    published_at: 2026-05-20
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >
+      Lupa Systems, James Murdoch's media and technology holding company, has
+      agreed to acquire New York Magazine, the Vox Media Podcast Network, and
+      Vox from the digital media group Vox Media. The properties will operate
+      as a subsidiary of Lupa Systems called Vox Media.
+    supports:
+      - relationship: 0
+      - claim: 0
+  - ref: prnewswire_lupa_closing_2026
+    url: https://www.prnewswire.com/news-releases/lupa-systems-completes-acquisition-of-new-york-magazine-vox-media-podcast-network-and-vox-302821001.html
+    title: Lupa Systems Completes Acquisition of New York Magazine, Vox Media Podcast Network, and Vox
+    publisher: Lupa Systems / PR Newswire
+    published_at: 2026-07-08
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >
+      Lupa Systems, James Murdoch's media and technology holding company,
+      today announced the completion of its acquisition of New York
+      Magazine, the Vox Media Podcast Network, and Vox. Initially announced
+      in May, the transaction has now closed, and the three divisions will
+      operate as a new subsidiary of Lupa Systems under the Vox Media name.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - claim: 0
+      - claim: 1
+      - claim: 2
+
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: vox_media_original
+    confidence_factors:
+      sourceQuality: 0.9
+      directness: 0.9
+      entityMatch: 0.9
+      recencyFactor: 0.5
+      corroborationFactor: 0.9
+      contradictionPenalty: 1.0
+  - predicate: OWNED_BY
+    subject: channel
+    object: vox_media_current
+    effective_date: 2026-07-08
+    confidence_factors:
+      sourceQuality: 1.0
+      directness: 1.0
+      entityMatch: 0.95
+      recencyFactor: 1.0
+      corroborationFactor: 0.85
+      contradictionPenalty: 1.0
+  - predicate: SUBSIDIARY_OF
+    subject: vox_media_current
+    object: lupa_systems
+    effective_date: 2026-07-08
+    confidence_factors:
+      sourceQuality: 1.0
+      directness: 0.9
+      entityMatch: 0.95
+      recencyFactor: 1.0
+      corroborationFactor: 0.85
+      contradictionPenalty: 1.0
+  - predicate: INVESTED_IN
+    subject: nbcuniversal
+    object: vox_media_original
+    effective_date: 2015-08-12
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 0.9
+      entityMatch: 0.9
+      recencyFactor: 0.3
+      corroborationFactor: 0.9
+      contradictionPenalty: 0.9
+  - predicate: INVESTED_IN
+    subject: penske_media
+    object: vox_media_original
+    effective_date: 2023-02-06
+    confidence_factors:
+      sourceQuality: 0.9
+      directness: 0.95
+      entityMatch: 0.9
+      recencyFactor: 0.5
+      corroborationFactor: 0.95
+      contradictionPenalty: 1.0
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted — not yet human-reviewed.
+  last_reviewed_at: "2026-07-22"
+  notes: >
+    DRAFT — requires human review. This channel was commissioned as the
+    expected "corporate-native" pilot case, but research surfaced a major,
+    very recent (closed 2026-07-08, two weeks before this research pass)
+    corporate restructuring that supersedes the originally expected static
+    picture. Flagging for priority human attention.
+
+    THE 2026 BREAKUP (why this record has two "Vox Media" entities). The
+    company founded in 2011 as Vox Media, Inc. split in 2026: (a) Lupa
+    Systems (James Murdoch's holding company) agreed 2026-05-20 and closed
+    2026-07-08 to acquire New York Magazine, the Vox Media Podcast Network,
+    and Vox (this YouTube channel included, per the closing PR's own
+    description of Vox's "thriving YouTube channel"), operating them as a
+    new subsidiary that carries the "Vox Media" name forward; (b) separately,
+    Penske Media Corporation (PMC) — already Vox Media's largest shareholder
+    from its 2023 investment — acquired the REMAINING brands (The Verge, SB
+    Nation, Eater, Popsugar, The Dodo, Thrillist, Punch) into a new PMX
+    division. Because both the original and the new entity use the name
+    "Vox Media," I gave them distinct canonical_names
+    (vox_media_original / vox_media_current) to avoid a natural-key
+    collision in the DB; a reviewer may prefer a different disambiguation
+    scheme.
+
+    CURRENT OWNERSHIP (HIGH CONFIDENCE). As of 2026-07-08 the Vox YouTube
+    channel is owned by the new Vox Media entity, a subsidiary of Lupa
+    Systems, LLC (James Murdoch). Two Lupa/PR Newswire T1 releases (agreement
+    2026-05-20, closing 2026-07-08) directly and explicitly name Vox/its
+    YouTube channel among the acquired assets. No ownership percentage is
+    stated for the subsidiary relationship; CONTROLLING is inferred from
+    "subsidiary" language, not a stated percentage — reviewer should confirm
+    this inference is acceptable.
+
+    HISTORICAL CHAIN (2015-2026, now ENDED). NBCUniversal invested $200M in
+    Vox Media, Inc. in 2015 (T1 Comcast PR + T2 TechCrunch); reporting
+    disagrees on/omits the resulting percentage (one contemporaneous account
+    attributed to Vox's CEO described Comcast's resulting stake loosely as
+    "about a third," which I could not independently verify against a
+    fetchable T1/T2 source in this pass, so control_level is UNKNOWN rather
+    than asserting the 33% figure). Penske Media invested $100M for a stated
+    ~20% stake in 2023 (T2 Inside Radio, CelebrityAccess), becoming "largest
+    shareholder" — per the ground rules, this is recorded as a MINORITY
+    (20%) stake, NOT majority/controlling, since no source claims majority
+    control. Both investor relationships are marked ENDED as of 2026-07-08
+    because the entity they applied to (vox_media_original) no longer owns
+    the Vox brand/channel; I did not find a source confirming what happened
+    to these specific equity stakes in the breakup (plausibly they now
+    relate to PMC's separate acquisition of the non-Vox remainder, which is
+    NOT modeled here since it does not touch this channel's ownership
+    chain) — reviewer should treat this as an open item if a fuller
+    corporate-history record is wanted.
+
+    DATE PRECISION. Vox.com/the YouTube channel's exact launch date (widely
+    reported as April 2014) was not pinned to a fetchable T1/T2 source in
+    this pass, so relationship 0's effective_from is omitted rather than
+    asserted from memory/secondary aggregators (e.g. Wikipedia). NBCUniversal
+    (2015-08-12), Penske (deal announced 2023-02-06, reported 2023-02-07/08
+    by the two T2 sources used), and the Lupa agreement/closing
+    (2026-05-20 / 2026-07-08) dates are all full-precision from primary or
+    T2 sources.
+
+    NOT MODELED (out of scope for this channel). The Group Nine Media merger
+    (announced 2021-12-13, closed 2022-02-22, giving Group Nine investors
+    including Warner Bros. Discovery ~25% of Vox Media, Inc.) was mentioned
+    in secondary sources but not independently verified to a T1/T2 primary
+    source in this pass; omitted rather than included on weak sourcing.
+    Reviewer may wish to add it to the historical chain if verified.
+    Similarly, PMC's separate, concurrent acquisition of the non-Vox Vox
+    Media brands (forming "PMX") is noted here for context only and not
+    modeled as a relationship, since it does not involve the Vox channel.
+
+    ARCHIVING. archive.org's availability API returned rate-limit errors
+    (HTTP 429) for all five sources during this pass; no archive_url could
+    be captured. Reviewer should archive the two prnewswire.com URLs and the
+    corporate.comcast.com URL as a priority (highest-stakes T1 sources).
+
+    CHANNEL ID. UCLXo7UDZvByw2ixzpQCufnA extracted from the "externalId"
+    field in the raw HTML of https://www.youtube.com/@Vox (curl fetch,
+    2026-07-22), and independently corroborated by a search result resolving
+    https://www.youtube.com/channel/UCLXo7UDZvByw2ixzpQCufnA as "Vox."

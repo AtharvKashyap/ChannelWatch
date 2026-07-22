@@ -1,0 +1,145 @@
+# CHANNELWATCH research record — TLDR News (UK)
+#
+# Real record (not a fixture). The task brief referenced the handle
+# "@TLDRnewsUK", but that handle returns HTTP 404 on youtube.com; the live
+# canonical handle for this channel is "@TLDRnews" (see review notes).
+
+channel:
+  youtube_channel_id: UCSMqateX8OA2s1wsOR2EgJA
+  display_name: TLDR News
+  handle: "@TLDRnews"
+
+entities:
+  - slug: three26
+    canonical_name: THREE26 LTD
+    entity_type: COMPANY
+    legal_name: THREE26 LTD
+    jurisdiction: GB
+    website: https://tldrnews.co.uk
+  - slug: jack_kelly
+    canonical_name: Jack Kelly
+    entity_type: CREATOR
+
+relationships:
+  # 0: The channel's own YouTube "About" description states it is owned and
+  # operated by THREE26 LTD.
+  - subject: three26
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.9
+    status: ACTIVE
+  # 1: Jack Kelly founded the channel in April 2017 (month/year only in the
+  # source; day omitted per dating rules — see review notes).
+  - subject: channel
+    type: FOUNDED_BY
+    object: jack_kelly
+    confidence: 0.85
+    status: ACTIVE
+  # 2: UK Companies House lists Jack Kelly as the person with significant
+  # control of THREE26 LTD, holding 75% or more of shares and voting rights
+  # (statutory band, not an exact percentage — see review notes).
+  - subject: jack_kelly
+    type: OWNS
+    object: three26
+    control_level: CONTROLLING
+    confidence: 0.9
+    status: ACTIVE
+  # 3: UK Companies House lists Jack Kelly as the sole director of THREE26
+  # LTD, appointed 2018-10-16.
+  - subject: jack_kelly
+    type: MANAGES
+    object: three26
+    control_level: MANAGEMENT
+    effective_from: "2018-10-16"
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: youtube_about
+    url: https://www.youtube.com/@TLDRnews/about
+    title: "TLDR News — YouTube channel About page"
+    publisher: YouTube (TLDR News channel)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: TLDR News is owned and operated by THREE26 Ltd
+    supports:
+      - relationship: 0
+  - ref: ch_overview
+    url: https://find-and-update.company-information.service.gov.uk/company/11624404
+    title: THREE26 LTD overview
+    publisher: UK Companies House
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >
+      THREE26 LTD, company number 11624404, incorporated 16 October 2018.
+      Company status: Active. Company type: Private limited Company.
+      Registered office: 71-75 Shelton Street, Covent Garden, London, WC2H 9JQ.
+    supports:
+      - relationship: 2
+  - ref: ch_psc
+    url: https://find-and-update.company-information.service.gov.uk/company/11624404/persons-with-significant-control
+    title: THREE26 LTD persons with significant control
+    publisher: UK Companies House
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >
+      Mr Jack Kelly, notified 16 October 2018. Nature of control: ownership of
+      shares - 75% or more; ownership of voting rights - 75% or more; right to
+      appoint or remove directors.
+    supports:
+      - relationship: 2
+  - ref: ch_officers
+    url: https://find-and-update.company-information.service.gov.uk/company/11624404/officers
+    title: THREE26 LTD officers
+    publisher: UK Companies House
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: "KELLY, Jack — Director — Appointed on 16 October 2018 — Active"
+    supports:
+      - relationship: 3
+  - ref: wiki_founding
+    url: https://en.wikipedia.org/wiki/TLDR_News
+    title: TLDR News
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Jack Kelly, then a 20-year-old computer science graduate, founded TLDR
+      News in April 2017 with the aim of making news engaging to young
+      audiences.
+    supports:
+      - relationship: 1
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >
+    Handle discrepancy: the brief specified "@TLDRnewsUK", but that handle
+    404s on youtube.com; the live, canonical handle for this channel is
+    "@TLDRnews" (channel id UCSMqateX8OA2s1wsOR2EgJA, confirmed via the
+    channel's own canonical link and ownerUrls metadata). Sibling channels
+    TLDRnewsEU and TLDRnewsGLOBAL exist but were out of scope per the brief
+    and were not researched. Founding date is month/year only (April 2017)
+    in every source found (Wikipedia; press coverage); effective_from was
+    omitted from relationship 1 rather than guessing a day — a human
+    reviewer with access to a more precise source could add it.
+    Ownership_percentage was omitted from relationship 2 (Jack Kelly's stake
+    in THREE26 LTD) because UK Companies House PSC records report a
+    statutory ownership band ("75% or more"), not an exact percentage; a
+    reviewer with access to the Confirmation Statement / share register
+    could tighten this to an exact figure. No other shareholders, directors,
+    or PSC entries were found for THREE26 LTD (single officer, single PSC),
+    and no evidence of external investment, private equity, or corporate
+    acquisition was found for either THREE26 LTD or the channel. Did not
+    include a HOSTED_BY relationship for Jack Kelly: he is widely reported
+    (IMDb credits, press coverage) as a/the host across the TLDR Network's
+    channels, but no source specifically confirms his hosting role tied to
+    this exact channel (vs. sibling channels), so it was left out per the
+    precision-over-recall rule rather than asserted loosely — worth a
+    reviewer's follow-up. Wikipedia was used only as a Tier 2 corroborating
+    source for the founding-date claim (relationship 1); the ownership
+    relationships (0 and 2) rely solely on Tier 1 primary sources (the
+    channel's own About page and UK Companies House filings) even though
+    Wikipedia's own text corroborates them, to avoid over-relying on a
+    user-editable source for the higher-stakes ownership facts.
+  last_reviewed_at: "2026-07-22"
