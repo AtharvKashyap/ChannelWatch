@@ -128,4 +128,56 @@ describe("content pipeline: resolve → LOOKUP_CHANNEL → notify subscribers", 
     expect(cb.mock.calls[0]![0]).toEqual({ channelId: null, response: null });
     unsubscribe();
   });
+
+  it("drops a stale out-of-order completion when a newer resolution has since started (latest-request-wins)", async () => {
+    // A resolves slowly, B resolves fast. B's completion must win even though
+    // A was dispatched first — A's late completion must produce no notify.
+    let resolveA!: (v: unknown) => void;
+    let resolveB!: (v: unknown) => void;
+    const pendingA = new Promise((r) => {
+      resolveA = r;
+    });
+    const pendingB = new Promise((r) => {
+      resolveB = r;
+    });
+
+    const sendMessage = vi.fn();
+    sendMessage.mockImplementationOnce(async () => pendingA);
+    sendMessage.mockImplementationOnce(async () => pendingB);
+    (globalThis as { chrome?: unknown }).chrome = { runtime: { sendMessage } };
+
+    const cb = vi.fn();
+    const unsubscribe = onChannelResolved(cb);
+
+    // Dispatch A (slow), don't await yet.
+    const aPromise = resolveAndLookup(document, "https://www.youtube.com/watch?v=x");
+
+    // Dispatch B (fast) for a different channel before A completes.
+    document.body.innerHTML = watchDom("y", OTHER);
+    const bPromise = resolveAndLookup(document, "https://www.youtube.com/watch?v=y");
+
+    // B completes first.
+    const bPayload = {
+      ok: true,
+      payload: researchedFixture({ youtube_channel_id: OTHER }),
+      cached: false,
+    };
+    resolveB(bPayload);
+    await bPromise;
+
+    expect(cb).toHaveBeenCalledTimes(1);
+    expect(cb.mock.calls[0]![0]).toMatchObject({ channelId: OTHER });
+
+    // A completes late (stale) — must be dropped: no additional notify.
+    const aPayload = {
+      ok: true,
+      payload: researchedFixture({ youtube_channel_id: VERITASIUM }),
+      cached: false,
+    };
+    resolveA(aPayload);
+    await aPromise;
+
+    expect(cb).toHaveBeenCalledTimes(1); // still just B's notification
+    unsubscribe();
+  });
 });

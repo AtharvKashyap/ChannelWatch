@@ -41,6 +41,20 @@ let lastResolved: ChannelResolved | null = null;
 let lastChannelId: string | null = null;
 
 /**
+ * Monotonic sequence number, bumped once per resolution *dispatch* (before any
+ * await). Used as a "latest-request-wins" guard: overlapping navigations can
+ * have their `LOOKUP_CHANNEL` responses arrive out of order (an earlier, slow
+ * lookup completing after a later, fast one). Each resolution captures the
+ * post-increment value as its own `mySeq`; when its awaited lookup returns, it
+ * only notifies (and never does, since notifying is the only side effect left
+ * after the await) if `mySeq === resolveSeq` — i.e. no newer resolution has
+ * been dispatched since. A stale completion is dropped silently: no notify,
+ * no `lastChannelId` mutation (the newer, in-flight or already-completed
+ * resolution owns that state).
+ */
+let resolveSeq = 0;
+
+/**
  * Register a callback invoked whenever a channel is resolved and looked up.
  * Returns an unsubscribe function. (Task 5's renderer hooks in here.)
  */
@@ -75,15 +89,25 @@ export async function resolveAndLookup(doc: Document, url: string): Promise<void
   try {
     const channelId = resolveChannelId(doc, url);
 
-    // Nothing changed since the last notification — no re-send, no re-notify.
-    // (Covers the continuous MutationObserver firings on a stable page, and
-    // null→null on non-channel pages.)
+    // Nothing changed since the last *dispatched* resolution — no re-send,
+    // no re-notify. (Covers the continuous MutationObserver firings on a
+    // stable page, and null→null on non-channel pages.) Recording
+    // `lastChannelId` at dispatch time (below), rather than after the await,
+    // is what makes this dedup correct under overlapping navigations: if it
+    // were recorded on completion, two overlapping resolutions to the same id
+    // could both pass this check and both re-send.
     if (channelId === lastChannelId) return;
+    lastChannelId = channelId;
+
+    // Sequence number captured synchronously at dispatch — before any await —
+    // so it's unambiguous which resolution is "latest" at any later point.
+    const mySeq = ++resolveSeq;
 
     // Transitioned to "no channel" (navigated away / became ambiguous): tell
-    // subscribers to clear, without sending a lookup.
+    // subscribers to clear, without sending a lookup. No await occurs before
+    // this, so no other resolution can have interleaved — the staleness
+    // guard below isn't needed here.
     if (channelId === null) {
-      lastChannelId = null;
       notify({ channelId: null, response: null });
       return;
     }
@@ -100,7 +124,13 @@ export async function resolveAndLookup(doc: Document, url: string): Promise<void
       response = null;
     }
 
-    lastChannelId = channelId;
+    // Latest-request-wins: if a newer resolution has been dispatched since
+    // this one started (mySeq !== resolveSeq), this completion is stale —
+    // drop it silently. Never update `lastChannelId` here (already correct,
+    // owned by whichever resolution dispatched last) and never notify (that
+    // would render a stale badge for a page we've since navigated away from).
+    if (mySeq !== resolveSeq) return;
+
     notify({ channelId, response });
   } catch (err) {
     console.debug("[channelwatch] resolveAndLookup failed", err);
@@ -125,6 +155,7 @@ export function teardown(): void {
   observer = null;
   lastChannelId = null;
   lastResolved = null;
+  resolveSeq = 0;
 }
 
 // Auto-start only inside a real extension content-script context (where
