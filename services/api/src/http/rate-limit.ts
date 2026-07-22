@@ -31,6 +31,18 @@ export interface TokenBucketOptions {
   capacity: number;
   /** Milliseconds in which `capacity` tokens are fully replenished. */
   refillWindowMs: number;
+  /**
+   * Evict a bucket after this many ms of inactivity (default 10 min). A bucket
+   * idle this long has necessarily refilled to full capacity, so dropping it is
+   * behaviourally identical to keeping it — it just reclaims memory.
+   */
+  idleMs?: number;
+  /**
+   * Hard cap on the number of tracked buckets (default 10_000). When exceeded,
+   * the least-recently-used buckets are evicted. Bounds memory under a
+   * distributed / spoofed-key flood so the store cannot grow without limit.
+   */
+  maxKeys?: number;
   /** Injectable clock (ms). Defaults to `Date.now`; tests pass a fake. */
   now?: () => number;
 }
@@ -43,25 +55,41 @@ interface Bucket {
 export class TokenBucketStore {
   private readonly capacity: number;
   private readonly ratePerMs: number;
+  private readonly idleMs: number;
+  private readonly maxKeys: number;
   private readonly now: () => number;
+  // Insertion/access order is maintained as LRU: every `take` deletes and
+  // re-sets its key so the map is ordered oldest-access-first. That lets idle
+  // sweeping stop at the first fresh entry and LRU eviction drop from the front.
   private readonly buckets = new Map<string, Bucket>();
 
   constructor(options: TokenBucketOptions) {
     if (options.capacity <= 0) throw new Error("rate-limit capacity must be > 0");
     if (options.refillWindowMs <= 0) throw new Error("rate-limit refillWindowMs must be > 0");
+    if (options.idleMs !== undefined && options.idleMs <= 0)
+      throw new Error("rate-limit idleMs must be > 0");
+    if (options.maxKeys !== undefined && options.maxKeys <= 0)
+      throw new Error("rate-limit maxKeys must be > 0");
     this.capacity = options.capacity;
     this.ratePerMs = options.capacity / options.refillWindowMs;
+    this.idleMs = options.idleMs ?? 10 * 60 * 1000;
+    this.maxKeys = options.maxKeys ?? 10_000;
     this.now = options.now ?? Date.now;
   }
 
   /**
    * Attempt to spend one token for `key`. Refills lazily based on elapsed time
    * since the key was last seen, capped at capacity. A request is allowed iff a
-   * whole token is available.
+   * whole token is available. Also sweeps idle buckets and enforces the LRU cap.
    */
   take(key: string): RateLimitDecision {
     const now = this.now();
-    const bucket = this.buckets.get(key) ?? { tokens: this.capacity, last: now };
+    this.sweepIdle(now);
+
+    // Pull + delete so the re-set below moves the key to the most-recent end.
+    const existing = this.buckets.get(key);
+    if (existing) this.buckets.delete(key);
+    const bucket = existing ?? { tokens: this.capacity, last: now };
 
     // Lazy refill for the elapsed interval, capped at capacity.
     const elapsed = Math.max(0, now - bucket.last);
@@ -71,6 +99,7 @@ export class TokenBucketStore {
     const allowed = bucket.tokens >= 1;
     if (allowed) bucket.tokens -= 1;
     this.buckets.set(key, bucket);
+    this.evictOverflow();
 
     const remaining = Math.max(0, Math.floor(bucket.tokens));
     // Time to fully refill from the current level.
@@ -80,6 +109,29 @@ export class TokenBucketStore {
     const retryAfterSeconds = allowed ? 0 : Math.ceil(deficit / this.ratePerMs / 1000);
 
     return { allowed, limit: this.capacity, remaining, resetSeconds, retryAfterSeconds };
+  }
+
+  /** Number of tracked buckets (for tests/introspection). */
+  size(): number {
+    return this.buckets.size;
+  }
+
+  /** Drop buckets untouched for longer than `idleMs`. Map is oldest-first. */
+  private sweepIdle(now: number): void {
+    const cutoff = now - this.idleMs;
+    for (const [k, b] of this.buckets) {
+      if (b.last > cutoff) break; // rest are newer (access-ordered)
+      this.buckets.delete(k);
+    }
+  }
+
+  /** Evict least-recently-used buckets until at/under the cap. */
+  private evictOverflow(): void {
+    while (this.buckets.size > this.maxKeys) {
+      const oldest = this.buckets.keys().next().value;
+      if (oldest === undefined) break;
+      this.buckets.delete(oldest);
+    }
   }
 
   /** Test/maintenance helper: drop all buckets. */

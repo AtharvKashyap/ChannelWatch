@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { classificationSummary, UNRESEARCHED_SUMMARY } from "../src/copy.js";
+import {
+  classificationSummary,
+  CORRECTION_RECEIVED,
+  RESEARCH_LEAD_RECEIVED,
+  UNRESEARCHED_SUMMARY,
+} from "../src/copy.js";
 import { CLASSIFICATION_LABELS } from "../src/enums.js";
 
 /**
@@ -107,5 +112,10 @@ describe("classificationSummary (§23.1 safer language)", () => {
 
   it("exposes a neutral unresearched summary constant", () => {
     expect(UNRESEARCHED_SUMMARY).toBe("This channel has not yet been researched.");
+  });
+
+  it("exposes the POST intake acknowledgement strings", () => {
+    expect(CORRECTION_RECEIVED).toBe("Correction received and queued for review.");
+    expect(RESEARCH_LEAD_RECEIVED).toBe("Research lead received and queued for review.");
   });
 });

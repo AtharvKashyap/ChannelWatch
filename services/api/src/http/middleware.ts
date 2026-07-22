@@ -42,18 +42,31 @@ export function errorEnvelope(code: string, message: string, details?: unknown):
 }
 
 /**
- * Resolve the client IP for rate limiting. Behind a proxy the real client is the
- * first hop in `x-forwarded-for`; `x-real-ip` is a fallback. When neither is set
- * (direct local calls, tests) we bucket under a single `"unknown"` key — the
- * limiter still functions, it just cannot distinguish anonymous local callers.
+ * Resolve the client IP for rate limiting.
+ *
+ * SECURITY: `X-Forwarded-For` is client-controllable, so trusting it blindly
+ * lets an attacker spoof a fresh IP per request and bypass the limiter. We
+ * therefore trust forwarding headers ONLY when `TRUSTED_PROXY` is set in the
+ * environment (the operator confirming the API sits behind a proxy that
+ * rewrites XFF). Otherwise we key on the direct socket/connection address from
+ * the Node server, falling back to a single `"unknown"` bucket when no address
+ * is available (e.g. in-process test requests) — the limiter still functions,
+ * it just cannot distinguish those callers.
  */
 export function clientIp(c: Context): string {
-  const forwarded = c.req.header("x-forwarded-for");
-  if (forwarded) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
+  if (process.env.TRUSTED_PROXY) {
+    const forwarded = c.req.header("x-forwarded-for");
+    if (forwarded) {
+      const first = forwarded.split(",")[0]?.trim();
+      if (first) return first;
+    }
+    const real = c.req.header("x-real-ip")?.trim();
+    if (real) return real;
   }
-  return c.req.header("x-real-ip")?.trim() || "unknown";
+  // Direct connection address from @hono/node-server (undefined under
+  // `app.request` in tests, where there is no socket).
+  const env = c.env as { incoming?: { socket?: { remoteAddress?: string } } } | undefined;
+  return env?.incoming?.socket?.remoteAddress || "unknown";
 }
 
 /** Origins the API allows via CORS: the browser extension(s) + configured web origin. */

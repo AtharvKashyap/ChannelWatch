@@ -8,6 +8,8 @@ import {
   UNRESEARCHED_SUMMARY,
   type ChannelLookupPayload,
   type ClassificationLabel,
+  type Entity,
+  type Relationship,
   type ResearchStatus,
 } from "@channelwatch/schemas";
 import { deriveClassification } from "@channelwatch/graph";
@@ -25,6 +27,7 @@ import {
   rowToEntity,
   rowToRelationship,
   type ChannelRow,
+  type EntityRow,
   type RelationshipRow,
 } from "./mappers.js";
 
@@ -68,6 +71,90 @@ function connectedNodeIds(startId: string, relRows: RelationshipRow[]): Set<stri
     }
   }
   return nodes;
+}
+
+/**
+ * Map relationship rows to graph edges, SKIPPING (and logging) any row that
+ * fails validation instead of throwing. A single corrupt row (bad enum, missing
+ * endpoint) must not 500 the endpoints for every channel — the graph degrades
+ * to the edges it can trust, and the classifier falls back to the cached label.
+ */
+function mapRelationshipsSafe(rows: RelationshipRow[]): { edges: Relationship[]; skipped: number } {
+  const edges: Relationship[] = [];
+  let skipped = 0;
+  for (const r of rows) {
+    try {
+      edges.push(rowToRelationship(r));
+    } catch (err) {
+      skipped++;
+      console.warn(
+        `[queries] skipping unmappable relationship ${r.id}: ` +
+          (err instanceof Error ? err.message : String(err)),
+      );
+    }
+  }
+  return { edges, skipped };
+}
+
+/** As `mapRelationshipsSafe`, for entity rows. */
+function mapEntitiesSafe(rows: EntityRow[]): { entities: Entity[]; skipped: number } {
+  const out: Entity[] = [];
+  let skipped = 0;
+  for (const r of rows) {
+    try {
+      out.push(rowToEntity(r));
+    } catch (err) {
+      skipped++;
+      console.warn(
+        `[queries] skipping unmappable entity ${r.id}: ` +
+          (err instanceof Error ? err.message : String(err)),
+      );
+    }
+  }
+  return { entities: out, skipped };
+}
+
+interface ChannelDerivation {
+  result: ReturnType<typeof deriveClassification>;
+  /** Rows in the channel's sub-graph that could not be mapped (were skipped). */
+  skipped: number;
+  nodeIds: Set<string>;
+  relRows: RelationshipRow[];
+  entityRows: EntityRow[];
+}
+
+/**
+ * Load the channel's reachable ownership sub-graph and derive its classification.
+ *
+ * Reachability is computed over RAW rows (reading endpoint ids never throws), so
+ * we only ever map — and only ever risk a validation error on — rows that
+ * actually belong to this channel's sub-graph, and even those are skipped rather
+ * than thrown. This bounds both the work and the blast radius: a malformed row
+ * in some unrelated channel's data cannot affect this channel, and a malformed
+ * row within this sub-graph degrades the result instead of failing the request.
+ */
+async function deriveForChannel(db: Database, channel: ChannelRow): Promise<ChannelDerivation> {
+  const relRows = await db.select().from(relationships);
+  const nodeIds = connectedNodeIds(channel.id, relRows);
+  const subgraphRows = relRows.filter((r) => {
+    const { from, to } = edgeEndpoints(r);
+    return from !== null && to !== null && (nodeIds.has(from) || nodeIds.has(to));
+  });
+  const { edges, skipped: relSkipped } = mapRelationshipsSafe(subgraphRows);
+
+  const entIds = [...nodeIds];
+  const entityRows =
+    entIds.length === 0 ? [] : await db.select().from(entities).where(inArray(entities.id, entIds));
+  const { entities: mappedEntities, skipped: entSkipped } = mapEntitiesSafe(entityRows);
+
+  const result = deriveClassification({
+    channelId: channel.id,
+    relationships: edges,
+    entities: mappedEntities,
+    asOf: new Date(),
+    lastReviewedAt: channel.lastReviewedAt,
+  });
+  return { result, skipped: relSkipped + entSkipped, nodeIds, relRows, entityRows };
 }
 
 export async function getChannelByYoutubeId(
@@ -115,34 +202,25 @@ export async function assembleLookup(
   db: Database,
   channel: ChannelRow,
 ): Promise<ChannelLookupPayload> {
-  const relRows = await db.select().from(relationships);
-  const entityRows = await db.select().from(entities);
-  const mappedRelationships = relRows.map(rowToRelationship);
-  const mappedEntities = entityRows.map(rowToEntity);
+  const { result, skipped, nodeIds } = await deriveForChannel(db, channel);
 
-  const result = deriveClassification({
-    channelId: channel.id,
-    relationships: mappedRelationships,
-    entities: mappedEntities,
-    asOf: new Date(),
-    lastReviewedAt: channel.lastReviewedAt,
-  });
-
-  // Live result is authoritative. Fall back to the cached published label only
-  // when the graph produced no ownership evidence but a label was published.
+  // Live result is authoritative. Fall back to the cached published label when
+  // the graph found no ownership evidence, OR when a sub-graph row had to be
+  // skipped and the live result is therefore unclear — in both cases the live
+  // inputs are incomplete, so a previously published label is the honest answer.
   let label: ClassificationLabel = result.classification;
   let confidence = result.confidence;
   let directOwner = result.directOwner;
   let ultimateParent = result.ultimateParent;
   const noEvidence = result.explanationCodes.includes("NO_OWNERSHIP_EVIDENCE");
-  if (noEvidence && channel.publishedClassification) {
+  const degraded = noEvidence || (skipped > 0 && result.classification === "OWNERSHIP_UNCLEAR");
+  if (degraded && channel.publishedClassification) {
     label = ClassificationLabelSchema.parse(channel.publishedClassification);
     confidence = channel.classificationConfidence ? Number(channel.classificationConfidence) : 0;
     directOwner = null;
     ultimateParent = null;
   }
 
-  const nodeIds = connectedNodeIds(channel.id, relRows);
   const sourceIds = await evidenceSourceIds(db, nodeIds);
 
   const summary = classificationSummary({
@@ -190,17 +268,7 @@ export function unresearchedPayload(youtubeChannelId: string): ChannelLookupPayl
 
 /** Ownership chain + participating entities for `GET /channels/:id/ownership`. */
 export async function getOwnership(db: Database, channel: ChannelRow) {
-  const relRows = await db.select().from(relationships);
-  const entityRows = await db.select().from(entities);
-  const result = deriveClassification({
-    channelId: channel.id,
-    relationships: relRows.map(rowToRelationship),
-    entities: entityRows.map(rowToEntity),
-    asOf: new Date(),
-    lastReviewedAt: channel.lastReviewedAt,
-  });
-
-  const nodeIds = connectedNodeIds(channel.id, relRows);
+  const { result, nodeIds, relRows, entityRows } = await deriveForChannel(db, channel);
   const entityById = new Map(entityRows.map((e) => [e.id, e]));
   const nameOf = (id: string | null): string | null =>
     id === null ? null : (entityById.get(id)?.canonicalName ?? null);

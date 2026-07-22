@@ -29,6 +29,12 @@ export const EDITORIAL_DISCLAIMER = "No conclusion is made about editorial inter
 /** Call-to-action for the correction workflow (SPEC §23.3). */
 export const CORRECTION_CTA = "Report an Error";
 
+/** Acknowledgement returned when a public correction is accepted into the queue. */
+export const CORRECTION_RECEIVED = "Correction received and queued for review.";
+
+/** Acknowledgement returned when a public research lead is accepted into the queue. */
+export const RESEARCH_LEAD_RECEIVED = "Research lead received and queued for review.";
+
 /**
  * Neutral, fact-first ownership statement (§23.1 preferred phrasing):
  * "Public records indicate that {owner} owns {channel}."

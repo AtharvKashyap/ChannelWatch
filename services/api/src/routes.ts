@@ -1,8 +1,12 @@
 import { Hono } from "hono";
 import type { Context } from "hono";
+import { bodyLimit } from "hono/body-limit";
 import { z, ZodError } from "zod";
 import {
+  ChannelLookupPayload,
+  CORRECTION_RECEIVED,
   CorrectionSubmission,
+  RESEARCH_LEAD_RECEIVED,
   ResearchLeadSubmission,
   YoutubeChannelId,
 } from "@channelwatch/schemas";
@@ -21,6 +25,9 @@ import {
 import { insertCorrection, insertResearchLead } from "./db/writes.js";
 import { ApiError, badRequest, errorEnvelope, notFound } from "./http/middleware.js";
 import { createRateLimit } from "./http/rate-limit.js";
+
+/** Maximum accepted POST body size (§32.1 abuse control). */
+const MAX_POST_BODY_BYTES = 32 * 1024;
 
 /**
  * Public `/api/v1` router (SPEC §17). Read endpoints and the two public POST
@@ -49,6 +56,18 @@ export function createV1Router(): Hono {
   v1.on(["GET"], "*", readLimit);
   v1.on(["POST"], "*", postLimit);
 
+  // Cap POST bodies before they are buffered/parsed (`c.req.json()` would
+  // otherwise read an unbounded body into memory). Over-limit → 413.
+  v1.on(
+    ["POST"],
+    "*",
+    bodyLimit({
+      maxSize: MAX_POST_BODY_BYTES,
+      onError: (c) =>
+        c.json(errorEnvelope("PAYLOAD_TOO_LARGE", "Request body exceeds the 32KB limit."), 413),
+    }),
+  );
+
   // ---- Channel lookup (§17.2). Unknown/unresearched → 200 neutral payload,
   // NOT 404, so the extension renders a "not researched" state. A MALFORMED id
   // (not UC + 22 chars) is a client error → 400.
@@ -63,8 +82,9 @@ export function createV1Router(): Hono {
     }
     const db = getDb();
     const channel = await getChannelByYoutubeId(db, parsed.data);
-    if (!channel) return c.json(unresearchedPayload(parsed.data), 200);
-    return c.json(await assembleLookup(db, channel), 200);
+    const payload = channel ? await assembleLookup(db, channel) : unresearchedPayload(parsed.data);
+    // Self-enforce the published contract at runtime before responding.
+    return c.json(ChannelLookupPayload.parse(payload), 200);
   });
 
   // ---- Channel search.
@@ -112,13 +132,13 @@ export function createV1Router(): Hono {
   v1.post("/corrections", async (c) => {
     const body = CorrectionSubmission.parse(await readJson(c));
     const result = await insertCorrection(getDb(), body);
-    return c.json({ ...result, message: "Correction received and queued for review." }, 201);
+    return c.json({ ...result, message: CORRECTION_RECEIVED }, 201);
   });
 
   v1.post("/submissions", async (c) => {
     const body = ResearchLeadSubmission.parse(await readJson(c));
     const result = await insertResearchLead(getDb(), body);
-    return c.json({ ...result, message: "Research lead received and queued for review." }, 201);
+    return c.json({ ...result, message: RESEARCH_LEAD_RECEIVED }, 201);
   });
 
   return v1;

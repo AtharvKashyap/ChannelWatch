@@ -60,5 +60,43 @@ describe("TokenBucketStore", () => {
   it("rejects invalid options", () => {
     expect(() => new TokenBucketStore({ capacity: 0, refillWindowMs: 1000 })).toThrow();
     expect(() => new TokenBucketStore({ capacity: 5, refillWindowMs: 0 })).toThrow();
+    expect(() => new TokenBucketStore({ capacity: 5, refillWindowMs: 1000, idleMs: 0 })).toThrow();
+    expect(() => new TokenBucketStore({ capacity: 5, refillWindowMs: 1000, maxKeys: 0 })).toThrow();
+  });
+
+  it("evicts buckets idle longer than idleMs", () => {
+    let clock = 0;
+    const store = new TokenBucketStore({
+      capacity: 5,
+      refillWindowMs: 60_000,
+      idleMs: 1_000,
+      now: () => clock,
+    });
+    store.take("a");
+    store.take("b");
+    expect(store.size()).toBe(2);
+    // Advance past the idle window, then touch a different key: the two stale
+    // buckets are swept, leaving only the freshly touched one.
+    clock = 5_000;
+    store.take("c");
+    expect(store.size()).toBe(1);
+  });
+
+  it("caps the map size with LRU eviction of the oldest keys", () => {
+    let clock = 0;
+    const store = new TokenBucketStore({
+      capacity: 5,
+      refillWindowMs: 60_000,
+      maxKeys: 2,
+      now: () => clock,
+    });
+    store.take("a");
+    clock = 1;
+    store.take("b");
+    clock = 2;
+    store.take("c"); // exceeds cap → "a" (least recently used) evicted
+    expect(store.size()).toBe(2);
+    // "a" was evicted, so its bucket is fresh again (full capacity minus this take).
+    expect(store.take("a").remaining).toBe(4);
   });
 });

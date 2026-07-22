@@ -11,7 +11,7 @@ import {
 } from "@channelwatch/schemas";
 import { createApp } from "../src/index.js";
 import { getDb, closeDb } from "../src/db/client.js";
-import { auditEvents, channels } from "../src/db/schema.js";
+import { auditEvents, channels, entities, relationships } from "../src/db/schema.js";
 import { importAll } from "../scripts/import-research.js";
 
 /**
@@ -269,12 +269,69 @@ describe.skipIf(!reachable)("public API endpoints (§17)", () => {
     const send = () =>
       app.request("/api/v1/submissions", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-forwarded-for": "203.0.113.9" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ youtube_channel_id: LBB_YT_ID }),
       });
     const statuses: number[] = [];
     for (let i = 0; i < 6; i++) statuses.push((await send()).status);
     expect(statuses.slice(0, 5)).toEqual([201, 201, 201, 201, 201]);
     expect(statuses[5]).toBe(429);
+  });
+
+  it("rejects an over-limit POST body with 413 before parsing", async () => {
+    const app = createApp();
+    const huge = "x".repeat(40 * 1024); // 40KB > 32KB cap
+    const res = await app.request("/api/v1/submissions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ youtube_channel_id: LBB_YT_ID, note: huge }),
+    });
+    expect(res.status).toBe(413);
+    const body = (await res.json()) as { error: { code: string } };
+    expect(body.error.code).toBe("PAYLOAD_TOO_LARGE");
+  });
+
+  it("degrades (not 500s) when a channel's sub-graph has an unmappable relationship", async () => {
+    const db = getDb();
+    const BAD_YT_ID = "UCzzzzzzzzzzzzzzzzzzzzzz";
+    // A real entity to satisfy the relationships.subject_entity_id FK.
+    const [anEntity] = await db.select().from(entities).limit(1);
+    expect(anEntity).toBeDefined();
+
+    const [tmpChannel] = await db
+      .insert(channels)
+      .values({
+        youtubeChannelId: BAD_YT_ID,
+        displayName: "Temp Degraded Channel",
+        researchStatus: "PUBLISHED",
+        publishedClassification: "CORPORATE_OWNED",
+        classificationConfidence: "0.8",
+      })
+      .returning();
+    const [badRel] = await db
+      .insert(relationships)
+      .values({
+        subjectEntityId: anEntity!.id,
+        objectChannelId: tmpChannel!.id,
+        // Not a member of the RelationshipType enum → rowToRelationship throws.
+        relationshipType: "NOT_A_REAL_TYPE",
+        status: "ACTIVE",
+      })
+      .returning();
+
+    try {
+      const app = createApp();
+      const res = await app.request(`/api/v1/channels/youtube/${BAD_YT_ID}`);
+      // The unmappable row is skipped, not thrown: the request succeeds and the
+      // classifier falls back to the cached published label.
+      expect(res.status).toBe(200);
+      const payload = ChannelLookupPayload.parse(await res.json());
+      expect(payload.researched).toBe(true);
+      if (!payload.researched) throw new Error("expected researched payload");
+      expect(payload.classification.label).toBe("CORPORATE_OWNED");
+    } finally {
+      await db.delete(relationships).where(eq(relationships.id, badRel!.id));
+      await db.delete(channels).where(eq(channels.id, tmpChannel!.id));
+    }
   });
 });
