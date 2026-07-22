@@ -8,6 +8,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    # Postgres for the DB-gated integration tests (services/api). Without a
+    # reachable DATABASE_URL those tests skip; with this service they RUN in CI.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: channelwatch
+          POSTGRES_PASSWORD: channelwatch
+          POSTGRES_DB: channelwatch
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U channelwatch"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgres://channelwatch:channelwatch@localhost:5432/channelwatch
+
     steps:
       - uses: actions/checkout@v4
 
@@ -24,6 +45,9 @@ jobs:
 
       - name: Format check
         run: pnpm run format:check
+
+      - name: Apply database migrations
+        run: pnpm --filter @channelwatch/api run db:migrate
 
       - name: Lint, typecheck, test, build
         run: turbo run lint typecheck test build

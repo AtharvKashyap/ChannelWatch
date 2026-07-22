@@ -74,8 +74,13 @@ export type Relationship = z.infer<typeof Relationship>;
 export const Source = z.object({
   id: z.string().min(1),
   url: z.url(),
-  tier: SourceTierSchema,
-  status: EvidenceStatusSchema,
+  // `tier` (source_tier) and `status` are nullable TEXT/INTEGER columns (SPEC
+  // §16): a source can exist before it is graded/triaged. A null column is a
+  // legitimate "not yet assigned" state, so these tolerate null rather than
+  // making the row unmappable. A NON-null value is still validated against the
+  // enum/tier taxonomy.
+  tier: SourceTierSchema.nullable().optional(),
+  status: EvidenceStatusSchema.nullable().optional(),
   archive_url: z.url().nullable().optional(),
   content_hash: z.string().nullable().optional(),
   retrieved_at: z.string().nullable().optional(),
@@ -102,7 +107,10 @@ export const Claim = z.object({
   // entity/channel reference. Any JSON value (or null).
   literal_value: z.unknown().nullable().optional(),
   confidence: z.number().min(0).max(1).nullable().optional(),
-  claim_status: ClaimStatusSchema,
+  // `claim_status` is a nullable TEXT column (SPEC §16); a claim row can exist
+  // before its review lifecycle state is set. Tolerate null (unset) while still
+  // validating any non-null value against the enum.
+  claim_status: ClaimStatusSchema.nullable().optional(),
   effective_date: isoDateString.nullable().optional(),
   expiration_date: isoDateString.nullable().optional(),
   review_notes: z.string().nullable().optional(),

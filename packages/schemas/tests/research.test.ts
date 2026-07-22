@@ -158,6 +158,34 @@ describe("ResearchRecord schema", () => {
     expect(ResearchRecord.safeParse(record).success).toBe(false);
   });
 
+  it("accepts a full ISO date (YYYY-MM-DD) in a relationship effective_from", () => {
+    const record = baseRecord();
+    (record.relationships as { effective_from?: string }[])[0]!.effective_from = "2018-09-15";
+    expect(ResearchRecord.safeParse(record).success).toBe(true);
+  });
+
+  it("rejects a partial date (YYYY-MM) in a relationship effective_from with a clear message", () => {
+    const record = baseRecord();
+    (record.relationships as { effective_from?: string }[])[0]!.effective_from = "2018-09";
+    const result = ResearchRecord.safeParse(record);
+    expect(result.success).toBe(false);
+    expect(JSON.stringify(result)).toContain("full ISO date");
+  });
+
+  it("rejects a partial date in a relationship effective_to", () => {
+    const record = baseRecord();
+    (record.relationships as { effective_to?: string }[])[0]!.effective_to = "2018-09";
+    expect(ResearchRecord.safeParse(record).success).toBe(false);
+  });
+
+  it("rejects a partial date in a claim effective_date", () => {
+    const record = baseRecord();
+    record.claims = [
+      { predicate: "OWNED_BY", subject: "channel", object: "media", effective_date: "2018-09" },
+    ];
+    expect(ResearchRecord.safeParse(record).success).toBe(false);
+  });
+
   it("allows a Tier 4 source to back a non-published (PENDING_REVIEW) relationship", () => {
     const record = baseRecord();
     (record.relationships as { status: string }[])[2]!.status = "PENDING_REVIEW";

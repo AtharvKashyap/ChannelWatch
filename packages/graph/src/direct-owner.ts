@@ -23,6 +23,15 @@ export interface DirectOwnerResult {
   edge: Relationship | null;
   /** True when candidate owners tie and no single owner can be picked. */
   ambiguous: boolean;
+  /**
+   * The best owning edge per distinct owner that tied at the top
+   * precedence+confidence, sorted deterministically by `from_entity_id`. On a
+   * tie this holds every tied owner (length >= 2) so a caller with entity-type
+   * knowledge can resolve joint ownership (e.g. all-creator co-ownership). On an
+   * unambiguous resolution it holds the single winning edge; empty when there is
+   * no owner.
+   */
+  tiedOwners: Relationship[];
   explanationCodes: ExplanationCode[];
 }
 
@@ -42,7 +51,7 @@ export function findDirectOwner(channelId: string, activeEdges: Relationship[]):
     (e) => e.to_entity_id === channelId && ownerPrecedence(e.type) > 0,
   );
   if (owning.length === 0) {
-    return { ownerId: null, edge: null, ambiguous: false, explanationCodes: [] };
+    return { ownerId: null, edge: null, ambiguous: false, tiedOwners: [], explanationCodes: [] };
   }
 
   const topPrecedence = Math.max(...owning.map((e) => ownerPrecedence(e.type)));
@@ -60,15 +69,22 @@ export function findDirectOwner(channelId: string, activeEdges: Relationship[]):
   const owners = [...bestByOwner.values()].sort((a, b) => b.confidence - a.confidence);
   const best = owners[0];
   if (!best) {
-    return { ownerId: null, edge: null, ambiguous: false, explanationCodes: [] };
+    return { ownerId: null, edge: null, ambiguous: false, tiedOwners: [], explanationCodes: [] };
   }
 
-  const runnerUp = owners[1];
-  if (runnerUp && runnerUp.confidence === best.confidence) {
+  // Every distinct owner whose best edge ties the top confidence. Sorted by
+  // `from_entity_id` so the tie set (and any representative a caller picks from
+  // it) is deterministic regardless of input edge order.
+  const tiedOwners = owners
+    .filter((o) => o.confidence === best.confidence)
+    .sort((a, b) => a.from_entity_id.localeCompare(b.from_entity_id));
+
+  if (tiedOwners.length > 1) {
     return {
       ownerId: null,
       edge: null,
       ambiguous: true,
+      tiedOwners,
       explanationCodes: ["MULTIPLE_OWNER_CANDIDATES"],
     };
   }
@@ -77,6 +93,7 @@ export function findDirectOwner(channelId: string, activeEdges: Relationship[]):
     ownerId: best.from_entity_id,
     edge: best,
     ambiguous: false,
+    tiedOwners: [best],
     explanationCodes: ["DIRECT_OWNER_CONFIRMED"],
   };
 }

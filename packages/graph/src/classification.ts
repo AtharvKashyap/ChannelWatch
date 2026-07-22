@@ -47,7 +47,18 @@ export interface DeriveClassificationInput {
 
 export interface ClassificationResult {
   classification: ClassificationLabel;
+  /**
+   * The highest-confidence single direct owner, or null when there is none or
+   * the result is genuinely ambiguous. Kept for compatibility; for jointly
+   * creator-owned channels this is one of the co-owners (see `directOwners`).
+   */
   directOwner: EntityRef | null;
+  /**
+   * All direct owners. Usually a single-element list mirroring `directOwner`;
+   * for jointly creator-owned channels it holds every tied co-owner. Empty when
+   * there is no resolvable owner.
+   */
+  directOwners: EntityRef[];
   ultimateParent: EntityRef | null;
   /** Load-bearing edges from the channel to the ultimate parent (owning edge first). */
   chain: Relationship[];
@@ -87,6 +98,8 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
     const e = entityMap.get(id);
     return e ? { id: e.id, name: e.name, type: e.type } : null;
   };
+  const refsOf = (ids: string[]): EntityRef[] =>
+    ids.map(refOf).filter((r): r is EntityRef => r !== null);
 
   const { activeEdges } = buildOwnershipGraph(relationships, asOf);
   const direct = findDirectOwner(channelId, activeEdges);
@@ -129,6 +142,7 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
     return {
       classification: "DISPUTED",
       directOwner: refOf(direct.ownerId),
+      directOwners: direct.ownerId !== null ? refsOf([direct.ownerId]) : [],
       ultimateParent: refOf(ultimateParentId),
       chain,
       confidence: minConfidence([...chain, ...disputedLoadBearing]),
@@ -137,11 +151,39 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
     };
   }
 
-  // Ambiguous direct owner (tie) → precision over recall.
+  // Ambiguous direct owner (tie among top candidates). Joint creator ownership
+  // (the smosh case): when EVERY tied owner is a CREATOR/PERSON, the channel is
+  // co-owned by creators — CREATOR_OWNED, not a guess. Any other tie (including
+  // a mixed company/person tie) stays OWNERSHIP_UNCLEAR: precision over recall.
   if (direct.ambiguous) {
+    const tiedOwnerIds = direct.tiedOwners.map((e) => e.from_entity_id);
+    const allCreatorOwned =
+      tiedOwnerIds.length > 0 &&
+      tiedOwnerIds.every((id) => {
+        const t = typeOf(id);
+        return t !== null && CREATOR_OWNER_TYPES.has(t);
+      });
+    if (allCreatorOwned) {
+      // `tiedOwners` is already sorted deterministically by owner id; the first
+      // is the representative `directOwner` kept for compatibility.
+      const representative = tiedOwnerIds[0]!;
+      const jointChain = direct.tiedOwners;
+      return {
+        classification: "CREATOR_OWNED",
+        directOwner: refOf(representative),
+        directOwners: refsOf(tiedOwnerIds),
+        // Co-ownership has no single ultimate parent; each creator is a leaf.
+        ultimateParent: null,
+        chain: jointChain,
+        confidence: minConfidence(jointChain),
+        explanationCodes: ["JOINTLY_CREATOR_OWNED"],
+        warnings: buildWarnings(jointChain, input.lastReviewedAt, asOf),
+      };
+    }
     return {
       classification: "OWNERSHIP_UNCLEAR",
       directOwner: null,
+      directOwners: [],
       ultimateParent: null,
       chain: [],
       confidence: 0,
@@ -155,6 +197,7 @@ export function deriveClassification(input: DeriveClassificationInput): Classifi
     return {
       classification: "OWNERSHIP_UNCLEAR",
       directOwner: null,
+      directOwners: [],
       ultimateParent: null,
       chain: [],
       confidence: 0,
@@ -272,9 +315,11 @@ function finalize(
   warnings: ExplanationCode[],
   refOf: (id: string | null) => EntityRef | null,
 ): ClassificationResult {
+  const directOwner = refOf(ownerId);
   return {
     classification,
-    directOwner: refOf(ownerId),
+    directOwner,
+    directOwners: directOwner ? [directOwner] : [],
     ultimateParent: refOf(ultimateParentId),
     chain,
     confidence: minConfidence(loadBearing),

@@ -59,6 +59,18 @@ describe("scoreClaimConfidence (SPEC §14.2)", () => {
     expect(() => scoreClaimConfidence(factors)).toThrow();
   });
 
+  it("throws when a factor is NaN", () => {
+    const factors = {
+      sourceQuality: 0.9,
+      directness: 0.9,
+      entityMatch: 0.9,
+      recencyFactor: 0.9,
+      corroborationFactor: 0.9,
+      contradictionPenalty: Number.NaN,
+    };
+    expect(() => scoreClaimConfidence(factors)).toThrow(/contradictionPenalty/);
+  });
+
   it("accepts boundary values 0 and 1 without throwing", () => {
     expect(() =>
       scoreClaimConfidence({

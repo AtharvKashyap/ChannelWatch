@@ -36,6 +36,21 @@ import { YoutubeChannelId } from "./schemas.js";
 /** A local slug referencing an entity declared in the same record, or the literal "channel". */
 const RefTarget = z.string().min(1);
 
+/**
+ * A full ISO calendar date, `YYYY-MM-DD`. The date-typed record fields
+ * (relationship `effective_from`/`effective_to`, claim `effective_date`) map to
+ * Postgres `DATE` columns, which reject partial dates like `2018-09` or `2011`.
+ * Enforcing the full-date shape at the schema boundary turns those into a clear
+ * validation error instead of an opaque database import failure (pilot gap): a
+ * date known only to the month/year must be omitted, never truncated.
+ */
+const FullDate = z
+  .string()
+  .regex(
+    /^\d{4}-\d{2}-\d{2}$/,
+    "must be a full ISO date in YYYY-MM-DD form (partial dates like 2018-09 are not allowed; omit the field if the exact day is unknown)",
+  );
+
 /** The six §14.2 confidence multipliers; all required so `scoreClaimConfidence` never receives a hole. */
 export const ConfidenceFactorsSchema = z.object({
   sourceQuality: z.number().min(0).max(1),
@@ -64,8 +79,8 @@ const ResearchRelationship = z.object({
   object: RefTarget,
   ownership_percentage: z.number().min(0).max(100).optional(),
   control_level: ControlLevelSchema.optional(),
-  effective_from: z.string().min(1).optional(),
-  effective_to: z.string().min(1).optional(),
+  effective_from: FullDate.optional(),
+  effective_to: FullDate.optional(),
   confidence: z.number().min(0).max(1),
   status: RelationshipStatusSchema,
 });
@@ -96,7 +111,7 @@ const ResearchClaim = z.object({
   predicate: z.string().min(1),
   subject: RefTarget,
   object: RefTarget,
-  effective_date: z.string().min(1).optional(),
+  effective_date: FullDate.optional(),
   confidence_factors: ConfidenceFactorsSchema.optional(),
 });
 export type ResearchClaim = z.infer<typeof ResearchClaim>;
