@@ -1,0 +1,261 @@
+# CHANNELWATCH research record — Ryan's World (Ryan Kaji)
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: creator/family-owned kids channel with a long-standing external MEDIA
+# COMPANY relationship that is MANAGEMENT / REPRESENTATION, NOT ownership. The
+# central factual distinction this record encodes:
+#
+#   channel (Ryan's World)
+#     ├─ FOUNDED_BY ───────── Ryan Kaji (began as "Ryan ToysReview", Mar 2015)
+#     ├─ OPERATES ─────────── Sunlight Entertainment  (Kaji family-owned prod. co.)
+#     └─ REPRESENTS (mgmt) ── pocket.watch (PocketWatch, Inc.)  — agent / licensing /
+#                             merchandising & franchise partner, NOT an owner
+#                               └─ INVESTED_IN ── Viacom (2018 Series B lead)
+#
+# pocket.watch's backing (Viacom) attaches to pocket.watch — the REPRESENTATIVE —
+# and does NOT flow through to ownership of the channel. See review.notes.
+
+channel:
+  # Canonical externalId extracted from the raw HTML of
+  # https://www.youtube.com/@RyansWorld (curl fetch, no JS). This is the page's
+  # own "externalId" and differs from the several unrelated "channelId" values
+  # (featured/recommended channels) also present in the page source.
+  youtube_channel_id: UChGJGhZ9SOOHvBB0Y4DOO_w
+  display_name: Ryan's World
+  handle: "@RyansWorld"
+
+entities:
+  - slug: ryan_kaji
+    canonical_name: Ryan Kaji
+    entity_type: CREATOR
+    aliases:
+      - Ryan's World
+      - Ryan ToysReview
+      - Ryan Guan
+
+  - slug: sunlight
+    canonical_name: Sunlight Entertainment
+    entity_type: COMPANY
+    aliases:
+      - Sunlight Entertainment LLC
+
+  - slug: pocketwatch
+    canonical_name: PocketWatch, Inc.
+    entity_type: COMPANY
+    website: https://www.pocket.watch
+    aliases:
+      - pocket.watch
+      - Pocket.watch
+
+  - slug: viacom
+    # Recorded as it stood at the time of the documented 2018 investment. Viacom
+    # later merged into ViacomCBS (2019) and rebranded Paramount Global (2022);
+    # whether the pocket.watch stake persists / how it now sits under Paramount
+    # is NOT established by a fetched source — see review.notes.
+    canonical_name: Viacom Inc.
+    entity_type: MEDIA_NETWORK
+    aliases:
+      - Viacom
+      - Paramount Global
+
+relationships:
+  # 0: Channel founded by Ryan Kaji. Began March 2015 as "Ryan ToysReview" (Ryan
+  # was three); later rebranded "Ryan's World". Pre-dates every corporate
+  # relationship below. Day-precision date not established -> effective_from omitted.
+  - subject: channel
+    type: FOUNDED_BY
+    object: ryan_kaji
+    confidence: 0.9
+    status: ACTIVE
+
+  # 1: Sunlight Entertainment — the Kaji family-owned-and-operated production
+  # company — develops/produces the content and operates the channel on the
+  # family's behalf. control_level CONTROLLING reflects family control via their
+  # own production company; recorded as OPERATES (not OWNS) because sources state
+  # Sunlight "develops family-friendly content" / is "family-owned and operated,"
+  # not verbatim that Sunlight is the channel's legal owner (see notes).
+  - subject: sunlight
+    type: OPERATES
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: pocket.watch (PocketWatch, Inc.) REPRESENTS / MANAGES the Ryan's World
+  # brand — talent management, licensing, merchandising, and co-development of
+  # franchise extensions. control_level MANAGEMENT. This is the ownership-vs-
+  # management distinction the task calls out: pocket.watch is the agent /
+  # media-company partner, NOT an owner of the channel. Wikipedia: pocket.watch
+  # "does the marketing and merchandise for Ryan's YouTube channels" and
+  # "collaborated with Ryan ToysReview to create Ryan's World, a consumer
+  # products brand." No source states pocket.watch owns the channel.
+  - subject: pocketwatch
+    type: REPRESENTS
+    object: channel
+    control_level: MANAGEMENT
+    effective_from: 2018-02-01
+    confidence: 0.85
+    status: ACTIVE
+
+  # 3: pocket.watch's own backing. Viacom led a $15M investment round in
+  # pocket.watch (announced 2018-07-18). Recorded MINORITY (a lead investor in a
+  # venture round, no controlling stake stated). NOTE: this edge terminates at
+  # pocket.watch, the channel's REPRESENTATIVE — it does NOT establish any
+  # ownership of the channel by Viacom. Not PE-implying (object/subject types are
+  # MEDIA_NETWORK / COMPANY, no PRIVATE_EQUITY_FIRM, no PORTFOLIO_COMPANY_OF).
+  - subject: viacom
+    type: INVESTED_IN
+    object: pocketwatch
+    control_level: MINORITY
+    effective_from: 2018-07-18
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_ryans_world
+    url: https://en.wikipedia.org/wiki/Ryan's_World
+    title: Ryan's World
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      At the age of three, after watching other toy review channels, Ryan Kaji
+      began making YouTube videos in March 2015. [...] PocketWatch does the
+      marketing and merchandise for Ryan's YouTube channels. [...] Sunlight
+      Entertainment, a production company owned by Ryan's family, partnered up
+      with Toei Animation.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+  - ref: wikipedia_pocketwatch
+    url: https://en.wikipedia.org/wiki/PocketWatch_(company)
+    title: PocketWatch, Inc.
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      PocketWatch, Inc. (stylized as pocket.watch) is a privately-owned media
+      production company that specializes in talent management, project
+      financing, and merchandising [...] founded in 2017 by former Maker
+      Studios officer Chris M. Williams. [...] In February 2018, PocketWatch
+      collaborated with Ryan ToysReview to create Ryan's World, a consumer
+      products brand based on Ryan and a portfolio of characters created by
+      Ryan and his parents.
+    supports:
+      - relationship: 2
+
+  - ref: prnewswire_titan_movie
+    # Companies' own joint press release (distributed via PR Newswire). Used ONLY
+    # for the two firms' self-descriptions ("About" boilerplate) and the CEO
+    # attribution — treated as a corporate self-description (Tier 3), not as an
+    # independent secondary report.
+    url: https://www.prnewswire.com/news-releases/sunlight-entertainment--pocketwatch-announce-wide-theatrical-release-for-their-first-feature-film-ryans-world-the-movie-titan-universe-adventure-premiering-on-over-2-100-screens-nationwide-august-16th-302101017.html
+    title: >-
+      Sunlight Entertainment & Pocket.watch Announce Wide Theatrical Release For
+      Their First Feature Film, 'Ryan's World The Movie: Titan Universe Adventure'
+    publisher: PR Newswire
+    published_at: 2024-03-27
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: >-
+      Sunlight Entertainment is Ryan Kaji's family-owned and operated production
+      company that develops family-friendly content that is driven to help kids
+      learn. [...] Pocket.watch is the leading studio building kids and family
+      entertainment franchises with the most popular digital creators in the
+      world.
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+  - ref: thr_viacom_pocketwatch
+    url: https://www.hollywoodreporter.com/business/business-news/viacom-leads-15-million-investment-kids-media-brand-pocketwatch-1128013/
+    title: Viacom Leads $15 Million Investment in Kids Media Brand Pocket.watch
+    publisher: The Hollywood Reporter
+    published_at: 2018-07-18
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Viacom is leading a $15 million investment round in kids media startup
+      pocket.watch [...] a digital entertainment platform for children where it
+      is working to develop new digital stars and franchises. [Other investors:]
+      Greycroft's Tracker fund and UTA Ventures.
+    supports:
+      - relationship: 3
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by omitted: NOT yet human-reviewed (schema field is optional, not
+  # nullable). This is an unverified draft.
+  last_reviewed_at: 2026-07-23
+  notes: >-
+    DRAFT for human review — "creator/family-owned channel with an external
+    MEDIA-COMPANY management/representation relationship (NOT ownership)" case.
+    Requires human verification before publication.
+
+    CHANNEL ID. UChGJGhZ9SOOHvBB0Y4DOO_w, taken from the "externalId" field in
+    the raw HTML of https://www.youtube.com/@RyansWorld (curl, no JS execution).
+    Distinct from several unrelated "channelId" values (featured/recommended
+    modules) also present in the page source. Reviewer should confirm against
+    the live channel.
+
+    OWNERSHIP vs MANAGEMENT — the core finding. Ownership/control of the channel
+    sits with Ryan Kaji and his family, operated through their own production
+    company, Sunlight Entertainment (Shion Kaji is named CEO in the 2024 joint
+    press release). pocket.watch (PocketWatch, Inc.) is a MEDIA COMPANY that
+    REPRESENTS/MANAGES the Ryan's World brand — Wikipedia's own definition of
+    pocket.watch is "talent management, project financing, and merchandising";
+    it "does the marketing and merchandise for Ryan's YouTube channels" and
+    "collaborated with Ryan ToysReview to create Ryan's World, a consumer
+    products brand." NO fetched source states that pocket.watch owns the channel
+    or the brand. Recorded as REPRESENTS + control_level MANAGEMENT accordingly.
+    Reviewer: do NOT let the depth of the pocket.watch partnership be read as
+    ownership.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) rel 1 (Sunlight OPERATES channel, CONTROLLING, conf 0.7). Sources
+    establish Sunlight is the Kaji "family-owned and operated production company"
+    that "develops" the content; they do NOT state verbatim that Sunlight is the
+    channel's legal owner. OPERATES + CONTROLLING is the honest structural
+    reading (family controls the channel via its own production company); a
+    reviewer may prefer an OWNS/CONTROLS edge or a creator->channel edge if a
+    clearer ownership statement is located. Sunlight's legal name/jurisdiction
+    were not verified.
+    (2) rel 2 (pocket.watch REPRESENTS channel, MANAGEMENT). effective_from set
+    to 2018-02 (Wikipedia dates the Ryan's World consumer-products collaboration
+    to February 2018); day precision unknown, recorded as the 1st — reviewer to
+    refine or drop. The management relationship is well documented and
+    long-standing but its exact contractual terms are not public and are NOT
+    asserted here (creator-safety / Spec §22.4: no confidential contracts).
+    (3) rel 3 (Viacom INVESTED_IN pocket.watch). Documented by THR (T2,
+    2018-07-18): Viacom led a $15M round; other investors Greycroft's Tracker
+    fund and UTA Ventures. control_level MINORITY reflects "lead investor in a
+    venture round" — no controlling stake is stated. CRITICAL: this backing
+    attaches to pocket.watch, the channel's REPRESENTATIVE, and does NOT
+    establish any Viacom/Paramount ownership of the channel. pocket.watch also
+    raised a 2017 Series A (~$6M; Third Wave Digital, UTA, Leslie Moonves, Jon
+    Landau, Robert Downey Jr., per Variety) — not recorded as a relationship
+    (Variety was paywalled to the fetcher; add if independently verified).
+    (4) CURRENCY. Viacom -> ViacomCBS (2019) -> Paramount Global (2022). Whether
+    the 2018 pocket.watch stake persists under Paramount today is NOT verified;
+    effective_to left open and the edge kept at the entity as it stood in 2018.
+    Reviewer to re-verify current pocket.watch cap-table status.
+    (5) FOUNDING (temporal emphasis). Channel founded by Ryan Kaji in March 2015
+    as "Ryan ToysReview" (Wikipedia); rebranded to "Ryan's World." Day-precision
+    date not established, so rel 0 effective_from is omitted rather than guessed.
+    Ryan is a minor and the on-screen surname "Kaji" is a stage name (family
+    surname Guan) — recorded in aliases; no minor's private data beyond
+    already-public brand facts is included (Spec §22.4).
+    (6) SOURCE-TYPE MAPPING. The 2024 joint press release (PR Newswire) is the
+    companies' own statement; there is no "press release" source_type in the
+    enum, so it is mapped to ARCHIVED_CORPORATE_PAGE (Tier 3, corporate
+    self-description) and used only for the firms' self-descriptions/boilerplate,
+    not as independent corroboration. An archive_url should be captured at review.
+    (7) NO PE INVOLVEMENT. No PRIVATE_EQUITY_FIRM entity and no
+    PORTFOLIO_COMPANY_OF edge — the §14.3 PE-label gate does not apply. Expected
+    computed classification: CREATOR_OWNED / creator-controlled (channel owned
+    and operated by the Kaji family; pocket.watch is a management/representation
+    partner, not an owner). Confirm the computed label at import.
