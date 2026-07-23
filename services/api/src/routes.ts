@@ -58,8 +58,8 @@ export function createV1Router(): Hono {
   // merges the prefixed routes), which would wrongly throttle authenticated
   // reviewer mutations at the public 5/min POST cap. Path-scoping keeps the
   // public limits on the public surface only.
-  const readLimit = createRateLimit({ capacity: 60, refillWindowMs: 60_000 });
-  const postLimit = createRateLimit({ capacity: 5, refillWindowMs: 60_000 });
+  const readLimit = createRateLimit({ capacity: 60, refillWindowMs: 60_000, scope: "read" });
+  const postLimit = createRateLimit({ capacity: 5, refillWindowMs: 60_000, scope: "post" });
   v1.use("/channels/*", readLimit);
   v1.use("/entities/*", readLimit);
 
