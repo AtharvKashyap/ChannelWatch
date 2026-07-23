@@ -1,0 +1,144 @@
+# CHANNELWATCH research record — SciShow
+#
+# Real record (not a fixture). Companion to vlogbrothers.yaml: SciShow is a
+# Complexly production, so this record deliberately REUSES the shared Complexly
+# and Hank Green entity nodes (same canonical_name, legal fields, and sources)
+# declared in vlogbrothers.yaml so the ownership graph resolves them as one node.
+# Verified rather than assumed per docs/METHODOLOGY.md and docs/evidence-policy.md.
+
+channel:
+  youtube_channel_id: UCZYTClx2T1of7BRZ86-8fow
+  display_name: SciShow
+  handle: "@SciShow"
+
+entities:
+  # Reused VERBATIM from vlogbrothers.yaml so the graph resolves a single shared
+  # Complexly node. Complexly is the documented production company for SciShow;
+  # since February 2026 it is a 501(c)(3) nonprofit (see tubefilter_2026).
+  - slug: complexly
+    canonical_name: Complexly
+    entity_type: NONPROFIT
+    legal_name: Complexly (formerly EcoGeek LLC)
+    website: https://complexly.org
+    aliases:
+      - EcoGeek LLC
+      - Vlogbrothers Industries
+  # Reused VERBATIM from vlogbrothers.yaml (shared Hank Green node).
+  - slug: hank_green
+    canonical_name: Hank Green
+    entity_type: CREATOR
+
+relationships:
+  # 0: Complexly (formerly EcoGeek LLC) owns/produces SciShow. Hank Green's own
+  # 2014 statement explicitly names SciShow among the properties EcoGeek/Complexly
+  # "owns", and both Wikipedia and Tubefilter (2026) identify SciShow as a
+  # Complexly production. control_level UNKNOWN because no source specifies a
+  # percentage or a controlling-stake structure. This ownership is more direct
+  # than vlogbrothers' (SciShow is an explicit Complexly production, not a
+  # personal channel), hence slightly higher confidence than the vlogbrothers
+  # edge. Because Complexly is a NONPROFIT node, the importer is expected to
+  # compute NONPROFIT_OWNED for this channel — the same class derived for other
+  # Complexly-related channels.
+  - subject: complexly
+    type: OWNS
+    object: channel
+    control_level: UNKNOWN
+    confidence: 0.7
+    status: ACTIVE
+  # 1: Hank Green created SciShow; its first episode was uploaded Jan 2, 2012
+  # (channel created Oct 20, 2011 under YouTube's Original Channel Initiative).
+  - subject: channel
+    type: FOUNDED_BY
+    object: hank_green
+    effective_from: 2012-01-02
+    confidence: 0.9
+    status: ACTIVE
+  # 2: Hank Green is the primary host/narrator, alongside a rotating cast of
+  # co-hosts (current and ongoing per the channel's own uploads).
+  - subject: channel
+    type: HOSTED_BY
+    object: hank_green
+    confidence: 0.85
+    status: ACTIVE
+
+sources:
+  # Reused VERBATIM from vlogbrothers.yaml. This statement names SciShow directly
+  # among the properties EcoGeek/Complexly "owns", so it supports relationship 0
+  # here even more directly than it does for vlogbrothers.
+  - ref: hank_2014_tumblr
+    url: http://edwardspoonhands.tumblr.com/post/95924995380/why-does-your-company-seem-to-have-so-many
+    title: Why does your "company" seem to have so many names?
+    publisher: Tumblr (Hank Green, personal blog)
+    published_at: 2014-08-27
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >
+      EcoGeek LLC remains the thing that "owns" Vlogbrothers, SciShow, Crash
+      Course, and The Art Assignment. Eventually, as Vlogbrothers grew to be
+      much bigger than EcoGeek, I just gave John half of that company and it
+      became the joint venture of Hank and John.
+    supports:
+      - relationship: 0
+  # Reused VERBATIM from vlogbrothers.yaml. Establishes Complexly's current
+  # nonprofit status and that SciShow is a Complexly-produced show; corroborates
+  # relationship 0 and the NONPROFIT entity_type on the shared Complexly node.
+  - ref: tubefilter_2026
+    url: https://www.tubefilter.com/2026/02/04/hank-john-green-vlogbrothers-complexly-nonprofit/
+    title: Hank and John Green are cultivating trust by turning their production company into a nonprofit
+    publisher: Tubefilter
+    published_at: 2026-02-04
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      The fraternal duo long known as the Vlogbrothers are converting
+      Complexly, their production company, into a 501(c)(3) nonprofit. The
+      brothers are giving up their personal equity in the company they
+      co-founded; John Green becomes "founder emeritus" while Hank Green
+      joins the Board of Directors.
+    supports:
+      - relationship: 0
+  # New source: contemporaneous trade coverage of SciShow's launch.
+  - ref: dailydot_2012
+    url: https://www.dailydot.com/hank-green-vlogbrothers-scishow-youtube/
+    title: Hank Green of YouTube's vlogbrothers hosts SciShow
+    publisher: The Daily Dot (Fruzsina Eördögh)
+    published_at: 2012-01-03
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      Hank Green of YouTube's vlogbrothers debuted the first episode of SciShow
+      yesterday. An educational science show narrated by Green, SciShow is one
+      of many professionally made channels YouTube invested millions into.
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >
+    Companion to the vlogbrothers pilot record. SciShow is a clearer
+    Complexly-production case than vlogbrothers: whereas vlogbrothers is the
+    Greens' personal channel whose business affairs Complexly handles, SciShow
+    is explicitly produced by Complexly (Wikipedia, Tubefilter) AND named by
+    Hank Green's own 2014 statement among the properties EcoGeek/Complexly
+    "owns." VERIFICATION OF THE STRUCTURE QUESTION: the same Complexly ownership
+    structure applies to SciShow as to other Complexly-related channels, and
+    more directly — so the expected computed classification is NONPROFIT_OWNED
+    (Complexly being a 501(c)(3) nonprofit since Feb 2026), consistent with the
+    vlogbrothers precedent for Complexly-related channels. Judgment calls
+    flagged for human review: (1) OWNS with control_level UNKNOWN and confidence
+    0.7 — no source states a percentage or describes a controlling-stake
+    structure; "owns"/"produces" language is documented but not quantified.
+    (2) I did NOT re-declare Complexly-internal edges already asserted in
+    vlogbrothers.yaml (Complexly FOUNDED_BY the Greens; Hank Green MANAGES
+    Complexly after the Feb 2026 board appointment) to avoid duplicating
+    shared-node relationships across files; those live on the shared Complexly
+    node via vlogbrothers.yaml. A reviewer may prefer them restated here.
+    (3) entity_type NONPROFIT reflects Complexly's post-Feb-2026 status (was a
+    for-profit LLC before); kept identical to vlogbrothers.yaml for node
+    resolution. (4) Channel id UCZYTClx2T1of7BRZ86-8fow taken from the raw
+    channel-page externalId. (5) Founding date 2012-01-02 is the first-episode
+    upload date; the channel was created 2011-10-20 — I used the operative
+    public-launch/first-episode date. No relationship implies PE backing or
+    corporate acquisition; none was found.
+  last_reviewed_at: 2026-07-23

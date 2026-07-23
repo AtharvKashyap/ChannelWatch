@@ -1,0 +1,364 @@
+# CHANNELWATCH research record — Yes Theory
+#
+# DRAFT for human review. Nothing here is published without verification.
+# reviewed_by is intentionally UNSET (not yet reviewed).
+#
+# Profile: a creator-OWNED channel with a NON-ownership Snapchat-era production
+# relationship. Yes Theory began in Montreal in summer 2015 as a challenge
+# series ("Project 30" -> "Generation Y Not" -> "Yes Theory") made by four
+# co-founders: Matt Dajer (now Matt Dahlia), Thomas Brag, Ammar Kandil and
+# Derin Emre. Near the end of 2015 the group was offered relocation to Venice,
+# California and PAID TO MAKE VIDEOS for Snapchat by Vertical Networks — a paid
+# content-production/commissioning deal, NOT a sale or an ownership transfer of
+# the YouTube channel. The channel has been creator-operated throughout.
+#
+# TWO VERIFICATION POINTS THAT SHAPE THIS RECORD (see notes for detail):
+# (1) The Snap relationship was a PRODUCTION DEAL, not ownership. Wikipedia calls
+#     Vertical Networks a "Snapchat subsidiary," but that is imprecise: Vertical
+#     Networks was Elisabeth Murdoch's independent Venice studio in which Snap held
+#     only a ~40% MINORITY stake (Recode, via Digiday). Snap therefore never owned
+#     the Yes Theory channel, and Vertical Networks did not control it. The Snap
+#     era is modeled as a NON-ownership, historical DISTRIBUTED_BY edge on the
+#     Yes Theory BRAND (rel 11) that does NOT enter the ownership classification.
+# (2) DEPARTURES are ROLE changes, not documented equity changes. Derin Emre left
+#     the group in 2017 (passport issue); Matt Dahlia announced 2021-02-25 he would
+#     stop appearing on camera but "continues to work on the brand." No source
+#     documents any buyout or equity change, so departures are recorded only at the
+#     HOSTED_BY (on-camera) role level; no ownership edge is asserted or ended.
+
+channel:
+  # Canonical id read from the RAW channel-page HTML "externalId" field
+  # (curl of https://www.youtube.com/@YesTheory ->
+  # "externalId":"UCvK4bOhULCpmLabd2pDMtnA"). Independently cross-checked against
+  # YouTube's OWN feed
+  # (https://www.youtube.com/feeds/videos.xml?channel_id=UCvK4bOhULCpmLabd2pDMtnA),
+  # which returns <yt:channelId>UCvK4bOhULCpmLabd2pDMtnA</yt:channelId>,
+  # <title>Yes Theory</title> and <author><name>Yes Theory</name>.
+  youtube_channel_id: UCvK4bOhULCpmLabd2pDMtnA
+  display_name: Yes Theory
+  handle: "@YesTheory"
+
+entities:
+  - slug: matt
+    canonical_name: Matt Dajer
+    entity_type: CREATOR
+    aliases:
+      - Matt Dahlia
+      - Matt
+  - slug: thomas
+    canonical_name: Thomas Brag
+    entity_type: CREATOR
+    aliases:
+      - Thomas
+  - slug: ammar
+    canonical_name: Ammar Kandil
+    entity_type: CREATOR
+    aliases:
+      - Ammar
+  - slug: derin
+    canonical_name: Derin Emre
+    entity_type: CREATOR
+    aliases:
+      - Derin
+  # Declared to carry the Snapchat-era (Vertical Networks) production relationship
+  # (rel 11). This is the Yes Theory media/content BRAND, distinct from the
+  # YouTube channel entity, and is NOT part of the channel's ownership chain.
+  - slug: yt_brand
+    canonical_name: Yes Theory (brand)
+    entity_type: BRAND
+    aliases:
+      - Yes Theory
+  - slug: vertical_networks
+    canonical_name: Vertical Networks
+    entity_type: MEDIA_NETWORK
+    jurisdiction: US-CA # Venice, California-based studio (Digiday)
+  - slug: snap
+    canonical_name: Snap Inc.
+    entity_type: COMPANY
+    aliases:
+      - Snapchat
+      - Snap
+
+relationships:
+  # ============================ CURRENT (ACTIVE) OWNERSHIP ============================
+  # 0-2: JOINT SOLE-OWNER CONVENTION (policy 2026-07-23), applied here to DIRECT
+  # personal ownership of the channel because NO distinct operating company is
+  # documented in any Tier 1/2 source as the channel's owner (fabricating a
+  # "Yes Theory LLC" would violate evidence-first). The three continuing
+  # co-founders (Matt, Thomas, Ammar) are the documented operators of an
+  # independent, self-owned project with no outside owner/investor in any source;
+  # the individual split is undisclosed, so each is encoded PARTIALLY_OWNS the
+  # channel at control_level CONTROLLING with NO percentage. This is what makes the
+  # channel creator-controlled (-> CREATOR_OWNED). Ownership is INFERRED from
+  # founder/operator status (no registry/filing consulted), hence the inference
+  # flag and moderate confidence. Matt retains ownership despite his 2021 on-camera
+  # departure ("continues to work on the brand", rel 8) — a role change, not an
+  # equity change.
+  - subject: matt
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.65
+    status: ACTIVE
+  - subject: thomas
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: ammar
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  # ============================ FOUNDING ============================
+  # 3-6: all four co-founded Yes Theory in 2015. Derin (rel 6) is recorded as a
+  # co-founder because that is a true historical fact; his 2017 departure (rel 10)
+  # is a role change, NOT a documented equity change, so no ownership edge is
+  # asserted or ended for Derin. effective_from OMITTED: the founding year (2015)
+  # is documented but no full ISO founding/channel-creation date was found — a
+  # fabricated day is worse than an omitted one (see notes).
+  - subject: channel
+    type: FOUNDED_BY
+    object: matt
+    confidence: 0.85
+    status: ACTIVE
+  - subject: channel
+    type: FOUNDED_BY
+    object: thomas
+    confidence: 0.85
+    status: ACTIVE
+  - subject: channel
+    type: FOUNDED_BY
+    object: ammar
+    confidence: 0.85
+    status: ACTIVE
+  - subject: channel
+    type: FOUNDED_BY
+    object: derin
+    confidence: 0.8
+    status: ACTIVE
+  # ============================ HOSTING (on-camera) ============================
+  # 7: Thomas and 9: Ammar remain on-camera hosts (channel's ongoing uploads).
+  - subject: channel
+    type: HOSTED_BY
+    object: thomas
+    confidence: 0.85
+    status: ACTIVE
+  # 8: Matt Dahlia hosted from launch until 2021-02-25, when he announced he would
+  # no longer appear in episodes (but "continues to work on the brand"). Modeled as
+  # a HOSTED_BY edge ENDED 2021-02-25; his ownership (rel 0) is UNAFFECTED.
+  - subject: channel
+    type: HOSTED_BY
+    object: matt
+    effective_to: 2021-02-25
+    confidence: 0.85
+    status: ENDED
+  - subject: channel
+    type: HOSTED_BY
+    object: ammar
+    confidence: 0.85
+    status: ACTIVE
+  # 10: Derin Emre was an on-camera member/cameraman from launch until he left the
+  # group in 2017 (reported passport issue; he has since occasionally appeared).
+  # Recorded at the ROLE level only. NO equity/buyout change is documented, so no
+  # ownership edge is asserted or ended for Derin. effective_to OMITTED: year 2017
+  # documented, no full ISO date found (see notes).
+  - subject: channel
+    type: HOSTED_BY
+    object: derin
+    confidence: 0.75
+    status: ENDED
+  # ===================== SNAPCHAT ERA (NON-ownership, historical) =====================
+  # 11: Near the end of 2015 the group was offered relocation to Venice, CA and
+  # PAID TO MAKE VIDEOS for Snapchat by Vertical Networks — a paid content
+  # production/commissioning deal. Modeled as a NON-ownership, historical
+  # DISTRIBUTED_BY edge on the Yes Theory BRAND (control_level LICENSE) to make
+  # explicit that Vertical Networks held a commissioning/distribution arrangement,
+  # NOT ownership of the brand or the YouTube channel. status ENDED (the reported
+  # ~year-long deal concluded and the team refocused on YouTube). effective dates
+  # OMITTED: only the year(s) are documented (relocation 2016; Snap Original series
+  # aired summer 2017) — no full ISO date found. This edge does NOT enter the
+  # ownership classification.
+  - subject: yt_brand
+    type: DISTRIBUTED_BY
+    object: vertical_networks
+    control_level: LICENSE
+    confidence: 0.7
+    status: ENDED
+  # 12: CONTEXT for what Vertical Networks was. Snap Inc. held a MINORITY (~40%)
+  # stake in Vertical Networks (Recode, via Digiday, ~2017) — Vertical Networks was
+  # Elisabeth Murdoch's independent Venice studio, NOT a Snap-controlled subsidiary.
+  # MINORITY / ownership_percentage 40. This corrects Wikipedia's imprecise
+  # "Snapchat subsidiary" phrasing and is why the Snap relationship confers no
+  # control over Yes Theory. Whether Snap still holds this stake today is NOT
+  # documented (flagged); the ~40% figure is a ~2017 snapshot. This edge is OUTSIDE
+  # the channel's ownership chain and does not affect the classification.
+  - subject: snap
+    type: PARTIALLY_OWNS
+    object: vertical_networks
+    control_level: MINORITY
+    ownership_percentage: 40
+    confidence: 0.55
+    status: ACTIVE
+
+sources:
+  - ref: youtube_channel_feed
+    url: https://www.youtube.com/channel/UCvK4bOhULCpmLabd2pDMtnA
+    title: Yes Theory — YouTube channel
+    publisher: Yes Theory (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCvK4bOhULCpmLabd2pDMtnA
+    excerpt: >-
+      The raw @YesTheory channel-page HTML exposes
+      "externalId":"UCvK4bOhULCpmLabd2pDMtnA", and YouTube's own feed for that id
+      carries <yt:channelId>UCvK4bOhULCpmLabd2pDMtnA</yt:channelId>,
+      <title>Yes Theory</title> and <author><name>Yes Theory</name>, confirming the
+      canonical channel id and the channel's ongoing uploads.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 7
+      - relationship: 9
+  - ref: wikipedia_yes_theory
+    url: https://en.wikipedia.org/wiki/Yes_Theory
+    title: Yes Theory
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Yes Theory began as a series of challenges organized by Dahlia and Brag with
+      help from Kandil and Emre [in Montreal, summer 2015]. Near the end of 2015,
+      the group received an offer to relocate to Venice, California, and be paid to
+      make videos by Snapchat subsidiary Vertical Networks. [Derin Emre] left Yes
+      Theory in 2017. Dahlia announced in a YouTube video on February 25, 2021,
+      that he no longer plans to appear in the group's episodes but continues to
+      work on the brand.
+    supports:
+      - relationship: 0
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+      - relationship: 8
+      - relationship: 9
+      - relationship: 10
+      - relationship: 11
+  - ref: yestheory_about
+    url: https://yestheory.com/about/
+    title: About — Yes Theory
+    publisher: Yes Theory
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Ammar, Thomas, and I (hey, I'm Matt) met in 2015 in Montreal, Canada through
+      a series of serendipitous encounters. [The founders describe operating Yes
+      Theory as an independent project built on the "Seek Discomfort" mantra, with
+      related ventures including an apparel line called Seek Discomfort; no outside
+      investor or corporate parent is stated.]
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+  - ref: digiday_vertical_networks
+    url: https://digiday.com/media/elisabeth-murdochs-vertical-networks-is-a-big-snapchat-shows-partner/
+    title: How Elisabeth Murdoch is trying to crack Snapchat
+    publisher: Digiday
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Elisabeth Murdoch's Venice, California-based media startup Vertical Networks
+      is one of Snapchat's biggest show partners. "Snap is an investor in Vertical
+      Networks, owning about 40 percent of the company, according to Recode."
+      Vertical Networks operates as an independent studio with a "special
+      relationship" with Snap, distinct from legacy-media partners.
+    supports:
+      - relationship: 11
+      - relationship: 12
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally OMITTED — this is a DRAFT, not yet human-reviewed.
+  notes: >-
+    DRAFT for human review — creator-owned channel with a NON-ownership Snapchat
+    (Vertical Networks) production-era relationship. reviewed_by intentionally
+    unset. last_reviewed_at holds the draft authoring date (schema-required), NOT
+    a completed review.
+
+    EXPECTED CLASSIFICATION: CREATOR_OWNED. The channel's active owners are its
+    three continuing co-founders (Matt Dajer/Dahlia, Thomas Brag, Ammar Kandil),
+    each encoded PARTIALLY_OWNS channel + CONTROLLING (rels 0-2) under the
+    joint-sole-owner convention. No company, PE, corporate, or external-funding
+    owner is in the active ownership chain. Confidence ~0.65 (min over the
+    load-bearing chain: Matt's inferred ownership edge is the weakest link).
+    REVIEWER FLAG: unlike linus-tech-tips / good-mythical-morning / try-guys /
+    critical-role (creators own a COMPANY that owns the channel), NO distinct
+    operating company is documented here as the channel's owner, so creators are
+    modeled as DIRECT joint owners of the channel. If the classifier's
+    creator-owned rule requires a creator-controlled COMPANY intermediary rather
+    than direct personal ownership, a reviewer should confirm the label still
+    resolves to CREATOR_OWNED (it should — direct creator ownership is the base
+    creator-owned case), and should seek a primary/registry source for the actual
+    operating entity (an LLC likely exists but was not found in any Tier 1/2
+    source; Seek Discomfort is the apparel brand, launched May 2018, not shown to
+    be the channel's owner).
+
+    CHANNEL ID: UCvK4bOhULCpmLabd2pDMtnA, taken from the raw @YesTheory page HTML
+    "externalId" and cross-checked against YouTube's own RSS feed (yt:channelId +
+    title + author all "Yes Theory").
+
+    VERIFICATION POINT 1 — THE SNAP RELATIONSHIP WAS A PRODUCTION DEAL, NOT
+    OWNERSHIP (the crux the task asked to verify). Near the end of 2015 the group
+    was offered relocation to Venice, CA and PAID TO MAKE VIDEOS for Snapchat by
+    Vertical Networks (a paid content-production/commissioning deal, reported as
+    roughly year-long, after which the team refocused on YouTube). This never
+    transferred ownership of the Yes Theory YouTube channel to Snap or Vertical
+    Networks. IMPORTANT CORRECTION: Wikipedia calls Vertical Networks a "Snapchat
+    subsidiary," but Digiday (citing Recode) shows Snap held only a ~40% MINORITY
+    stake in Vertical Networks — an independent Venice studio founded by Elisabeth
+    Murdoch. Snap therefore neither owned Vertical Networks outright nor owned Yes
+    Theory. Modeled as: a NON-ownership DISTRIBUTED_BY edge on the Yes Theory BRAND
+    (rel 11, LICENSE, ENDED), plus context that Snap PARTIALLY_OWNS Vertical
+    Networks at ~40% MINORITY (rel 12). Both are OUTSIDE the channel's ownership
+    chain and do not affect the served classification; they surface the Snap era
+    without ever implying Snap controlled the channel.
+
+    VERIFICATION POINT 2 — DEPARTURES ARE ROLE CHANGES, NOT DOCUMENTED EQUITY
+    CHANGES (per task instruction to model departures with dates only as
+    documented). (a) Derin Emre co-founded Yes Theory (rel 6) and left the group in
+    2017 (reported passport issue); recorded ONLY at the role level (rel 10,
+    HOSTED_BY ENDED). No buyout/equity change is documented, so no ownership edge
+    is asserted or ended for Derin, and he is NOT modeled as a current owner.
+    (b) Matt Dahlia announced on 2021-02-25 that he would stop appearing on camera
+    but "continues to work on the brand" — a role change only (rel 8, HOSTED_BY
+    ENDED 2021-02-25). He RETAINS ownership (rel 0, ACTIVE). No source documents any
+    equity change for Matt.
+
+    DATES / JUDGMENT CALLS: (1) FOUNDED_BY effective_from OMITTED (founding year
+    2015 documented; no full ISO founding/channel-creation date found — a reviewer
+    with the channel's "joined" date may fill this in). (2) Derin's HOSTED_BY
+    effective_to OMITTED (year 2017 documented, no full ISO date). (3) The Snap-era
+    DISTRIBUTED_BY edge (rel 11) has both dates OMITTED (relocation 2016; Snap
+    Original "Yes Theory" series aired summer 2017; exact start/end not
+    documented). (4) Matt's HOSTED_BY effective_to 2021-02-25 is the documented
+    announcement date. (5) Snap's ~40% stake in Vertical Networks (rel 12) is a
+    ~2017 snapshot; whether it still holds is NOT documented (flagged, confidence
+    0.55, left ACTIVE with no effective_to as no end is documented — reviewer may
+    revisit). Founders' individual ownership split is undisclosed, so no
+    percentages are asserted on rels 0-2.
+
+    LEGAL-SAFE / NEUTRALITY: no PE-implying label is asserted anywhere, so the
+    §14.3 PE-label evidence rule is not triggered. All backing sources are Tier
+    1-2; no Tier 3/4 source supports any edge. Language describes ownership
+    STRUCTURE only; the Snap relationship is described as a production/investment
+    arrangement, with no claim of editorial interference or control over Yes
+    Theory (acquisition/investment is not control; representation is not
+    ownership). Inferred edges (creator ownership, rels 0-2) are flagged above.
+  last_reviewed_at: 2026-07-23

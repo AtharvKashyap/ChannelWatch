@@ -1,0 +1,224 @@
+# CHANNELWATCH research record — Kids Diana Show (Diana Kidisyuk)
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: creator/family-owned kids channel with a long-standing external MEDIA
+# COMPANY relationship that is MANAGEMENT / REPRESENTATION, NOT ownership — the
+# direct parallel to the Ryan's World / pocket.watch case. The central factual
+# distinction this record encodes:
+#
+#   channel (Kids Diana Show)
+#     ├─ FOUNDED_BY ───────── Diana (Eva Diana Kidisyuk) — on-screen star; channel
+#     │                       launched by her parents in 2015 (see review.notes)
+#     ├─ OPERATES ─────────── Olena Kidisyuk  (parent — family-owned and operated)
+#     ├─ OPERATES ─────────── Volodymyr Kidisyuk (parent — family-owned and operated)
+#     └─ REPRESENTS (mgmt) ── pocket.watch (PocketWatch, Inc.) — franchise /
+#                             licensing / merchandising partner (2020+), NOT an owner
+#
+# pocket.watch's role is representation/franchise-building (the "Love, Diana"
+# consumer-products brand); it does NOT flow through to ownership of the channel,
+# which remains with the Kidisyuk family. See review.notes.
+
+channel:
+  # Canonical externalId extracted from the raw HTML of
+  # https://www.youtube.com/@KidsDianaShow (curl fetch, no JS execution). This is
+  # the page's own "externalId" field, the record's natural key.
+  youtube_channel_id: UCk8GzjMOrta8yxDcKfylJYw
+  display_name: Kids Diana Show
+  handle: "@KidsDianaShow"
+
+entities:
+  - slug: diana
+    canonical_name: Diana Kidisyuk
+    entity_type: CREATOR
+    aliases:
+      - Eva Diana Kidisyuk
+      - Love, Diana
+      - Kids Diana Show
+
+  - slug: olena
+    canonical_name: Olena Kidisyuk
+    entity_type: PERSON
+    aliases:
+      - Olena Kydysiuk
+
+  - slug: volodymyr
+    canonical_name: Volodymyr Kidisyuk
+    entity_type: PERSON
+    aliases:
+      - Volodymyr Kydysiuk
+
+  - slug: pocketwatch
+    # Reused VERBATIM from data/research/ryans-world.yaml — same legal entity.
+    canonical_name: PocketWatch, Inc.
+    entity_type: COMPANY
+    website: https://www.pocket.watch
+    aliases:
+      - pocket.watch
+      - Pocket.watch
+
+relationships:
+  # 0: Channel founded around Diana, its on-screen star. Launched in 2015 by her
+  # parents (Wikipedia: "Olena launched a YouTube channel to share videos of Diana
+  # with friends and family"); Diana was ~1 year old, so the founding was carried
+  # out by the family. Recorded as FOUNDED_BY diana to mirror the Ryan's World
+  # model (channel identity is built around the child creator); the parents'
+  # operating role is captured separately below. Day-precision date not
+  # established -> effective_from omitted. See review.notes (1).
+  - subject: channel
+    type: FOUNDED_BY
+    object: diana
+    confidence: 0.8
+    status: ACTIVE
+
+  # 1: Olena Kidisyuk (Diana's mother) — operates the channel; the family owns and
+  # operates the show. control_level CONTROLLING reflects direct family control.
+  # Recorded as OPERATES (not OWNS) because sources establish the family "started
+  # making YouTube videos" / launched and run the channel, but do NOT state a
+  # verbatim legal ownership instrument. See review.notes (2).
+  - subject: olena
+    type: OPERATES
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Volodymyr Kidisyuk (Diana's father) — co-operates the channel with Olena.
+  # Same rationale as rel 1. Wikipedia: "Olena and Volodymyr Kydysiuk started
+  # making YouTube videos as a hobby."
+  - subject: volodymyr
+    type: OPERATES
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 3: pocket.watch (PocketWatch, Inc.) REPRESENTS / MANAGES the Kids Diana Show
+  # brand — franchise development, licensing and merchandising (the "Love, Diana"
+  # consumer-products line, animation, gaming and OTT distribution). control_level
+  # MANAGEMENT. This is the ownership-vs-representation distinction the task calls
+  # out: pocket.watch is the media-company partner, NOT an owner of the channel.
+  # The PR Newswire release frames it as a partnership to "launch" a franchise and
+  # quotes Diana's parents as joining pocket.watch — no source states pocket.watch
+  # owns the channel. effective_from = 2020-05-19 (announcement). See notes (3).
+  - subject: pocketwatch
+    type: REPRESENTS
+    object: channel
+    control_level: MANAGEMENT
+    effective_from: 2020-05-19
+    confidence: 0.85
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_kids_diana_show
+    url: https://en.wikipedia.org/wiki/Kids_Diana_Show
+    title: Kids Diana Show
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Olena and Volodymyr Kydysiuk started making YouTube videos as a hobby when
+      Diana's brother, Roma, was born. [...] Diana first appeared in a video in
+      2015 when Olena launched a YouTube channel to share videos of Diana with
+      friends and family. [...] In May 2020, Diana's parents signed a deal with
+      Pocket.Watch, a startup children's media company founded in 2016.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+
+  - ref: prnewswire_love_diana
+    # Joint corporate announcement (distributed via PR Newswire). Used ONLY for the
+    # nature/date of the pocket.watch partnership and the firms' self-descriptions
+    # / the parents' on-the-record quote — treated as a corporate self-description
+    # (Tier 3), not as an independent secondary report.
+    url: https://www.prnewswire.com/news-releases/pocketwatch-partners-with-worlds-most-viewed-six-year-old-superstar-kids-diana-show-to-launch-new-kids-global-franchise--love-diana-301061612.html
+    title: >-
+      Pocket.watch Partners With World's Most-Viewed Six-Year-Old Superstar, Kids
+      Diana Show, To Launch New Kids Global Franchise - Love, Diana
+    publisher: PR Newswire
+    published_at: 2020-05-19
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: >-
+      pocket.watch [...] partnered with Kids Diana Show to launch its newest
+      global franchise, "Love, Diana--the Princess of Play." [...] "With Kids
+      Diana Show, we've created a global community that shares in Diana's love of
+      play and imagination... We're thrilled to join pocket.watch," said Diana's
+      parents. pocket.watch is a new studio that specializes in entertaining and
+      inspiring kids and families through digital-first content.
+    supports:
+      - relationship: 3
+
+review:
+  researched_by: claude-research-agent-m1
+  last_reviewed_at: 2026-07-23
+  notes: >-
+    DRAFT for human review — "creator/family-owned channel with an external
+    MEDIA-COMPANY management/representation relationship (NOT ownership)" case;
+    the direct parallel to ryans-world.yaml. Requires human verification before
+    publication.
+
+    CHANNEL ID. UCk8GzjMOrta8yxDcKfylJYw, taken from the "externalId" field in
+    the raw HTML of https://www.youtube.com/@KidsDianaShow (curl, no JS
+    execution). Reviewer should confirm against the live channel.
+
+    OWNERSHIP vs REPRESENTATION — the core finding. Ownership/control of the
+    channel sits with the Kidisyuk family: parents Olena and Volodymyr launched
+    it in 2015 and run it (family-owned and operated), with Diana as the
+    on-screen star. pocket.watch (PocketWatch, Inc.) is a MEDIA COMPANY that
+    REPRESENTS the brand — it partnered with the family in May 2020 to build the
+    "Love, Diana" franchise (animation, gaming/OTT, and a licensed consumer-
+    products line), i.e. licensing/merchandising/franchise management. NO fetched
+    source states pocket.watch owns the channel or the brand; the announcement
+    frames the parents as JOINING pocket.watch as a partner. Recorded as REPRESENTS
+    + control_level MANAGEMENT accordingly. Reviewer: do NOT let the depth of the
+    pocket.watch franchise partnership be read as ownership.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) rel 0 (channel FOUNDED_BY diana). Evidence credits the PARENTS with
+    launching the channel in 2015 (Diana was ~1). FOUNDED_BY diana is used to
+    mirror the Ryan's World model (channel identity built around the child
+    creator) with the parents' operating role captured in rels 1-2; a reviewer
+    may prefer FOUNDED_BY olena (whom Wikipedia names as launching it) or a family
+    edge. Day-precision date not established, so effective_from is omitted rather
+    than guessed. Diana is a minor; only publicly self-disclosed brand facts are
+    recorded (name Eva Diana Kidisyuk; born 2014, Kyiv). No residential/private
+    data included (family is publicly reported to reside in Dubai — deliberately
+    OMITTED as unrelated to ownership; Spec §22.4 / evidence-policy §5).
+    (2) rels 1-2 (Olena / Volodymyr OPERATE channel, CONTROLLING, conf 0.7).
+    Sources establish the family launched and runs the channel but do NOT state a
+    verbatim legal ownership instrument. OPERATES + CONTROLLING is the honest
+    structural reading (the family controls the channel directly); a reviewer may
+    prefer OWNS/CONTROLS or a single combined family edge if a clearer ownership
+    statement is located. Unlike Ryan's World (which routes control through the
+    family production company Sunlight Entertainment), NO named production/holding
+    company for the Kidisyuk family was located in the fetched sources — if one
+    exists, add it and re-route the OPERATES edges through it.
+    (3) rel 3 (pocket.watch REPRESENTS channel, MANAGEMENT). effective_from set to
+    2020-05-19, the announcement date of the "Love, Diana" partnership (PR
+    Newswire; corroborated by Wikipedia's "May 2020"). The exact contractual
+    terms are not public and are NOT asserted here (creator-safety / Spec §22.4:
+    no confidential contracts). Same pocket.watch legal entity as ryans-world.yaml
+    (slug/canonical_name/website reused verbatim).
+    (4) SOURCE NOTES. Wikipedia (T2, ESTABLISHED_INDUSTRY_PUBLICATION) is the
+    primary support for rels 0-3. The 2020 pocket.watch announcement (PR Newswire)
+    is the companies' own statement; there is no "press release" source_type in
+    the enum, so it is mapped to ARCHIVED_CORPORATE_PAGE (Tier 3) and used only
+    for the partnership's nature/date and the firms' self-descriptions. An
+    archive_url should be captured at review. Variety's 2020 report
+    (variety.com/2020/digital/news/kids-diana-show-pocketwatch-love-diana-show-1234608487)
+    was paywalled to the fetcher (HTTP 402) and is NOT recorded — add as a T2
+    corroborating source if independently verified.
+    (5) NO PE INVOLVEMENT in this record. No PRIVATE_EQUITY_FIRM entity and no
+    PORTFOLIO_COMPANY_OF edge — the §14.3 PE-label gate does not apply.
+    pocket.watch's own external backing (e.g. Viacom's 2018 investment, recorded
+    in ryans-world.yaml) attaches to pocket.watch, the representative, and is
+    intentionally NOT included here: it is out of scope for Diana's ownership
+    graph and does not establish any investor ownership of the channel.
+    (6) EXPECTED COMPUTED CLASSIFICATION: CREATOR_OWNED / creator- (family-)
+    controlled — the channel is owned and operated by the Kidisyuk family, with
+    pocket.watch as a management/representation partner, not an owner. Classification
+    is COMPUTED by the importer; confirm the computed label at import.

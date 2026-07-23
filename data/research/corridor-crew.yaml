@@ -1,0 +1,271 @@
+# CHANNELWATCH research record — Corridor Crew (Corridor Digital)
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: a creator-OWNED channel. Corridor Crew is the SECOND channel of
+# Corridor Digital, an independent Los Angeles visual-effects / production studio
+# founded by Sam Gorski and Niko Pueringer (their flagship channel is "Corridor
+# Digital"; Corridor Crew, formerly the "Sam and Niko" channel, carries the
+# behind-the-scenes / VFX-reaction formats such as "VFX Artists React"). Every
+# fetched source describes Corridor as independent and self-funded (YouTube ad
+# revenue, brand integrations, Patreon, and its own subscription). NO outside /
+# private-equity ownership, network ownership, or equity investment in the
+# channel or in Corridor Digital was found in any source. A prominent
+# creator-economy angle was checked specifically — a Spotter catalog-licensing
+# deal — and NONE was found (see review.notes); note that even a Spotter deal
+# would be revenue LICENSING, not ownership or equity (Spotter states it takes no
+# equity), so it would not change the ownership picture regardless.
+
+channel:
+  # Canonical externalId extracted from the raw HTML of
+  # https://www.youtube.com/@CorridorCrew (curl fetch, no JS execution), captured
+  # adjacent to "canonicalBaseUrl":"/@CorridorCrew". Independently CROSS-CHECKED
+  # against YouTube's OWN feed
+  # (youtube.com/feeds/videos.xml?channel_id=UCSpFnDQr88xCZ80N-X7t0nQ), whose
+  # <title> and <author><name> both read "Corridor Crew" and whose
+  # <yt:channelId> matches this UC id.
+  youtube_channel_id: UCSpFnDQr88xCZ80N-X7t0nQ
+  display_name: Corridor Crew
+  handle: "@CorridorCrew"
+
+entities:
+  - slug: corridor_digital
+    canonical_name: Corridor Digital
+    entity_type: COMPANY
+    legal_name: Corridor Digital, LLC
+    jurisdiction: US-CA # independent production studio based in Los Angeles, California
+    website: https://www.corridordigital.com
+    aliases:
+      - Corridor
+      - Corridor Crew # the studio's brand for this second channel / its on-camera crew
+  - slug: sam
+    canonical_name: Sam Gorski
+    entity_type: CREATOR
+    aliases:
+      - Sam
+      - Samuel Gorski
+  - slug: niko
+    canonical_name: Niko Pueringer
+    entity_type: CREATOR
+    aliases:
+      - Niko
+
+relationships:
+  # 0: Corridor Digital owns/operates the Corridor Crew channel — its own second
+  # channel. Recorded as OWNS with control_level CONTROLLING: the studio is the
+  # operating/production entity for the channel and is itself creator-owned
+  # (rels 5-6). No ownership percentage is publicly disclosed, so omitted. No
+  # fetched source states channel ownership in the verbatim "Company X owns
+  # Channel Y" form; it is the structural identity between the studio and its own
+  # second channel (sources treat Corridor Crew as Corridor Digital's channel).
+  # Flagged for the reviewer as an identity inference rather than a quoted
+  # ownership statement.
+  - subject: corridor_digital
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.85
+    status: ACTIVE
+  # 1: Channel co-founded / co-hosted by Sam Gorski. (The channel began as the
+  # "Sam and Niko" channel before rebranding to "Corridor Crew"; exact channel
+  # account creation date not verified from a primary source, so effective_from
+  # omitted rather than guessed — see review.notes.)
+  - subject: channel
+    type: FOUNDED_BY
+    object: sam
+    confidence: 0.8
+    status: ACTIVE
+  # 2: Channel co-founded / co-hosted by Niko Pueringer (same "Sam and Niko"
+  # origin as rel 1).
+  - subject: channel
+    type: FOUNDED_BY
+    object: niko
+    confidence: 0.8
+    status: ACTIVE
+  # 3: Sam Gorski co-founded Corridor Digital. Wikipedia gives incorporation as
+  # 2009-10-09 (operations from 2010; YouTube channel from ~2011). effective_from
+  # set to the documented incorporation date; flagged for the reviewer.
+  - subject: corridor_digital
+    type: FOUNDED_BY
+    object: sam
+    effective_from: 2009-10-09
+    confidence: 0.85
+    status: ACTIVE
+  # 4: Niko Pueringer co-founded Corridor Digital (same incorporation date).
+  - subject: corridor_digital
+    type: FOUNDED_BY
+    object: niko
+    effective_from: 2009-10-09
+    confidence: 0.85
+    status: ACTIVE
+  # 5: Sam Gorski is a co-owner of Corridor Digital. Sources describe Corridor as
+  # founded by Gorski & Pueringer and as independently operated / self-funded (ad
+  # revenue, brand integrations, Patreon, subscription); no individual equity
+  # split is disclosed, so no percentage is asserted. Per project policy
+  # (2026-07-23) matching good-mythical-morning / linus-tech-tips: creators who
+  # are jointly the DOCUMENTED owners of an independent, self-funded company
+  # encode as PARTIALLY_OWNS with control_level CONTROLLING — their joint control
+  # is documented even though the split is not. This is what makes Corridor
+  # Digital a creator-controlled company (→ CREATOR_OWNED). See review.notes for a
+  # caveat about a documented third partner (Jake Watson, operations director).
+  - subject: sam
+    type: PARTIALLY_OWNS
+    object: corridor_digital
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  # 6: Niko Pueringer is a co-owner of Corridor Digital (same joint convention as
+  # rel 5).
+  - subject: niko
+    type: PARTIALLY_OWNS
+    object: corridor_digital
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: youtube_channel_feed
+    url: https://www.youtube.com/channel/UCSpFnDQr88xCZ80N-X7t0nQ
+    title: Corridor Crew — YouTube channel
+    publisher: Corridor Crew (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCSpFnDQr88xCZ80N-X7t0nQ
+    excerpt: >-
+      YouTube's own feed for channel UCSpFnDQr88xCZ80N-X7t0nQ carries
+      <title>Corridor Crew</title>, <yt:channelId>UCSpFnDQr88xCZ80N-X7t0nQ</yt:channelId>,
+      and <author><name>Corridor Crew</name>, confirming the canonical channel id
+      and display name and that the channel publishes ongoing Corridor Crew uploads.
+    supports:
+      - relationship: 0
+  - ref: wikipedia_corridor_digital
+    url: https://en.wikipedia.org/wiki/Corridor_Digital
+    title: Corridor Digital
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Corridor Digital is an American independent production studio based in Los
+      Angeles, founded by Sam Gorski and Niko Pueringer; the company was
+      incorporated October 9, 2009 (operations from 2010). Corridor Crew is their
+      secondary YouTube channel featuring behind-the-scenes material and series
+      such as "VFX Artists React." No outside investment, acquisition, or
+      ownership stake by an external entity is documented.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+  - ref: entrepreneur_profile
+    url: https://www.entrepreneur.com/science-technology/this-filmmaking-crew-found-success-on-youtube-making-shorts/318031
+    title: This Filmmaking Crew Found Success on YouTube Making Shorts With Crazy Visual Effects
+    publisher: Entrepreneur
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Niko Pueringer and Sam Gorski are the co-creative directors of Corridor,
+      along with Jake Watson, who serves as operations director; the three are
+      partners with higher-level involvement. Corridor has funded its YouTube
+      creations through brand integrations and ads as well as Patreon support
+      over the years. No external investment, venture capital, or third-party
+      funding source is referenced.
+    supports:
+      - relationship: 0
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally OMITTED: this is an unverified DRAFT (the schema
+  # field is optional, not nullable). Do NOT set it without human review.
+  last_reviewed_at: 2026-07-23 # research/authoring date; NOT a human review date.
+  notes: >-
+    DRAFT for human review — "creator-owned company" case (second channel of an
+    independent, founder-owned production studio). Requires human verification
+    before publication.
+
+    CHANNEL ID. UCSpFnDQr88xCZ80N-X7t0nQ, taken from the "externalId" field in the
+    raw HTML of https://www.youtube.com/@CorridorCrew (curl, no JS execution),
+    captured adjacent to "canonicalBaseUrl":"/@CorridorCrew", and independently
+    cross-checked against YouTube's OWN RSS feed
+    (youtube.com/feeds/videos.xml?channel_id=UCSpFnDQr88xCZ80N-X7t0nQ), whose
+    <title>, <author><name>, and <yt:channelId> all confirm "Corridor Crew" /
+    this UC id. Reviewer should confirm against the live channel.
+
+    OWNERSHIP — the core finding. Corridor Crew is the SECOND channel of Corridor
+    Digital (their flagship channel is "Corridor Digital"). Corridor Digital is an
+    independent Los Angeles VFX/production studio founded by Sam Gorski and Niko
+    Pueringer and is consistently described as independent and self-funded (YouTube
+    ad revenue, brand integrations, Patreon, and its own subscription). NO source
+    found states or implies any outside/private-equity owner, network owner,
+    parent company, or equity investor of the channel or of Corridor Digital.
+    Accordingly the two founders are encoded as PARTIALLY_OWNS + CONTROLLING into
+    the company (joint-documented-owner convention, 2026-07-23 policy), and
+    Corridor Digital OWNS + CONTROLLING the channel.
+
+    SPOTTER CHECK (per task). I specifically searched for a Corridor / Corridor
+    Digital <-> Spotter deal (catalog licensing or investment). NONE was found in
+    any fetched source or search result — no such deal is documented. This is
+    recorded as a checked-and-not-found item, not an edge. Separately, even if a
+    Spotter deal existed, Spotter's model is REVENUE-CATALOG LICENSING and Spotter
+    publicly states it takes NO equity and creators "remain 100% independent";
+    licensing is NOT ownership and would not, on its own, create an ownership or
+    control edge (cf. legal-risk policy: "investment is not proof of editorial
+    control"; and the jubilee.yaml treatment of investment vs ownership).
+
+    EXPECTED COMPUTED CLASSIFICATION. Direct channel owner is a COMPANY (Corridor
+    Digital) that is creator-controlled via two CONTROLLING PARTIALLY_OWNS edges
+    from its founders, with NO PRIVATE_EQUITY_FIRM / PORTFOLIO_COMPANY_OF edge in
+    the chain and no outside equity. The classifier should therefore compute
+    CREATOR_OWNED (explanation CREATOR_CONTROLLED_COMPANY), analogous to
+    good-mythical-morning. Confirm the computed label at import.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) THIRD PARTNER. Entrepreneur.com describes Jake Watson (operations
+    director) as a third "partner" with "higher-level involvement," alongside
+    Gorski and Pueringer. This means the two founders may not be the strictly SOLE
+    owners. "Partner" here may be a loose/role term rather than a documented equity
+    stake, and every source that names the FOUNDERS names only Gorski & Pueringer,
+    so the joint-owner convention is applied to the two founders and Watson is NOT
+    modeled as an owner (precision over recall). A reviewer who locates
+    documentation of Watson's equity should add him as a PERSON entity with the
+    appropriate edge; this does not change the CREATOR_OWNED outcome but affects
+    the ownership roster.
+    (2) rel 0 (Corridor Digital OWNS channel, CONTROLLING, conf 0.85). No fetched
+    source states channel ownership verbatim; it is the structural identity
+    between the studio and its own second channel. A reviewer may prefer OPERATES
+    if a stricter reading is wanted — note OPERATES does NOT resolve as an
+    ownership edge in the classifier and would yield OWNERSHIP_UNCLEAR instead.
+    (3) FOUNDING DATES. Company incorporation recorded as 2009-10-09 per Wikipedia
+    (operations from 2010; the pair moved to LA in 2008; the YouTube presence began
+    ~2011). Reviewer may wish to confirm the exact incorporation date against a
+    corporate registry (California Secretary of State) — recorded here at the
+    date the source states but treated as draft-level.
+    (4) CHANNEL FOUNDING / RENAME. The channel began as the "Sam and Niko" channel
+    and was rebranded to "Corridor Crew" (a May 31, 2018 video, "Secret stories of
+    the Corridor Crew (why we changed the channel name)," reportedly explains the
+    rename). The "formerly Sam and Niko" claim appears in community wikis (Fandom
+    Wikitubia) rather than a Tier 1/2 source I could fetch (Wikipedia's article did
+    not state the former name; the Fandom page returned HTTP 402), so it is recorded
+    here as a LEAD in this note, not as an asserted alias/edge. No verified channel
+    account creation date was obtained, so effective_from is omitted on rels 1-2.
+    (5) HOSTS. Corridor Crew is on-camera-hosted by a broader "crew" (e.g. Wren
+    Weichman, Jake Watson, and others) in addition to Gorski and Pueringer. No
+    HOSTED_BY edges were modeled (they add no ownership-classification signal and
+    the full cast was not enumerated from a primary source); a reviewer may add
+    them if per-host granularity is wanted.
+    (6) NO PE INVOLVEMENT. No PRIVATE_EQUITY_FIRM entity and no PORTFOLIO_COMPANY_OF
+    edge — the §14.3 PE-label evidence gate does not apply and no PE-implying
+    language is used anywhere in this record.
+    (7) SOURCES. One Tier 1 (YouTube's own feed, for channel-id/identity) and two
+    Tier 2 ESTABLISHED_INDUSTRY_PUBLICATION sources (Wikipedia; an Entrepreneur
+    feature). No Tier 1 primary corporate-registry or filing source for the
+    ownership itself was located; nothing here should be treated as CONFIRMED
+    without further primary-source diligence. archive_urls (beyond the feed) should
+    be captured at review.

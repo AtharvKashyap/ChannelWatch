@@ -1,0 +1,375 @@
+# CHANNELWATCH research record — Epic Gardening (Kevin Espiritu)
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: a creator-founded, founder-led CONTENT-TO-COMMERCE COMPANY that
+# owns/operates its eponymous YouTube channel and took ONE documented external
+# growth investment — $17.5M from The Chernin Group (TCG), announced 2022-01-25.
+# The central factual distinctions this record encodes:
+#
+#   channel (Epic Gardening)
+#     └─ OWNS ─────────────── Epic Gardening (the company/brand; the channel is
+#          │                  its flagship content asset)
+#          ├─ FOUNDED_BY ───── Kevin Espiritu (founded 2013; founder & CEO;
+#          │                   on-camera creator — see HOSTED_BY)
+#          ├─ INVESTED_IN ←─── The Chernin Group (TCG): a $17.5M growth
+#          │                   investment. Recorded control_level MINORITY — NO
+#          │                   source states a majority/controlling stake. This
+#          │                   is NOT ownership or control of the channel.
+#          └─ ACQUIRED ──────> Botanical Interests (2023, OUTBOUND — Epic is the
+#                              ACQUIRER; contextual, does not affect the channel's
+#                              own ownership classification)
+#
+# TCG is typed PRIVATE_EQUITY_FIRM (see notes for the sourcing behind this and the
+# INVESTMENT_FIRM alternative flagged for the reviewer). Because that makes the
+# TCG endpoint "PE-implying", the §14.3 PE-evidence gate applies to the INVESTED_IN
+# edge and IS satisfied (a Tier 1 official announcement, plus two independent
+# Tier 2 sources). CRITICALLY, this does NOT make the channel PE_BACKED: TCG holds
+# only a documented MINORITY investment (INVESTED_IN, not OWNS/PARTIALLY_OWNS-
+# CONTROLLING and not PORTFOLIO_COMPANY_OF), so it never enters the ownership
+# chain the classifier traverses. See review.notes for the expected label.
+
+channel:
+  # Canonical externalId extracted from the raw HTML of
+  # https://www.youtube.com/@epicgardening (curl fetch, no JS execution). This is
+  # the page's own "externalId" (browseId), captured alongside
+  # "canonicalBaseUrl":"/@epicgardening"; it differs from any unrelated
+  # channelId/externalId values in featured/recommended modules of the page.
+  youtube_channel_id: UCSbyncU597LMwb3HhnAI_4w
+  display_name: Epic Gardening
+  handle: "@epicgardening"
+
+entities:
+  - slug: epic_gardening
+    canonical_name: Epic Gardening
+    entity_type: COMPANY
+    # Headquartered in San Diego, California. Exact legal name not verified in a
+    # fetched source, so legal_name is omitted rather than guessed.
+    jurisdiction: US-CA
+    website: https://www.epicgardening.com
+    aliases:
+      - Epic Gardening, Inc.
+
+  - slug: kevin
+    # Founder AND CEO, and the channel's primary on-camera talent. Recorded as
+    # CREATOR (not PERSON): unlike Jubilee's Jason Y. Lee, Espiritu is himself the
+    # face/host of the channel ("showcase my growing journey ... directly to my
+    # audience"), in addition to being founder/CEO.
+    canonical_name: Kevin Espiritu
+    entity_type: CREATOR
+    aliases:
+      - Epic Gardening
+
+  - slug: tcg
+    # See review.notes (JUDGMENT CALL 1): typed PRIVATE_EQUITY_FIRM. TCG is
+    # described by reputable sources as a "growth equity firm" (its own primary
+    # self-description) and, by Wikipedia, as an "investment advisory firm focused
+    # on private equity investments"; Variety calls it an "investment firm". The
+    # node vocabulary (Spec §15.1) has no GROWTH_EQUITY type, so PRIVATE_EQUITY_FIRM
+    # is the closest documented fit (growth equity is a form of private equity).
+    # INVESTMENT_FIRM is a defensible neutral alternative and is flagged for the
+    # reviewer (this mirrors the Electrify entity_type judgment call in
+    # veritasium.yaml).
+    canonical_name: The Chernin Group
+    entity_type: PRIVATE_EQUITY_FIRM
+    legal_name: TCG Capital Management, LP
+    jurisdiction: US-CA
+    website: https://tcg.co
+    aliases:
+      - TCG
+      - Chernin Group
+
+  - slug: botanical_interests
+    canonical_name: Botanical Interests
+    entity_type: COMPANY
+    # Broomfield, Colorado — vegetable/herb/flower seed-packet company.
+    jurisdiction: US-CO
+
+relationships:
+  # 0: Epic Gardening (the company/brand) owns/operates its eponymous YouTube
+  # channel. No fetched source states this in the "Company X owns Channel Y" form
+  # verbatim; it is the structural identity — sources treat "Epic Gardening" the
+  # company and its YouTube channel as one business, describing Epic as "the
+  # leading creator-led, content-to-commerce brand in gardening" whose channel is
+  # its flagship content asset. control_level CONTROLLING (a company controls its
+  # own flagship channel). Recorded OWNS with moderate confidence; flagged for the
+  # reviewer as an inference of identity rather than a quoted ownership statement.
+  - subject: epic_gardening
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+
+  # 1: Epic Gardening was founded by Kevin Espiritu in 2013 (first video uploaded
+  # February 2013; "Founded in 2013" per the TCG announcement). Day precision not
+  # firmly established -> effective_from omitted rather than guessed. Pre-dates the
+  # 2022 outside investment by ~9 years.
+  - subject: epic_gardening
+    type: FOUNDED_BY
+    object: kevin
+    confidence: 0.9
+    status: ACTIVE
+
+  # 2: The Chernin Group (TCG) made a $17.5M investment in Epic Gardening,
+  # announced 2022-01-25 (round reportedly closed ~December 2021 per secondary
+  # reporting). Recorded INVESTED_IN + control_level MINORITY: the Tier 1
+  # announcement states an "investment ... to finance its continued growth and
+  # expansion" and names a TCG partner, but NO source states a majority,
+  # controlling, or percentage stake; the company was bootstrapped for ~10 years
+  # by its founder/CEO before this single raise. This edge terminates at the
+  # COMPANY (Epic Gardening), NOT the channel, and — being a minority stake — does
+  # NOT establish ownership/control of the channel by TCG (cf. jubilee.yaml).
+  # control_level MINORITY is an inference from the absence of any control language
+  # plus the founder-led, single-round context — flagged for the reviewer.
+  # PORTFOLIO_COMPANY_OF is DELIBERATELY NOT used: TCG's release refers to its
+  # "portfolio" as loose marketing, which does not document PE control/ownership.
+  - subject: tcg
+    type: INVESTED_IN
+    object: epic_gardening
+    control_level: MINORITY
+    effective_from: 2022-01-25
+    confidence: 0.85
+    status: ACTIVE
+
+  # 3: Kevin Espiritu is the channel's on-camera creator/host (distinct from the
+  # ownership/founding edges). Supported by the TCG announcement's description of
+  # him showcasing his "growing journey ... directly to my audience" and viewers
+  # "learning how to garden with Kevin and team as your companions."
+  - subject: channel
+    type: HOSTED_BY
+    object: kevin
+    confidence: 0.9
+    status: ACTIVE
+
+  # 4: OUTBOUND acquisition — Epic Gardening ACQUIRED Botanical Interests,
+  # announced 2023-01-11. Epic is the ACQUIRER here (Botanical is the target); the
+  # Botanical brand, its Colorado HQ, and employees were retained. This enriches
+  # the graph but does NOT affect the Epic Gardening channel's own ownership
+  # classification (it is a downstream asset of Epic, not an owner of it).
+  - subject: epic_gardening
+    type: ACQUIRED
+    object: botanical_interests
+    effective_from: 2023-01-11
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: businesswire_tcg
+    url: https://www.businesswire.com/news/home/20220125005554/en/Epic-Gardening-Announces-$17.5-Million-in-Financing-From-TCG
+    title: Epic Gardening Announces $17.5 Million in Financing From TCG
+    publisher: Business Wire
+    published_at: 2022-01-25
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    archive_url: http://web.archive.org/web/20251015113339/https://www.businesswire.com/news/home/20220125005554/en/Epic-Gardening-Announces-%2417.5-Million-in-Financing-From-TCG
+    excerpt: >-
+      Epic Gardening, the online gardening destination founded by Kevin Espiritu
+      announced today an investment of $17.5 million by The Chernin Group (TCG)
+      to finance its continued growth and expansion. [...] "Community and
+      authentic engagement are Epic Gardening's lifeblood, similar to other
+      disruptive brands in the TCG portfolio including MeatEater, Food52 and
+      Surfline," says Luke Beatty, partner at TCG.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+
+  - ref: gpn_2022
+    url: https://gpnmag.com/news/epic-gardening-receives-17-5-million-in-new-financing/
+    title: Epic Gardening Receives $17.5 Million in New Financing
+    publisher: Greenhouse Product News
+    published_at: 2022-01-26
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Epic Gardening, the online gardening destination founded by Kevin Espiritu
+      recently announced an investment of $17.5 million by The Chernin Group
+      (TCG).
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+  - ref: wikipedia_tcg
+    url: https://en.wikipedia.org/wiki/TCG_(company)
+    title: TCG (company)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      TCG Capital Management, LP, doing business as TCG or the Chernin Group, is
+      an American investment advisory firm focused on private equity investments
+      in the media, entertainment, technology, sports and consumer and digital
+      media sectors.
+    supports:
+      - relationship: 2
+
+  - ref: wikipedia_epic_gardening
+    url: https://en.wikipedia.org/wiki/Epic_Gardening
+    title: Epic Gardening
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Espiritu's first video on Epic Gardening was uploaded in February of 2013.
+      [...] TCG invested $17.5 million in Epic Gardening in January 2022. [...] In
+      January 2023, Epic Gardening acquired Botanical Interests, a seed selling
+      company based in Broomfield, Colorado.
+    supports:
+      - relationship: 1
+      - relationship: 2
+      - relationship: 4
+
+  - ref: seedworld_2023
+    url: https://www.seedworld.com/us/2023/02/01/epic-gardening-acquires-botanical-interests-2/
+    title: Epic Gardening Acquires Botanical Interests
+    publisher: Seed World
+    published_at: 2023-02-01
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Epic Gardening, the leading creator-led, content-to-commerce brand in
+      gardening, acquired Botanical Interests. [...] The Botanical Interests
+      brand, its Colorado headquarters, and all employees will be retained.
+    supports:
+      - relationship: 0
+      - relationship: 4
+
+  - ref: businesswire_botanical
+    url: https://www.businesswire.com/news/home/20230111005354/en/Epic-Gardening-Acquires-Botanical-Interests-to-Grow-Its-Wholesale-Offering-Through-Partnership-with-Independent-Garden-Centers
+    title: >-
+      Epic Gardening Acquires Botanical Interests to Grow Its Wholesale Offering
+      Through Partnership with Independent Garden Centers
+    publisher: Business Wire
+    published_at: 2023-01-11
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >-
+      Epic Gardening Acquires Botanical Interests to Grow Its Wholesale Offering
+      Through Partnership with Independent Garden Centers.
+    supports:
+      - relationship: 4
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally OMITTED: this is an unverified DRAFT (the schema
+  # field is optional, not nullable). Do NOT set it without human review.
+  last_reviewed_at: 2026-07-23 # research/authoring date; NOT a human review date.
+  notes: >-
+    DRAFT for human review — "creator-founded, founder-led content-to-commerce
+    company with ONE documented external growth investment" case. Requires human
+    verification before publication.
+
+    CHANNEL ID. UCSbyncU597LMwb3HhnAI_4w, taken from the "externalId" field in the
+    raw HTML of https://www.youtube.com/@epicgardening (curl, no JS execution),
+    captured adjacent to "canonicalBaseUrl":"/@epicgardening". Reviewer should
+    confirm against the live channel.
+
+    CORRECTION TO THE RESEARCH BRIEF — ONE ROUND, NOT TWO. The brief anticipated
+    "reported rounds involving TCG ~2020 and later growth investment ~2022." The
+    evidence does NOT support two rounds. Every fetched source describes a SINGLE
+    external raise: $17.5M from The Chernin Group (TCG), announced 2022-01-25
+    (Business Wire), with the company bootstrapped for ~10 years beforehand.
+    Secondary reporting indicates the round closed ~December 2021 and was
+    announced January 2022; some coverage calls it a "Series A." No 2020 TCG round
+    was found in any fetched source, so none is recorded (evidence-first: a
+    round we cannot document is not modeled).
+
+    OWNERSHIP vs INVESTMENT — the core finding. The channel is the flagship asset
+    of Epic Gardening, a founder-led content-to-commerce company founded by Kevin
+    Espiritu (founder & CEO, and the channel's on-camera creator). The company has
+    taken ONE documented outside investment — the $17.5M TCG raise — and NO
+    fetched source states that TCG (or anyone) holds a controlling or majority
+    stake, nor that Epic Gardening was acquired. Accordingly TCG is recorded as
+    INVESTED_IN + MINORITY into the COMPANY, which is NOT ownership of the channel
+    (cf. jubilee.yaml). Legal-risk policy: "investment is not proof of editorial
+    control"; describe structure, never imply the founder lost control.
+
+    EXPECTED COMPUTED CLASSIFICATION. Direct channel owner is a COMPANY (Epic
+    Gardening). TCG's edge is a MINORITY INVESTED_IN into the company — the
+    ultimate-parent traversal follows only SUBSIDIARY_OF, PORTFOLIO_COMPANY_OF and
+    CONTROLLING OWNS/PARTIALLY_OWNS edges, so a minority INVESTED_IN does NOT put
+    TCG in the ownership chain. There is therefore no PRIVATE_EQUITY_FIRM in the
+    chain and no PORTFOLIO_COMPANY_OF edge, so the channel is NOT PE_BACKED despite
+    TCG being typed PRIVATE_EQUITY_FIRM. With no DOCUMENTED controlling-equity edge
+    from Kevin Espiritu into the company, the classifier should compute
+    CORPORATE_OWNED (direct owner: Epic Gardening; explanation
+    DIRECT_OWNER_CONFIRMED). Confirm the computed label at import.
+
+    PE GATE — SATISFIED (but not triggering a PE label). Because TCG is typed
+    PRIVATE_EQUITY_FIRM, the INVESTED_IN edge (rel 2) is "PE-implying" and must
+    satisfy the §14.3 sourcing rule over its supporting sources: ONE Tier 1
+    source, OR two independent Tier 2 sources. It is satisfied by the Tier 1
+    official announcement (businesswire_tcg), AND additionally by two independent
+    Tier 2 sources with distinct publishers (gpn_2022 / Greenhouse Product News
+    and wikipedia_epic_gardening / Wikipedia). Note this gate governs SOURCING for
+    a PE-implying edge; it does NOT by itself produce a PE_BACKED classification
+    (see EXPECTED COMPUTED CLASSIFICATION — TCG is only a minority investor).
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) TCG entity_type = PRIVATE_EQUITY_FIRM. Sources characterize TCG
+    inconsistently: it self-describes and is described (e.g. f4.fund, its own
+    materials) as a "growth equity firm"; Wikipedia's "TCG (company)" lead calls
+    it an "investment advisory firm focused on private equity investments";
+    Variety's headline calls it an "investment firm"; Private Equity Wire covers
+    it as PE. The Spec §15.1 node vocabulary has no GROWTH_EQUITY type, so
+    PRIVATE_EQUITY_FIRM was chosen as the closest documented fit (growth equity
+    being a form of private equity). A reviewer preferring a stricter,
+    lower-implication reading may switch this to INVESTMENT_FIRM (mirroring the
+    Electrify judgment call in veritasium.yaml); doing so removes the §14.3 gate on
+    rel 2 but does NOT change the computed label (still CORPORATE_OWNED, since TCG
+    is a minority investor either way).
+    (2) rel 2 control_level = MINORITY is an INFERENCE, not a stated fact. NO
+    fetched source discloses TCG's percentage or uses "majority"/"minority"/
+    "controlling". MINORITY is inferred from (a) the absence of any control
+    language in the Tier 1 announcement and (b) the founder-led, single-raise,
+    ~decade-bootstrapped context. This is the primary edge for the reviewer to
+    scrutinize; confidence is set at 0.85 (the $17.5M investment fact is Tier-1
+    solid, but the control_level qualifier is the softer part). If a reviewer
+    LOCATES a documented stake/percentage that is majority/controlling, rel 2 would
+    need to become PARTIALLY_OWNS + CONTROLLING and the computed label would flip
+    to PE_BACKED — do NOT make that change without a firm source.
+    (3) rel 2 effective_from = 2022-01-25 is the ANNOUNCEMENT date, used as a proxy
+    for the operative date (per veritasium.yaml / jubilee.yaml precedent). Secondary
+    reporting indicates the round actually closed ~December 2021 (no exact day
+    located). Reviewer may prefer a precise operative close date if one is found;
+    the announcement date is also recorded on businesswire_tcg.published_at.
+    (4) CREATOR-CONTROL / potential CREATOR_OWNED flip (same shape as jubilee.yaml
+    JUDGMENT CALL 2). Kevin Espiritu is founder AND CEO of a company he bootstrapped
+    for ~10 years and that took only a minority growth investment — in practice a
+    strong indication of founder control — BUT no fetched source documents his
+    equity percentage or a controlling stake, and a bare FOUNDED_BY does NOT satisfy
+    the creator-controlled-company rule (precision over recall). If a reviewer
+    LOCATES documentation of Espiritu's controlling equity, adding a CONTROLS or a
+    CONTROLLING PARTIALLY_OWNS edge from kevin -> epic_gardening would flip the
+    computed label to CREATOR_OWNED (CREATOR_CONTROLLED_COMPANY). This is
+    deliberately NOT asserted here for lack of documentation — it is the single most
+    consequential open item, as it changes the badge.
+    (5) rel 0 (Epic Gardening OWNS channel, CONTROLLING, conf 0.8). No fetched
+    source states channel ownership verbatim; it is the structural identity between
+    the company/brand and its eponymous channel (sources use "Epic Gardening" for
+    both interchangeably; the channel is the company's flagship content asset). A
+    reviewer wanting a stricter reading may prefer OPERATES — note OPERATES does NOT
+    resolve as an ownership edge in the classifier and would yield OWNERSHIP_UNCLEAR
+    instead. Epic Gardening's exact legal name was not verified (jurisdiction
+    recorded US-CA at San Diego HQ precision; "Epic Gardening, Inc." listed as an
+    alias, not confirmed).
+    (6) rel 4 (Epic Gardening ACQUIRED Botanical Interests, 2023-01-11) is OUTBOUND
+    and CONTEXTUAL — Epic is the ACQUIRER, Botanical the target. It does NOT affect
+    the Epic Gardening channel's own ownership classification. effective_from is the
+    announcement date (Business Wire, 2023-01-11); terms were not disclosed.
+    businesswire_botanical (Tier 1) could not be body-fetched (Business Wire and
+    web.archive.org were not retrievable by the fetcher here); its excerpt is the
+    verbatim release HEADLINE only, and rel 4 is independently supported by two
+    fetched Tier 2 sources (seedworld_2023, wikipedia_epic_gardening). Reviewer
+    should capture a full archive snapshot of the Business Wire release.
+    (7) SOURCES / ARCHIVES. businesswire_tcg was verified via a Wayback Machine
+    capture (archive_url recorded) since the live Business Wire page timed out for
+    the fetcher; its excerpt is verbatim from that capture. Remaining sources are
+    Tier 2 (Greenhouse Product News, Wikipedia, Seed World). Nothing here should be
+    treated as CONFIRMED without further primary-source diligence (e.g. a corporate
+    registry record for Epic Gardening establishing Espiritu's stake, which would
+    resolve JUDGMENT CALL 4). archive_urls for the Tier 2 sources should be captured
+    at review.
