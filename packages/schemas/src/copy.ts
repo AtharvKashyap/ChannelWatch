@@ -626,3 +626,30 @@ export const REVIEW_CONSOLE_COPY = {
   prev: "Previous",
   next: "Next",
 } as const;
+
+/**
+ * The public `/legal` page (M3 Track F, launch-checklist item 1.12): the
+ * notice-and-takedown process and the standing content-dispute path. The
+ * designated-agent contact is a PLACEHOLDER that a human must replace after
+ * registering an agent with the US Copyright Office — the page renders it
+ * verbatim, so launch is blocked on that edit (see docs/launch-checklist.md).
+ * Neutral, §23.1-safe: describes process, asserts nothing about any channel.
+ */
+export const LEGAL_PAGE_COPY = {
+  heading: "Legal notices",
+  intro:
+    "CHANNELWATCH publishes structural ownership information supported by public evidence. This page describes how to send a formal legal notice about published content and how to dispute a record.",
+  disputeHeading: "Disputing a published record",
+  disputeBody:
+    "If you believe a published record is inaccurate, the fastest path is the correction form. Corrections are logged, reviewed by a person, and — where a record changes — kept visible rather than silently rewritten. Records under credible dispute can carry a public dispute notice while review is underway.",
+  disputeLinkText: "Report an error",
+  dmcaHeading: "Copyright notices (DMCA)",
+  dmcaBody:
+    "If you believe content on this site infringes your copyright, you may send a notice under the Digital Millennium Copyright Act (17 U.S.C. § 512) to our designated agent. A valid notice must identify the copyrighted work, identify the material claimed to be infringing with enough detail for us to locate it, include your contact information, a statement of good-faith belief that the use is unauthorized, a statement under penalty of perjury that the notice is accurate and that you are authorized to act, and a physical or electronic signature.",
+  dmcaProcessBody:
+    "On receiving a valid notice we will review it promptly, remove or disable access to the identified material where required, and notify the affected submitter where applicable. Counter-notices are handled per the statute.",
+  agentHeading: "Designated agent",
+  agentContact:
+    "[NEEDS-HUMAN: designated agent name and contact — register with the US Copyright Office and replace this placeholder before launch]",
+  navLegal: "Legal",
+} as const;

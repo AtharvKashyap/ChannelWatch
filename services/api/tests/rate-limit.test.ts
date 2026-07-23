@@ -1,5 +1,9 @@
-import { describe, it, expect } from "vitest";
-import { TokenBucketStore } from "../src/http/rate-limit.js";
+import { describe, it, expect, afterEach } from "vitest";
+import {
+  PostgresFixedWindowStore,
+  TokenBucketStore,
+  resolveRateLimitStoreKind,
+} from "../src/http/rate-limit.js";
 
 /**
  * Pure unit tests for the token-bucket store — no HTTP, no DB. Time is injected
@@ -98,5 +102,58 @@ describe("TokenBucketStore", () => {
     expect(store.size()).toBe(2);
     // "a" was evicted, so its bucket is fresh again (full capacity minus this take).
     expect(store.take("a").remaining).toBe(4);
+  });
+});
+
+/**
+ * Store selection is env/config-driven and must default to in-memory so dev and
+ * tests never need a database (Track F).
+ */
+describe("resolveRateLimitStoreKind", () => {
+  const saved = process.env.RATE_LIMIT_STORE;
+  afterEach(() => {
+    if (saved === undefined) delete process.env.RATE_LIMIT_STORE;
+    else process.env.RATE_LIMIT_STORE = saved;
+  });
+
+  it("defaults to memory when the env var is unset", () => {
+    delete process.env.RATE_LIMIT_STORE;
+    expect(resolveRateLimitStoreKind()).toBe("memory");
+  });
+
+  it("selects postgres only for RATE_LIMIT_STORE=postgres (case-insensitive)", () => {
+    process.env.RATE_LIMIT_STORE = "Postgres";
+    expect(resolveRateLimitStoreKind()).toBe("postgres");
+  });
+
+  it("treats any other value as memory", () => {
+    process.env.RATE_LIMIT_STORE = "redis";
+    expect(resolveRateLimitStoreKind()).toBe("memory");
+  });
+
+  it("honors an explicit override regardless of env", () => {
+    process.env.RATE_LIMIT_STORE = "postgres";
+    expect(resolveRateLimitStoreKind("memory")).toBe("memory");
+    delete process.env.RATE_LIMIT_STORE;
+    expect(resolveRateLimitStoreKind("postgres")).toBe("postgres");
+  });
+});
+
+/** Constructor validation is pure (no DB), so it is a unit concern. */
+describe("PostgresFixedWindowStore options", () => {
+  it("rejects invalid options", () => {
+    expect(
+      () => new PostgresFixedWindowStore({ capacity: 0, windowMs: 1000, scope: "x" }),
+    ).toThrow();
+    expect(() => new PostgresFixedWindowStore({ capacity: 5, windowMs: 0, scope: "x" })).toThrow();
+    expect(
+      () =>
+        new PostgresFixedWindowStore({
+          capacity: 5,
+          windowMs: 1000,
+          scope: "x",
+          cleanupProbability: 2,
+        }),
+    ).toThrow();
   });
 });

@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { getSql } from "./db/client.js";
 import { cors, errorEnvelope, securityHeaders } from "./http/middleware.js";
+import { requestLogger } from "./http/request-log.js";
 import { createV1Router, renderError } from "./routes.js";
 import { createAuthRouter, createReviewerRouter } from "./reviewer/routes.js";
 
@@ -19,6 +20,10 @@ export function createApp(): Hono {
   const app = new Hono();
   const webOrigin = process.env.WEB_ORIGIN ?? "http://localhost:3000";
 
+  // Outermost: structured JSON request logging (+ optional abuse metrics). It
+  // measures the full request and sees the final status and rate-limit outcome.
+  // Default on in prod, quiet in tests; env-toggled (see http/request-log.ts).
+  app.use("*", requestLogger());
   app.use("*", securityHeaders());
   app.use("*", cors(webOrigin));
 

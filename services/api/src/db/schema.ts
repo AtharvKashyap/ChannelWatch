@@ -5,6 +5,7 @@ import {
   timestamp,
   numeric,
   integer,
+  bigint,
   date,
   jsonb,
   uniqueIndex,
@@ -225,4 +226,66 @@ export const sessions = pgTable(
     expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
   },
   (t) => [uniqueIndex("sessions_token_hash_key").on(t.tokenHash)],
+);
+
+/**
+ * Durable rate-limit counters (Track F launch hardening; SPEC §19.1/§32.6).
+ *
+ * The in-memory token bucket (`http/rate-limit.ts`) is per-process, so limits
+ * reset on restart and are not shared across instances. This table backs an
+ * OPTIONAL Postgres-backed store (selected by `RATE_LIMIT_STORE=postgres`) that
+ * survives restarts and is shared by every instance pointed at the same
+ * database — closing the horizontal-scale gap without adding Redis.
+ *
+ * Fixed-window semantics: one row per (scope, bucket_key, window_start), where
+ * `window_start` is the epoch-ms start of the fixed window. The request count is
+ * incremented with a single atomic upsert (INSERT … ON CONFLICT DO UPDATE …
+ * RETURNING count). `expires_at` bounds retention so stale windows can be swept
+ * (on read, probabilistically, and/or by a periodic sweep). Keys are the same
+ * value the in-memory limiter uses (the resolved client IP), NOT a viewer
+ * identifier — see `PRIVACY.md`.
+ */
+export const rateLimitCounters = pgTable(
+  "rate_limit_counters",
+  {
+    // Which limiter this row belongs to (e.g. "read", "post", "login"), so the
+    // shared table cannot let one limiter's traffic drain another's budget.
+    scope: text("scope").notNull(),
+    // The rate-limit key: the resolved client IP (or "unknown"). Not a user id.
+    bucketKey: text("bucket_key").notNull(),
+    // Epoch-ms start of the fixed window this counter covers.
+    windowStart: bigint("window_start", { mode: "number" }).notNull(),
+    // Requests seen for this (scope, key) in this window.
+    count: integer("count").notNull().default(0),
+    // When this row may be swept (window end). Indexed for cheap cleanup.
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  },
+  (t) => [
+    primaryKey({ columns: [t.scope, t.bucketKey, t.windowStart] }),
+    index("rate_limit_counters_expires_at_idx").on(t.expiresAt),
+  ],
+);
+
+/**
+ * Coarse request-metrics counters (Track F abuse-monitoring stopgap; launch
+ * checklist §5.4/§7.2). NOT observability infrastructure — a minimal, privacy-
+ * preserving tally so a reviewer can see request volume, how much traffic is
+ * being rate-limited, and correction-submission volume, bucketed per fixed
+ * window. One row per (metric, window_start); incremented with the same atomic
+ * upsert as the rate-limit table. Contains ONLY aggregate counts — no IPs, no
+ * paths, no viewer identifiers (`PRIVACY.md`). Recording is env-gated
+ * (`ABUSE_METRICS=on`) and best-effort so it can never break a request.
+ */
+export const requestMetrics = pgTable(
+  "request_metrics",
+  {
+    // Metric name, e.g. "requests_total", "requests_rate_limited",
+    // "corrections_submitted".
+    metric: text("metric").notNull(),
+    // Epoch-ms start of the fixed window this counter covers.
+    windowStart: bigint("window_start", { mode: "number" }).notNull(),
+    count: integer("count").notNull().default(0),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+  },
+  (t) => [primaryKey({ columns: [t.metric, t.windowStart] })],
 );

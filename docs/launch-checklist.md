@@ -16,7 +16,7 @@ Actionable gate for the first large-scale public launch (M3 launch prep;
 > **MVP-blocking** and can only be discharged by a qualified lawyer in the
 > relevant jurisdiction(s). Nothing here substitutes for that review.
 
-Counts: **6 PASS · 18 NEEDS-HUMAN · 6 GAP** (33 items).
+Counts: **9 PASS · 19 NEEDS-HUMAN · 2 GAP** (33 items; Track F closed 5.3, 5.4, 7.2 and narrowed 1.12 to the agent-registration human step; remaining GAPs: 7.1 alerting, and 1.12's registration until done).
 
 ---
 
@@ -28,20 +28,20 @@ should inspect. **Status here reflects only whether the engineering control
 exists — the legal sign-off itself is NEEDS-HUMAN in every row until an attorney
 signs off.** See `docs/legal-risk.md` §4.
 
-| #    | §23.4 topic                               | Control in this repo                                                                                                                                     | Evidence to review                                                                                                                          | Control status                                              |
-| ---- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| 1.1  | **Defamation**                            | Safer-language enforcement: all ownership prose flows through the reviewed copy module; no ad-hoc strings. "Describe structure, never imply misconduct." | `packages/schemas/src/copy.ts`; `docs/legal-risk.md` §1; `packages/schemas/tests/copy.test.ts`; the self-audit `docs/launch-legal-audit.md` | PASS                                                        |
-| 1.2  | **Defamation** — facts vs. interpretation | Every panel separates Verified Fact / Unknown / Interpretation and carries the standing "No conclusion is made about editorial interference" disclaimer  | `docs/legal-risk.md` §2; `EDITORIAL_DISCLAIMER` in `copy.ts`; `apps/extension/src/content/ownership-panel.tsx`                              | PASS                                                        |
-| 1.3  | **Defamation** — precision over recall    | Publication thresholds; PE-backed label requires ≥1 Tier-1 or 2 independent Tier-2 sources; two-person review for sensitive claims                       | `packages/scoring/src/publication.ts`; `CLAUDE.md` rules 1, 8; `services/api/tests/two-person.test.ts`                                      | PASS                                                        |
-| 1.4  | **Copyright**                             | Records store sourced excerpts + citations, not wholesale copies; evidence policy limits what is reproduced                                              | `docs/evidence-policy.md`; `data/research/_TEMPLATE.yaml`                                                                                   | NEEDS-HUMAN (confirm excerpt length / fair-use posture)     |
-| 1.5  | **Database rights**                       | Dataset is first-party research compiled from public sources; provenance recorded per record                                                             | `data/research/*.yaml`; `docs/METHODOLOGY.md`                                                                                               | NEEDS-HUMAN (sui generis DB-right exposure in EU/UK)        |
-| 1.6  | **Terms of service** (YouTube)            | Extension reads only the public DOM already served to the logged-in user; sends only channel ID + version; no scraping of YouTube's private APIs         | `PRIVACY.md`; `apps/extension/manifest.config.ts`; `apps/extension/src/content/`                                                            | NEEDS-HUMAN (YouTube ToS review)                            |
-| 1.7  | **Web scraping**                          | No server-side crawling of YouTube; the extension operates in the user's own browser session on pages they already loaded                                | `apps/extension/src/content/youtube-observer.ts`; SECURITY.md §32.6                                                                         | NEEDS-HUMAN                                                 |
-| 1.8  | **Fair use**                              | Sourced excerpts are short, attributed, and used for commentary/transparency                                                                             | `docs/evidence-policy.md`                                                                                                                   | NEEDS-HUMAN                                                 |
-| 1.9  | **Data protection** (GDPR/CCPA)           | Viewer data minimization (channel ID + version only, no telemetry by default); subject-data limits (no home address, phone, family, etc.)                | `PRIVACY.md`; `docs/evidence-policy.md` §5; SPEC §22.4                                                                                      | NEEDS-HUMAN (lawful basis, DPA, controller/processor roles) |
-| 1.10 | **Right of reply**                        | Anyone may submit a correction/appeal; disputes can show a public notice while under review                                                              | `docs/legal-risk.md` §3; SPEC §24; `apps/web/src/app/corrections/page.tsx`                                                                  | PASS                                                        |
-| 1.11 | **Record retention**                      | Audit trail on every mutation; corrections keep prior state visible; cache TTLs bound client retention                                                   | `CLAUDE.md` rule 6; `services/api` audit middleware; cache TTLs in `apps/extension/src/background/ttl.ts`                                   | NEEDS-HUMAN (define a written retention schedule)           |
-| 1.12 | **Safe-harbor procedures**                | Correction/appeal intake + audit trail exist; a formal notice-and-takedown / DMCA agent designation does not                                             | `docs/legal-risk.md` §3                                                                                                                     | GAP (designate a DMCA/notice agent + published process)     |
+| #    | §23.4 topic                               | Control in this repo                                                                                                                                     | Evidence to review                                                                                                                          | Control status                                                                                                                                                                                             |
+| ---- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.1  | **Defamation**                            | Safer-language enforcement: all ownership prose flows through the reviewed copy module; no ad-hoc strings. "Describe structure, never imply misconduct." | `packages/schemas/src/copy.ts`; `docs/legal-risk.md` §1; `packages/schemas/tests/copy.test.ts`; the self-audit `docs/launch-legal-audit.md` | PASS                                                                                                                                                                                                       |
+| 1.2  | **Defamation** — facts vs. interpretation | Every panel separates Verified Fact / Unknown / Interpretation and carries the standing "No conclusion is made about editorial interference" disclaimer  | `docs/legal-risk.md` §2; `EDITORIAL_DISCLAIMER` in `copy.ts`; `apps/extension/src/content/ownership-panel.tsx`                              | PASS                                                                                                                                                                                                       |
+| 1.3  | **Defamation** — precision over recall    | Publication thresholds; PE-backed label requires ≥1 Tier-1 or 2 independent Tier-2 sources; two-person review for sensitive claims                       | `packages/scoring/src/publication.ts`; `CLAUDE.md` rules 1, 8; `services/api/tests/two-person.test.ts`                                      | PASS                                                                                                                                                                                                       |
+| 1.4  | **Copyright**                             | Records store sourced excerpts + citations, not wholesale copies; evidence policy limits what is reproduced                                              | `docs/evidence-policy.md`; `data/research/_TEMPLATE.yaml`                                                                                   | NEEDS-HUMAN (confirm excerpt length / fair-use posture)                                                                                                                                                    |
+| 1.5  | **Database rights**                       | Dataset is first-party research compiled from public sources; provenance recorded per record                                                             | `data/research/*.yaml`; `docs/METHODOLOGY.md`                                                                                               | NEEDS-HUMAN (sui generis DB-right exposure in EU/UK)                                                                                                                                                       |
+| 1.6  | **Terms of service** (YouTube)            | Extension reads only the public DOM already served to the logged-in user; sends only channel ID + version; no scraping of YouTube's private APIs         | `PRIVACY.md`; `apps/extension/manifest.config.ts`; `apps/extension/src/content/`                                                            | NEEDS-HUMAN (YouTube ToS review)                                                                                                                                                                           |
+| 1.7  | **Web scraping**                          | No server-side crawling of YouTube; the extension operates in the user's own browser session on pages they already loaded                                | `apps/extension/src/content/youtube-observer.ts`; SECURITY.md §32.6                                                                         | NEEDS-HUMAN                                                                                                                                                                                                |
+| 1.8  | **Fair use**                              | Sourced excerpts are short, attributed, and used for commentary/transparency                                                                             | `docs/evidence-policy.md`                                                                                                                   | NEEDS-HUMAN                                                                                                                                                                                                |
+| 1.9  | **Data protection** (GDPR/CCPA)           | Viewer data minimization (channel ID + version only, no telemetry by default); subject-data limits (no home address, phone, family, etc.)                | `PRIVACY.md`; `docs/evidence-policy.md` §5; SPEC §22.4                                                                                      | NEEDS-HUMAN (lawful basis, DPA, controller/processor roles)                                                                                                                                                |
+| 1.10 | **Right of reply**                        | Anyone may submit a correction/appeal; disputes can show a public notice while under review                                                              | `docs/legal-risk.md` §3; SPEC §24; `apps/web/src/app/corrections/page.tsx`                                                                  | PASS                                                                                                                                                                                                       |
+| 1.11 | **Record retention**                      | Audit trail on every mutation; corrections keep prior state visible; cache TTLs bound client retention                                                   | `CLAUDE.md` rule 6; `services/api` audit middleware; cache TTLs in `apps/extension/src/background/ttl.ts`                                   | NEEDS-HUMAN (define a written retention schedule)                                                                                                                                                          |
+| 1.12 | **Safe-harbor procedures**                | Correction/appeal intake + audit trail exist; a formal notice-and-takedown / DMCA agent designation does not                                             | `docs/legal-risk.md` §3                                                                                                                     | GAP→NEEDS-HUMAN (notice-and-takedown process published at `/legal`; a human must register the designated agent with the US Copyright Office and replace the placeholder in `LEGAL_PAGE_COPY.agentContact`) |
 
 **Action:** engage counsel; walk each row above; capture written sign-off per
 topic. Do not launch publicly until 1.1–1.12 are signed off and the GAP in 1.12
@@ -107,16 +107,18 @@ is closed or waived in writing.
 - [x] **5.2 — Scoped CORS + security headers + uniform error envelope.** CORS is
       scoped to the web origin (`WEB_ORIGIN`) plus extension origins. **PASS** —
       `services/api/src/http/middleware.ts`, `services/api/src/index.ts`.
-- [ ] **5.3 — Rate limiting survives horizontal scale.** The token bucket is
-      **in-memory per process**, so limits reset on restart and are per-instance.
-      **GAP** — for multi-instance production, move to a shared store (e.g. Redis)
-      or a gateway/CDN rate limiter, or document single-instance as an accepted
-      launch constraint.
-- [ ] **5.4 — Abuse monitoring / bulk-access policy.** SECURITY.md §32.6 names
-      separate public data dumps + API keys for bulk access as the intended
-      controls; neither is built. **GAP** — decide launch posture (scraping the
-      public dataset may be acceptable per §32.6); at minimum enable request
-      logging + alerting on the production host.
+- [x] **5.3 — Rate limiting survives horizontal scale.** A Postgres-backed
+      fixed-window store (`RATE_LIMIT_STORE=postgres`, migration 0002
+      `rate_limit_counters`, atomic upsert) is selectable per environment; the
+      in-memory bucket remains the dev default. **PASS** —
+      `services/api/src/http/rate-limit.ts`; DB-gated tests in
+      `services/api/tests/rate-limit.test.ts`.
+- [x] **5.4 — Abuse monitoring (launch stopgap).** Coarse per-window counters
+      (request totals, rate-limited counts, correction submissions) recorded when
+      `ABUSE_METRICS=on` and served at the reviewer-guarded
+      `GET /api/v1/reviewer/metrics`. **PASS** as a launch stopgap —
+      `services/api/src/http/metrics.ts`; bulk-access policy (data dumps + API
+      keys per SECURITY.md §32.6) remains a post-launch decision, noted in §8.
 
 ---
 
@@ -143,8 +145,10 @@ All **NEEDS-HUMAN** — these are launch-time infrastructure decisions, not code
 ## 7. Monitoring basics
 
 - [ ] **7.1 — Uptime + error alerting** on the API (5xx rate, latency). **GAP.**
-- [ ] **7.2 — Structured request logging** on the production host (feeds 5.4).
-      **GAP.**
+- [x] **7.2 — Structured request logging.** JSON-line logging (method, route
+      template, status, duration, rate-limit outcome; NO IPs or user identifiers
+      per PRIVACY.md), toggled with `REQUEST_LOG`. **PASS** —
+      `services/api/src/http/request-log.ts`.
 - [ ] **7.3 — Selector-health signal.** The selector-health suite
       (`tests/selector_health/`) is the canary for YouTube DOM changes that would
       silently disable badges. **PASS** in CI; **NEEDS-HUMAN** to schedule a

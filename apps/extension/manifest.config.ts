@@ -16,7 +16,7 @@ const API_ORIGIN = process.env.VITE_API_BASE_URL ?? "http://localhost:8787";
 export default defineManifest({
   manifest_version: 3,
   name: "CHANNELWATCH",
-  version: "0.0.0",
+  version: "0.1.0",
   description:
     "Shows who owns, finances, or commercially influences a YouTube channel, with sourced evidence.",
   permissions: ["storage"],
