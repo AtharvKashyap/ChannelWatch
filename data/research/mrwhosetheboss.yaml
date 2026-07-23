@@ -1,0 +1,238 @@
+# CHANNELWATCH research record — Mrwhosetheboss (Arun Maini)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: independent, creator-owned flagship UK tech channel. Mrwhosetheboss
+# was created and is hosted by Arun Maini; the channel long pre-dates any
+# business structure and no external investment in, or acquisition of, the
+# channel was found. Maini also controls a UK operating company, BOSS GLOBAL
+# MEDIA LIMITED (Companies House 11130068, SIC 73110 advertising agencies /
+# 73120 media representation) of which UK Companies House records him as the
+# 75%+ person with significant control and a director — his media-business
+# vehicle. No primary source explicitly states that this company owns or
+# operates the specific YouTube channel, so the channel-ownership edge is
+# modeled as creator-direct (see review notes). His talent representation by
+# Night Media (2021) is management/representation, not ownership. Expected
+# computed classification: CREATOR_OWNED.
+
+channel:
+  # Extracted from the sole "externalId" field in the raw HTML of
+  # https://www.youtube.com/@Mrwhosetheboss (curl fetch, no JS execution). The
+  # value matches the channel's own /channel/UC... canonical URL.
+  youtube_channel_id: UCMiJRAwDNSNzuYeN2uWa0pA
+  display_name: Mrwhosetheboss
+  handle: "@Mrwhosetheboss"
+
+entities:
+  - slug: arun
+    canonical_name: Arun Maini
+    entity_type: CREATOR
+    legal_name: Arun Rupesh Maini
+    aliases:
+      - Mrwhosetheboss
+  - slug: boss_global_media
+    canonical_name: BOSS GLOBAL MEDIA LIMITED
+    entity_type: COMPANY
+    legal_name: BOSS GLOBAL MEDIA LIMITED
+    jurisdiction: GB
+    website: https://www.youtube.com/@Mrwhosetheboss
+
+relationships:
+  # 0: The Mrwhosetheboss channel was created by Arun Maini. Wikipedia lists
+  # "Years active 2011-present"; effective_from is OMITTED because only a year
+  # (not a full date) is documented in reliable sources (lower-quality SEO sites
+  # give April 2011, but these were not relied on — see review notes).
+  - subject: channel
+    type: FOUNDED_BY
+    object: arun
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: Arun Maini owns/controls the channel. Recorded OWNS + CONTROLLING with
+  # ownership_percentage OMITTED. This is the load-bearing edge for the
+  # classification and is, in part, an INFERENCE FROM DOCUMENTED ABSENCE: every
+  # source presents Mrwhosetheboss as Maini's own personal channel (the channel's
+  # own About page reads "I'm Arun Maini"), and NO source found reports any
+  # external owner, investor, or acquirer of the channel. No explicit "Arun Maini
+  # owns 100% of the channel" statement or filing tying the channel to a company
+  # was located, so no percentage is asserted. Flagged for reviewer — notes (2).
+  - subject: arun
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Arun Maini is the channel's principal on-camera host/creator. Distinct
+  # from the ownership edge. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: arun
+    confidence: 0.9
+    status: ACTIVE
+
+  # 3: Arun Maini controls BOSS GLOBAL MEDIA LIMITED. UK Companies House lists
+  # him as the active person with significant control, holding 75% or more of
+  # shares and voting rights and the right to appoint/remove directors (statutory
+  # band, not an exact percentage — ownership_percentage OMITTED; see notes 3).
+  # This is his documented media-business vehicle; note it does NOT by itself
+  # establish that the company owns the channel (see notes 2).
+  - subject: arun
+    type: OWNS
+    object: boss_global_media
+    control_level: CONTROLLING
+    confidence: 0.9
+    status: ACTIVE
+
+  # 4: Arun Maini is a director of BOSS GLOBAL MEDIA LIMITED, appointed on the
+  # company's incorporation date. Management edge, distinct from ownership.
+  - subject: arun
+    type: MANAGES
+    object: boss_global_media
+    control_level: MANAGEMENT
+    effective_from: "2018-01-03"
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: youtube_about
+    url: https://www.youtube.com/@Mrwhosetheboss/about
+    title: "Mrwhosetheboss — YouTube channel About page"
+    publisher: YouTube (Mrwhosetheboss channel)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Let's become the Greatest Tech Community on the Planet. I'm Arun Maini and
+      I'm on a mission to make the most FUN and USEFUL Tech videos on the Planet!
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+  - ref: wikipedia_mwtb
+    url: https://en.wikipedia.org/wiki/Mrwhosetheboss
+    title: Mrwhosetheboss
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Arun Rupesh Maini (born 24 October 1995), known online as Mrwhosetheboss,
+      is an English YouTuber from Nottingham, England, of Indian descent, known
+      for his technology-focused videos. Years active: 2011-present. In May 2021,
+      Maini signed with Night Media.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+  - ref: ch_media_overview
+    url: https://find-and-update.company-information.service.gov.uk/company/11130068
+    title: BOSS GLOBAL MEDIA LIMITED overview
+    publisher: UK Companies House
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      BOSS GLOBAL MEDIA LIMITED, company number 11130068, incorporated 3 January
+      2018. Company status: Active. Company type: Private limited Company.
+      Registered office: 6 Clinton Terrace, Derby Road, Nottingham, NG7 1LY.
+      Nature of business (SIC): 73110 Advertising agencies; 73120 Media
+      representation services.
+    supports:
+      - relationship: 4
+
+  - ref: ch_media_psc
+    url: https://find-and-update.company-information.service.gov.uk/company/11130068/persons-with-significant-control
+    title: BOSS GLOBAL MEDIA LIMITED persons with significant control
+    publisher: UK Companies House
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      Mr Arun Maini, notified 3 January 2018 (active). Nature of control:
+      ownership of shares - 75% or more; ownership of voting rights - 75% or
+      more; right to appoint or remove directors.
+    supports:
+      - relationship: 3
+
+  - ref: ch_media_officers
+    url: https://find-and-update.company-information.service.gov.uk/company/11130068/officers
+    title: BOSS GLOBAL MEDIA LIMITED officers
+    publisher: UK Companies House
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      MAINI, Arun - Director - Appointed on 3 January 2018 - Active - Nationality
+      British - date of birth October 1995.
+    supports:
+      - relationship: 4
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >-
+    DRAFT for human review — "independent, creator-owned single-creator channel"
+    case, with a Tier-1-documented UK operating company on the side. Computed
+    classification is expected to be CREATOR_OWNED: the channel's direct
+    owner/controller is the CREATOR himself (rel 1), a CREATOR entity, with no
+    company, firm, or external investor in the channel's ownership chain. No
+    PE-label evidence rule is engaged (no PRIVATE_EQUITY_FIRM or
+    PORTFOLIO_COMPANY_OF edge).
+
+    CHANNEL ID: UCMiJRAwDNSNzuYeN2uWa0pA, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@Mrwhosetheboss (curl fetch,
+    no JS). Matches the channel's own /channel/UC... canonical URL.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) FOUNDING DATE: rel 0 effective_from is OMITTED. Wikipedia documents only
+    the year ("Years active 2011-present"). Lower-quality SEO biography sites
+    give a joined-YouTube date of 20 April 2011 and a first upload of 22 April
+    2011, but these are Tier 3/4 and were not relied on; a reviewer with a
+    primary source (e.g. the channel's own join date on the About panel) could
+    add a precise date.
+    (2) COMPANY-TO-CHANNEL LINK / OWNERSHIP EDGE (rel 1) is the reviewer's
+    primary focus. I modeled the channel as CREATOR-DIRECT-owned (Arun OWNS
+    channel, CONTROLLING, no percentage), NOT as company-owned, because NO
+    primary source explicitly states that BOSS GLOBAL MEDIA LIMITED owns or
+    operates this YouTube channel. The channel's own About page and description
+    are written in the first person ("I'm Arun Maini") with no company
+    attribution or business email naming the company. The company's SIC codes
+    (advertising agencies / media representation) and its "BOSS" branding
+    strongly suggest it is his media/YouTube business vehicle, but that is an
+    INFERENCE, not a documented company->channel ownership statement, so I did
+    not assert a company OWNS channel edge (which would need its own supporting
+    source per the evidence policy). Note the classification is robust to this
+    choice: were a reviewer to confirm via a primary source that BOSS GLOBAL
+    MEDIA owns/operates the channel, the model would become the
+    creator-controlled-company shape (company OWNS channel; Arun OWNS company
+    CONTROLLING, already rel 3) and would still compute CREATOR_OWNED (via the
+    CREATOR_CONTROLLED_COMPANY rule). The channel-ownership edge itself (rel 1)
+    is partly an inference from DOCUMENTED ABSENCE (no external owner/investor/
+    acquirer found anywhere); confidence set to 0.7 to reflect this. No
+    percentage guessed.
+    (3) OWNERSHIP_PERCENTAGE OMITTED on rel 3 (Arun's stake in BOSS GLOBAL MEDIA
+    LIMITED) because UK Companies House PSC records report a statutory band
+    ("75% or more"), not an exact figure; a reviewer with the Confirmation
+    Statement / share register could tighten this.
+    (4) COMPANY OFFICER/PSC HISTORY (context, not modeled as channel edges):
+    Companies House shows Malti Maini was a co-PSC of BOSS GLOBAL MEDIA (25-50%
+    band) and a director from incorporation, ceased as PSC on 20 April 2018 and
+    resigned as director on 4 July 2024 — i.e. an early co-shareholder, now Arun
+    is the sole 75%+ PSC. Dhrisha Mehta was appointed a director on 19 March 2024
+    but is NOT a PSC (an officer, not an owner). Neither is an external investor;
+    no PE/VC/fund involvement was found.
+    (5) SECOND COMPANY (out of scope): Arun Maini is also director and PSC of
+    BOSS GLOBAL PROPERTIES LIMITED (Companies House 11239611, incorporated 7
+    March 2018, SIC 68100 buying and selling of own real estate). This is a real
+    estate vehicle unrelated to the channel and is NOT modeled here.
+    (6) NIGHT MEDIA (talent representation, not ownership): Maini signed with
+    talent management company Night Media in May 2021 (Tubefilter). This is
+    representation/management of the creator, not ownership or acquisition of the
+    channel, and creates no inbound ownership edge; it was not modeled. Neutral
+    note: no conclusion is drawn about editorial control. A reviewer could model
+    it as a REPRESENTS edge if desired, but it does not affect classification.
+    (7) NO EXTERNAL INVESTMENT / ACQUISITION of the channel or of BOSS GLOBAL
+    MEDIA LIMITED was found.
+    (8) SOURCES: the two ownership-relevant company edges (rel 3, rel 4) rest on
+    Tier 1 UK Companies House primary records. The channel founding/hosting/
+    creator-ownership edges rest on the channel's own About page (Tier 1
+    DIRECT_CREATOR_CONFIRMATION) and Wikipedia (Tier 2). No Tier 1 primary source
+    positively stating sole personal ownership of the channel was captured — a
+    lead for a reviewer wanting stronger corroboration of the rel-1 inference.
+  last_reviewed_at: 2026-07-23

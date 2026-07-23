@@ -1,0 +1,330 @@
+# CHANNELWATCH research record — Ludwig (Ludwig Ahgren)
+#
+# DRAFT for human review. Nothing here is published without verification.
+# Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: an independent, CREATOR-OWNED eponymous channel. Ludwig Anders Ahgren
+# has been active on YouTube since 2015; "Ludwig" is his personal channel and he
+# is its sole on-camera creator. He also runs an entertainment company, Mogul
+# Moves, and co-founded the creative studio Offbrand (2022, wound down 2024) and
+# hosts The Yard podcast. CRITICAL DISTINCTION encoded here: his high-profile
+# 2021 Twitch -> YouTube move was an EXCLUSIVE LIVESTREAMING CONTRACT with the
+# YouTube platform (announced 2021-11-29; contract ended 2024-11-30) — a platform
+# deal, NOT an acquisition of, equity stake in, or ownership of the channel. It
+# is therefore recorded as note-only context, NOT as an ownership edge (see
+# review.notes). No source documents any sale or transfer of the channel; the
+# only ACTIVE channel-owning edge is Ahgren himself.
+
+channel:
+  # Canonical externalId extracted from the raw HTML of
+  # https://www.youtube.com/@ludwig (curl fetch, no JS execution): the page's
+  # ytInitialData carries "externalId":"UCrPseYLGpNygVi34QpGNqpA" and the page's
+  # own <link rel="canonical"> is
+  # https://www.youtube.com/channel/UCrPseYLGpNygVi34QpGNqpA. Independently
+  # CROSS-CHECKED against YouTube's OWN feed
+  # (youtube.com/feeds/videos.xml?channel_id=UCrPseYLGpNygVi34QpGNqpA), whose
+  # <title>, <author><name>, and <yt:channelId> all read "Ludwig" / this UC id.
+  # NOTE: an unrelated "channelId":"UCz6XquIbM5OcfK7r3hQQCXA" also appears in the
+  # page source (a related/other channel surfaced in the layout); the page's own
+  # externalId and canonical URL both resolve to UCrPseYLGpNygVi34QpGNqpA, which
+  # is the channel recorded here.
+  youtube_channel_id: UCrPseYLGpNygVi34QpGNqpA
+  display_name: Ludwig
+  handle: "@ludwig"
+
+entities:
+  - slug: ludwig
+    canonical_name: Ludwig Ahgren
+    entity_type: CREATOR
+    legal_name: Ludwig Anders Ahgren
+    aliases:
+      - Ludwig
+      - Ludwig Anders Ahgren
+
+  - slug: mogul_moves
+    canonical_name: Mogul Moves
+    entity_type: COMPANY
+    # Ahgren's entertainment company / brand (Nick Allen serves as President and
+    # COO). No legal_name / jurisdiction / registry record was documented to a
+    # Tier 1/2 standard, so none is asserted.
+    aliases:
+      - Mogul Moves w/ Ludwig Ahgren
+
+  - slug: offbrand
+    canonical_name: Offbrand
+    entity_type: COMPANY
+    # Creative studio co-founded 2022-09-27; its events business was wound down
+    # and the company reported as closed 2024-12-13 (see review.notes). Recorded
+    # as documented context, NOT as an owner of this channel.
+
+  - slug: allen
+    canonical_name: Nick Allen
+    entity_type: PERSON
+    aliases:
+      - R. Nick Allen
+
+  - slug: loaded
+    canonical_name: Loaded
+    entity_type: COMPANY
+    # Talent-management company that FACILITATED (brokered) the 2021 YouTube deal.
+    # A management representative, not an owner.
+
+relationships:
+  # 0: Channel founded/registered by Ludwig Ahgren. effective_from OMITTED: the
+  # only documented date is that he has been "active on YouTube since 2015"
+  # (Wikipedia) — a year, not an ISO channel-registration date — so asserting a
+  # day would be false precision.
+  - subject: channel
+    type: FOUNDED_BY
+    object: ludwig
+    confidence: 0.8
+    status: ACTIVE
+
+  # 1: Ludwig Ahgren OWNS the channel. This is the current, ACTIVE ownership edge
+  # and the one the classifier reads. control_level CONTROLLING (sole individual
+  # creator-owner of his eponymous personal channel); no ownership percentage is
+  # publicly disclosed, so none is asserted. confidence is moderate because
+  # ownership rests on his being the sole creator/founder of the eponymous
+  # channel plus the DOCUMENTED ABSENCE of any sale or transfer, rather than on a
+  # direct Tier-1 ownership disclosure. Flagged for reviewer.
+  - subject: ludwig
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Ludwig is the creator/host of the channel. Distinct from the ownership
+  # edge above.
+  - subject: channel
+    type: HOSTED_BY
+    object: ludwig
+    confidence: 0.9
+    status: ACTIVE
+
+  # 3: Ludwig owns/controls Mogul Moves, described as "Ahgren's Mogul Moves brand"
+  # / his entertainment company (Tubefilter). control_level CONTROLLING (his own
+  # eponymous company); no ownership percentage disclosed. This is CONTEXT — Mogul
+  # Moves is NOT documented as the owner of the channel (see review.notes), so
+  # this edge does not feed the channel ownership classification.
+  - subject: ludwig
+    type: OWNS
+    object: mogul_moves
+    control_level: CONTROLLING
+    confidence: 0.75
+    status: ACTIVE
+
+  # 4: Nick Allen manages Mogul Moves — "President and COO of Ahgren's Mogul Moves
+  # brand" (Tubefilter). MANAGES / MANAGEMENT (operational leadership role), NOT
+  # ownership.
+  - subject: allen
+    type: MANAGES
+    object: mogul_moves
+    control_level: MANAGEMENT
+    confidence: 0.8
+    status: ACTIVE
+
+  # 5: Ludwig co-founded Offbrand (a creative studio, launched 2022-09-27). One of
+  # four founders. Recorded as FOUNDED_BY (a founding fact) rather than a
+  # PARTIALLY_OWNS edge: with four co-founders and no disclosed equity split,
+  # asserting an ownership stake/percentage would overclaim. effective_from set to
+  # the documented launch date. Kept status ACTIVE (founding is a historical fact
+  # that does not "end"); the company's later wind-down is captured in notes.
+  - subject: offbrand
+    type: FOUNDED_BY
+    object: ludwig
+    effective_from: 2022-09-27
+    confidence: 0.85
+    status: ACTIVE
+
+  # 6: Nick Allen co-founded Offbrand (same launch date; also Mogul Moves
+  # President/COO). Documented context.
+  - subject: offbrand
+    type: FOUNDED_BY
+    object: allen
+    effective_from: 2022-09-27
+    confidence: 0.85
+    status: ACTIVE
+
+  # 7: Loaded is Ahgren's management company; it FACILITATED the 2021 YouTube
+  # exclusive-streaming contract (Tubefilter). Recorded as MANAGES / MANAGEMENT
+  # of the CREATOR (management representation), NOT ownership and NOT a channel
+  # edge. effective_from/to omitted: sourced as his management company as of the
+  # 2021 deal, with no documented start/end date for the management relationship.
+  - subject: loaded
+    type: MANAGES
+    object: ludwig
+    control_level: MANAGEMENT
+    confidence: 0.6
+    status: ACTIVE
+
+sources:
+  - ref: youtube_channel_feed
+    url: https://www.youtube.com/channel/UCrPseYLGpNygVi34QpGNqpA
+    title: Ludwig — YouTube channel
+    publisher: Ludwig (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCrPseYLGpNygVi34QpGNqpA
+    excerpt: >-
+      YouTube's own feed for channel UCrPseYLGpNygVi34QpGNqpA carries
+      <title>Ludwig</title>, <yt:channelId>UCrPseYLGpNygVi34QpGNqpA</yt:channelId>,
+      and <author><name>Ludwig</name>, confirming the canonical channel id and
+      display name and that the channel publishes ongoing "Ludwig" uploads.
+    supports:
+      - relationship: 1
+
+  - ref: wikipedia_ludwig
+    url: https://en.wikipedia.org/wiki/Ludwig_Ahgren
+    title: Ludwig Ahgren
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "Ludwig Anders Ahgren [...] is an American live streamer" who "has been
+      active on YouTube since 2015." He "announced he would depart from live
+      streaming on Twitch and moved to YouTube Gaming on November 30" 2021 under
+      "an exclusive deal with YouTube Gaming." "On November 30, 2024, Ahgren
+      announced that his YouTube live streaming contract had ended." He co-founded
+      the creative agency Offbrand (with Brandon Ewing, Nathan Stanz and Nick
+      Allen), founded Sept 27, 2022 and closed December 13, 2024.
+    supports:
+      - relationship: 0
+      - relationship: 2
+      - relationship: 5
+
+  - ref: tubefilter_youtube_deal
+    url: https://www.tubefilter.com/2021/12/02/ludwig-gets-poached-from-twitch-signs-youtube-gaming/
+    title: Ludwig Ahgren, A Top Twitch Streamer, Gets Poached By YouTube Gaming
+    publisher: Tubefilter
+    published_at: 2021-12-02
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Ludwig signed an "exclusive streaming deal" with YouTube Gaming. "The
+      contract, facilitated by Ahgren's management company, Loaded," offered "a
+      contract with less streaming hours so that he could pursue other content
+      ventures." The deal covers exclusive livestreaming on the YouTube platform;
+      it is not described as any acquisition of or equity stake in his channel.
+    supports:
+      - relationship: 7
+
+  - ref: tubefilter_offbrand
+    url: https://www.tubefilter.com/2022/09/27/ludwig-ahgren-offbrand-creative-studio-xqc-game-show/
+    title: Ludwig's new company helps creators make "cool stuff." He'll start with a game show hosted by xQc.
+    publisher: Tubefilter
+    published_at: 2022-09-27
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Offbrand is "a creative studio that will help its partners bring 'something
+      special' to their viewers," one of whose four founders is Ludwig Ahgren.
+      Co-founder Nick Allen "serves as the President and COO of Ahgren's Mogul
+      Moves brand"; the other founders are Nathan Stanz and Brandon Ewing.
+    supports:
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally OMITTED: this is an unreviewed DRAFT. The schema
+  # treats reviewed_by as an optional non-empty string (null is not valid), so
+  # the field is omitted rather than set. Do NOT set it without human review.
+  last_reviewed_at: 2026-07-23 # research/authoring date; NOT a human review date.
+  notes: >-
+    DRAFT for human review — "independent creator-owned eponymous channel with a
+    documented (now-ENDED) platform exclusivity contract, NOT an ownership
+    change" case. Requires human verification before publication.
+
+    CHANNEL ID. UCrPseYLGpNygVi34QpGNqpA, taken from the "externalId" field in the
+    raw HTML of https://www.youtube.com/@ludwig (curl, no JS execution), matching
+    the page's own <link rel="canonical">
+    (youtube.com/channel/UCrPseYLGpNygVi34QpGNqpA), and independently cross-checked
+    against YouTube's OWN RSS feed, whose <title>, <author><name> and
+    <yt:channelId> all confirm "Ludwig" / this UC id. An unrelated
+    "channelId":"UCz6XquIbM5OcfK7r3hQQCXA" also appears in the page source (a
+    related/other channel in the page layout) and was NOT used. Reviewer should
+    confirm against the live channel.
+
+    CORE MODELING DECISION — THE YOUTUBE DEAL IS A PLATFORM CONTRACT, NOT
+    OWNERSHIP. Ahgren's 2021 Twitch -> YouTube move was an EXCLUSIVE LIVESTREAMING
+    CONTRACT with the YouTube Gaming platform (announced 2021-11-29; move
+    2021-11-30; brokered by his management company Loaded), and he announced on
+    2024-11-30 that this YouTube livestreaming contract had ENDED. No source
+    describes it as an acquisition of, equity stake in, transfer of, or ownership
+    of the "Ludwig" channel — it is a platform exclusivity agreement for his
+    streaming. It is therefore recorded ONLY as note-only context here, NOT as an
+    ownership edge and NOT even as a REPRESENTS/DISTRIBUTED_BY edge: unlike an MCN
+    (cf. pewdiepie.yaml, where Maker Studios REPRESENTS the channel), the
+    counterparty here is the hosting platform itself, so a distribution/represents
+    edge would be trivially true of every YouTuber and misleading. The management
+    intermediary IS captured (rel 7: Loaded MANAGES Ludwig). A reviewer who wants
+    the platform contract as an explicit edge could add a YouTube/Google entity
+    with a status-ENDED, non-ownership edge (effective_to 2024-11-30), but I judged
+    note-only to be the more precise and legally-safe choice (docs/legal-risk.md:
+    describe structure, do not overclaim).
+
+    OWNERSHIP — the core finding. "Ludwig" is Ahgren's eponymous PERSONAL channel;
+    he is its sole on-camera creator and founder and no source documents any sale
+    or transfer. He is therefore encoded as CREATOR OWNS channel / CONTROLLING
+    (rel 1), the only ACTIVE channel-owning edge. confidence is moderate (0.70):
+    ownership rests on the eponymous/sole-creator identity plus the documented
+    absence of any transfer, not on a direct ownership disclosure — flagged as the
+    reviewer's primary focus. No ownership percentage is asserted (none disclosed).
+
+    CORPORATE ENTITIES (documented context, none of which own THIS channel):
+    (1) MOGUL MOVES — Ahgren's entertainment company / brand (rel 3: Ludwig OWNS,
+    CONTROLLING); Nick Allen is President & COO (rel 4: MANAGES / MANAGEMENT).
+    Some secondary coverage (e.g. press.farm) describes Mogul Moves as the umbrella
+    that "includes his streaming deal, The Yard podcast, clothing, and bidets,"
+    which could mean Mogul Moves is the operating entity behind the channel;
+    however NO fetched source states in a verbatim "Mogul Moves owns the Ludwig
+    channel" form, so Mogul Moves is NOT modeled as the channel owner (precision
+    over recall). If a reviewer confirms Mogul Moves is the channel's operating
+    entity, the ownership chain would still be CREATOR-controlled (Ludwig owns
+    Mogul Moves) and the CREATOR_OWNED outcome would not change. No legal_name /
+    jurisdiction / registry record for Mogul Moves was documented, so none is
+    asserted.
+    (2) OFFBRAND — a creative studio Ludwig co-founded on 2022-09-27 (rel 5), one
+    of four founders (Ludwig, Nick Allen [rel 6], Nathan Stanz, Brandon 'Atrioc'
+    Ewing). Modeled as FOUNDED_BY (a founding fact) rather than PARTIALLY_OWNS: with
+    four founders and no disclosed equity split, an ownership-stake edge would
+    overclaim. Per Wikipedia the events business was wound down and the company was
+    closed 2024-12-13; this is captured in this note rather than as an
+    effective_to on FOUNDED_BY (a founding fact does not "end"). Stanz and Ewing
+    are documented co-founders but were NOT added as entities (they add no
+    channel-ownership signal); a reviewer may add them if a full founder roster is
+    wanted. Offbrand does not touch this channel's ownership.
+    (3) THE YARD — a podcast Ahgren launched (July 2021), co-hosted with Nick
+    Vercillo, Aiden McCaig and Anthony "Slime" Bruno. NO corporate/ownership
+    structure for The Yard was documented to a Tier 1/2 standard, so per the task
+    it is recorded here as note-only context and NOT modeled as an entity or edge.
+    (4) LOADED — talent-management company that facilitated the 2021 YouTube
+    contract (rel 7: MANAGES Ludwig, MANAGEMENT). A representative, not an owner.
+
+    EXPECTED COMPUTED CLASSIFICATION (computed by importer, not asserted here):
+    CREATOR_OWNED (GREEN), explanation DIRECT_OWNER_CONFIRMED — the only ACTIVE
+    channel-owning edge is Ludwig (a CREATOR) OWNS channel / CONTROLLING. All other
+    edges either concern separate companies (Mogul Moves, Offbrand) that do not own
+    the channel, or are management edges (rels 4, 7), none of which is a
+    channel-owning type. No PRIVATE_EQUITY_FIRM entity and no PORTFOLIO_COMPANY_OF
+    edge exist, so the §14.3 PE-label evidence gate does not apply. No
+    OWNERSHIP_CHANGED warning expected: the channel's ownership never changed, and
+    the ENDED item (the YouTube livestreaming contract) is note-only, not an
+    ownership edge. Confidence moderate, gated by the inference-based OWNS edge
+    (rel 1). Confirm the computed label at import.
+
+    NEUTRAL FRAMING (docs/legal-risk.md). This record describes ownership and
+    business structure only and makes NO claim of editorial interference or
+    wrongdoing. The end of the YouTube livestreaming contract (2024-11-30) is
+    recorded as a neutral, creator-announced fact, not as any conclusion about
+    control.
+
+    SOURCES. One Tier 1 (YouTube's own feed, for channel-id/identity) and three
+    Tier 2 ESTABLISHED_INDUSTRY_PUBLICATION sources (Wikipedia; two Tubefilter
+    articles). No Tier 1 corporate-registry or filing source for the ownership
+    itself was located; nothing here should be treated as CONFIRMED without further
+    primary-source diligence. No Tier 3/4 source is used. archive_urls (beyond the
+    feed) should be captured at review.

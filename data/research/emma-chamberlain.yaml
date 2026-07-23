@@ -1,0 +1,202 @@
+# CHANNELWATCH research record — Emma Chamberlain
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: an independent, creator-owned solo-creator channel. The Emma
+# Chamberlain YouTube channel was created and is hosted by Emma Chamberlain
+# herself; it long pre-dates any business structure and no external investment
+# in, or acquisition of, the CHANNEL was found. She is represented by a talent
+# agency (United Talent Agency) — that is REPRESENTATION, not ownership. She also
+# separately FOUNDED a coffee company, Chamberlain Coffee, which HAS taken
+# documented outside investment; that investment sits in the coffee company and
+# is DELIBERATELY OUT of this channel's ownership chain (see notes). Expected
+# computed classification: CREATOR_OWNED.
+
+channel:
+  # Extracted from the sole "externalId" field embedded in the raw HTML of
+  # https://www.youtube.com/@emmachamberlain (curl fetch, no JS execution),
+  # captured alongside "canonicalBaseUrl":"/@emmachamberlain". This is the page's
+  # own channel/browse id.
+  youtube_channel_id: UC78cxCAcp7JfQPgKxYdyGrg
+  display_name: Emma Chamberlain
+  handle: "@emmachamberlain"
+
+entities:
+  - slug: emma
+    # On-camera creator, host, and owner of the channel. Recorded CREATOR (she is
+    # herself the face/host), not PERSON.
+    canonical_name: Emma Chamberlain
+    entity_type: CREATOR
+    aliases:
+      - Emma Frances Chamberlain
+
+  - slug: chamberlain_coffee
+    # CONTEXT ONLY — a SEPARATE business Emma Chamberlain founded, NOT the channel
+    # and NOT in the channel's ownership chain. Modeled solely to type it
+    # precisely and to anchor the fact that the documented outside investors are
+    # investors in THIS coffee company, not in the YouTube channel. Its exact
+    # legal name was not verified in a fetched source, so legal_name is omitted.
+    canonical_name: Chamberlain Coffee
+    entity_type: COMPANY
+    jurisdiction: US-CA
+    website: https://www.chamberlaincoffee.com
+
+relationships:
+  # 0: The Emma Chamberlain channel was created by Emma Chamberlain. Wikipedia
+  # states "On June 14, 2016, she launched her YouTube channel." effective_from
+  # set to that documented launch date. Pre-dates any business structure, so this
+  # is a personal founding edge on the channel.
+  - subject: channel
+    type: FOUNDED_BY
+    object: emma
+    effective_from: 2016-06-14
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: Emma Chamberlain owns/controls the channel. Recorded OWNS + CONTROLLING
+  # with ownership_percentage OMITTED. This is the load-bearing edge for the
+  # classification and is, in part, an INFERENCE FROM DOCUMENTED ABSENCE: sources
+  # consistently present the channel as her own, and NO source found reports any
+  # external owner, investor, or acquirer of the CHANNEL. No explicit "Emma
+  # Chamberlain owns 100% of the channel" statement or corporate filing was
+  # located, so no percentage is asserted. confidence 0.7. Flagged — see notes.
+  - subject: emma
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Emma Chamberlain is the channel's principal on-camera host/creator.
+  # Distinct from the ownership edge. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: emma
+    confidence: 0.9
+    status: ACTIVE
+
+  # 3: CONTEXT ONLY — Emma Chamberlain founded the SEPARATE coffee company
+  # Chamberlain Coffee. Wikipedia: "In December 2019, she launched her own online
+  # mail order coffee company, Chamberlain Coffee." Day precision not established,
+  # so effective_from is omitted rather than guessed. This edge is OUTBOUND from
+  # the channel's perspective (the coffee company is neither an owner nor an asset
+  # of the channel) and does NOT enter the channel's ownership chain. It exists
+  # only to type the coffee company precisely and to locate the documented coffee
+  # investors OUTSIDE the channel's chain (see notes).
+  - subject: chamberlain_coffee
+    type: FOUNDED_BY
+    object: emma
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_emma
+    url: https://en.wikipedia.org/wiki/Emma_Chamberlain
+    title: Emma Chamberlain
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      On June 14, 2016, she launched her YouTube channel [...] In December 2019,
+      she launched her own online mail order coffee company, Chamberlain Coffee.
+      [...] In July, Chamberlain was signed by United Talent Agency.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+
+  - ref: prnewswire_coffee
+    url: https://www.prnewswire.com/news-releases/chamberlain-coffee-raises-7m-in-funding-from-previous-and-new-investors-301840027.html
+    title: Chamberlain Coffee Raises $7M In Funding from Previous and New Investors
+    publisher: PR Newswire
+    published_at: 2023-06-01
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >-
+      Founded by YouTube phenomenon Emma Chamberlain, Chamberlain Coffee is
+      high-quality, sustainably sourced organic coffee roasted in California [...]
+      The funding round is led by key existing investors including venture builder
+      Blazar Capital, founder and investor Emma Chamberlain, and United Talent
+      Agency. These previous investors are now joined by growth equity firm
+      Volition Capital [...] Electric Feel Ventures, next-generation beverage
+      accelerator L.A. Libations and Noah Bremen.
+    supports:
+      - relationship: 3
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >-
+    DRAFT for human review — "independent, creator-owned single-creator channel"
+    case, with an adjacent (and deliberately excluded) creator-founded company
+    that has outside investors. Requires human verification before publication.
+
+    CHANNEL ID: UC78cxCAcp7JfQPgKxYdyGrg, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@emmachamberlain (curl fetch,
+    no JS execution), captured adjacent to "canonicalBaseUrl":"/@emmachamberlain".
+    Reviewer should confirm against the live channel.
+
+    EXPECTED COMPUTED CLASSIFICATION: CREATOR_OWNED. The channel's only
+    owner/controller is the CREATOR herself (rel 1), with no company, firm, or
+    external investor anywhere in the channel's ownership chain. No PE-label
+    evidence rule is engaged for the channel: there is no PRIVATE_EQUITY_FIRM or
+    PORTFOLIO_COMPANY_OF edge in the record. Confirm the computed label at import.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) OWNERSHIP EDGE (rel 1) is the reviewer's primary focus. It is recorded
+    OWNS + CONTROLLING with NO percentage. This is partly an INFERENCE FROM
+    DOCUMENTED ABSENCE — every source presents the channel as Emma Chamberlain's
+    own, and none reports any external owner/investor/acquirer OF THE CHANNEL —
+    rather than from an explicit ownership statement or corporate filing.
+    Confidence 0.7 reflects that. No percentage was guessed. If the reviewer
+    requires a positive primary source of channel ownership (e.g. a registered
+    operating entity / loan-out company), that is a Tier 1 corroboration lead.
+    (2) FOUNDING DATE: rel 0 effective_from 2016-06-14 is the channel-launch date
+    per Wikipedia. Some secondary/SEO sources place her rise to fame in 2017;
+    2016-06-14 is the best-documented launch date and is used here.
+    (3) CHAMBERLAIN COFFEE IS NOT THE CHANNEL — the central distinction this
+    record encodes. Chamberlain Coffee is a SEPARATE business Emma Chamberlain
+    founded (December 2019) and, per the PR Newswire release, is now co-led by her
+    (she is founder; reported elsewhere as promoted to Co-CEO in 2024 — not
+    modeled). It HAS documented outside investors: the June 2023 $7M round was
+    "led by key existing investors including venture builder Blazar Capital,
+    founder and investor Emma Chamberlain, and United Talent Agency [...] joined by
+    growth equity firm Volition Capital [...] Electric Feel Ventures [...] L.A.
+    Libations and Noah Bremen." Those investors invest in the COFFEE COMPANY, NOT
+    the YouTube channel. They are therefore DELIBERATELY NOT modeled as
+    relationships and Volition Capital is DELIBERATELY NOT declared as an entity:
+    doing so would (a) risk implying, incorrectly, that the channel is
+    investor/PE-backed, and (b) drag a PE-implying edge (Volition Capital is
+    documented as a "growth equity firm") into a record whose subject is the
+    channel. The coffee company appears only as a contextual COMPANY node with a
+    single FOUNDED_BY edge (rel 3) to anchor the distinction; it is out of the
+    channel's ownership chain. If a reviewer later wants the coffee company's cap
+    table modeled, it belongs in a SEPARATE record about Chamberlain Coffee (or a
+    company node explicitly not linked into the channel's ownership chain), typed
+    precisely — Volition Capital as a growth-equity/PRIVATE_EQUITY_FIRM per its own
+    self-description, the others as INVESTMENT_FIRM/VENTURE nodes — and would still
+    have no bearing on this channel's CREATOR_OWNED classification.
+    (4) TALENT-AGENCY REPRESENTATION IS NOT OWNERSHIP. Wikipedia: "In July,
+    Chamberlain was signed by United Talent Agency" (year not pinned in the fetched
+    source; commonly reported as 2018 — reviewer to confirm). UTA represents her
+    professionally and also appears as an INVESTOR in Chamberlain Coffee, but
+    neither representation nor that coffee investment is ownership or control of the
+    CHANNEL. No representation/ownership edge for UTA is modeled against the
+    channel.
+    (5) NO EXTERNAL INVESTMENT / ACQUISITION OF THE CHANNEL found. All documented
+    outside capital relates to Chamberlain Coffee (see (3)), not the channel, so it
+    creates no inbound ownership edge on the channel. Legal-safe/neutral: the record
+    asserts only her own channel ownership/hosting; no conclusion is drawn about
+    editorial control, and financial ownership / operational control / creative
+    influence are kept distinct (legal-risk policy §2).
+    (6) SOURCES: wikipedia_emma is Tier 2 (ESTABLISHED_INDUSTRY_PUBLICATION).
+    prnewswire_coffee is a Tier 1 official financing announcement, but it is cited
+    ONLY for the contextual coffee-founding edge (rel 3) — it is NOT evidence about
+    the channel's ownership. The load-bearing channel-ownership edge (rel 1) rests
+    on the Tier 2 Wikipedia source plus inference from documented absence; NO Tier 1
+    primary source (business registry filing or a direct on-the-record ownership
+    statement) of the channel's ownership was captured — a lead for a reviewer
+    wanting Tier 1 corroboration of sole ownership. archive_urls should be captured
+    at review.
+  last_reviewed_at: 2026-07-23
