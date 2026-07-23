@@ -1,0 +1,234 @@
+# CHANNELWATCH research record — Jubilee (Jubilee Media)
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: a founder-led, privately-held MEDIA COMPANY that owns/operates its
+# eponymous YouTube channel and has taken documented, NON-controlling external
+# venture/angel funding. The central factual distinction this record encodes:
+#
+#   channel (Jubilee)
+#     └─ OWNS ──────────── Jubilee Media  (American media company; the channel's
+#          │               core product / same business identity)
+#          ├─ FOUNDED_BY ── Jason Y. Lee  (founded 2010 as a non-profit; the
+#          │                company became for-profit in 2017)
+#          └─ INVESTED_IN ← Strong Ventures  (lead of the Sept 2022 $1.1M
+#                           seed-plus round) — a MINORITY venture investment,
+#                           NOT ownership or control of the channel.
+#
+# Minority VC/angel investment is recorded as INVESTED_IN + control_level
+# MINORITY into the COMPANY. Per direct-owner rules v2, a sub-majority
+# INVESTED_IN edge is NOT ownership — it does not make any investor the channel's
+# owner. See review.notes for the ownership-vs-investment reasoning and the
+# expected computed classification.
+
+channel:
+  # Canonical externalId extracted from the raw HTML of
+  # https://www.youtube.com/@jubilee (curl fetch, no JS execution). This is the
+  # page's own "externalId" (browseId), captured adjacent to
+  # "canonicalBaseUrl":"/@jubilee"; it differs from the several unrelated
+  # "channelId"/externalId values (e.g. the related @twobilee channel and
+  # featured/recommended modules) also present in the page source.
+  youtube_channel_id: UCJjSDX-jUChzOEyok9XYRJQ
+  display_name: Jubilee
+  handle: "@jubilee"
+
+entities:
+  - slug: jubilee_media
+    canonical_name: Jubilee Media
+    entity_type: COMPANY
+    jurisdiction: US
+    website: https://www.jubileemedia.com
+    aliases:
+      - Jubilee
+      - Jubilee Media, Inc.
+
+  - slug: jason_lee
+    # Founder and CEO. Recorded as PERSON (founder/executive role) rather than
+    # CREATOR: he is the company's founder/CEO, not primarily the channel's
+    # on-camera talent (Jubilee's formats feature many rotating participants).
+    canonical_name: Jason Y. Lee
+    entity_type: PERSON
+    aliases:
+      - Jason Lee
+
+  - slug: strong_ventures
+    canonical_name: Strong Ventures
+    entity_type: VENTURE_CAPITAL_FIRM
+
+relationships:
+  # 0: Jubilee Media owns/operates its eponymous YouTube channel. No source found
+  # states this in the "Company X owns Channel Y" form verbatim; it is the
+  # structural identity — sources treat "Jubilee, the media company" and its
+  # YouTube channel as one and the same business, and the 2022 funding coverage
+  # treats the channel as the company's core asset. control_level CONTROLLING (a
+  # company controls its own flagship channel). Recorded as OWNS with moderate
+  # confidence; flagged for the reviewer as an inference of identity rather than a
+  # quoted ownership statement.
+  - subject: jubilee_media
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+
+  # 1: Jubilee Media was founded by Jason Y. Lee in 2010 (as a non-profit; the
+  # company transitioned to for-profit in 2017). Day/month precision not
+  # established -> effective_from omitted rather than guessed. Pre-dates all
+  # outside funding below.
+  - subject: jubilee_media
+    type: FOUNDED_BY
+    object: jason_lee
+    confidence: 0.9
+    status: ACTIVE
+
+  # 2: Strong Ventures led Jubilee's $1.1M "seed-plus" round announced
+  # 2022-09-28. Recorded INVESTED_IN + control_level MINORITY: a lead investor in
+  # a small venture round, with NO source stating a controlling or majority
+  # stake. This edge terminates at the COMPANY (Jubilee Media), NOT the channel,
+  # and — being a minority stake — does NOT establish ownership/control of the
+  # channel by Strong Ventures or any co-investor. Named angel co-participants
+  # (Steve Chen, Sam Yam, Stanley Tang, Patrick Lee, Mike Lu, Jeremy Lin) are
+  # documented in the source excerpt but not modeled as separate entities (all
+  # equally minority; see notes).
+  - subject: strong_ventures
+    type: INVESTED_IN
+    object: jubilee_media
+    control_level: MINORITY
+    effective_from: 2022-09-28
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_jubilee
+    url: https://en.wikipedia.org/wiki/Jubilee_Media
+    title: Jubilee Media
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Jubilee Media is an American media company. [...] Lee founded Jubilee as a
+      non-profit company in 2010; it later transitioned into a for-profit
+      company in 2017 after raising over $650,000. [...] In September 2022,
+      Jubilee announced they had raised over $1,000,000.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+  - ref: tubefilter_2022
+    url: https://www.tubefilter.com/2022/09/28/jubilee-funding-round-million-wme-signs-nectar-brand/
+    title: >-
+      Jubilee has raised $1.1 million, signed with WME, and launched a new brand
+      about love (Exclusive)
+    publisher: Tubefilter
+    published_at: 2022-09-28
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Strong Ventures led the $1.1 million seed-plus round. The participants
+      included numerous tech execs, including YouTube Co-Founder Steve Chen and
+      Patreon Co-Founder Sam Yam. Other investors included DoorDash Co-Founder
+      Stanley Tang, Rotten Tomatoes Founder Patrick Lee, Triller CEO Mike Lu,
+      and former NBA player Jeremy Lin. [...] the media company has raised $3.25
+      million to date. [...] The company's Founder and CEO, Jason Y. Lee [...]
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally OMITTED: this is an unverified DRAFT (the schema
+  # field is optional, not nullable). Do NOT set it without human review.
+  last_reviewed_at: 2026-07-23 # research/authoring date; NOT a human review date.
+  notes: >-
+    DRAFT for human review — "founder-led private media company with documented,
+    NON-controlling external venture/angel funding" case. Requires human
+    verification before publication.
+
+    CHANNEL ID. UCJjSDX-jUChzOEyok9XYRJQ, taken from the "externalId" field in
+    the raw HTML of https://www.youtube.com/@jubilee (curl, no JS execution),
+    captured adjacent to "canonicalBaseUrl":"/@jubilee". Distinct from other
+    externalId/channelId values in the page source, including the related
+    @twobilee channel and featured/recommended modules. Reviewer should confirm
+    against the live channel.
+
+    OWNERSHIP vs INVESTMENT — the core finding. The channel is the flagship asset
+    of Jubilee Media, an American media company founded by Jason Y. Lee (Founder
+    and CEO). The company has raised only modest external capital — "over
+    $650,000" before its 2017 non-profit-to-for-profit transition (Wikipedia) and
+    a "$1.1 million seed-plus round" led by Strong Ventures in September 2022,
+    with $3.25M raised in total to date (Tubefilter). Every documented outside
+    check is a MINORITY venture/angel investment; NO source found states that any
+    investor holds a controlling or majority stake, nor that Jubilee was acquired.
+    Accordingly the investors are recorded as INVESTED_IN + MINORITY into the
+    COMPANY, which under direct-owner rules v2 is NOT ownership of the channel.
+    Reviewer: do NOT let the roster of high-profile angel investors be read as
+    ownership or control of the channel. (Legal-risk policy: "investment is not
+    proof of editorial control"; describe structure, never imply misconduct.)
+
+    EXPECTED COMPUTED CLASSIFICATION. With the direct channel owner being a
+    COMPANY (Jubilee Media), no PRIVATE_EQUITY_FIRM / PORTFOLIO_COMPANY_OF edge in
+    the chain, and no DOCUMENTED controlling-equity edge from Jason Y. Lee into
+    the company, the classifier should compute CORPORATE_OWNED (direct owner:
+    Jubilee Media; explanation DIRECT_OWNER_CONFIRMED). The minority INVESTED_IN
+    edge does NOT change this (the EXTERNALLY_FUNDED rule requires a CREATOR/PERSON
+    direct owner, which is not the case here). Confirm the computed label at
+    import.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) rel 0 (Jubilee Media OWNS channel, CONTROLLING, conf 0.8). No fetched
+    source states channel ownership verbatim; it is the structural identity
+    between the company and its eponymous channel (sources use "Jubilee" for both
+    the company and the YouTube channel interchangeably; the 2022 coverage treats
+    the channel as the company's core asset). A reviewer may prefer OPERATES if a
+    stricter reading is wanted — note that OPERATES does NOT resolve as an
+    ownership edge in the classifier and would yield OWNERSHIP_UNCLEAR
+    (NO_OWNERSHIP_EVIDENCE) instead. Jubilee Media's exact legal name/jurisdiction
+    were not verified (recorded jurisdiction US at country precision only).
+    (2) CREATOR-CONTROL / potential CREATOR_OWNED flip. Jason Y. Lee is founder
+    AND CEO of a lightly-funded private company, which in practice usually implies
+    founder control — BUT no source found documents his equity percentage or a
+    controlling stake, and a bare FOUNDED_BY does NOT satisfy the
+    creator-controlled-company rule (precision over recall). If a reviewer LOCATES
+    documentation of Lee's controlling equity (e.g. a cap table, a "majority
+    owner" statement, or a CONTROLS relationship), adding a CONTROLS or a
+    CONTROLLING PARTIALLY_OWNS edge from jason_lee -> jubilee_media would flip the
+    computed label to CREATOR_OWNED (explanation CREATOR_CONTROLLED_COMPANY). This
+    is deliberately NOT asserted here for lack of evidence — it is the single most
+    important item for the reviewer to resolve, as it changes the badge.
+    (3) rel 1 (FOUNDED_BY). Founded 2010 as a non-profit; company became for-profit
+    in 2017 (Wikipedia). Day/month precision not established, so effective_from is
+    omitted rather than guessed. The 2010 founding date and the 2017 for-profit
+    transition are recorded in the source excerpt, not as relationship dates.
+    (4) rel 2 (Strong Ventures INVESTED_IN, MINORITY, 2022-09-28). effective_from
+    is the Tubefilter announcement date, which for this small round is also the
+    only dated marker available; treat it as announcement-dated pending a primary
+    source (no regulatory filing / investor portfolio listing for this round was
+    located). control_level MINORITY reflects "lead investor in a $1.1M seed-plus
+    round" with no controlling stake stated. Named angel co-investors (Steve Chen,
+    Sam Yam, Stanley Tang, Patrick Lee, Mike Lu, Jeremy Lin) are captured in the
+    source excerpt but NOT modeled as individual entities — all are equally
+    minority and adding six PERSON nodes adds no classification signal; a reviewer
+    may add them if per-investor granularity is later wanted.
+    (5) EARLIER ROUND(S) NOT MODELED AS EDGES. An early raise of "over $650,000"
+    (pre-2017, enabling the for-profit transition; Wikipedia) is documented as
+    context but NOT recorded as an INVESTED_IN edge because no investor is named in
+    a fetched source and the date is imprecise. Secondary databases (Tracxn /
+    Crunchbase / PitchBook, seen only via search snippets, not fetched) reference
+    additional institutional investors (e.g. UpHonest Capital, Civic Accelerator)
+    and an ~Oct 2019 valuation of ~$9.5M, implying a 2019-era round; these were
+    NOT fetchable/verifiable here and are left for a reviewer with database access
+    to confirm and add with firm dates. A CNBC 2021 profile (search snippet only;
+    the page returned HTTP 403 to the fetcher) references early backer Laura Huang
+    — not recorded as an edge pending a verifiable, fetchable source and a clear
+    investor-vs-advisor role.
+    (6) NO PE INVOLVEMENT. No PRIVATE_EQUITY_FIRM entity and no
+    PORTFOLIO_COMPANY_OF edge — the §14.3 PE-label gate does not apply. Strong
+    Ventures is recorded as VENTURE_CAPITAL_FIRM.
+    (7) SOURCES. Both supporting sources are Tier 2 (ESTABLISHED_INDUSTRY_
+    PUBLICATION): Wikipedia and Tubefilter (the latter an exclusive with the
+    company's founder/CEO). No Tier 1 primary source (regulatory filing, corporate
+    registry record, or official acquisition announcement) was located; nothing
+    here should be treated as CONFIRMED without further primary-source diligence.
+    archive_urls should be captured at review.

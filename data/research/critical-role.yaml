@@ -1,0 +1,382 @@
+# CHANNELWATCH research record — Critical Role
+#
+# DRAFT for human review. Nothing here is published without verification.
+# reviewed_by is intentionally UNSET (not yet reviewed).
+#
+# Profile: a creator-OWNED channel. Critical Role is a Dungeons & Dragons
+# livestream performed by a cast of professional voice actors. The show
+# PREMIERED on 2015-03-12 on Geek & Sundry — a web network that Legendary
+# Entertainment had acquired in Aug 2014 and ran through Legendary Digital
+# Networks (LDN). CRUCIAL DISTINCTION FOR THIS RECORD: Geek & Sundry
+# PRODUCED / DISTRIBUTED / HOSTED the show on ITS OWN platforms (Twitch, the
+# geekandsundry YouTube channel, and LDN's "Alpha" service); it did NOT own
+# the Critical Role IP or the cast's company. The show remained creator-owned
+# throughout the G&S era. The cast incorporated Critical Role Productions LLC
+# (2015) and took the show fully independent: they launched their OWN Twitch
+# and YouTube channels in June 2018, moved to their own studio in July 2018,
+# and the split from Geek & Sundry / LDN was completed in February 2019.
+#
+# THIS CHANNEL (UCpXBGqwsBkpvcYjsJBQ7LEQ) is Critical Role's OWN dedicated
+# channel, launched ~June 2018 as part of that move to independence — it is
+# NOT the geekandsundry channel the show originally streamed on. So there is
+# NO prior-owner (FORMERLY_OWNED_BY) transition to model for this channel: the
+# channel has been owned by Critical Role Productions LLC since it was created.
+# The Geek & Sundry relationship is modeled as a NON-ownership, historical
+# DISTRIBUTED_BY edge (see rel 17) so the 2015–2019 platform relationship and
+# its 2019 end are surfaced without ever implying G&S owned the show.
+
+channel:
+  # Canonical id verified three ways: (1) the raw channel-page HTML for
+  # youtube.com/@criticalrole carries "externalId":"UCpXBGqwsBkpvcYjsJBQ7LEQ";
+  # (2) that page's <link rel="canonical"> points to
+  # youtube.com/channel/UCpXBGqwsBkpvcYjsJBQ7LEQ; (3) YouTube's OWN RSS feed
+  # (youtube.com/feeds/videos.xml?channel_id=UCpXBGqwsBkpvcYjsJBQ7LEQ) returns
+  # <yt:channelId>UCpXBGqwsBkpvcYjsJBQ7LEQ</yt:channelId> with
+  # <title>Critical Role</title> and <author><name>Critical Role</name>.
+  youtube_channel_id: UCpXBGqwsBkpvcYjsJBQ7LEQ
+  display_name: Critical Role
+  handle: "@criticalrole"
+
+entities:
+  - slug: crp
+    canonical_name: Critical Role Productions
+    entity_type: COMPANY
+    legal_name: Critical Role Productions, LLC
+    # jurisdiction omitted: no Tier 1/2 source consulted documents the state of
+    # incorporation. Flagged for a reviewer (see notes).
+    website: https://critrole.com
+    aliases:
+      - Critical Role Productions LLC
+      - Critical Role
+  # The eight founding cast members. Reputable/industry sources describe them
+  # collectively as the founders and the owners of the equity stakes in the
+  # company, which has taken no outside-investor funding — i.e. they are the
+  # DOCUMENTED SOLE owners. The internal split between the eight is NOT
+  # disclosed. Per the joint-sole-owner convention (see relationships), each is
+  # encoded as PARTIALLY_OWNS crp with control_level CONTROLLING.
+  - slug: mercer
+    canonical_name: Matthew Mercer
+    entity_type: CREATOR
+    aliases:
+      - Matt Mercer
+  - slug: willingham
+    canonical_name: Travis Willingham
+    entity_type: CREATOR
+  - slug: ray
+    canonical_name: Marisha Ray
+    entity_type: CREATOR
+  - slug: jaffe
+    canonical_name: Taliesin Jaffe
+    entity_type: CREATOR
+  - slug: johnson
+    canonical_name: Ashley Johnson
+    entity_type: CREATOR
+  - slug: obrien
+    canonical_name: Liam O'Brien
+    entity_type: CREATOR
+  - slug: bailey
+    canonical_name: Laura Bailey
+    entity_type: CREATOR
+  - slug: riegel
+    canonical_name: Sam Riegel
+    entity_type: CREATOR
+    aliases:
+      - Sam Riegel
+  - slug: geek_sundry
+    canonical_name: Geek & Sundry
+    entity_type: MEDIA_NETWORK
+    aliases:
+      - Geek and Sundry
+  - slug: legendary
+    canonical_name: Legendary Entertainment
+    entity_type: COMPANY
+    # Declared to record what Geek & Sundry itself WAS (a Legendary-owned web
+    # network) — context for the G&S era. Not part of the Critical Role
+    # channel's own ownership chain.
+    aliases:
+      - Legendary Digital Networks
+      - LDN
+
+relationships:
+  # 0: Critical Role Productions LLC owns and operates this channel. OWNS /
+  # CONTROLLING: the company is the operating owner of the channel and is itself
+  # owned by the eight cast members (rels 1-8) — a creator-owned structure.
+  # No ownership percentage is public, so ownership_percentage is omitted.
+  # effective_from omitted: the channel launched June 2018 (month documented,
+  # exact day not found) — see notes; omitting a fabricated day is preferred and
+  # does not affect the (current-owner) classification.
+  - subject: crp
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.85
+    status: ACTIVE
+  # 1-8: JOINT SOLE-OWNER CONVENTION. The eight founders are documented as the
+  # owners of the company's equity, with no outside investors; the split among
+  # them is undisclosed. Each is encoded PARTIALLY_OWNS crp at control_level
+  # CONTROLLING (their joint control is documented; the internal split is not).
+  # This is what makes crp a creator-controlled company (→ CREATOR_OWNED). Per
+  # project policy (2026-07-23) this uses PARTIALLY_OWNS + CONTROLLING, NOT OWNS
+  # with control UNKNOWN. Percentages omitted (undisclosed).
+  - subject: mercer
+    type: PARTIALLY_OWNS
+    object: crp
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: willingham
+    type: PARTIALLY_OWNS
+    object: crp
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: ray
+    type: PARTIALLY_OWNS
+    object: crp
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: jaffe
+    type: PARTIALLY_OWNS
+    object: crp
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: johnson
+    type: PARTIALLY_OWNS
+    object: crp
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: obrien
+    type: PARTIALLY_OWNS
+    object: crp
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: bailey
+    type: PARTIALLY_OWNS
+    object: crp
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: riegel
+    type: PARTIALLY_OWNS
+    object: crp
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  # 9-16: The same eight cast members founded Critical Role Productions LLC
+  # (incorporated 2015). effective_from omitted: year (2015) documented, exact
+  # day not found — see notes.
+  - subject: crp
+    type: FOUNDED_BY
+    object: mercer
+    confidence: 0.8
+    status: ACTIVE
+  - subject: crp
+    type: FOUNDED_BY
+    object: willingham
+    confidence: 0.8
+    status: ACTIVE
+  - subject: crp
+    type: FOUNDED_BY
+    object: ray
+    confidence: 0.8
+    status: ACTIVE
+  - subject: crp
+    type: FOUNDED_BY
+    object: jaffe
+    confidence: 0.8
+    status: ACTIVE
+  - subject: crp
+    type: FOUNDED_BY
+    object: johnson
+    confidence: 0.8
+    status: ACTIVE
+  - subject: crp
+    type: FOUNDED_BY
+    object: obrien
+    confidence: 0.8
+    status: ACTIVE
+  - subject: crp
+    type: FOUNDED_BY
+    object: bailey
+    confidence: 0.8
+    status: ACTIVE
+  - subject: crp
+    type: FOUNDED_BY
+    object: riegel
+    confidence: 0.8
+    status: ACTIVE
+  # 17: HISTORICAL, NON-OWNERSHIP relationship. Geek & Sundry distributed /
+  # hosted Critical Role's show on its platforms from the 2015-03-12 premiere
+  # until the split completed in February 2019. Modeled as DISTRIBUTED_BY with
+  # control_level LICENSE to make explicit that G&S held a platform/broadcast
+  # arrangement, NOT ownership of the show or company. status ENDED.
+  # effective_to omitted: February 2019 documented (month), exact day not found
+  # — see notes. This edge does not enter the ownership classification.
+  - subject: crp
+    type: DISTRIBUTED_BY
+    object: geek_sundry
+    control_level: LICENSE
+    effective_from: 2015-03-12
+    confidence: 0.85
+    status: ENDED
+  # 18: CONTEXT for what Geek & Sundry itself was. Legendary Entertainment
+  # acquired Geek & Sundry in August 2014 and operated it via Legendary Digital
+  # Networks. This describes G&S's own corporate parentage, NOT the Critical
+  # Role channel's ownership chain. effective_from omitted: August 2014
+  # documented (month), exact day not found. status ACTIVE (G&S remained a
+  # Legendary property; the network went largely dormant after 2019 — see notes).
+  - subject: geek_sundry
+    type: SUBSIDIARY_OF
+    object: legendary
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: youtube_feed
+    url: https://www.youtube.com/channel/UCpXBGqwsBkpvcYjsJBQ7LEQ
+    title: Critical Role — YouTube channel
+    publisher: Critical Role (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCpXBGqwsBkpvcYjsJBQ7LEQ
+    excerpt: >-
+      YouTube's own feed for channel UCpXBGqwsBkpvcYjsJBQ7LEQ carries
+      <yt:channelId>UCpXBGqwsBkpvcYjsJBQ7LEQ</yt:channelId>,
+      <title>Critical Role</title> and <author><name>Critical Role</name>,
+      confirming the canonical channel id and that this is Critical Role's own,
+      actively-uploading channel.
+    supports:
+      - relationship: 0
+  - ref: wikipedia_crp
+    url: https://en.wikipedia.org/wiki/Critical_Role_Productions
+    title: Critical Role Productions
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Critical Role Productions LLC was founded in 2015 by the eight cast
+      members (Mercer, Willingham, Ray, Jaffe, Johnson, O'Brien, Bailey,
+      Riegel), who are the owners of equity stakes in the company, which has
+      received no outside-investor funding. The show premiered March 12, 2015 on
+      Geek & Sundry; the cast launched their own Twitch/YouTube channels in June
+      2018 and completed the split from Geek & Sundry / Legendary Digital
+      Networks in February 2019.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+      - relationship: 8
+      - relationship: 9
+      - relationship: 10
+      - relationship: 11
+      - relationship: 12
+      - relationship: 13
+      - relationship: 14
+      - relationship: 15
+      - relationship: 16
+      - relationship: 17
+  - ref: wikipedia_gs
+    url: https://en.wikipedia.org/wiki/Geek_%26_Sundry
+    title: Geek & Sundry
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Geek & Sundry was acquired by Legendary Entertainment in August 2014 and
+      operated under Legendary Digital Networks (which also ran the Alpha
+      service). Critical Role aired on Geek & Sundry from March 12, 2015; "In
+      February 2019, Critical Role's split from Geek & Sundry and LDN was
+      completed, with their flagship show having been recorded at a new studio
+      since July 2018." The departure marked a swift decline for the company.
+    supports:
+      - relationship: 17
+      - relationship: 18
+  - ref: cbr_timeline
+    url: https://www.cbr.com/critical-role-timeline-guide/
+    title: "Critical Role: The Complete Timeline (& How To Get Started)"
+    publisher: CBR (Comic Book Resources)
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Critical Role streamed on Geek & Sundry beginning in 2015 and became an
+      independent production under Critical Role Productions, moving to its own
+      Twitch and YouTube channels in 2018 before fully separating from Geek &
+      Sundry and Legendary Digital Networks in early 2019.
+    supports:
+      - relationship: 0
+      - relationship: 17
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted: this is a DRAFT, not yet human-reviewed.
+  notes: >-
+    DRAFT for human review — "creator-owned company" case. Expected computed
+    classification: CREATOR_OWNED (via CREATOR_CONTROLLED_COMPANY). The channel
+    is owned by Critical Role Productions LLC (rel 0), which is in turn jointly
+    controlled by its eight founding cast members (rels 1-8, PARTIALLY_OWNS /
+    CONTROLLING). No outside/private-equity ownership of the channel or of the
+    company was found; sources state the company took no outside-investor
+    funding. No PE-implying label is asserted, so the §14.3 PE-label evidence
+    rule is not triggered.
+
+    CHANNEL ID: UCpXBGqwsBkpvcYjsJBQ7LEQ. Verified from the RAW channel-page
+    HTML ("externalId":"UCpXBGqwsBkpvcYjsJBQ7LEQ" and the <link rel="canonical">
+    to /channel/UCpXBGqwsBkpvcYjsJBQ7LEQ), and independently against YouTube's
+    own RSS feed (matching <yt:channelId>, <title> and <author><name> = Critical
+    Role).
+
+    KEY MODELING DECISION — GEEK & SUNDRY WAS NOT AN OWNER. The show premiered
+    2015-03-12 on Geek & Sundry (a web network Legendary Entertainment acquired
+    Aug 2014 and ran via Legendary Digital Networks). G&S PRODUCED / DISTRIBUTED
+    / HOSTED the show on its platforms but did NOT own the Critical Role IP or
+    the cast's company; the show remained creator-owned throughout. Therefore
+    G&S is modeled as a NON-ownership, historical DISTRIBUTED_BY edge
+    (rel 17, control_level LICENSE, status ENDED), NOT as a FORMERLY_OWNED_BY
+    prior owner. This is deliberate and legally significant — asserting G&S once
+    "owned" Critical Role would be inaccurate.
+
+    THIS CHANNEL vs THE G&S CHANNEL. This dedicated Critical Role channel
+    launched ~June 2018 as part of the move to independence; the show had
+    previously streamed on Geek & Sundry's OWN channels (geekandsundry). Because
+    this channel has always belonged to Critical Role Productions, there is NO
+    owner-to-owner transition (no FORMERLY_OWNED_BY) for this channel — hence
+    rel 0 is a single ACTIVE ownership edge.
+
+    INDEPENDENCE TIMELINE (documented): June 2018 own Twitch/YouTube channels
+    launched; July 2018 moved to own studio; February 2019 split from G&S / LDN
+    completed. Alpha (LDN's streaming service) shut down March 2019.
+
+    JUDGMENT CALLS / ITEMS FOR A REVIEWER:
+    (1) MISSING EXACT DAYS. Several dates are documented only to the month/year,
+    and FullDate requires a full ISO date, so effective_from/effective_to were
+    OMITTED rather than fabricated: channel launch June 2018 (rel 0), company
+    incorporation 2015 (rels 9-16), G&S split February 2019 (rel 17
+    effective_to), Legendary's Aug 2014 acquisition of G&S (rel 18). Only the
+    well-documented 2015-03-12 premiere is asserted as a full date (rel 17
+    effective_from). A reviewer with primary filings may fill these in.
+    (2) JURISDICTION of Critical Role Productions LLC not asserted — the state of
+    incorporation was not found in a Tier 1/2 source consulted.
+    (3) OWNERSHIP SPLIT among the eight founders is undisclosed; joint-sole-owner
+    convention applied (PARTIALLY_OWNS / CONTROLLING, no percentages). Confirm
+    that sources still support all eight as current equity owners (roles cited:
+    Willingham CEO, Mercer CCO, Ray Creative Director).
+    (4) LEGENDARY / G&S entity (rel 18) is included only as context for what G&S
+    was; it is outside this channel's ownership chain and does not affect the
+    classification. G&S became largely dormant after 2019 but rel 18 is left
+    ACTIVE (no documented divestiture of the G&S property by Legendary found).
+    (5) LEAD NOT CITED: a Jan-2021 Variety feature ("Inside Critical Role...")
+    likely corroborates the "owned by the cast / no outside investors"
+    characterization but could not be fetched (host redirects to a paywall/
+    tollbit gateway). Flagged as a follow-up lead, not used as evidence.
+    All backing sources are Tier 1-2; no Tier 4 used.
+  last_reviewed_at: 2026-07-23

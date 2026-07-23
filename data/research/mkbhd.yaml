@@ -1,0 +1,158 @@
+# CHANNELWATCH research record — Marques Brownlee (MKBHD)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: independent, creator-owned flagship channel. The MKBHD YouTube
+# channel was created and is hosted by Marques Brownlee; it long pre-dates any
+# business structure built around it and no external investment in, or
+# acquisition of, the channel was found. Brownlee runs a production operation
+# out of a studio in Kearny, New Jersey, but no reliably-sourced legal entity
+# name for that operation was located (see notes). His documented outside
+# equity dealings are OUTBOUND — he took a stake in / board seat at accessories
+# company Ridge in 2024 — i.e. he invests in others; no party takes a stake in
+# his channel. Expected computed classification: CREATOR_OWNED.
+
+channel:
+  # Extracted from the "externalId" field embedded in the raw HTML of
+  # https://www.youtube.com/@mkbhd (curl fetch, no JS execution). The page
+  # source contains exactly one "externalId":"UC..." value, this channel's own
+  # external/browse id; it matches the long-publicly-known MKBHD channel id.
+  youtube_channel_id: UCBJycsmduvYEL83R_U4JriQ
+  display_name: Marques Brownlee
+  handle: "@mkbhd"
+
+entities:
+  - slug: marques
+    canonical_name: Marques Brownlee
+    entity_type: CREATOR
+    aliases:
+      - MKBHD
+      - Marques Keith Brownlee
+
+relationships:
+  # 0: The MKBHD channel was created by Marques Brownlee. Wikipedia (citing the
+  # channel's own YouTube "About" page) states "Brownlee joined YouTube on
+  # March 21, 2008." effective_from set to that documented account-creation
+  # date. Uploads began January 2009. Pre-dates any business/studio structure by
+  # years, so this is a personal founding edge on the channel.
+  - subject: channel
+    type: FOUNDED_BY
+    object: marques
+    effective_from: 2008-03-21
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: Marques Brownlee owns/controls the channel. Recorded OWNS + CONTROLLING
+  # with ownership_percentage OMITTED. This is the load-bearing edge for the
+  # classification and is, in part, an INFERENCE FROM DOCUMENTED ABSENCE: the
+  # sources consistently present MKBHD as Brownlee's own channel and business,
+  # and NO source found reports any external owner, investor, or acquirer of the
+  # channel. No explicit "Marques Brownlee owns 100% of the MKBHD channel"
+  # statement or corporate filing was located, so no percentage is asserted.
+  # Flagged for reviewer — see notes (2).
+  - subject: marques
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Marques Brownlee is the channel's principal on-camera host/creator.
+  # Distinct from the ownership edge. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: marques
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_mkbhd
+    url: https://en.wikipedia.org/wiki/Marques_Brownlee
+    title: Marques Brownlee
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Brownlee joined YouTube on March 21, 2008. He first started uploading
+      videos in January 2009, while still in high school, about new products or
+      reviews of products he already owned. [...] Brownlee graduated in May 2015
+      and became a full-time YouTuber. His videos were produced at his apartment
+      until he moved out in 2016; he now works out of a studio in Kearny, New
+      Jersey.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+  - ref: fortune_ridge_2024
+    url: https://finance.yahoo.com/news/great-signal-creators-youtube-star-130000368.html
+    title: >-
+      In a 'great signal for creators,' YouTube star Marques Brownlee adds a
+      corporate gig to his resume at accessories company Ridge
+    publisher: Fortune
+    published_at: 2024-02-22
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Marques Brownlee, a digital creator who has built a business empire based
+      on his 18.5 million YouTube subscribers, is adding a new title to his
+      resume: board member and chief creative partner at accessories company
+      Ridge. [...] As part of the alliance, Brownlee is getting an undisclosed
+      stake in Ridge. [...] Ridge is Brownlee's first-ever board seat and formal
+      title with a brand.
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by omitted: not yet reviewed (schema field is optional, not nullable).
+  notes: >-
+    DRAFT for human review — "independent, creator-owned single-creator channel"
+    case. Computed classification is expected to be CREATOR_OWNED: the channel's
+    only owner/controller is the CREATOR himself (rel 1), with no company, firm,
+    or external investor anywhere in the chain. No PE-label evidence rule is
+    engaged (no PRIVATE_EQUITY_FIRM or PORTFOLIO_COMPANY_OF edge).
+
+    CHANNEL ID: UCBJycsmduvYEL83R_U4JriQ, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@mkbhd (curl fetch, no JS).
+    Matches the long-publicly-known MKBHD channel id.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) FOUNDING DATE: rel 0 effective_from 2008-03-21 is the YouTube
+    account-creation date per Wikipedia (which cites the channel's own "About"
+    page). Regular uploads did not begin until January 2009; a reviewer may
+    prefer to characterize 2009 as the effective start of the channel's activity.
+    (2) OWNERSHIP EDGE (rel 1) is the reviewer's primary focus. It is recorded
+    OWNS + CONTROLLING with NO percentage. This is partly an inference from
+    DOCUMENTED ABSENCE — every source presents MKBHD as Brownlee's own channel
+    and business, and none reports any external owner/investor/acquirer — rather
+    than from an explicit ownership statement or corporate filing. Confidence set
+    to 0.7 to reflect that. No percentage was guessed. If the reviewer requires a
+    positive primary source of ownership (e.g. a US business filing / registered
+    entity for his operation), that is a Tier 1 corroboration lead.
+    (3) PRODUCTION COMPANY / LEGAL ENTITY: Brownlee runs a multi-staff studio in
+    Kearny, NJ, but NO reliably-sourced legal entity name was found. Low-quality
+    / SEO sources variously call it "MKBHD," "MKBHD Studios," "MKBHD Inc."
+    (LinkedIn company page), and one source named "Studio Auchtung" — these are
+    Tier 3/4 and mutually inconsistent, so NO company entity or company-ownership
+    edge is modeled here. If a reviewer confirms a formal operating company (name,
+    jurisdiction, founding date) via a primary source, the model should be
+    updated to a creator-controlled-company shape (creator PARTIALLY_OWNS/OWNS
+    the company; company OWNS the channel), which would still compute
+    CREATOR_OWNED.
+    (4) NO EXTERNAL INVESTMENT / ACQUISITION of the channel found. Brownlee's
+    documented outside equity dealings are OUTBOUND: in Feb 2024 he took an
+    undisclosed stake in and a board seat / "chief creative partner" role at
+    accessories company Ridge (Fortune, rel-1/2 source); he has also been
+    reported as an investor in Opal Camera. These are him investing in OTHER
+    companies, NOT anyone acquiring or investing in his channel, so they create
+    no inbound ownership edge. Neutral-language note: the record asserts only his
+    own channel ownership/hosting; no conclusion about editorial control is drawn.
+    (5) SOURCES: both are Tier 2 (ESTABLISHED_INDUSTRY_PUBLICATION: Wikipedia and
+    Fortune via Yahoo Finance). No Tier 1 primary source (business registry
+    filing, or a direct on-the-record ownership statement) was captured — a lead
+    for a reviewer wanting Tier 1 corroboration of sole ownership and of any
+    operating-company structure. entity_type for Brownlee is CREATOR (on-camera
+    host and owner).
+  last_reviewed_at: 2026-07-23

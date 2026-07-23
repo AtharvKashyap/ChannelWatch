@@ -1,0 +1,205 @@
+# CHANNELWATCH research record — SmarterEveryDay (Destin Sandlin)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: creator-founded, creator-owned independent science channel. Founded
+# and hosted by engineer Destin Sandlin; the business is operated through the
+# Alabama entity "Smarter Every Day, LLC" (Alabama SOS entity 000283469,
+# incorporated 2013-07-30, registered agent Destin Sandlin, status "Exists").
+#
+# NO external corporate acquisition or equity investment was found. This was
+# checked specifically against Electrify Video Partners — the firm behind the
+# Veritasium majority investment, which has backed several education channels
+# (Veritasium, Astrum, Mentour Pilot, Simple History, Fireship). SmarterEveryDay
+# does NOT appear in Electrify's disclosed portfolio, and no other outside
+# investor was found. No ownership CHANGE / acquisition event was found, so no
+# effective_to / superseded-owner edges are recorded. This record therefore
+# asserts no PE/corporate ownership. It does NOT assert independence beyond what
+# the sources state: the absence of a documented investor is recorded as an
+# absence, not as an affirmative "verified independent" claim.
+
+channel:
+  # Extracted from the canonical externalId embedded in the raw HTML of
+  # https://www.youtube.com/@smartereveryday (curl fetch, no JS execution): the
+  # page source lists externalId "UC6107grRI4m0o2-emgoDnAA", and the
+  # overwhelmingly dominant canonicalBaseUrl on the page is "/@smartereveryday"
+  # (60 occurrences), distinct from the handful of unrelated featured/
+  # recommended channels also present in the source (e.g. @veritasium, @Vsauce,
+  # @physicsgirl, @Jabrils, @SmarterEveryDay2 — the creator's separate second
+  # channel — each appearing only ~2 times).
+  youtube_channel_id: UC6107grRI4m0o2-emgoDnAA
+  display_name: SmarterEveryDay
+  handle: "@smartereveryday"
+
+entities:
+  - slug: sandlin
+    canonical_name: Destin Sandlin
+    entity_type: CREATOR
+    aliases:
+      - Destin Wilson Sandlin
+      - SmarterEveryDay
+
+  - slug: sed_llc
+    canonical_name: Smarter Every Day, LLC
+    entity_type: COMPANY
+    legal_name: Smarter Every Day, LLC
+    jurisdiction: US-AL
+    aliases:
+      - Smarter Every Day LLC
+
+relationships:
+  # 0: Channel founded by Destin Sandlin. The SmarterEveryDay YouTube account was
+  # created 2006-04-03 (join date on the channel's own /about page); Sandlin began
+  # posting educational videos in 2007 and formally launched the "Smarter Every
+  # Day" series on 2011-04-24 (Wikipedia). effective_from is the channel account
+  # creation date; the series-launch nuance is captured in the review notes.
+  - subject: channel
+    type: FOUNDED_BY
+    object: sandlin
+    effective_from: 2006-04-03
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: Destin Sandlin is recorded as the owner of the channel. He is the sole
+  # documented creator/principal and the operating LLC is registered solely to
+  # him; no external owner or investor was found. control_level CONTROLLING
+  # reflects documented sole-creator control (single public principal, LLC
+  # registered to him alone), NOT a disclosed shareholding percentage — an LLC
+  # membership schedule is not public in the sources found, so no
+  # ownership_percentage is asserted. Flagged for reviewer (see notes).
+  - subject: sandlin
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: The channel's business is operated by the Alabama entity "Smarter Every
+  # Day, LLC" (Alabama SOS entity 000283469). The LLC was incorporated
+  # 2013-07-30 (Alabama corporate registry); effective_from is that incorporation
+  # date. OPERATES (not OWNS): the source establishes the LLC as the legal/
+  # operating entity behind the channel business, not a disclosed equity holder
+  # of the channel itself. The channel predates the LLC (created 2006), hence the
+  # later operative date here.
+  - subject: sed_llc
+    type: OPERATES
+    object: channel
+    effective_from: 2013-07-30
+    confidence: 0.75
+    status: ACTIVE
+
+  # 3: Destin Sandlin founded the operating LLC; he is its sole registered agent
+  # in the Alabama corporate registry. effective_from is the LLC incorporation
+  # date 2013-07-30.
+  - subject: sed_llc
+    type: FOUNDED_BY
+    object: sandlin
+    effective_from: 2013-07-30
+    confidence: 0.8
+    status: ACTIVE
+
+  # 4: Destin Sandlin is the on-camera host/creator of the channel. Distinct from
+  # the ownership/control edges above.
+  - subject: channel
+    type: HOSTED_BY
+    object: sandlin
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_destin_sandlin
+    url: https://en.wikipedia.org/wiki/Destin_Sandlin
+    title: Destin Sandlin
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Destin Wilson Sandlin is an American engineer and science communicator who
+      produces the video series Smarter Every Day. He began posting educational
+      videos in 2007 and formally launched the "Smarter Every Day" series on
+      April 24, 2011, with a video titled "Detonation vs Deflagration - Smarter
+      Every Day 1." No acquisition, external investor, or corporate owner is
+      mentioned.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 4
+
+  - ref: alabama_sos_registry
+    url: https://al.ltddir.com/Agent/SANDLIN,+DESTIN/
+    title: Smarter Every Day, LLC — Alabama company record (Destin Sandlin, agent)
+    publisher: Alabama Secretary of State (via al.ltddir.com registry mirror)
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      Entity Name: "Smarter Every Day, Llc"; Entity ID: 000283469; incorporated
+      on 07-30-2013; Status: "Exists"; Registered Agent: Destin Sandlin;
+      jurisdiction Alabama.
+    supports:
+      - relationship: 2
+      - relationship: 3
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted: this is an unverified DRAFT (schema treats
+  # reviewed_by as an optional string; null is not a valid value, so the field is
+  # left unset rather than populated).
+  last_reviewed_at: 2026-07-23
+  notes: >-
+    DRAFT for human review — "independent, creator-owned channel" case. No
+    external acquisition or equity investment was found; the record asserts no
+    PE/corporate ownership.
+
+    CHANNEL ID: UC6107grRI4m0o2-emgoDnAA, extracted from the externalId field in
+    the raw HTML of https://www.youtube.com/@smartereveryday (curl fetch, no JS
+    execution). The dominant canonicalBaseUrl on the page is "/@smartereveryday"
+    (60 occurrences), confirming the id belongs to this handle; a few unrelated
+    featured/recommended channels (@veritasium, @Vsauce, @physicsgirl, @Jabrils,
+    and the creator's own separate second channel @SmarterEveryDay2) also appear
+    in the source but only ~2 times each. This matches the long-publicly-known
+    SmarterEveryDay channel id.
+
+    EXTERNAL-INVESTMENT CHECK (per task): specifically checked whether Electrify
+    Video Partners (majority investor in Veritasium; also backs Astrum, Mentour
+    Pilot, Simple History, Fireship) has any stake in SmarterEveryDay. It does
+    NOT appear in Electrify's disclosed portfolio, and no other outside investor,
+    private-equity backing, or acquisition was found in any source. The record
+    records this as an ABSENCE of documented investment, not as an affirmative
+    "verified independent" assertion.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) OWNER EDGE (rel 1, sandlin OWNS channel) rests on inference from
+    (a) Destin Sandlin being the sole documented public creator/principal and
+    (b) the operating LLC being registered solely to him. No source discloses an
+    LLC membership schedule or shareholding, so control_level is set to
+    CONTROLLING (documented sole-creator control) but no ownership_percentage is
+    asserted, and confidence is held at 0.7. A reviewer with access to the
+    primary Alabama SOS filing / any LLC membership disclosure should confirm the
+    actual member(s).
+    (2) SOURCE FOR THE LLC. The Alabama registry fact was retrieved via a
+    third-party registry mirror (al.ltddir.com) of the Alabama Secretary of State
+    business entity record (entity 000283469). Classified CORPORATE_REGISTRY_RECORD
+    (Tier 1) on that basis; the primary Alabama SOS business-entity search
+    (same entity id) is the ideal direct citation for verification.
+    (3) DATES. FOUNDED_BY (rel 0) effective_from 2006-04-03 is the YouTube channel
+    account creation ("Joined") date from the channel's own /about page. Note the
+    series was not formally branded/launched until 2011-04-24 and educational
+    uploads began ~2007 — a reviewer may prefer one of those dates as the
+    "founding" of the SERIES vs the account. The LLC edges (rels 2, 3) use the
+    2013-07-30 incorporation date; the channel predates the LLC by years.
+    (4) CREATOR-SAFETY. The Alabama registry lists a principal street address
+    (appears residential). Per the creator-safety exclusions (evidence-policy §5),
+    the street address is deliberately NOT recorded in this file; only the US-AL
+    jurisdiction is kept.
+    (5) SOURCE-TYPE MAPPING. Wikipedia is mapped to
+    ESTABLISHED_INDUSTRY_PUBLICATION (Tier 2). No Tier 1 creator/company
+    self-disclosure of ownership was located (the channel's own site/about pages
+    do not state an ownership structure), so no DIRECT_CREATOR_CONFIRMATION source
+    is cited; the YouTube /about page was used only to derive the channel id and
+    account creation date (recorded here, not as a formal source row).
+
+    PROPOSED CLASSIFICATION (computed by importer, not asserted here): expected
+    CREATOR_OWNED (GREEN) — founder-owned and hosted, operated through a
+    creator-founded LLC, with no external equity owner found. Confidence moderate
+    given the owner edge rests on inference plus a Tier 1 registry record and a
+    Tier 2 publication rather than a direct shareholding disclosure.
