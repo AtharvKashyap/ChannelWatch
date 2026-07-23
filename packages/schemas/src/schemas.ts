@@ -13,6 +13,7 @@ import {
   ResearchStatusSchema,
   BadgeColorSchema,
   ExplanationCodeSchema,
+  SourceTypeSchema,
 } from "./enums.js";
 
 /**
@@ -237,6 +238,13 @@ export const ResearchedChannelLookup = ChannelLookupResponse.extend({
   badge_color: BadgeColorSchema,
   disclaimer: z.string(),
   warnings: z.array(ExplanationCodeSchema),
+  // ADDITIVE (M3, Track C): the internal channel UUID. The public lookup is
+  // keyed by YouTube channel ID, but the itemized-evidence and timeline
+  // endpoints are keyed by the internal id; surfacing it here lets the public
+  // site fetch those without a second lookup. Optional on the same additive
+  // discipline as `ownership_chain`/`ownership_history`: the §17.2 fixture and
+  // the extension (which never needs it) keep validating unchanged.
+  channel_id: z.string().min(1).optional(),
 });
 export type ResearchedChannelLookup = z.infer<typeof ResearchedChannelLookup>;
 
@@ -299,3 +307,79 @@ export const ResearchLeadSubmission = z.object({
   note: z.string().min(1).max(5000).optional(),
 });
 export type ResearchLeadSubmission = z.infer<typeof ResearchLeadSubmission>;
+
+/**
+ * One row of `GET /api/v1/channels/search`. Channels are identified by their
+ * immutable YouTube channel ID (CLAUDE.md rule 4). `classification` is the
+ * cached published label (nullable — a channel row can exist before a label is
+ * published); `research_status` is its §20.1 queue state. The public site links
+ * each result to `/channel/{youtube_channel_id}`.
+ */
+export const ChannelSearchResult = z.object({
+  youtube_channel_id: z.string(),
+  display_name: z.string(),
+  handle: z.string().nullable().optional(),
+  classification: ClassificationLabelSchema.nullable().optional(),
+  research_status: ResearchStatusSchema.nullable().optional(),
+});
+export type ChannelSearchResult = z.infer<typeof ChannelSearchResult>;
+
+/** Body of `GET /api/v1/channels/search` — the echoed query, a count, and rows. */
+export const ChannelSearchResponse = z.object({
+  query: z.string(),
+  count: z.number().int().nonnegative(),
+  results: z.array(ChannelSearchResult),
+});
+export type ChannelSearchResponse = z.infer<typeof ChannelSearchResponse>;
+
+/**
+ * One itemized evidence source from `GET /api/v1/channels/:id/evidence`. A
+ * superset of the §17.2 `evidence_count`: the public site renders one card per
+ * source (with the standing editorial disclaimer). `tier`/`status`/`source_type`
+ * are nullable (a source can exist before it is graded/triaged). Neutral,
+ * structural — the card asserts nothing about editorial conduct (§23.1).
+ */
+export const ChannelEvidenceItem = z.object({
+  id: z.string().min(1),
+  url: z.url(),
+  title: z.string().nullable().optional(),
+  publisher: z.string().nullable().optional(),
+  tier: SourceTierSchema.nullable().optional(),
+  source_type: SourceTypeSchema.nullable().optional(),
+  status: EvidenceStatusSchema.nullable().optional(),
+  published_at: z.string().nullable().optional(),
+  archive_url: z.url().nullable().optional(),
+  excerpt: z.string().nullable().optional(),
+});
+export type ChannelEvidenceItem = z.infer<typeof ChannelEvidenceItem>;
+
+/** Body of `GET /api/v1/channels/:id/evidence` — the channel id, count, sources. */
+export const ChannelEvidenceResponse = z.object({
+  channel_id: z.string().min(1),
+  evidence_count: z.number().int().nonnegative(),
+  evidence: z.array(ChannelEvidenceItem),
+});
+export type ChannelEvidenceResponse = z.infer<typeof ChannelEvidenceResponse>;
+
+/**
+ * One dated event on a channel's ownership timeline from
+ * `GET /api/v1/channels/:id/timeline`: a relationship edge or a claim, its
+ * effective date (null when undocumented — never inferred, §23.1), the two
+ * participating entity names, and a lifecycle status. Presentational only.
+ */
+export const ChannelTimelineEvent = z.object({
+  date: z.string().nullable(),
+  kind: z.enum(["RELATIONSHIP", "CLAIM"]),
+  type: z.string(),
+  subject: z.string().nullable(),
+  object: z.string().nullable(),
+  status: z.string().nullable(),
+});
+export type ChannelTimelineEvent = z.infer<typeof ChannelTimelineEvent>;
+
+/** Body of `GET /api/v1/channels/:id/timeline` — the channel id and its events. */
+export const ChannelTimelineResponse = z.object({
+  channel_id: z.string().min(1),
+  events: z.array(ChannelTimelineEvent),
+});
+export type ChannelTimelineResponse = z.infer<typeof ChannelTimelineResponse>;

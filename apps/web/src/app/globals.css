@@ -1,0 +1,270 @@
+:root {
+  --cw-fg: #0f0f0f;
+  --cw-muted: #5f6368;
+  --cw-bg: #ffffff;
+  --cw-surface: #f6f7f8;
+  --cw-border: #e2e4e7;
+  --cw-accent: #1565c0;
+  --cw-max: 760px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.55;
+  color: var(--cw-fg);
+  background-color: var(--cw-bg);
+}
+
+a {
+  color: var(--cw-accent);
+}
+
+.cw-shell {
+  max-width: var(--cw-max);
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+}
+
+.cw-nav {
+  border-bottom: 1px solid var(--cw-border);
+}
+
+.cw-nav__inner {
+  max-width: var(--cw-max);
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  gap: 1.25rem;
+  align-items: baseline;
+}
+
+.cw-nav__brand {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: var(--cw-fg);
+}
+
+.cw-nav__link {
+  text-decoration: none;
+  color: var(--cw-muted);
+  font-size: 0.95rem;
+}
+
+.cw-nav__link:hover {
+  color: var(--cw-fg);
+}
+
+h1 {
+  font-size: 1.9rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-top: 2rem;
+}
+
+.cw-muted {
+  color: var(--cw-muted);
+}
+
+.cw-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: flex-end;
+  margin: 1.5rem 0;
+}
+
+.cw-search label {
+  flex-basis: 100%;
+  font-size: 0.9rem;
+  color: var(--cw-muted);
+}
+
+.cw-search input {
+  flex: 1 1 240px;
+  padding: 0.55rem 0.7rem;
+  font-size: 1rem;
+  border: 1px solid var(--cw-border);
+  border-radius: 6px;
+}
+
+button,
+.cw-search button {
+  padding: 0.55rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--cw-accent);
+  background: var(--cw-accent);
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.cw-results {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.cw-result {
+  border: 1px solid var(--cw-border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+.cw-result a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cw-chain__list,
+.cw-history__list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.cw-chain__hop,
+.cw-history__period {
+  border: 1px solid var(--cw-border);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.cw-history__period[data-cw-current="true"] {
+  border-color: var(--cw-accent);
+  background: var(--cw-surface);
+}
+
+.cw-chain__name,
+.cw-history__name {
+  font-weight: 600;
+}
+
+.cw-history__marker {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--cw-muted);
+}
+
+.cw-chain__meta,
+.cw-history__meta {
+  color: var(--cw-muted);
+  font-size: 0.92rem;
+}
+
+.cw-facts {
+  display: grid;
+  gap: 0.35rem;
+  margin: 1rem 0;
+}
+
+.cw-facts div {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cw-facts dt {
+  font-weight: 600;
+  min-width: 9rem;
+}
+
+.cw-facts dd {
+  margin: 0;
+}
+
+.cw-evidence {
+  border: 1px solid var(--cw-border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+}
+
+.cw-evidence__disclaimer,
+.cw-summary,
+.cw-disclaimer {
+  color: var(--cw-muted);
+  font-size: 0.9rem;
+}
+
+.cw-timeline {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.cw-timeline__event {
+  display: grid;
+  gap: 0.1rem;
+  border-left: 3px solid var(--cw-border);
+  padding: 0.25rem 0 0.25rem 0.75rem;
+}
+
+.cw-timeline__date {
+  font-size: 0.8rem;
+  color: var(--cw-muted);
+}
+
+.cw-correction {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 32rem;
+}
+
+.cw-correction label {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.cw-correction input,
+.cw-correction textarea {
+  padding: 0.5rem 0.6rem;
+  font-size: 1rem;
+  border: 1px solid var(--cw-border);
+  border-radius: 6px;
+  font-family: inherit;
+}
+
+.cw-correction__error {
+  color: #b71c1c;
+  font-size: 0.9rem;
+}
+
+.cw-methodology h2 {
+  margin-bottom: 0.25rem;
+}
+
+.cw-methodology dl {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.cw-methodology dt {
+  font-weight: 600;
+}
+
+.cw-methodology dd {
+  margin: 0.15rem 0 0;
+  color: var(--cw-muted);
+}

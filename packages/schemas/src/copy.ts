@@ -359,6 +359,169 @@ export const POPUP_COPY = {
   openSettings: "Open settings",
 } as const;
 
+/**
+ * Static UI strings for the PUBLIC SITE (`apps/web`, M3 Track C): navigation,
+ * the home/search page, and the channel-page section headings + empty/error
+ * states. Kept here — not inline in the pages — so ALL user-facing copy stays in
+ * the single reviewed module (CLAUDE.md rule 2). The home blurb is derived from
+ * the MANIFESTO and follows §23.1 safer language: it describes what the project
+ * does, separates ownership / control / influence, and admits uncertainty; it
+ * never asserts misconduct or editorial control.
+ */
+export const SITE_COPY = {
+  homeHeading: "Who owns the channels you watch?",
+  homeBlurb: [
+    "CHANNELWATCH shows YouTube viewers who owns, finances, or operates the channels they watch. Every published claim is supported by public evidence and reviewed by a person before it appears.",
+    "We describe ownership structure as public fact, and we keep financial ownership, operational control, and creative influence separate. Acquisition is not guilt; investment is not proof of editorial control. When the evidence is thin, the honest answer is that ownership is unknown.",
+  ],
+  searchHeading: "Find a channel",
+  searchLabel: "Search researched channels",
+  searchPlaceholder: "Channel name or handle",
+  searchButton: "Search",
+  searchPrompt: "Search for a channel to see what public records indicate about its ownership.",
+  searchResultsHeading: "Matching channels",
+  searchNoResults: "No researched channels match that search yet.",
+  navHome: "Home",
+  navMethodology: "Methodology",
+  navCorrections: "Report an error",
+  overviewHeading: "Ownership overview",
+  evidenceHeading: "Evidence",
+  evidenceEmpty: "No sources have been recorded for this channel yet.",
+  timelineHeading: "Timeline",
+  timelineEmpty: "No dated ownership events have been recorded for this channel yet.",
+  timelineUndated: "Date not publicly disclosed",
+  lookupError:
+    "This channel's ownership information could not be loaded right now. Please try again later.",
+  unresearchedHeading: "Not yet researched",
+  methodologyLinkText: "How we research ownership",
+  reportErrorIntro:
+    "Spotted something inaccurate? Anyone — creators, companies, or members of the public — can ask us to review a published record.",
+  backToSearch: "Back to search",
+} as const;
+
+/**
+ * Static strings for the standalone `/corrections` page (SPEC §23.3 "Report an
+ * Error"). The form itself reuses `PANEL_COPY` for the shared fields
+ * (explanation / name / email / relationship / submit) and `CORRECTION_RECEIVED`
+ * for the acknowledgement; only the page-level heading/intro and the channel-ID
+ * field (which the in-panel form does not need — the extension already knows the
+ * channel) live here. Neutral, §23.1-safe.
+ */
+export const CORRECTION_PAGE_COPY = {
+  heading: "Report an error",
+  intro:
+    "Use this form to dispute a specific published record. Corrections are logged, reviewed, and — where a record changes — kept visible rather than silently rewritten.",
+  channelIdLabel: "YouTube channel ID (required)",
+  channelIdPlaceholder: "UC…",
+  channelIdInvalid: "Enter a valid YouTube channel ID: UC followed by 22 characters.",
+} as const;
+
+/**
+ * The public methodology page content (`/methodology`, M3 Track C), a faithful
+ * structured rendering of `docs/METHODOLOGY.md`. Wording tracks that reviewed
+ * doc (itself adapted from the founding spec); kept here so the page inlines no
+ * prose of its own (CLAUDE.md rule 2). Purely descriptive of how evidence is
+ * weighed and reviewed — asserts nothing about any specific channel (§23.1).
+ */
+export const METHODOLOGY_COPY = {
+  heading: "How we research ownership",
+  intro:
+    "This page describes how CHANNELWATCH gathers evidence, weighs it, expresses confidence and uncertainty, reviews claims, and decides what may be published. Detection is evidence-first: the published ownership status is assembled from discrete, sourced claims that have passed human review, never from a single unexplained score.",
+  evidenceTiersHeading: "Evidence hierarchy",
+  evidenceTiersIntro:
+    "Every source is assigned to one of four tiers. Tier determines how much weight a source may carry and whether it can support a published claim at all.",
+  evidenceTiers: [
+    {
+      title: "Tier 1 — Primary authoritative sources",
+      description:
+        "Securities filings, corporate registries, official acquisition announcements, investor portfolio pages, official ownership disclosures, court and bankruptcy records, government competition filings, and official statements by the creator or acquiring company.",
+    },
+    {
+      title: "Tier 2 — Reputable secondary sources",
+      description:
+        "Established business and trade publications, interviews with named executives, investigative journalism, financial databases with clear sourcing, and industry newsletters with accountable authorship.",
+    },
+    {
+      title: "Tier 3 — Supporting technical evidence",
+      description:
+        "Historical website ownership pages, domain registration changes, shared legal contact information, shared advertising disclosures, shared corporate addresses, public employment records, app-store publisher changes, and archived terms-of-service pages.",
+    },
+    {
+      title: "Tier 4 — Leads only",
+      description:
+        "Social-media speculation, forum posts, anonymous tips, sudden stylistic changes, similar thumbnails, shared sponsors, upload-pattern changes, and unverified leaked screenshots. Tier 4 evidence may initiate research but must never independently support a published ownership claim.",
+    },
+  ],
+  confidenceHeading: "Confidence levels",
+  confidenceIntro:
+    "Each claim receives an evidence classification and a confidence level. Uncertainty is first-class: “Unknown” is a valid, common, and honest outcome, and must never be presented as suspicion.",
+  confidenceLevels: [
+    {
+      title: "Confirmed",
+      description:
+        "The relationship is established through strong primary evidence, such as a corporate filing, official acquisition announcement, owner portfolio listing, or direct creator confirmation.",
+    },
+    {
+      title: "High confidence",
+      description: "Multiple credible sources agree and no material contradiction exists.",
+    },
+    {
+      title: "Moderate confidence",
+      description:
+        "Credible evidence exists but the exact ownership or control terms remain incomplete.",
+    },
+    {
+      title: "Low confidence",
+      description:
+        "Evidence is suggestive but insufficient for a public ownership label.",
+    },
+    {
+      title: "Disputed",
+      description: "Credible parties provide conflicting accounts.",
+    },
+    {
+      title: "Unknown",
+      description: "Insufficient evidence exists.",
+    },
+  ],
+  thresholdsHeading: "Publication thresholds",
+  thresholdsIntro:
+    "The scoring model estimates confidence in a specific claim — not whether a company is “good” or “bad”. Scores map to bands:",
+  thresholds: [
+    "0.90–1.00 — Confirmed",
+    "0.75–0.89 — High confidence",
+    "0.55–0.74 — Moderate confidence",
+    "0.30–0.54 — Low confidence",
+    "0.00–0.29 — Research lead only (not publishable)",
+  ],
+  peRuleHeading: "The PE-backed label",
+  peRule:
+    "A publicly visible PE-backed label requires at least one Tier 1 source, or two independent Tier 2 sources plus strong entity resolution. PE-backed is an orange badge describing ownership structure — never a red badge, and never an implication of misconduct.",
+  reviewHeading: "Review process",
+  reviewIntro: "Before publishing an ownership claim, a reviewer must:",
+  reviewChecklist: [
+    "Confirm the exact channel ID.",
+    "Confirm the company or entity identity.",
+    "Confirm the relationship type.",
+    "Confirm the effective date.",
+    "Confirm whether the transaction closed.",
+    "Confirm whether the relationship is still current.",
+    "Confirm whether private-equity involvement is direct or indirect.",
+    "Confirm whether control is known.",
+    "Search for contradictory evidence.",
+    "Check whether the creator publicly disputed the claim.",
+    "Use neutral wording.",
+    "Attach at least one strong source.",
+    "Record reviewer reasoning.",
+  ],
+  twoPersonHeading: "Two-person review",
+  twoPersonIntro:
+    "Two reviewers must approve before publication for high-risk claims involving hidden ownership, undisclosed acquisition, fraud, misrepresentation, editorial interference, political influence, or named individuals.",
+  llmHeading: "How we use language models",
+  llm:
+    "Language models may assist research — summarizing announcements, extracting names and dates, suggesting entity matches — but must not act as autonomous publishers. Models draft; humans publish. Model confidence is never treated as factual confidence, and no claim is published without human review.",
+} as const;
+
 /** "N sources reviewed", pluralized; "No sources reviewed" for zero. */
 export function evidenceCountText(count: number): string {
   if (count <= 0) return "No sources reviewed";
