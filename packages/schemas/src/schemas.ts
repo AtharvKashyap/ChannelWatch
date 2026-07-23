@@ -149,6 +149,28 @@ export const OwnershipChainStep = z.object({
 export type OwnershipChainStep = z.infer<typeof OwnershipChainStep>;
 
 /**
+ * One ownership PERIOD in a channel's temporal ownership history (Track A),
+ * ADDITIVE (M3). Names the owning/founding entity and carries the ownership
+ * MECHANISM sourced from the relationship data — relationship type, control
+ * level, and either a public percentage or null ("stake not publicly
+ * disclosed"). `effective_from`/`effective_to` bound the period (either may be
+ * null when not documented — never inferred, §23.1). `is_current` marks the
+ * period that covers today (open-ended and not superseded); prior owners carry
+ * `is_current: false`. History never changes the served classification (§6).
+ */
+export const OwnershipHistoryEntry = z.object({
+  name: z.string().min(1),
+  type: EntityTypeSchema,
+  relationship: RelationshipTypeSchema,
+  control_level: ControlLevelSchema,
+  ownership_percentage: z.number().min(0).max(100).nullable(),
+  effective_from: z.string().nullable(),
+  effective_to: z.string().nullable(),
+  is_current: z.boolean(),
+});
+export type OwnershipHistoryEntry = z.infer<typeof OwnershipHistoryEntry>;
+
+/**
  * The lookup response's direct-owner reference: an `EntityRef` plus an OPTIONAL,
  * ADDITIVE (M3) `mechanism` — a neutral, data-driven phrase for how the owner
  * holds the channel (e.g. "acquired", "controlling stake"). Optional so the
@@ -188,6 +210,11 @@ export const ChannelLookupResponse = z.object({
   // pristine §17.2 example (which itemizes no chain) still validates and
   // round-trips unchanged; always populated by the live API assembler.
   ownership_chain: z.array(OwnershipChainStep).optional(),
+  // ADDITIVE (M3, Track A): the temporal ownership history — ownership periods
+  // newest-first, including prior owners. Optional + additive on the same
+  // discipline as `ownership_chain`, so the pristine §17.2 example (which omits
+  // it) still round-trips 1:1; always populated by the live API assembler.
+  ownership_history: z.array(OwnershipHistoryEntry).optional(),
 });
 export type ChannelLookupResponse = z.infer<typeof ChannelLookupResponse>;
 
