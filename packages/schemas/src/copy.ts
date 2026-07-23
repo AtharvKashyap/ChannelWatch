@@ -334,6 +334,17 @@ export function badgeAriaLabel(label: ClassificationLabel, name?: string | null)
 export const CHAIN_COPY = {
   heading: "Ownership chain",
   effectiveFromPrefix: "since",
+  // Temporal ownership history (Track A). The "Ownership over time" section lists
+  // ownership periods newest-first; each line is composed from these + the
+  // reviewed `ownershipMechanismText`. All neutral, structural, §23.1-safe:
+  // `previouslyPrefix` marks a prior (superseded) period; `currentLabel` marks
+  // the current one; `dateRangeSeparator` joins a from–to range; `dateUndisclosed`
+  // is the honest fallback when a date is not publicly documented (never inferred).
+  historyHeading: "Ownership over time",
+  previouslyPrefix: "previously",
+  currentLabel: "current",
+  dateRangeSeparator: "–",
+  dateUndisclosed: "date not publicly disclosed",
 } as const;
 
 /**
