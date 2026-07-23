@@ -1,0 +1,288 @@
+# CHANNELWATCH research record — Good Mythical Morning (Rhett & Link)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: a creator-OWNED channel. Good Mythical Morning (GMM) is produced by
+# Mythical Entertainment, LLC — a privately held, self-financed studio founded
+# and owned by the show's two hosts, Rhett McLaughlin and Link Neal. There is
+# NO outside/PE ownership of the channel or of Mythical found in any source.
+# Mythical has itself been an ACQUIRER of other properties (Smosh, 2019) and
+# later a divester (sold majority of Smosh back to its founders in 2023,
+# retaining a minority stake) — those corporate moves are recorded below for
+# temporal completeness but describe Mythical's activity, not any change in the
+# ownership of the GMM channel itself.
+
+channel:
+  # Verified via YouTube's OWN feed: fetching
+  # https://www.youtube.com/feeds/videos.xml?channel_id=UC4PooiX37Pld1T8J5SYT-SQ
+  # returns <title>Good Mythical Morning</title> with matching <yt:channelId>
+  # and <author><name>Good Mythical Morning</name>. The same UC id is the target
+  # of the canonical /channel/ URL (youtube.com/channel/UC4PooiX37Pld1T8J5SYT-SQ).
+  youtube_channel_id: UC4PooiX37Pld1T8J5SYT-SQ
+  display_name: Good Mythical Morning
+  handle: "@GoodMythicalMorning"
+
+entities:
+  - slug: mythical
+    canonical_name: Mythical Entertainment
+    entity_type: COMPANY
+    legal_name: Mythical Entertainment, LLC
+    jurisdiction: US-CA # privately held studio based in Burbank, California
+    website: https://mythical.com
+    aliases:
+      - Mythical
+      - Rhett & Link, Inc. # original 2009 entity name, renamed 2017
+  - slug: rhett
+    canonical_name: Rhett McLaughlin
+    entity_type: CREATOR
+    aliases:
+      - Rhett
+  - slug: link
+    canonical_name: Link Neal
+    entity_type: CREATOR
+    aliases:
+      - Link
+      - Charles Lincoln Neal III
+  - slug: smosh
+    canonical_name: Smosh
+    entity_type: COMPANY
+    # Declared only to record Mythical's 2019 acquisition / 2023 divestiture of
+    # Smosh. Not part of the GMM channel's own ownership chain.
+
+relationships:
+  # 0: Mythical Entertainment owns and produces the GMM channel. Recorded as OWNS
+  # with control_level CONTROLLING: the company is the operating/production entity
+  # for the channel and is itself owned by the channel's two hosts (rels 7-8),
+  # i.e. a creator-owned structure. No ownership percentage is publicly disclosed,
+  # so ownership_percentage is omitted.
+  - subject: mythical
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.85
+    status: ACTIVE
+  # 1: GMM launched as a daily show on 2012-01-09, co-created/hosted by Rhett
+  # McLaughlin. (See reviewer note re: the channel account's 2008 creation date.)
+  - subject: channel
+    type: FOUNDED_BY
+    object: rhett
+    effective_from: 2012-01-09
+    confidence: 0.8
+    status: ACTIVE
+  # 2: GMM co-created/hosted by Link Neal since the 2012-01-09 launch.
+  - subject: channel
+    type: FOUNDED_BY
+    object: link
+    effective_from: 2012-01-09
+    confidence: 0.8
+    status: ACTIVE
+  # 3: Rhett remains an on-camera host of the channel (ongoing; the channel's own
+  # YouTube feed shows current daily uploads, and Mythical's own about page lists
+  # Rhett & Link as the hosts).
+  - subject: channel
+    type: HOSTED_BY
+    object: rhett
+    confidence: 0.9
+    status: ACTIVE
+  # 4: Link remains an on-camera host of the channel (ongoing).
+  - subject: channel
+    type: HOSTED_BY
+    object: link
+    confidence: 0.9
+    status: ACTIVE
+  # 5: Rhett co-founded the parent company in 2009 (as "Rhett & Link, Inc.",
+  # renamed "Mythical Entertainment, LLC" in 2017).
+  - subject: mythical
+    type: FOUNDED_BY
+    object: rhett
+    effective_from: 2009-01-01
+    confidence: 0.85
+    status: ACTIVE
+  # 6: Link co-founded the parent company in 2009.
+  - subject: mythical
+    type: FOUNDED_BY
+    object: link
+    effective_from: 2009-01-01
+    confidence: 0.85
+    status: ACTIVE
+  # 7: Rhett is a co-owner of Mythical. Sources describe Mythical as owned by
+  # Rhett & Link and as "independent and self-financed"; no split is disclosed, so
+  # control_level is UNKNOWN and no percentage is asserted (co-ownership, not a
+  # documented individual controlling stake).
+  - subject: rhett
+    type: OWNS
+    object: mythical
+    control_level: UNKNOWN
+    confidence: 0.85
+    status: ACTIVE
+  # 8: Link is a co-owner of Mythical.
+  - subject: link
+    type: OWNS
+    object: mythical
+    control_level: UNKNOWN
+    confidence: 0.85
+    status: ACTIVE
+  # 9: Mythical acquired Smosh in Feb 2019. Recorded as OWNS, then ENDED, because
+  # in June 2023 Mythical sold majority ownership of Smosh back to its founders
+  # (see rel 10). This edge concerns Smosh, not the GMM channel.
+  - subject: mythical
+    type: OWNS
+    object: smosh
+    control_level: CONTROLLING
+    effective_from: 2019-02-22
+    effective_to: 2023-06-20
+    confidence: 0.85
+    status: ENDED
+  # 10: After June 2023, Mythical retains only a MINORITY stake in Smosh (Rhett &
+  # Link served as advisors); Smosh's founders Ian Hecox and Anthony Padilla hold
+  # the majority. Recorded as PARTIALLY_OWNS. No percentage disclosed.
+  - subject: mythical
+    type: PARTIALLY_OWNS
+    object: smosh
+    control_level: MINORITY
+    effective_from: 2023-06-20
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: mythical_about
+    url: https://mythical.com/pages/about-us
+    title: About Us — Mythical
+    publisher: Mythical Entertainment (official website)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Mythical is an Internet-first entertainment studio founded by Rhett &
+      Link. [...] Every Monday through Friday on Good Mythical Morning (GMM) and
+      its after-show Good Mythical More (GMMore), Rhett & Link eat truly
+      unbelievable things, explore surprising new products and trends, compete
+      in original games with celebrity guests, implement serious experiments in
+      hilarious ways, and more.
+    supports:
+      - relationship: 0
+      - relationship: 3
+      - relationship: 4
+      - relationship: 7
+      - relationship: 8
+  - ref: youtube_channel_feed
+    url: https://www.youtube.com/channel/UC4PooiX37Pld1T8J5SYT-SQ
+    title: Good Mythical Morning — YouTube channel
+    publisher: Good Mythical Morning (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UC4PooiX37Pld1T8J5SYT-SQ
+    excerpt: >-
+      YouTube's own feed for channel UC4PooiX37Pld1T8J5SYT-SQ carries
+      <title>Good Mythical Morning</title> and <author><name>Good Mythical
+      Morning</name>, confirming the canonical channel id and that Rhett & Link
+      host the channel's ongoing daily uploads.
+    supports:
+      - relationship: 3
+      - relationship: 4
+  - ref: wikipedia_rhett_link
+    url: https://en.wikipedia.org/wiki/Rhett_%26_Link
+    title: Rhett & Link
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Rhett & Link established "Rhett & Link, Inc." in 2009, which was rebranded
+      as "Mythical Entertainment, LLC" in 2017; the company is independently
+      financed. Good Mythical Morning launched January 9, 2012. In February 2019
+      Mythical acquired Smosh; in June 2023 the co-founders repurchased majority
+      ownership, with Mythical retaining a minority stake.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+      - relationship: 8
+      - relationship: 9
+      - relationship: 10
+  - ref: tubefilter_smosh_2019
+    url: https://www.tubefilter.com/2019/02/22/smosh-acquired-by-rhett-and-link/
+    title: "It's Official: Smosh Has Been Acquired By Rhett & Link's Mythical Entertainment"
+    publisher: Tubefilter
+    published_at: 2019-02-22
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Smosh has been purchased by Mythical Entertainment, which is owned [by]
+      Rhett McLaughlin and Link Neal [...] run by the hosts of the popular
+      YouTube show Good Mythical Morning.
+    supports:
+      - relationship: 7
+      - relationship: 8
+      - relationship: 9
+  - ref: tubefilter_smosh_2023
+    url: https://www.tubefilter.com/2023/06/20/anthony-padilla-ian-hecox-buy-smosh/
+    title: Anthony Padilla and Ian Hecox just bought Smosh
+    publisher: Tubefilter
+    published_at: 2023-06-20
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Padilla and Hecox are buying majority ownership of Smosh from Rhett &
+      Link's Mythical. [...] Mythical will retain a minority stake with Rhett &
+      Link serving as advisors.
+    supports:
+      - relationship: 9
+      - relationship: 10
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted: not yet reviewed (schema treats reviewed_by
+  # as optional; it is left unset rather than null).
+  notes: >-
+    DRAFT for human review — "creator-owned company" case. No outside/private-
+    equity ownership of the GMM channel or of Mythical Entertainment was found
+    in any source; the channel is owned/produced by Mythical, which is in turn
+    owned by its two hosts.
+
+    CHANNEL ID: UC4PooiX37Pld1T8J5SYT-SQ. Verified against YouTube's OWN RSS
+    feed (youtube.com/feeds/videos.xml?channel_id=UC4PooiX37Pld1T8J5SYT-SQ),
+    whose <title> and <author><name> both read "Good Mythical Morning"; this is
+    also the target of the canonical /channel/ URL. (The @GoodMythicalMorning
+    handle page's rendered HTML did not expose ytInitialData through the fetch
+    tool, so the feed was used as the authoritative cross-check instead.)
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) FOUNDING DATE OF THE CHANNEL (rels 1-2): recorded as 2012-01-09, the
+    documented launch of the Good Mythical Morning show. NOTE a discrepancy a
+    reviewer should resolve: third-party analytics report the underlying YouTube
+    channel *account* as created 2008-09-17 (predating GMM; the account appears
+    to have hosted Rhett & Link's earlier output before GMM began). effective_from
+    is set to the show launch (2012-01-09), which is the better-documented and
+    more meaningful date, but the 2008 account-creation date is flagged here.
+    (2) COMPANY FOUNDING (rels 5-6): 2009 as "Rhett & Link, Inc.", renamed to
+    "Mythical Entertainment, LLC" in 2017 (recorded as an alias on the entity).
+    effective_from set to 2009-01-01 (year only documented; exact day not found).
+    A reviewer may wish to model the 2017 rename as a distinct entity/edge if the
+    schema prefers that over an alias.
+    (3) OWNERSHIP SPLIT (rels 7-8): sources say Mythical is owned by Rhett & Link
+    and is "independent and self-financed," but NO source discloses the split
+    between the two, so control_level is UNKNOWN and no ownership_percentage is
+    asserted for either founder. rel 0 (Mythical OWNS channel) is marked
+    CONTROLLING to reflect that Mythical is the sole operating/production owner
+    of the channel; percentage likewise omitted.
+    (4) SMOSH EDGES (rels 9-10) are included per the task's request to capture
+    acquisitions/divestitures with dates, but they describe MYTHICAL's corporate
+    activity, not the GMM channel's ownership. rel 9 (2019-02-22 acquisition,
+    control CONTROLLING) is set to status ENDED with effective_to 2023-06-20;
+    rel 10 records the post-June-2023 MINORITY stake Mythical retained after
+    selling majority ownership back to Smosh founders Ian Hecox and Anthony
+    Padilla. Smosh's own founders are NOT modeled as entities here (out of scope
+    for a GMM record). Note: no PE-implying label is asserted anywhere in this
+    record, so the §14.3 PE-label evidence rule is not triggered.
+    (5) A Jan 2026 Variety feature ("Inside the Company Behind 'Good Mythical
+    Morning'") likely corroborates the independent/self-financed characterization
+    and may add detail on any Mythical Ventures creator-investment activity; it
+    could not be fetched (host redirects to a paywall/tollbit gateway) and is
+    therefore a LEAD for a follow-up researcher, not cited here. Reporting also
+    references a "Mythical Ventures" fund through which Rhett & Link invest in /
+    mentor other creators — that is Mythical acting as an investor in OTHERS, not
+    outside money coming into Mythical, and is left out of this record pending
+    primary-source detail.
+  last_reviewed_at: 2026-07-23
