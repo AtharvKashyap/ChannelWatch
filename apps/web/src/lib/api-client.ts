@@ -1,8 +1,14 @@
 import {
+  ChannelEvidenceResponse,
   ChannelLookupPayload,
+  ChannelSearchResponse,
+  ChannelTimelineResponse,
   CorrectionSubmission,
   ResearchLeadSubmission,
+  type ChannelEvidenceResponse as ChannelEvidenceResponseType,
   type ChannelLookupPayload as ChannelLookupPayloadType,
+  type ChannelSearchResponse as ChannelSearchResponseType,
+  type ChannelTimelineResponse as ChannelTimelineResponseType,
   type CorrectionSubmission as CorrectionSubmissionType,
   type ResearchLeadSubmission as ResearchLeadSubmissionType,
 } from "@channelwatch/schemas";
@@ -62,6 +68,72 @@ export async function fetchChannelLookup(
     if (!parsed.success) {
       return { ok: false, message: "API response failed schema validation" };
     }
+    return { ok: true, data: parsed.data };
+  } catch (err) {
+    return { ok: false, message: err instanceof Error ? err.message : "Unknown network error" };
+  }
+}
+
+/**
+ * `GET /api/v1/channels/search?q=…`. Returns matching channels (immutable
+ * YouTube channel IDs + cached label). Validated against `ChannelSearchResponse`.
+ */
+export async function fetchChannelSearch(
+  query: string,
+  baseUrl: string = apiBaseUrl(),
+): Promise<ApiResult<ChannelSearchResponseType>> {
+  try {
+    const url = `${baseUrl}/api/v1/channels/search?q=${encodeURIComponent(query)}`;
+    const response = await timedFetch(url, { method: "GET" });
+    if (!response.ok) {
+      return { ok: false, message: `API responded with status ${response.status}` };
+    }
+    const parsed = ChannelSearchResponse.safeParse(await response.json());
+    if (!parsed.success) return { ok: false, message: "API response failed schema validation" };
+    return { ok: true, data: parsed.data };
+  } catch (err) {
+    return { ok: false, message: err instanceof Error ? err.message : "Unknown network error" };
+  }
+}
+
+/**
+ * `GET /api/v1/channels/:id/evidence` (id = internal channel UUID, surfaced as
+ * `channel_id` on the researched lookup). Returns itemized evidence sources.
+ */
+export async function fetchChannelEvidence(
+  channelId: string,
+  baseUrl: string = apiBaseUrl(),
+): Promise<ApiResult<ChannelEvidenceResponseType>> {
+  try {
+    const url = `${baseUrl}/api/v1/channels/${encodeURIComponent(channelId)}/evidence`;
+    const response = await timedFetch(url, { method: "GET" });
+    if (!response.ok) {
+      return { ok: false, message: `API responded with status ${response.status}` };
+    }
+    const parsed = ChannelEvidenceResponse.safeParse(await response.json());
+    if (!parsed.success) return { ok: false, message: "API response failed schema validation" };
+    return { ok: true, data: parsed.data };
+  } catch (err) {
+    return { ok: false, message: err instanceof Error ? err.message : "Unknown network error" };
+  }
+}
+
+/**
+ * `GET /api/v1/channels/:id/timeline` (id = internal channel UUID). Returns the
+ * channel's dated ownership events (relationships + claims), oldest-first.
+ */
+export async function fetchChannelTimeline(
+  channelId: string,
+  baseUrl: string = apiBaseUrl(),
+): Promise<ApiResult<ChannelTimelineResponseType>> {
+  try {
+    const url = `${baseUrl}/api/v1/channels/${encodeURIComponent(channelId)}/timeline`;
+    const response = await timedFetch(url, { method: "GET" });
+    if (!response.ok) {
+      return { ok: false, message: `API responded with status ${response.status}` };
+    }
+    const parsed = ChannelTimelineResponse.safeParse(await response.json());
+    if (!parsed.success) return { ok: false, message: "API response failed schema validation" };
     return { ok: true, data: parsed.data };
   } catch (err) {
     return { ok: false, message: err instanceof Error ? err.message : "Unknown network error" };
