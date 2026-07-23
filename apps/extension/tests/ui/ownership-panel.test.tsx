@@ -162,6 +162,88 @@ describe("OwnershipPanel — display", () => {
     expect(container.querySelectorAll("ol.cw-chain li")).toHaveLength(3);
   });
 
+  it("renders the ownership-over-time section newest-first, marking current vs previous with dates or a not-disclosed fallback", () => {
+    mount(
+      <OwnershipPanel
+        payload={researchedFixture({
+          ownership_history: [
+            {
+              name: "Candle Media",
+              type: "COMPANY",
+              relationship: "OWNS",
+              control_level: "CONTROLLING",
+              ownership_percentage: 75,
+              effective_from: "2021-11-04",
+              effective_to: null,
+              is_current: true,
+            },
+            {
+              name: "Mythical Entertainment",
+              type: "COMPANY",
+              relationship: "FORMERLY_OWNED_BY",
+              control_level: "CONTROLLING",
+              ownership_percentage: null,
+              effective_from: "2019-02-22",
+              effective_to: "2021-11-04",
+              is_current: false,
+            },
+            {
+              name: "Defy Media",
+              type: "COMPANY",
+              relationship: "FORMERLY_OWNED_BY",
+              control_level: "CONTROLLING",
+              ownership_percentage: null,
+              effective_from: null,
+              effective_to: null,
+              is_current: false,
+            },
+          ],
+        })}
+        onClose={() => {}}
+        onSubmitCorrection={noopSubmit}
+      />,
+    );
+    const text = container.textContent ?? "";
+    expect(text).toContain(CHAIN_COPY.historyHeading);
+    // one <li> per period
+    const items = container.querySelectorAll("ol.cw-history li");
+    expect(items).toHaveLength(3);
+    // full names present
+    expect(text).toContain("Candle Media");
+    expect(text).toContain("Mythical Entertainment");
+    expect(text).toContain("Defy Media");
+    // current period marked; prior periods marked "previously"
+    expect(text).toContain(CHAIN_COPY.currentLabel);
+    expect(text).toContain(CHAIN_COPY.previouslyPrefix);
+    // documented dates shown; undocumented shown as the not-disclosed fallback
+    expect(text).toContain("2021-11-04");
+    expect(text).toContain("2019-02-22");
+    expect(text).toContain(CHAIN_COPY.dateUndisclosed);
+  });
+
+  it("omits the ownership-over-time section when history is empty or absent", () => {
+    mount(
+      <OwnershipPanel
+        payload={researchedFixture({ ownership_history: [] })}
+        onClose={() => {}}
+        onSubmitCorrection={noopSubmit}
+      />,
+    );
+    expect(container.querySelector("ol.cw-history")).toBeNull();
+    expect(container.textContent ?? "").not.toContain(CHAIN_COPY.historyHeading);
+    unmount();
+
+    mount(
+      <OwnershipPanel
+        payload={researchedFixture({ ownership_history: undefined })}
+        onClose={() => {}}
+        onSubmitCorrection={noopSubmit}
+      />,
+    );
+    expect(container.querySelector("ol.cw-history")).toBeNull();
+    expect(container.textContent ?? "").not.toContain(CHAIN_COPY.historyHeading);
+  });
+
   it("omits the chain section when no ownership_chain is present", () => {
     mount(
       <OwnershipPanel
