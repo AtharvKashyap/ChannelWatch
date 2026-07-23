@@ -204,6 +204,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   notes: >
     DRAFT for human review; reviewed_by intentionally unset (null / pending
     review). Judgment calls: (1) Corporate entity — reputable press refers only
@@ -222,4 +223,4 @@ review:
     shutdown, Nov 2018). Mythical acquisition dated 2019-02-22 (announcement).
     All backing sources are Tier 1–2; no Tier 4 used. Deal terms (price) for the
     2023 buyback were not disclosed publicly.
-  last_reviewed_at: 2026-07-22
+  last_reviewed_at: 2026-07-23

@@ -154,6 +154,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   # reviewed_by omitted: not yet reviewed (schema field is optional, not nullable).
   notes: >-
     DRAFT for human review — "creator-founded with external investment" case.
@@ -208,4 +209,4 @@ review:
     twelve years" framing from Muller); no dedicated founding-date source
     with an exact ISO date was located, so no effective_from date is set for
     this relationship.
-  last_reviewed_at: 2026-07-22
+  last_reviewed_at: 2026-07-23

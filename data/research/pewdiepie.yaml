@@ -1,0 +1,308 @@
+# CHANNELWATCH research record — PewDiePie (Felix Kjellberg)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: independent, creator-owned channel with a DOCUMENTED PAST NETWORK
+# (MCN) RELATIONSHIP — NOT a past ownership change. Felix Kjellberg registered
+# the channel himself (29 April 2010) and has never sold it. From December 2012
+# the channel was REPRESENTED by the multi-channel network Maker Studios (an MCN,
+# acquired by The Walt Disney Company in 2014); that network affiliation ENDED on
+# 13 February 2017 when Maker Studios publicly cut ties. Kjellberg also led
+# Revelmode, a short-lived Maker sub-network (2016 – early 2017). CRITICAL
+# DISTINCTION encoded here: an MCN represents/distributes a creator's channel; it
+# does NOT own it. These network edges are therefore REPRESENTS / SUBSIDIARY_OF /
+# MANAGES — never OWNS / FORMERLY_OWNED_BY. Because ownership never changed, this
+# is a creator-owned channel with historical network context, NOT an
+# ownership-transition (OWNERSHIP_CHANGED) case.
+
+channel:
+  # Extracted from the canonical externalId embedded in the raw HTML of
+  # https://www.youtube.com/@pewdiepie (curl fetch, no JS execution): the page's
+  # ytInitialData lists externalId "UC-lHJZR3Gqxm24_Vd_AJ5Yw", and the page's own
+  # <link rel="canonical"> is
+  # https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw — confirming this UC
+  # id is the page's own channel (distinct from the unrelated @PewDiePieHighlights
+  # canonicalBaseUrl also present in the page source). The embedded keywords
+  # ("pewdiepie pewds gaming 'felix arvid ulf' felix kjellberg") corroborate the
+  # match.
+  youtube_channel_id: UC-lHJZR3Gqxm24_Vd_AJ5Yw
+  display_name: PewDiePie
+  handle: "@pewdiepie"
+
+entities:
+  - slug: kjellberg
+    canonical_name: Felix Kjellberg
+    entity_type: CREATOR
+    legal_name: Felix Arvid Ulf Kjellberg
+    aliases:
+      - PewDiePie
+      - PewDie
+
+  - slug: maker
+    canonical_name: Maker Studios
+    entity_type: MEDIA_NETWORK
+    legal_name: Maker Studios, Inc.
+    jurisdiction: US-CA
+    aliases:
+      - Maker
+      - Disney Digital Network # Maker's remnants were rebranded/folded into this
+
+  - slug: disney
+    canonical_name: The Walt Disney Company
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://thewaltdisneycompany.com
+    aliases:
+      - Disney
+      - Walt Disney Company
+
+  - slug: revelmode
+    canonical_name: Revelmode
+    entity_type: MEDIA_NETWORK
+    aliases:
+      - RevelMode
+
+relationships:
+  # 0: Channel founded/registered by Felix Kjellberg on 2010-04-29 (Wikipedia).
+  # This pre-dates every network relationship below by over two years.
+  - subject: channel
+    type: FOUNDED_BY
+    object: kjellberg
+    effective_from: 2010-04-29
+    confidence: 0.9
+    status: ACTIVE
+
+  # 1: Felix Kjellberg owns the channel. This is the current, ACTIVE ownership
+  # edge and the one the classifier reads. No source documents any sale or
+  # transfer of the channel itself: the Maker Studios / Disney relationship was
+  # multi-channel-NETWORK representation (rel 3), not an acquisition of the
+  # channel. control_level CONTROLLING (sole individual creator-owner). confidence
+  # is moderate because the "ownership" is established by his founding of the
+  # channel and the documented ABSENCE of any ownership transfer, rather than by a
+  # direct Tier-1 ownership disclosure. Flagged for reviewer.
+  - subject: kjellberg
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2010-04-29
+    confidence: 0.65
+    status: ACTIVE
+
+  # 2: Kjellberg is the creator/host of the channel (he IS PewDiePie). Distinct
+  # from the ownership edge above.
+  - subject: channel
+    type: HOSTED_BY
+    object: kjellberg
+    confidence: 0.95
+    status: ACTIVE
+
+  # 3: FORMER NETWORK REPRESENTATION — NOT OWNERSHIP. Maker Studios, a
+  # multi-channel network (MCN), represented the PewDiePie channel from December
+  # 2012 until Maker publicly ended the affiliation on 2017-02-13. Recorded as
+  # REPRESENTS with status ENDED and effective_to set (per the template's
+  # transition convention). effective_from is OMITTED: the start is documented
+  # only to the month ("December" 2012, Wikipedia), with no ISO day — asserting a
+  # day would be false precision. control_level is deliberately left UNSET: an MCN
+  # represents/distributes a creator's channel and does not, by itself, hold
+  # ownership or control of it. This edge is NOT a channel-owning type and does
+  # NOT affect the ownership classification.
+  - subject: maker
+    type: REPRESENTS
+    object: channel
+    effective_to: 2017-02-13
+    confidence: 0.85
+    status: ENDED
+
+  # 4: The Walt Disney Company acquired Maker Studios. Announced/agreed
+  # 2014-03-24 ($500M plus a performance earn-out of up to $450M; closing expected
+  # in Disney's Q3 FY2014). This is a company-to-company acquisition that made
+  # Maker a Disney entity — it is CONTEXT for the network relationship (rel 3),
+  # NOT an acquisition of the PewDiePie channel. Kept ACTIVE (the acquisition was
+  # never reversed); note that Maker itself was later wound down and its remnants
+  # folded into Disney Digital Network (~2017–2018) — see review notes.
+  - subject: disney
+    type: ACQUIRED
+    object: maker
+    control_level: CONTROLLING
+    effective_from: 2014-03-24
+    confidence: 0.9
+    status: ACTIVE
+
+  # 5: Revelmode was a Maker Studios sub-network / "imprint" (TechCrunch), launched
+  # January 2016 and disbanded around February 2017 when Disney/Maker cut ties.
+  # SUBSIDIARY_OF Maker. effective_to omitted: reporting places the disbanding in
+  # February 2017 without a firm ISO day (see notes). Historical network context.
+  - subject: revelmode
+    type: SUBSIDIARY_OF
+    object: maker
+    effective_from: 2016-01-14
+    confidence: 0.8
+    status: ENDED
+
+  # 6: Kjellberg led Revelmode — "an imprint of Maker Studios with Felix Kjellberg
+  # aka PewDiePie in charge" (TechCrunch). Recorded as MANAGES / MANAGEMENT (an
+  # operational leadership role over the sub-network), NOT ownership. ENDED with
+  # the sub-network's dissolution.
+  - subject: kjellberg
+    type: MANAGES
+    object: revelmode
+    control_level: MANAGEMENT
+    effective_from: 2016-01-14
+    confidence: 0.75
+    status: ENDED
+
+sources:
+  - ref: disney_press_release
+    url: https://thewaltdisneycompany.com/the-walt-disney-company-to-acquire-maker-studios-the-leading-network-of-online-video-content/
+    title: The Walt Disney Company to Acquire Maker Studios, the Leading Network of Online Video Content
+    publisher: The Walt Disney Company
+    published_at: 2014-03-24
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >-
+      "Furthering its goal of bringing content to consumers on all the platforms
+      they prefer, The Walt Disney Company (NYSE:DIS) has agreed to acquire Maker
+      Studios, the leading network of online video content on YouTube." "Maker
+      Studios shareholders will receive total consideration of $500 million, and a
+      performance-linked earn-out of up to $450 million if the strong performance
+      targets are met."
+    supports:
+      - relationship: 4
+
+  - ref: wikipedia_pewdiepie
+    url: https://en.wikipedia.org/wiki/PewDiePie
+    title: PewDiePie
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "Felix Arvid Ulf Kjellberg [...] he registered the 'PewDiePie' YouTube
+      channel on 29 April 2010." "Kjellberg signed with Maker Studios in
+      December" 2012, described as "a multi-channel network (MCN) that drives the
+      growth of the channels under it." "In January 2016, Kjellberg announced a
+      partnership with Maker Studios to produce Revelmode, a sub-network of
+      Maker." Following the 2017 controversy "the event led Maker Studios to cut
+      their ties with Kjellberg."
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+
+  - ref: forbes_disney_cuts_ties
+    url: https://www.forbes.com/sites/maddieberg/2017/02/13/disney-cuts-ties-with-pewdiepie-after-anti-semetic-posts/
+    title: Disney Cuts Ties With PewDiePie After Anti-Semitic Posts
+    publisher: Forbes
+    published_at: 2017-02-13
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Maker Studios statement: "Although Felix has created a following by being
+      provocative and irreverent, he clearly went too far in this case and the
+      resulting videos are inappropriate. Maker Studios has made the decision to
+      end our affiliation with him going forward." The article confirms Disney
+      owns Maker Studios (bought for $675 million).
+    supports:
+      - relationship: 3
+
+  - ref: techcrunch_revelmode
+    url: https://techcrunch.com/2016/01/14/pewdiepie-now-has-his-own-youtube-network-within-maker-studios/
+    title: PewDiePie Now Has His Own YouTube Network Within Maker Studios
+    publisher: TechCrunch
+    published_at: 2016-01-14
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "Revelmode is an imprint of Maker Studios with Felix Kjellberg aka PewDiePie
+      in charge." The piece describes Revelmode as PewDiePie's own YouTube network
+      launching within Maker Studios (a Disney subsidiary), with PewDiePie having
+      been part of Maker Studios at the time of the announcement.
+    supports:
+      - relationship: 5
+      - relationship: 6
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally UNSET: this is an unreviewed DRAFT. The schema
+  # treats reviewed_by as an optional non-empty string (null is not valid), so
+  # the field is omitted rather than set.
+  notes: >-
+    DRAFT for human review — "independent creator-owned channel with a documented
+    PAST MCN/NETWORK relationship (not a past ownership change)" case.
+
+    CHANNEL ID: UC-lHJZR3Gqxm24_Vd_AJ5Yw, extracted from the externalId field in
+    ytInitialData in the raw HTML of https://www.youtube.com/@pewdiepie (curl
+    fetch, no JS execution). Corroborated by the page's own
+    <link rel="canonical" href="https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw">
+    and the embedded keywords naming "felix arvid ulf / felix kjellberg". Distinct
+    from the unrelated @PewDiePieHighlights canonicalBaseUrl also present in the
+    page source.
+
+    CORE MODELING DECISION — MCN/NETWORK REPRESENTATION IS NOT OWNERSHIP.
+    Maker Studios (and, through its 2014 acquisition, Disney) was a multi-channel
+    network that REPRESENTED the PewDiePie channel; no source documents any sale,
+    equity stake, or transfer of the channel itself. The relationship is therefore
+    encoded as REPRESENTS (rel 3, status ENDED, effective_to 2017-02-13) — NOT as
+    OWNS or FORMERLY_OWNED_BY. Consequently there is NO ownership transition here:
+    Kjellberg's OWNS edge (rel 1) is continuous from the 2010 founding, and no
+    ENDED ownership edge / prior-owner period is recorded. Contrast with e.g.
+    smosh.yaml, where the network (Defy/Mythical) actually OWNED the channel and
+    FORMERLY_OWNED_BY edges are appropriate — that is NOT the situation here.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) OWNERSHIP EDGE (rel 1, kjellberg OWNS channel) is the weakest-supported
+    edge and the reviewer's primary focus. It rests on Kjellberg having founded
+    the channel (rel 0) plus the DOCUMENTED ABSENCE of any ownership transfer —
+    not on a direct Tier-1 ownership disclosure. control_level CONTROLLING;
+    confidence deliberately moderate (0.65); no ownership percentage asserted. A
+    reviewer may wish to confirm the current operating entity behind the channel
+    (Kjellberg has referenced business entities in Japan/UK over time; none is
+    documented here to a Tier 1/2 standard, so none is asserted).
+    (2) NETWORK START DATE. Maker representation began "December" 2012 (Wikipedia,
+    month only). No ISO day is documented, so rel 3's effective_from is OMITTED
+    rather than guessed; only the well-documented END date (2017-02-13, the day
+    Maker announced ending the affiliation, per Forbes) is recorded as
+    effective_to.
+    (3) DISNEY→MAKER (rel 4): effective_from 2014-03-24 is the ANNOUNCEMENT /
+    agreement date from Disney's own press release; the deal was expected to close
+    in Disney's Q3 FY2014 (operative close date not separately pinned here). Kept
+    status ACTIVE because the acquisition was never reversed; however Maker
+    Studios as an operation was wound down and its remnants folded into "Disney
+    Digital Network" (~2017–2018) — captured only as an alias, not as a further
+    dated edge, for lack of a precise Tier 1/2 date. Reviewer may add a
+    dissolution edge if desired.
+    (4) REVELMODE (rels 5–6) is included as documented network CONTEXT, not as an
+    owner of the channel. Its disbanding is reported around February 2017 (when
+    Disney/Maker cut ties) without a firm ISO day, so effective_to is omitted on
+    both edges while status is ENDED (same precedent as smosh.yaml rel 6). Kjellberg's
+    role is MANAGES/MANAGEMENT ("in charge"), not ownership.
+    (5) ENTITY TYPES. Maker Studios and Revelmode are typed MEDIA_NETWORK (MCN /
+    sub-network). Disney is COMPANY (jurisdiction US-DE, NYSE:DIS). These
+    entities may be shared with future records (e.g. other former Maker creators);
+    keep canonical_name/legal_name/jurisdiction consistent if so.
+    (6) NEUTRAL FRAMING. Per docs/legal-risk.md, this record describes ownership
+    and network structure only and makes NO claim of editorial interference or
+    wrongdoing. The 2017 controversy is the DOCUMENTED REASON the network
+    affiliation ended and is quoted only as such (from the parties' own
+    statements); no conclusion about editorial control is drawn.
+
+    ALTERNATIVE ENCODING CONSIDERED: rel 3 could also be modeled as DISTRIBUTED_BY
+    (MCNs handle distribution/ad-sales for their creators). REPRESENTS was chosen
+    as the most accurate description of an MCN–creator relationship; a reviewer may
+    prefer DISTRIBUTED_BY or AD_SALES_BY. Either way it is not an ownership type.
+
+    PROPOSED CLASSIFICATION (computed by importer, not asserted here): expected
+    CREATOR_OWNED (GREEN) — the only ACTIVE channel-owning edge is Kjellberg (a
+    CREATOR) OWNS channel / CONTROLLING. All network edges are either ENDED
+    (rels 3, 5, 6) or are not channel-owning types (rel 4 is a company-to-company
+    ACQUIRED edge), so none feeds the ownership label. No OWNERSHIP_CHANGED_RECENTLY
+    warning expected (no ownership edge changed; the ENDED network edges are from
+    2017, well outside the 12-month window as of the 2026 evaluation date).
+    Confidence moderate, gated by the Tier-2-only, inference-based OWNS edge.
+
+    All backing sources are Tier 1 (Disney's own acquisition announcement) and
+    Tier 2 (Wikipedia, Forbes, TechCrunch). No Tier 3/4 source is used.
+  last_reviewed_at: 2026-07-23

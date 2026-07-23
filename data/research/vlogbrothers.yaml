@@ -166,6 +166,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   # reviewed_by intentionally omitted: not yet reviewed (schema treats reviewed_by
   # as optional-string; null is not a valid value, so the field is left unset).
   notes: >
@@ -196,4 +197,4 @@ review:
     note instead, depending on how the schema intends entity_type to be used
     over time. No relationship or claim in this record implies PE backing or
     corporate acquisition; none was found.
-  last_reviewed_at: 2026-07-22
+  last_reviewed_at: 2026-07-23

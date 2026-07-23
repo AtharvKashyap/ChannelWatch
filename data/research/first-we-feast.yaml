@@ -1,0 +1,451 @@
+# CHANNELWATCH research record — First We Feast (home of Hot Ones)
+#
+# DRAFT FOR HUMAN REVIEW — nothing here is published without human verification
+# (Spec §12.7). This is a TEMPORAL / ownership-succession case: the channel has
+# passed through a documented chain of owners, each recorded as a dated edge so
+# the full "Ownership over time" history is reconstructable. Classification is
+# COMPUTED by the importer from ACTIVE edges only; the ENDED edges are history.
+#
+#   channel (First We Feast)
+#     ├─ OWNS (ENDED 2021-12-03) ── Complex Networks  [created/operated the brand]
+#     │      ├─ PARTIALLY_OWNS (ENDED 2021-12-03, 50%) ── Verizon Communications
+#     │      └─ PARTIALLY_OWNS (ENDED 2021-12-03, 50%) ── Hearst Communications
+#     ├─ OWNS (ENDED 2024-12-11) ── BuzzFeed, Inc.  [acq. Complex Networks 2021]
+#     └─ OWNS (ACTIVE, from 2024-12-11) ── FEAST OPCO LLC  [$82.5M all-cash deal]
+#            └─ INVESTED_IN (ACTIVE) ── Soros Fund Management LLC  [lead/affiliate]
+#            └─ INVESTED_IN (ACTIVE) ── Sean Evans  [investor + chief creative officer]
+#     └─ HOSTED_BY (ACTIVE) ── Sean Evans  [host of "Hot Ones"; distinct from equity]
+#
+# Succession dates (OPERATIVE handover dates, not announcement dates):
+#   ~2012 (brand founded)  Complex Media/Networks creates & operates First We Feast
+#   2021-12-03             BuzzFeed closes acquisition of Complex Networks (from Verizon/Hearst)
+#   2024-12-11             BuzzFeed sells the First We Feast business to FEAST OPCO LLC
+
+channel:
+  # Extracted from the "externalId" field in the raw HTML of
+  # https://www.youtube.com/@FirstWeFeast (curl fetch, no JS, 2026-07-23). The
+  # canonical /channel/UC... URL in the same page source resolves to the
+  # identical id.
+  youtube_channel_id: UCPD_bxCRGpmmeQcbe2kpPaA
+  display_name: First We Feast
+  handle: "@FirstWeFeast"
+
+entities:
+  - slug: complex_networks
+    # The media network that created and operated the First We Feast brand.
+    # Began ~2012 as a food-culture offshoot of Complex Media; the "Complex
+    # Networks" name dates from the 2016 Verizon/Hearst reorganization.
+    canonical_name: Complex Networks
+    entity_type: MEDIA_NETWORK
+    legal_name: Complex Media, Inc.
+    jurisdiction: US
+    aliases:
+      - Complex Media
+      - Complex
+  - slug: verizon
+    canonical_name: Verizon Communications Inc.
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    aliases:
+      - Verizon
+  - slug: hearst
+    canonical_name: Hearst Communications, Inc.
+    entity_type: COMPANY
+    aliases:
+      - Hearst
+  - slug: buzzfeed
+    canonical_name: BuzzFeed, Inc.
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://www.buzzfeed.com
+    aliases:
+      - BuzzFeed
+      # The specific wholly-owned subsidiary that held the First We Feast
+      # business and was the SELLER in the 2024 transaction (per the SEC 8-K).
+      - BuzzFeed Media Enterprises, Inc.
+  - slug: feast_opco
+    # The buyer of record in the 2024 asset purchase. First We Feast now operates
+    # as an independent company under this entity. Framed by BuzzFeed's own
+    # announcement as "an affiliate of Soros Fund Management."
+    canonical_name: FEAST OPCO LLC
+    entity_type: COMPANY
+    aliases:
+      - First We Feast (independent company, 2024-present)
+  - slug: soros_fund
+    # George Soros's investment-management firm. Classified INVESTMENT_FIRM (not
+    # PRIVATE_EQUITY_FIRM) — sources describe it as an investment manager / the
+    # affiliate leading the buyer consortium, not a PE fund. See review.notes.
+    canonical_name: Soros Fund Management LLC
+    entity_type: INVESTMENT_FIRM
+    jurisdiction: US
+    website: https://www.soros.com
+    aliases:
+      - Soros Fund Management
+  - slug: sean_evans
+    canonical_name: Sean Evans
+    entity_type: PERSON
+    aliases:
+      - Sean Evans
+
+relationships:
+  # 0: Complex Networks created and owned the First We Feast channel from the
+  # brand's ~2012 founding until BuzzFeed's 2021 acquisition closed. effective_from
+  # omitted — the channel's exact creation date was not pinned to a Tier 1/2 source
+  # in this pass (the brand is widely dated to 2012; see notes). ENDED on the
+  # operative handover date (BuzzFeed acquisition close, 2021-12-03).
+  - subject: complex_networks
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_to: 2021-12-03
+    confidence: 0.8
+    status: ENDED
+  # 1: BuzzFeed, Inc. owned the First We Feast business from the close of its
+  # Complex Networks acquisition (2021-12-03) until it sold the business
+  # (2024-12-11). The specific holding subsidiary was BuzzFeed Media Enterprises,
+  # Inc. (the named seller in the 8-K).
+  - subject: buzzfeed
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2021-12-03
+    effective_to: 2024-12-11
+    confidence: 0.9
+    status: ENDED
+  # 2: CURRENT owner. FEAST OPCO LLC acquired the First We Feast business in an
+  # $82.5M all-cash asset purchase that closed 2024-12-11 (operative date = the
+  # closing date per the SEC 8-K, NOT the 2024-12-12 announcement date). Asset
+  # acquisition of the business/brand, so control_level CONTROLLING; no ownership
+  # percentage is stated (asset deal, not an equity-percentage purchase).
+  - subject: feast_opco
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2024-12-11
+    confidence: 0.95
+    status: ACTIVE
+  # 3: Verizon's 50% of the Complex Networks joint venture (Verizon Hearst Media
+  # Partners), 2016 until the JV sold Complex Networks to BuzzFeed (2021-12-03).
+  # 50/50 JV with joint control -> PARTIALLY_OWNS at CONTROLLING with 50%.
+  # effective_from omitted: the 2016 JV acquisition of Complex was announced
+  # 2016-04-18 but the operative close date was not pinned to a T1/T2 source.
+  - subject: verizon
+    type: PARTIALLY_OWNS
+    object: complex_networks
+    control_level: CONTROLLING
+    ownership_percentage: 50
+    effective_to: 2021-12-03
+    confidence: 0.75
+    status: ENDED
+  # 4: Hearst's 50% of the same Complex Networks joint venture. Same dates/caveats.
+  - subject: hearst
+    type: PARTIALLY_OWNS
+    object: complex_networks
+    control_level: CONTROLLING
+    ownership_percentage: 50
+    effective_to: 2021-12-03
+    confidence: 0.75
+    status: ENDED
+  # 5: Soros Fund Management's investment in the buyer entity. BuzzFeed's official
+  # announcement frames the sale as to "an affiliate of Soros Fund Management" and
+  # reporting describes a consortium led by that affiliate. No ownership percentage
+  # or controlling-stake figure is disclosed -> control_level UNKNOWN.
+  - subject: soros_fund
+    type: INVESTED_IN
+    object: feast_opco
+    control_level: UNKNOWN
+    effective_from: 2024-12-11
+    confidence: 0.75
+    status: ACTIVE
+  # 6: Sean Evans is part of the investor group and became First We Feast's chief
+  # creative officer. His equity is NOT disclosed as a specific percentage or as a
+  # controlling stake -> control_level UNKNOWN. This edge is his OWNERSHIP/investor
+  # role, kept DISTINCT from his hosting role (edge 7).
+  - subject: sean_evans
+    type: INVESTED_IN
+    object: feast_opco
+    control_level: UNKNOWN
+    effective_from: 2024-12-11
+    confidence: 0.7
+    status: ACTIVE
+  # 7: Sean Evans hosts "Hot Ones" on the channel. HOSTED_BY carries NO ownership
+  # or control implication (Spec §4/§40.2: creative role is distinct from
+  # financial ownership). Recorded separately from his investor stake (edge 6).
+  - subject: channel
+    type: HOSTED_BY
+    object: sean_evans
+    control_level: UNKNOWN
+    confidence: 0.95
+    status: ACTIVE
+
+sources:
+  - ref: verizon_hearst_complex_2016
+    url: https://www.prnewswire.com/news-releases/verizon-and-hearst-enter-into-agreement-to-acquire-complex-to-expand-joint-portfolio-of-millennial-digital-video-channels-300253311.html
+    title: Verizon and Hearst Enter Into Agreement to Acquire Complex to Expand Joint Portfolio of Millennial Digital Video Channels
+    publisher: Verizon / Hearst (via PR Newswire)
+    published_at: 2016-04-18
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >-
+      The decision to acquire Complex is certainly a continuation of our media
+      strategy, which is focused on disruption that is occurring in digital
+      media and content distribution. [...] Complex will turn up the volume on
+      our growing portfolio with Verizon, complementing the audiences targeted
+      with our other channel investments.
+    supports:
+      - relationship: 3
+      - relationship: 4
+  - ref: buzzfeed_complex_acq_2021
+    url: https://www.buzzfeed.com/buzzfeedpress/buzzfeed-announces-acquisition-of-complex-networks-joining
+    title: BuzzFeed Announces Acquisition Of Complex Networks, Joining BuzzFeed, BuzzFeed News, HuffPost, And Tasty
+    publisher: BuzzFeed, Inc.
+    published_at: 2021-06-24
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >-
+      BuzzFeed [...] agreed to acquire Complex Networks [...] from Hearst and
+      Verizon [...] for $300 million. Complex Networks includes Complex (pop
+      culture), First We Feast (food entertainment), Pigeons and Planes (music
+      discovery), Sole Collector (sneaker news). Expected to close in the fourth
+      quarter of 2021 after the merger of BuzzFeed and 890 Fifth Avenue Partners.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 3
+      - relationship: 4
+  - ref: buzzfeed_complex_closing_2021
+    url: https://www.buzzfeed.com/buzzfeedpress/buzzfeed-inc-announces-closing-of-business-combination-with
+    title: BuzzFeed, Inc. Announces Closing Of Business Combination With 890 5th Avenue Partners, Inc. and Acquisition Of Complex Networks
+    publisher: BuzzFeed, Inc.
+    published_at: 2021-12-03
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >-
+      BuzzFeed, Inc. Announces Closing Of Business Combination With 890 5th
+      Avenue Partners, Inc. and Acquisition Of Complex Networks. [Title of the
+      2021-12-03 official closing release; establishes the operative handover
+      date. Full body not retrieved — reviewer to archive.]
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 3
+      - relationship: 4
+  - ref: buzzfeed_fwf_sale_bw_2024
+    url: https://www.businesswire.com/news/home/20241212770493/en/BuzzFeed-Inc.-Announces-Sale-of-First-We-Feast-to-an-Affiliate-of-Soros-Fund-Management-in-$82.5-Million-All-Cash-Deal
+    title: "BuzzFeed, Inc. Announces Sale of First We Feast to an Affiliate of Soros Fund Management in $82.5 Million All-Cash Deal"
+    publisher: BuzzFeed, Inc. (via Business Wire)
+    published_at: 2024-12-12
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >-
+      BuzzFeed, Inc. Announces Sale of First We Feast to an Affiliate of Soros
+      Fund Management in $82.5 Million All-Cash Deal. [Headline of BuzzFeed's
+      official announcement; the buyer is framed as an affiliate of Soros Fund
+      Management. Full body not retrieved (fetch timed out) — reviewer to archive.]
+    supports:
+      - relationship: 1
+      - relationship: 2
+      - relationship: 5
+  - ref: sec_8k_fwf_2024
+    url: https://www.sec.gov/Archives/edgar/data/1828972/000182897224000249/bzfd-20241210.htm
+    title: BuzzFeed, Inc. Form 8-K (Item 1.01 — First We Feast Transaction)
+    publisher: U.S. Securities and Exchange Commission (BuzzFeed, Inc. filer)
+    published_at: 2024-12-16
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: >-
+      On December 11, 2024, BuzzFeed Media Enterprises, Inc., a Delaware
+      corporation (the "Seller") and a wholly-owned subsidiary of BuzzFeed,
+      Inc. [...] entered into an Asset Purchase Agreement [...] with FEAST OPCO
+      LLC (the "Purchaser"), providing for the sale [...] of certain assets
+      related to the [...] "First We Feast" brand [...]. The First We Feast
+      Transaction closed on December 11, 2024, immediately following entry into
+      the Asset Purchase Agreement [...] paid a purchase price of $82.5 million.
+    supports:
+      - relationship: 1
+      - relationship: 2
+  - ref: forbes_fwf_2024
+    url: https://www.forbes.com/sites/conormurray/2024/12/12/buzzfeed-sells-hot-ones-studio-for-825-million-to-investors-including-soros-fund-host-sean-evans/
+    title: BuzzFeed Sells 'Hot Ones' Studio For $82.5 Million To Investors Including Soros Fund, Host Sean Evans
+    publisher: Forbes
+    published_at: 2024-12-12
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      [First We Feast was sold to] a group of investors that includes the show's
+      Emmy-nominated host, Sean Evans [...] [who] will serve as First We Feast's
+      new chief creative officer. [Other named investors: Soros Fund Management,
+      Crooked Media, and Mythical Entertainment (owned by Rhett & Link); Chris
+      Schonberger continues as First We Feast CEO.]
+    supports:
+      - relationship: 2
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: feast_opco
+    effective_date: 2024-12-11
+    confidence_factors:
+      sourceQuality: 1.0
+      directness: 1.0
+      entityMatch: 0.95
+      recencyFactor: 0.85
+      corroborationFactor: 0.95
+      contradictionPenalty: 1.0
+  - predicate: OWNED_BY
+    subject: channel
+    object: buzzfeed
+    effective_date: 2021-12-03
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 0.9
+      entityMatch: 0.9
+      recencyFactor: 0.6
+      corroborationFactor: 0.9
+      contradictionPenalty: 1.0
+  - predicate: OWNED_BY
+    subject: channel
+    object: complex_networks
+    confidence_factors:
+      sourceQuality: 0.9
+      directness: 0.85
+      entityMatch: 0.9
+      recencyFactor: 0.4
+      corroborationFactor: 0.85
+      contradictionPenalty: 1.0
+  - predicate: INVESTED_IN
+    subject: soros_fund
+    object: feast_opco
+    effective_date: 2024-12-11
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 0.8
+      entityMatch: 0.85
+      recencyFactor: 0.85
+      corroborationFactor: 0.9
+      contradictionPenalty: 1.0
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted — NOT yet human-reviewed. This is an
+  # unverified DRAFT (schema rejects an explicit null).
+  last_reviewed_at: 2026-07-23
+  notes: >
+    DRAFT — UNVERIFIED, requires two-person human review (Spec §20.3: an
+    investment-firm/Soros involvement plus named individuals). Do not publish
+    without verification.
+
+    CHANNEL ID. UCPD_bxCRGpmmeQcbe2kpPaA, extracted from the "externalId" field
+    in the raw HTML of https://www.youtube.com/@FirstWeFeast (curl fetch, no JS,
+    2026-07-23). The canonical /channel/UC... URL in the same page source
+    resolves to the identical id (youtube.com/channel/UCPD_bxCRGpmmeQcbe2kpPaA).
+
+    OWNERSHIP SUCCESSION (each hop verified; operative dates used for edges,
+    announcement dates recorded on sources' published_at):
+    (0) Complex Networks OWNS channel — until 2021-12-03, ENDED. First We Feast
+    began ~2012 as a food-culture offshoot of Complex Media (later renamed
+    Complex Networks in the 2016 Verizon/Hearst reorganization). Its inclusion in
+    Complex Networks is confirmed by BuzzFeed's 2021 acquisition PR, which lists
+    "First We Feast (food entertainment)" among the Complex Networks brands.
+    effective_from omitted — the channel's exact creation date was not pinned to
+    a T1/T2 source in this pass (brand widely dated to 2012). CONFIDENCE MODERATE.
+    (3,4) Verizon + Hearst each PARTIALLY_OWNS Complex Networks (50/50 JV, joint
+    control), ENDED 2021-12-03. The JV (Verizon Hearst Media Partners) agreed to
+    acquire Complex on 2016-04-18 (T1 PR Newswire); BuzzFeed's 2021 PR confirms it
+    bought Complex Networks "from Hearst and Verizon." effective_from omitted (2016
+    close date not pinned). Recorded as CONTROLLING 50% per the joint-sole-owner
+    policy. CONFIDENCE MODERATE.
+    (1) BuzzFeed, Inc. OWNS channel — 2021-12-03 to 2024-12-11, ENDED. BuzzFeed
+    announced the Complex Networks acquisition 2021-06-24 (~$300M: $200M cash +
+    $100M BuzzFeed equity) and closed it 2021-12-03 concurrent with its SPAC
+    go-public (890 5th Avenue Partners). Operative date = 2021-12-03 (T1 closing
+    release). The FWF business was held within BuzzFeed via its subsidiary
+    BuzzFeed Media Enterprises, Inc. (the named seller in the 8-K). CONFIDENCE HIGH.
+    (2) FEAST OPCO LLC OWNS channel — CURRENT, from 2024-12-11. Per the SEC 8-K
+    (T1), BuzzFeed Media Enterprises, Inc. entered an Asset Purchase Agreement
+    with FEAST OPCO LLC on 2024-12-11 and the transaction CLOSED THE SAME DAY for
+    an $82.5M cash purchase price. Operative date = 2024-12-11 (closing), NOT the
+    2024-12-12 announcement date. CONFIDENCE HIGH (T1 regulatory filing + T1
+    official announcement + T2 Forbes).
+
+    BUYER GROUP / SOROS (be exact). BuzzFeed's official announcement HEADLINE
+    frames the sale as to "an Affiliate of Soros Fund Management." Reporting
+    describes an investor consortium led by that affiliate and including host
+    Sean Evans, First We Feast founder/CEO Chris Schonberger, Crooked Media, and
+    Mythical Entertainment (Rhett & Link's company); "additional investors" were
+    to be named later. Modeled here: soros_fund INVESTED_IN feast_opco (edge 5)
+    and sean_evans INVESTED_IN feast_opco (edge 6). Crooked Media, Mythical
+    Entertainment and Chris Schonberger are documented co-investors but are NOT
+    modeled as separate entities in this draft to keep the record focused — a
+    reviewer may add them (Schonberger in particular: founder + CEO + investor;
+    consider a FOUNDED_BY edge and, if his stake is ever disclosed as
+    controlling, this record could flip to CREATOR_OWNED). No ownership
+    percentages were disclosed for ANY member of the buyer group, so all buyer-side
+    control_levels are UNKNOWN. "Soros Fund Management" refers to George Soros's
+    investment-management firm; sources say only that the buyer is its "affiliate"
+    / the consortium is Soros-affiliate-led — no source states George Soros
+    personally owns the channel, and this record does not assert that.
+
+    SEAN EVANS — TWO DISTINCT ROLES. (a) HOST of "Hot Ones" (edge 7, HOSTED_BY,
+    carries NO ownership implication per Spec §4/§40.2); (b) INVESTOR in the buyer
+    group and newly named CHIEF CREATIVE OFFICER (edge 6, INVESTED_IN, control
+    UNKNOWN — his equity is not disclosed as a percentage or a controlling stake).
+    These are deliberately separate edges so hosting is never conflated with
+    ownership.
+
+    EXPECTED CLASSIFICATION (computed by importer, NOT asserted here):
+    CORPORATE_OWNED. Reasoning against packages/graph/src/classification.ts: the
+    current direct owner (FEAST OPCO LLC) is a for-profit COMPANY, which is in
+    CORPORATE_OWNER_TYPES -> CORPORATE_OWNED, UNLESS (i) a PRIVATE_EQUITY_FIRM
+    sits in the chain (Rule 2 PE_BACKED) or (ii) the owner is creator-controlled
+    (CREATOR_OWNED). Neither applies: Soros Fund Management is typed INVESTMENT_FIRM,
+    NOT PRIVATE_EQUITY_FIRM (only PRIVATE_EQUITY_FIRM drives PE_BACKED), so no
+    PE_BACKED; and no creator/person holds a documented controlling stake in FEAST
+    OPCO (Evans/Schonberger equity undisclosed and non-controlling), so not
+    CREATOR_OWNED. EXTERNALLY_FUNDED does not apply either (that rule requires a
+    CREATOR/PERSON direct owner + a MINORITY funding edge; here the direct owner is
+    a company). A recent-change warning (OWNERSHIP_CHANGED_RECENTLY) may or may not
+    fire depending on the window (the change is ~19 months before this 2026-07-23
+    pass). NOTE THE TENSION for the reviewer: popular framing calls the new First
+    We Feast "independent," but under the computed rules a for-profit-company owner
+    that is not creator-controlled resolves to CORPORATE_OWNED. If review confirms
+    the host/founder hold a controlling stake, or reclassifies Soros Fund
+    Management as a PRIVATE_EQUITY_FIRM, the computed label would change.
+
+    ENTITY-TYPE DECISIONS. Complex Networks -> MEDIA_NETWORK (legal_name Complex
+    Media, Inc. — verify). Soros Fund Management -> INVESTMENT_FIRM (deliberately
+    NOT PRIVATE_EQUITY_FIRM; it is George Soros's investment manager/family office,
+    and sources do not describe it as a PE fund — this choice materially affects
+    the computed label, flag for reviewer). FEAST OPCO LLC -> COMPANY (jurisdiction
+    not verified). BuzzFeed Media Enterprises, Inc. captured as a BuzzFeed alias
+    rather than a separate entity.
+
+    PE-LABEL RULE (§14.3). No PE-implying edge exists in this record
+    (PORTFOLIO_COMPANY_OF is not used and no endpoint is a PRIVATE_EQUITY_FIRM),
+    so the §14.3 qualifying-evidence requirement is not triggered. The
+    investment-firm edge (5, Soros) is nonetheless backed by a Tier 1 official
+    announcement plus a Tier 2 publication.
+
+    DATE PRECISION. 2021-12-03 (BuzzFeed/Complex close) and 2024-12-11 (FWF sale
+    close) are full-precision operative dates from T1 sources (closing release and
+    SEC 8-K respectively). The 2016 JV close and the ~2012 channel creation are
+    NOT pinned to a fetchable T1/T2 date, so those effective_from values are
+    omitted rather than asserted.
+
+    SOURCING / ARCHIVING GAPS (reviewer to resolve before publish). No archive_url
+    captured this pass. buzzfeed.com PR pages and Business Wire returned 403/timeout
+    to the fetcher; the SEC 8-K required a declared User-Agent (verbatim excerpt
+    above IS from the live filing). The two BuzzFeed PR excerpts and the Business
+    Wire excerpt are the release HEADLINES (verbatim) plus search-surfaced body
+    text; reviewer should retrieve and archive full bodies (priority: the 8-K, the
+    2024 Business Wire announcement, and the 2021-12-03 closing release). Variety's
+    2024-12-12 report corroborates but is paywalled (tollbit redirect) so it was
+    not recorded. NBC News' report (403 to fetcher) also corroborates.
+
+    LEGAL/NEUTRALITY. Language describes ownership structure only; no claim of
+    editorial interference or misconduct. Exact stakes disclosed only where public
+    (none for the buyer group; 50/50 for the historical JV). Sean Evans' hosting is
+    recorded separately from and does not imply his ownership.

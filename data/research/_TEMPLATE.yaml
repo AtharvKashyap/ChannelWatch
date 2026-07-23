@@ -42,11 +42,18 @@ entities:
 #   1. On A's ownership edge, set `effective_to` to the operative handover date
 #      and `status: ENDED`. It becomes a prior period (surfaced, never current).
 #   2. On B's ownership edge, set `effective_from` to the SAME operative date and
-#      leave `effective_to: null` with `status: ACTIVE` (the current period).
+#      OMIT `effective_to` entirely with `status: ACTIVE` (the current period).
 # `effective_from` is the OPERATIVE date (when ownership actually changed) — NOT
 # the announcement date. Record the ANNOUNCEMENT date on the supporting source's
 # `published_at` instead (see the sources block below). Only the current owner
 # affects the served classification; prior owners are surfaced as history only.
+#
+# JOINT SOLE-OWNER CREATORS (policy, 2026-07-23): when creators are jointly the
+# DOCUMENTED SOLE owners of a company but their individual split is undisclosed,
+# encode each as `PARTIALLY_OWNS` with `control_level: CONTROLLING` (their joint
+# control is documented; the split is not) and omit percentages. This is what
+# makes the company creator-controlled (→ CREATOR_OWNED). Do NOT use OWNS with
+# control UNKNOWN for this case. Examples: linus-tech-tips, good-mythical-morning.
 relationships:
   - subject: owner_co
     type: OWNS # see SPEC §15.2 relationship types
@@ -54,7 +61,9 @@ relationships:
     control_level: CONTROLLING # CONTROLLING | MINORITY | MANAGEMENT | LICENSE | UNKNOWN (optional)
     ownership_percentage: 100 # optional, 0–100
     effective_from: 2025-01-01 # optional, ISO date — the OPERATIVE date ownership began
-    effective_to: null # optional, ISO date — set (with status: ENDED) when superseded
+    # effective_to: 2025-01-01  # optional ISO date — set (with status: ENDED) when
+    #                           # superseded; OMIT the key entirely (never `null`)
+    #                           # while the relationship is current.
     confidence: 0.9 # 0–1
     # Lifecycle status: ACTIVE (published) | ENDED | DISPUTED | PENDING_REVIEW.
     # A superseded prior owner is `status: ENDED` with `effective_to` set.

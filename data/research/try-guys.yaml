@@ -1,0 +1,506 @@
+# CHANNELWATCH research record — The Try Guys
+#
+# DRAFT for human review. Nothing here is published without verification.
+# reviewed_by is intentionally UNSET (not yet reviewed).
+#
+# Profile: a creator-OWNED channel with a strong TEMPORAL/brand-transition story.
+# The Try Guys FORMAT originated at BuzzFeed in 2014, produced by four BuzzFeed
+# EMPLOYEES (Ned Fulmer, Keith Habersberger, Zach Kornfeld, Eugene Lee Yang). In
+# June 2018 the four left BuzzFeed and founded their own independent production
+# company, 2nd Try LLC, which "gained all rights to The Try Guys brand" and its
+# social/YouTube accounts; BuzzFeed stayed on only as an advertising/branded-
+# content sales representative under a commercial agreement.
+#
+# TEMPORAL MODELING CAUTION (per task): this dedicated YouTube channel
+# (UCpi8TJfiA4lKGkaXs__YdBA) was CREATED in May 2018 as part of the move to
+# independence and has NEVER been a BuzzFeed-owned property. Sources do NOT
+# support "BuzzFeed owned this channel." What transitioned from BuzzFeed to
+# 2nd Try was (a) the four creators' EMPLOYMENT and (b) rights to the Try Guys
+# BRAND. The BuzzFeed-era vs 2nd-Try-era transition is therefore modeled on the
+# BRAND entity and on the EMPLOYS edges — NOT as a former channel owner. The
+# channel's only ever owner is 2nd Try LLC (→ CREATOR_OWNED). Because the
+# classifier reads only currently-active OWNS-channel edges, the (ended) BuzzFeed
+# brand/employment edges enrich the history surface without changing the label.
+
+channel:
+  # Canonical id read from the raw channel-page HTML "externalId" field
+  # (curl of https://www.youtube.com/@tryguys). Independently cross-checked
+  # against YouTube's OWN feed:
+  # https://www.youtube.com/feeds/videos.xml?channel_id=UCpi8TJfiA4lKGkaXs__YdBA
+  # returns <yt:channelId>UCpi8TJfiA4lKGkaXs__YdBA</yt:channelId>,
+  # <title>The Try Guys</title> and <author><name>The Try Guys</name>; the feed's
+  # earliest-retained entry / <published> is 2018-05-23.
+  youtube_channel_id: UCpi8TJfiA4lKGkaXs__YdBA
+  display_name: The Try Guys
+  handle: "@tryguys"
+
+entities:
+  - slug: second_try
+    canonical_name: 2nd Try LLC
+    entity_type: COMPANY
+    legal_name: 2nd Try, LLC
+    jurisdiction: US-CA # Los Angeles, California-based independent studio
+    aliases:
+      - Second Try LLC
+      - 2nd Try
+      - Second Try, LLC
+  - slug: keith
+    canonical_name: Keith Habersberger
+    entity_type: CREATOR
+    aliases:
+      - Keith
+  - slug: zach
+    canonical_name: Zach Kornfeld
+    entity_type: CREATOR
+    aliases:
+      - Zach
+  - slug: eugene
+    canonical_name: Eugene Lee Yang
+    entity_type: CREATOR
+    aliases:
+      - Eugene
+  - slug: ned
+    canonical_name: Ned Fulmer
+    entity_type: CREATOR
+    aliases:
+      - Ned
+  - slug: buzzfeed
+    canonical_name: BuzzFeed
+    entity_type: COMPANY
+    legal_name: BuzzFeed, Inc.
+    website: https://www.buzzfeed.com
+    aliases:
+      - BuzzFeed, Inc.
+  - slug: tryguys_brand
+    # Declared to carry the BuzzFeed-era -> 2nd-Try-era BRAND-rights transition
+    # (rels 16-17). This is the intellectual-property brand, distinct from the
+    # YouTube channel entity. Not part of the channel's own ownership chain.
+    canonical_name: The Try Guys (brand)
+    entity_type: BRAND
+    aliases:
+      - Try Guys
+
+relationships:
+  # ============================ CURRENT (ACTIVE) ============================
+  # 0: 2nd Try LLC owns the channel. The June 2018 announcement states the new
+  # company "will gain all rights to The Try Guys brand, including its social
+  # media presence" (i.e. the accounts, this channel included). control_level
+  # CONTROLLING; no ownership percentage is disclosed, so none is asserted.
+  # effective_from = 2018-06-16, the documented operative date the four went
+  # independent under 2nd Try (see reviewer note on the ~2018-05-22 channel
+  # account-creation date, a few weeks earlier).
+  - subject: second_try
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2018-06-16
+    confidence: 0.85
+    status: ACTIVE
+  # 1: Keith Habersberger — co-owner of 2nd Try. JOINT SOLE-OWNER convention
+  # (policy 2026-07-23): the founders are jointly the documented owners of an
+  # independent, self-owned company (no outside owner in any source); the
+  # individual split is undisclosed, so encode PARTIALLY_OWNS + CONTROLLING and
+  # omit percentages. This is what makes 2nd Try creator-controlled (→
+  # CREATOR_OWNED). Keith's ownership is INFERRED from founder + executive-
+  # producer status of an independent company (flagged); lower confidence.
+  - subject: keith
+    type: PARTIALLY_OWNS
+    object: second_try
+    control_level: CONTROLLING
+    confidence: 0.65
+    status: ACTIVE
+  # 2: Zach Kornfeld — co-owner of 2nd Try (same joint-sole-owner convention as
+  # rel 1; ownership inferred from founder/executive-producer status; flagged).
+  - subject: zach
+    type: PARTIALLY_OWNS
+    object: second_try
+    control_level: CONTROLLING
+    confidence: 0.65
+    status: ACTIVE
+  # 3: Eugene Lee Yang — co-owner of 2nd Try. His co-ownership is EXPLICITLY
+  # documented (Wikipedia notes he retained "co-ownership of the company" after
+  # stepping back from the flagship show in May 2024); higher confidence.
+  - subject: eugene
+    type: PARTIALLY_OWNS
+    object: second_try
+    control_level: CONTROLLING
+    confidence: 0.75
+    status: ACTIVE
+  # --- Company founding (all four co-founded 2nd Try in June 2018) ---
+  # 4-7: 2nd Try LLC founded by the four. Ned (rel 7) is recorded as a co-founder
+  # because that is a true historical fact; his 2022 departure is a role/hosting
+  # change (rel 15), NOT a documented equity change (see notes), so no ownership
+  # edge is asserted or ended for Ned.
+  - subject: second_try
+    type: FOUNDED_BY
+    object: keith
+    effective_from: 2018-06-16
+    confidence: 0.9
+    status: ACTIVE
+  - subject: second_try
+    type: FOUNDED_BY
+    object: zach
+    effective_from: 2018-06-16
+    confidence: 0.9
+    status: ACTIVE
+  - subject: second_try
+    type: FOUNDED_BY
+    object: eugene
+    effective_from: 2018-06-16
+    confidence: 0.9
+    status: ACTIVE
+  - subject: second_try
+    type: FOUNDED_BY
+    object: ned
+    effective_from: 2018-06-16
+    confidence: 0.9
+    status: ACTIVE
+  # --- Channel founding (the four created this channel in May/June 2018) ---
+  # 8-11: channel founded by the four. effective_from = 2018-05-22 (reported
+  # channel account-creation date; first upload verified 2018-05-23 via the feed).
+  - subject: channel
+    type: FOUNDED_BY
+    object: keith
+    effective_from: 2018-05-22
+    confidence: 0.8
+    status: ACTIVE
+  - subject: channel
+    type: FOUNDED_BY
+    object: zach
+    effective_from: 2018-05-22
+    confidence: 0.8
+    status: ACTIVE
+  - subject: channel
+    type: FOUNDED_BY
+    object: eugene
+    effective_from: 2018-05-22
+    confidence: 0.8
+    status: ACTIVE
+  - subject: channel
+    type: FOUNDED_BY
+    object: ned
+    effective_from: 2018-05-22
+    confidence: 0.8
+    status: ACTIVE
+  # --- Hosting (on-camera) ---
+  # 12-13: Keith and Zach remain on-camera hosts (channel's ongoing uploads).
+  - subject: channel
+    type: HOSTED_BY
+    object: keith
+    confidence: 0.9
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: zach
+    confidence: 0.9
+    status: ACTIVE
+  # 14: Eugene hosted from launch until stepping back from the flagship show in
+  # May 2024 (he RETAINED co-ownership, rel 3, which stays ACTIVE). Modeled as a
+  # HOSTED_BY edge ended 2024-05; ownership is unaffected.
+  - subject: channel
+    type: HOSTED_BY
+    object: eugene
+    effective_from: 2018-05-22
+    effective_to: 2024-05-01
+    confidence: 0.75
+    status: ENDED
+  # 15: Ned Fulmer was an on-camera host/member from launch until his removal in
+  # September 2022 (internal review; "no longer working for The Try Guys"). This
+  # records the 2022 departure at the ROLE level only. NO equity/buyout change is
+  # documented in any source, so no ownership edge is asserted or ended for Ned.
+  - subject: channel
+    type: HOSTED_BY
+    object: ned
+    effective_from: 2018-05-22
+    effective_to: 2022-09-27
+    confidence: 0.85
+    status: ENDED
+  # ===================== BRAND TRANSITION (temporal) =====================
+  # 16: BuzzFeed held rights to the Try Guys BRAND during the BuzzFeed era (format
+  # originated at BuzzFeed 2014; first video 2014-09-12). INFERRED from the June
+  # 2018 rights-transfer language ("2nd Try LLC will assume rights to The Try Guys
+  # brand"); BuzzFeed's prior holding of those rights is not stated in as many
+  # words, hence lower confidence and the inference flag. Superseded 2018-06-16.
+  - subject: buzzfeed
+    type: OWNS
+    object: tryguys_brand
+    control_level: CONTROLLING
+    effective_from: 2014-09-12
+    effective_to: 2018-06-16
+    confidence: 0.6
+    status: ENDED
+  # 17: 2nd Try LLC assumed all rights to the Try Guys brand on going independent
+  # (2018-06-16). This is the CURRENT brand owner. Not in the channel's ownership
+  # chain (the channel is owned directly by 2nd Try, rel 0), so it does not affect
+  # the served classification; recorded for temporal completeness.
+  - subject: second_try
+    type: OWNS
+    object: tryguys_brand
+    control_level: CONTROLLING
+    effective_from: 2018-06-16
+    confidence: 0.85
+    status: ACTIVE
+  # --- BuzzFeed employment (2014 – 2018), the "personnel were employees" fact ---
+  # 18-21: the four were BuzzFeed employees who produced Try Guys content until
+  # they left to found 2nd Try. effective_from 2014 (format origin year; exact
+  # hire dates not documented), effective_to 2018-06-16 (public departure; note
+  # reporting also cites an April 2018 resignation — see notes).
+  - subject: buzzfeed
+    type: EMPLOYS
+    object: keith
+    effective_from: 2014-01-01
+    effective_to: 2018-06-16
+    confidence: 0.85
+    status: ENDED
+  - subject: buzzfeed
+    type: EMPLOYS
+    object: zach
+    effective_from: 2014-01-01
+    effective_to: 2018-06-16
+    confidence: 0.85
+    status: ENDED
+  - subject: buzzfeed
+    type: EMPLOYS
+    object: eugene
+    effective_from: 2014-01-01
+    effective_to: 2018-06-16
+    confidence: 0.85
+    status: ENDED
+  - subject: buzzfeed
+    type: EMPLOYS
+    object: ned
+    effective_from: 2014-01-01
+    effective_to: 2018-06-16
+    confidence: 0.85
+    status: ENDED
+  # 22: Post-2018 BuzzFeed relationship: advertising / branded-content sales
+  # representative under a commercial agreement — a REP relationship, NOT
+  # ownership or editorial control. Recorded to make BuzzFeed's actual post-
+  # independence role precise. Whether the arrangement still holds today is NOT
+  # documented (flagged); lower confidence. Not an owning edge → no label impact.
+  - subject: channel
+    type: AD_SALES_BY
+    object: buzzfeed
+    effective_from: 2018-06-16
+    confidence: 0.55
+    status: ACTIVE
+
+sources:
+  - ref: buzzfeed_press_2018
+    url: https://www.buzzfeed.com/buzzfeedpress/the-try-guys-form-independent-production-company-enter-into
+    title: '"The Try Guys" Form Independent Production Company, Enter Into New Strategic Partnership With BuzzFeed'
+    publisher: BuzzFeed
+    published_at: 2018-06-21
+    # Official announcement by the former parent of a corporate/brand-rights move.
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >-
+      The Try Guys — the wildly popular comedy group formed at BuzzFeed by
+      creators Ned Fulmer, Keith Habersberger, Zach Kornfeld, and Eugene Lee Yang
+      — today announced the launch of their new independent production company,
+      2nd Try LLC. [...] 2nd Try LLC will assume rights to The Try Guys brand and
+      social media accounts. [...] BuzzFeed will serve as the advertising and
+      branded content sales representative for The Try Guys under a commercial
+      agreement.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+      - relationship: 16
+      - relationship: 17
+      - relationship: 18
+      - relationship: 19
+      - relationship: 20
+      - relationship: 21
+      - relationship: 22
+  - ref: tubefilter_2018
+    url: https://www.tubefilter.com/2018/06/21/the-try-guys-leave-buzzfeed-launch-2nd-try-llc/
+    title: The Try Guys Leave BuzzFeed To Launch Their Own Production Company
+    publisher: Tubefilter
+    published_at: 2018-06-21
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      The Try Guys formed at BuzzFeed in 2014 [...]. The group, made up of former
+      BuzzFeed employees Ned Fulmer, Eugene Lee Yang, Keith Habersberger, and
+      Zach Kornfeld, are launching an independent production company called 2nd
+      Try LLC. [...] The company will gain all rights to The Try Guys brand,
+      including its social media presence, though BuzzFeed will remain along for
+      the ride as a branded content and advertising sales representative.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+      - relationship: 16
+      - relationship: 17
+      - relationship: 18
+      - relationship: 19
+      - relationship: 20
+      - relationship: 21
+      - relationship: 22
+  - ref: hollywood_reporter_2018
+    url: https://www.hollywoodreporter.com/news/general-news/try-guys-leave-buzzfeed-form-production-company-1122259/
+    title: "'Try Guys' Leave BuzzFeed, Form Production Company"
+    publisher: The Hollywood Reporter
+    published_at: 2018-06-21
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      The Try Guys — Ned Fulmer, Keith Habersberger, Zach Kornfeld and Eugene Lee
+      Yang — are leaving BuzzFeed, where the group formed in 2014, to launch their
+      own independent production company, 2nd Try LLC, which takes over the Try
+      Guys brand and social accounts while BuzzFeed handles ad/branded-content
+      sales.
+    supports:
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+      - relationship: 16
+      - relationship: 17
+      - relationship: 18
+      - relationship: 19
+      - relationship: 20
+      - relationship: 21
+  - ref: wikipedia_try_guys
+    url: https://en.wikipedia.org/wiki/The_Try_Guys
+    title: The Try Guys
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      The Try Guys began in 2014 as a BuzzFeed series (first video "Guys Try
+      Ladies' Underwear," September 12, 2014) made by BuzzFeed employees Eugene
+      Lee Yang, Ned Fulmer, Keith Habersberger and Zach Kornfeld. On June 16,
+      2018 they left BuzzFeed and founded 2nd Try LLC, which gained all rights to
+      The Try Guys brand. Ned Fulmer was removed in September 2022. Yang retained
+      co-ownership of the company after his May 2024 departure from the flagship
+      show.
+    supports:
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+      - relationship: 8
+      - relationship: 9
+      - relationship: 10
+      - relationship: 11
+      - relationship: 12
+      - relationship: 13
+      - relationship: 14
+      - relationship: 15
+      - relationship: 16
+      - relationship: 17
+      - relationship: 18
+      - relationship: 19
+      - relationship: 20
+      - relationship: 21
+  - ref: youtube_channel_feed
+    url: https://www.youtube.com/channel/UCpi8TJfiA4lKGkaXs__YdBA
+    title: The Try Guys — YouTube channel
+    publisher: The Try Guys (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCpi8TJfiA4lKGkaXs__YdBA
+    excerpt: >-
+      The raw @tryguys channel-page HTML exposes "externalId":
+      "UCpi8TJfiA4lKGkaXs__YdBA", and YouTube's own feed for that id carries
+      <yt:channelId>UCpi8TJfiA4lKGkaXs__YdBA</yt:channelId>, <title>The Try
+      Guys</title> and <author><name>The Try Guys</name>, confirming the
+      canonical channel id and the channel's ongoing uploads by its current hosts.
+    supports:
+      - relationship: 0
+      - relationship: 12
+      - relationship: 13
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally OMITTED — this is a DRAFT, not yet human-reviewed.
+  notes: >-
+    DRAFT for human review — creator-owned channel with a BuzzFeed -> 2nd Try
+    TEMPORAL transition. reviewed_by intentionally unset. last_reviewed_at holds
+    the draft authoring date (schema-required), NOT a completed review.
+
+    EXPECTED CLASSIFICATION: CREATOR_OWNED. The channel's sole active owner is
+    2nd Try LLC (COMPANY, rel 0); 2nd Try is itself controlled by its creator
+    co-owners (rels 1-3, PARTIALLY_OWNS + CONTROLLING), so the classifier's
+    creator-controlled-company rule fires (explanation code
+    CREATOR_CONTROLLED_COMPANY). No PE / corporate / external-funding owner is in
+    the active chain. Confidence ~0.65 (min over the load-bearing chain: the
+    inferred Keith/Zach ownership edges are the weakest link).
+
+    CHANNEL ID: UCpi8TJfiA4lKGkaXs__YdBA, taken from the raw @tryguys page HTML
+    "externalId" and cross-checked against YouTube's own RSS feed
+    (yt:channelId + title + author all "The Try Guys"; earliest-retained
+    <published> 2018-05-23).
+
+    TEMPORAL / OWNERSHIP-TRANSITION MODELING (the crux of this record):
+    (a) The channel itself was NEVER BuzzFeed-owned. It was created ~May 2018 as
+    part of the move to independence, so NO former-BuzzFeed-owner edge is placed
+    on the channel. This is deliberate and evidence-driven — sources support a
+    BRAND-rights transfer and an EMPLOYMENT relationship, not BuzzFeed ownership
+    of this channel.
+    (b) The BuzzFeed-era -> 2nd-Try-era transition is modeled on the BRAND
+    (rels 16-17: BuzzFeed OWNS Try Guys brand, ENDED 2018-06-16 -> 2nd Try OWNS
+    brand, ACTIVE from 2018-06-16, per the transition convention) and on the
+    EMPLOYS edges (rels 18-21, ENDED 2018-06-16). These are OUTSIDE the channel's
+    ownership chain and therefore do not change the served classification; they
+    enrich the history surface only.
+    (c) rel 16 (BuzzFeed held brand rights 2014-2018) is an INFERENCE from the
+    June-2018 rights-transfer language ("2nd Try LLC will assume rights to The Try
+    Guys brand"); no source states BuzzFeed's prior ownership of the brand in as
+    many words. Flagged, confidence 0.6. A reviewer may prefer to downgrade this
+    to a weaker/looser relationship or drop it if unsupported.
+
+    NED FULMER (2022): removed September 2022 after an internal review ("no longer
+    working for The Try Guys"). Per task instruction, his departure is recorded as
+    an ownership-relevant change ONLY if an equity change is documented — NO
+    source documents any buyout, equity forfeiture, or ownership-stake change, so
+    NO ownership edge is asserted or ended for Ned. His departure is captured only
+    at the ROLE level (rel 15, HOSTED_BY ENDED 2022-09-27). effective_to date
+    2022-09-27 is the widely reported statement date; Wikipedia says "September
+    2022" without a day — reviewer may refine.
+
+    JOINT SOLE-OWNER CONVENTION (rels 1-3): applied to the current three principals
+    (Keith, Zach, Eugene) as the documented owners of an independent, self-owned
+    company with NO outside owner in any source. Eugene's co-ownership is
+    EXPLICITLY documented (Wikipedia, "retained co-ownership"); Keith's and Zach's
+    ownership is INFERRED from co-founder + executive-producer status of an
+    independent company (confidence 0.65, lower than Eugene's 0.75). Individual
+    equity splits are undisclosed, so no percentages are asserted. A reviewer
+    should seek a primary/registry source (e.g. a CA business filing) to confirm
+    the exact 2nd Try cap table and Keith/Zach ownership titles.
+
+    DATES / JUDGMENT CALLS:
+    (1) Channel OWNS + founding: effective_from 2018-06-16 (documented independence
+    date) for company/brand/ownership edges; 2018-05-22 for channel FOUNDED_BY
+    (reported channel account-creation date). First verified upload 2018-05-23
+    (YouTube feed). The ~3-week gap between channel creation (May) and the public
+    2nd Try launch (June 16) is flagged; reviewer may align these.
+    (2) BuzzFeed EMPLOYS effective_from 2014-01-01 (format-origin year; exact hire
+    dates not documented) and effective_to 2018-06-16 (public departure). Note
+    reporting also cites the members resigning from BuzzFeed around April 2018,
+    ahead of the June public launch — a reviewer may prefer April 2018.
+    (3) AD_SALES_BY BuzzFeed (rel 22): documented as beginning June 2018; whether
+    the commercial rep agreement still holds today is NOT documented (BuzzFeed's
+    business has since contracted), so it is left ACTIVE with low confidence 0.55
+    and no effective_to, flagged as unverified-current. It is a sales-rep
+    relationship, NOT ownership or editorial control (legal-safe: acquisition is
+    not guilt, representation is not control).
+    (4) 2nd Try jurisdiction recorded US-CA (Los Angeles-based studio); no exact
+    LLC-registration state was verified from a primary filing — flagged.
+
+    LEGAL-SAFE / NEUTRALITY: no PE-implying label is asserted anywhere, so the
+    §14.3 PE-label evidence rule is not triggered. All backing sources are
+    Tier 1-2; no Tier 3/4 source supports any edge. Language describes ownership
+    STRUCTURE only; no claim of editorial interference or misconduct is made.
+  last_reviewed_at: 2026-07-23

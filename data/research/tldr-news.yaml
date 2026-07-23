@@ -113,6 +113,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   notes: >
     Handle discrepancy: the brief specified "@TLDRnewsUK", but that handle
     404s on youtube.com; the live, canonical handle for this channel is
@@ -142,4 +143,4 @@ review:
     channel's own About page and UK Companies House filings) even though
     Wikipedia's own text corroborates them, to avoid over-relying on a
     user-editable source for the higher-stakes ownership facts.
-  last_reviewed_at: "2026-07-22"
+  last_reviewed_at: 2026-07-23

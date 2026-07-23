@@ -106,20 +106,24 @@ relationships:
     confidence: 0.85
     status: ACTIVE
   # 7: Rhett is a co-owner of Mythical. Sources describe Mythical as owned by
-  # Rhett & Link and as "independent and self-financed"; no split is disclosed, so
-  # control_level is UNKNOWN and no percentage is asserted (co-ownership, not a
-  # documented individual controlling stake).
+  # Rhett & Link and as "independent and self-financed"; no individual split is
+  # disclosed, so no percentage is asserted. Per project policy (2026-07-23,
+  # user-directed, matching the linus-tech-tips convention): creators who are
+  # jointly the DOCUMENTED SOLE owners of the company encode as PARTIALLY_OWNS
+  # with control_level CONTROLLING — their joint control is documented even
+  # though the internal split is not. This is what makes Mythical a
+  # creator-controlled company (→ CREATOR_OWNED classification).
   - subject: rhett
-    type: OWNS
+    type: PARTIALLY_OWNS
     object: mythical
-    control_level: UNKNOWN
+    control_level: CONTROLLING
     confidence: 0.85
     status: ACTIVE
-  # 8: Link is a co-owner of Mythical.
+  # 8: Link is a co-owner of Mythical (same joint-sole-owner convention as rel 7).
   - subject: link
-    type: OWNS
+    type: PARTIALLY_OWNS
     object: mythical
-    control_level: UNKNOWN
+    control_level: CONTROLLING
     confidence: 0.85
     status: ACTIVE
   # 9: Mythical acquired Smosh in Feb 2019. Recorded as OWNS, then ENDED, because
@@ -233,6 +237,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   # reviewed_by intentionally omitted: not yet reviewed (schema treats reviewed_by
   # as optional; it is left unset rather than null).
   notes: >-

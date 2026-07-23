@@ -144,6 +144,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   notes: >
     No publicly documented operating company/LLC name for Breaking Points was
     located in this research pass (searched for "Breaking Points Media LLC",
@@ -168,4 +169,4 @@ review:
     which covers only the two founding hosts. YouTube channel id confirmed by
     fetching https://www.youtube.com/@breakingpoints and extracting the
     canonical "externalId" from the raw page HTML.
-  last_reviewed_at: 2026-07-22
+  last_reviewed_at: 2026-07-23
