@@ -6,7 +6,11 @@ import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { fileURLToPath } from "node:url";
 import { getDb, closeDb } from "../src/db/client.js";
 import { auditEvents, channels } from "../src/db/schema.js";
-import { importAll, type ImportSummary } from "../scripts/import-research.js";
+import {
+  importAll,
+  recomputeClassifications,
+  type ImportSummary,
+} from "../scripts/import-research.js";
 
 /**
  * DB-gated importer integration test. Runs ONLY when DATABASE_URL points at a
@@ -102,5 +106,24 @@ describe.skipIf(!reachable)("import-research (§35 fixture)", () => {
     expect(summary!.changed).toBe(0);
     expect(summary!.auditWritten).toBe(0);
     expect(auditAfterSecond).toBe(auditAfterFirst);
+  });
+
+  it("whole-graph recompute keeps the cached label consistent and is idempotent", async () => {
+    // First recompute may rewrite labels that differ between the per-record import
+    // and the whole-graph serve; the fixture channel stays PE_BACKED regardless.
+    const first = await recomputeClassifications(getDb());
+    const fixtureRow = first.find((r) => r.youtubeChannelId === FIXTURE_CHANNEL_ID);
+    expect(fixtureRow).toBeDefined();
+    expect(fixtureRow!.classification).toBe("PE_BACKED");
+
+    const [channel] = await getDb()
+      .select()
+      .from(channels)
+      .where(eq(channels.youtubeChannelId, FIXTURE_CHANNEL_ID));
+    expect(channel!.publishedClassification).toBe("PE_BACKED");
+
+    // A second recompute over the unchanged graph rewrites nothing.
+    const second = await recomputeClassifications(getDb());
+    expect(second.every((r) => r.changed === false)).toBe(true);
   });
 });
