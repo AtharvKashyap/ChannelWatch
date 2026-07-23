@@ -7,6 +7,12 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   eslintConfigPrettier,
   {
-    ignores: ["**/dist/**", "**/.turbo/**", "**/node_modules/**"],
+    ignores: [
+      "**/dist/**",
+      "**/.turbo/**",
+      "**/node_modules/**",
+      "**/.next/**",
+      "**/next-env.d.ts",
+    ],
   },
 );
