@@ -292,6 +292,7 @@ claims:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   # reviewed_by intentionally OMITTED — this is an UNVERIFIED DRAFT. Its absence
   # (the schema treats reviewed_by as optional, not nullable) signals "not yet
   # human-reviewed." Do NOT set it until a human completes review.
