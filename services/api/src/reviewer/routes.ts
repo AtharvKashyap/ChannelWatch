@@ -16,6 +16,7 @@ import { getDb } from "../db/client.js";
 import { auditEvents, reviewers } from "../db/schema.js";
 import { badRequest, errorEnvelope, notFound, unauthorized } from "../http/middleware.js";
 import { createRateLimit } from "../http/rate-limit.js";
+import { readMetrics } from "../http/metrics.js";
 import { verifyPassword } from "../auth/passwords.js";
 import {
   SESSION_COOKIE,
@@ -81,7 +82,7 @@ export function createAuthRouter(): Hono {
       c.json(errorEnvelope("PAYLOAD_TOO_LARGE", "Request body exceeds the 32KB limit."), 413),
   });
   // Slow the login path to blunt credential-stuffing: 10 attempts/min/IP.
-  const loginLimit = createRateLimit({ capacity: 10, refillWindowMs: 60_000 });
+  const loginLimit = createRateLimit({ capacity: 10, refillWindowMs: 60_000, scope: "login" });
   auth.use("/login", loginLimit, postBodyLimit);
 
   auth.post("/login", async (c) => {
@@ -222,6 +223,25 @@ export function createReviewerRouter(): Hono {
     const reviewer = currentReviewer(c);
     const updated = await resolveCorrection(getDb(), reviewer.id, id, body.reasoning, "DISMISSED");
     return c.json(updated, 200);
+  });
+
+  // ---- Abuse-monitoring metrics (Track F; launch checklist §5.4/§7.2) ----
+  // A reviewer-guarded, coarse stopgap: request totals, rate-limited counts, and
+  // correction-submission volume, bucketed per fixed window. Aggregate counts
+  // only — no IPs or viewer identifiers (PRIVACY.md). `?windows=N` bounds how
+  // many recent windows are returned (1–168, default 24).
+  r.get("/metrics", async (c) => {
+    const raw = c.req.query("windows");
+    let limitWindows = 24;
+    if (raw !== undefined) {
+      const parsed = Number.parseInt(raw, 10);
+      if (!Number.isFinite(parsed) || parsed < 1 || parsed > 168) {
+        throw badRequest("`windows` must be an integer between 1 and 168.", "INVALID_WINDOWS");
+      }
+      limitWindows = parsed;
+    }
+    const snapshot = await readMetrics({ limitWindows });
+    return c.json(snapshot, 200);
   });
 
   // ---- Audit viewer (§26.5) ----
