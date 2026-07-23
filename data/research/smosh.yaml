@@ -25,6 +25,13 @@ entities:
   - slug: mythical
     canonical_name: Mythical Entertainment
     entity_type: COMPANY
+    # These attributes MUST match good-mythical-morning.yaml, which declares the
+    # same shared entity (deterministic id is derived from canonical_name). The
+    # importer's per-record upsert is last-writer-wins on scalar columns, so
+    # conflicting declarations across records would churn this row on every run.
+    legal_name: Mythical Entertainment, LLC
+    jurisdiction: US-CA
+    website: https://mythical.com
     aliases:
       - Mythical
       - Rhett & Link's Mythical
