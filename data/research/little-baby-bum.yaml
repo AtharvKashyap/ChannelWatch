@@ -186,9 +186,10 @@ claims:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   # reviewed_by intentionally omitted — not yet human-reviewed (schema rejects
   # an explicit null; absence signals "unreviewed").
-  last_reviewed_at: "2026-07-22"
+  last_reviewed_at: 2026-07-23
   notes: >
     DRAFT — requires two-person human review (Spec §20.3: PE involvement +
     named individuals).

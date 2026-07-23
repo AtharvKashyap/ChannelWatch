@@ -279,8 +279,9 @@ claims:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   # reviewed_by intentionally omitted — not yet human-reviewed.
-  last_reviewed_at: "2026-07-22"
+  last_reviewed_at: 2026-07-23
   notes: >
     DRAFT — requires human review. This channel was commissioned as the
     expected "corporate-native" pilot case, but research surfaced a major,

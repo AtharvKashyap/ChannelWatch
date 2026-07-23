@@ -188,6 +188,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   # reviewed_by omitted: NOT yet human-reviewed (schema field is optional, not
   # nullable). This is an unverified draft.
   last_reviewed_at: 2026-07-23

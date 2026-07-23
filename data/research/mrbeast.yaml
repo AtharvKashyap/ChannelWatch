@@ -141,6 +141,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   # reviewed_by omitted: not yet reviewed (schema field is optional, not nullable).
   notes: >-
     DRAFT for human review — pilot "externally funded but creator-controlled"
@@ -180,4 +181,4 @@ review:
     All supporting sources are Tier 2 reputable business press; no Tier 1
     primary filing was located, so no relationship is above HIGH confidence and
     none should be published as CONFIRMED without further primary sourcing.
-  last_reviewed_at: 2026-07-22
+  last_reviewed_at: 2026-07-23

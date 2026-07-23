@@ -47,6 +47,13 @@ entities:
 # the announcement date. Record the ANNOUNCEMENT date on the supporting source's
 # `published_at` instead (see the sources block below). Only the current owner
 # affects the served classification; prior owners are surfaced as history only.
+#
+# JOINT SOLE-OWNER CREATORS (policy, 2026-07-23): when creators are jointly the
+# DOCUMENTED SOLE owners of a company but their individual split is undisclosed,
+# encode each as `PARTIALLY_OWNS` with `control_level: CONTROLLING` (their joint
+# control is documented; the split is not) and omit percentages. This is what
+# makes the company creator-controlled (→ CREATOR_OWNED). Do NOT use OWNS with
+# control UNKNOWN for this case. Examples: linus-tech-tips, good-mythical-morning.
 relationships:
   - subject: owner_co
     type: OWNS # see SPEC §15.2 relationship types

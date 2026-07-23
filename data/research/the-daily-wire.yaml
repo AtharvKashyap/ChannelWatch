@@ -210,6 +210,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   # reviewed_by omitted: not yet reviewed.
   notes: >-
     DRAFT for human review. TWO-PERSON REVIEW REQUIRED (METHODOLOGY.md §5):
@@ -270,4 +271,4 @@ review:
     reported 2024-2025 growth-investment discussions (out of scope for this
     ownership record). No Tier 1 government/registry filing was located, so no
     edge should be published as CONFIRMED without further primary sourcing.
-  last_reviewed_at: 2026-07-22
+  last_reviewed_at: 2026-07-23

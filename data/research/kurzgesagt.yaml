@@ -170,6 +170,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   # reviewed_by intentionally omitted: not yet reviewed (schema treats
   # reviewed_by as optional-string; null is not a valid value, so the field is
   # left unset for this unverified draft).

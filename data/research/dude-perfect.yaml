@@ -180,6 +180,7 @@ claims:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   # reviewed_by intentionally omitted: not yet human-reviewed.
   notes: >
     JUDGMENT CALLS FOR HUMAN REVIEWER:
@@ -228,4 +229,4 @@ review:
     referencing multiple independent third-party stats sites
     (Wikidata, HypeAuditor, filmot, mixerno.space) after YouTube's own page
     did not return channel metadata to the fetch tool (JS-rendered content).
-  last_reviewed_at: 2026-07-22
+  last_reviewed_at: 2026-07-23
