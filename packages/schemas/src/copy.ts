@@ -534,3 +534,97 @@ export function lastReviewedText(isoDate: string | null): string {
   if (isoDate == null || isoDate === "") return PANEL_COPY.neverReviewed;
   return `Last reviewed ${isoDate}`;
 }
+
+/**
+ * Static UI strings for the authenticated `/review` console (SPEC §19.5, §20).
+ * The console is internal (reviewers only), but its copy still lives in the
+ * single reviewed module rather than inline in components (CLAUDE.md rule 2), so
+ * every user-facing string — including the sensitive-claim / two-person-review
+ * language (§20.3) — is reviewed in one place and stays §23.1-neutral. No string
+ * here asserts wrongdoing; a "sensitive" claim is a review-process flag, not an
+ * accusation.
+ */
+export const REVIEW_CONSOLE_COPY = {
+  consoleTitle: "Review Console",
+  loading: "Loading…",
+  // Navigation.
+  navQueue: "Queue",
+  navEntities: "Entities",
+  navCorrections: "Corrections",
+  navAudit: "Audit",
+  navSignOut: "Sign out",
+  // Login.
+  loginHeading: "Reviewer sign in",
+  loginEmailLabel: "Email",
+  loginPasswordLabel: "Password",
+  loginSubmit: "Sign in",
+  loginSubmitting: "Signing in…",
+  loginError: "Sign in failed. Check your email and password.",
+  signedInAs: "Signed in as",
+  // Claim queue.
+  queueHeading: "Claim queue",
+  queueFilterLabel: "Filter by status",
+  queueFilterAll: "All statuses",
+  queueEmpty: "No claims match this filter.",
+  colClaim: "Claim",
+  colStatus: "Status",
+  colConfidence: "Confidence",
+  colReviews: "Reviews",
+  colFlags: "Flags",
+  colActions: "Actions",
+  // Two-person review (§20.3) — a process flag, never an accusation.
+  sensitiveFlag: "Second review required",
+  sensitiveExplanation:
+    "This claim is flagged for two-person review. A second, distinct reviewer must approve it before it can be published.",
+  awaitingSecondReviewer: "Approved once; awaiting a second distinct reviewer.",
+  readyToPublish: "Approvals complete; approving will publish.",
+  // Review actions.
+  approve: "Approve",
+  reject: "Reject",
+  reviewDialogApproveHeading: "Approve claim",
+  reviewDialogRejectHeading: "Reject claim",
+  reasoningLabel: "Reviewer reasoning (required)",
+  reasoningPlaceholder: "Record the evidence basis and your decision (at least 10 characters).",
+  reasoningTooShort: "Please record at least 10 characters of reasoning.",
+  confirm: "Confirm",
+  cancel: "Cancel",
+  actionError: "The action could not be completed. Please try again.",
+  // Entities.
+  entitiesHeading: "Entities",
+  entityNewButton: "New entity",
+  entityEdit: "Edit",
+  entityCanonicalNameLabel: "Canonical name",
+  entityTypeLabel: "Type",
+  entityLegalNameLabel: "Legal name",
+  entityJurisdictionLabel: "Jurisdiction",
+  entityWebsiteLabel: "Website",
+  entityDescriptionLabel: "Description",
+  entitySave: "Save",
+  entitySaving: "Saving…",
+  entityCreateHeading: "Create entity",
+  entityEditHeading: "Edit entity",
+  entitiesEmpty: "No entities yet.",
+  // Corrections inbox.
+  correctionsHeading: "Correction inbox",
+  correctionsEmpty: "No correction requests match this filter.",
+  correctionResolve: "Resolve",
+  correctionDismiss: "Dismiss",
+  correctionResolveHeading: "Resolve correction",
+  correctionDismissHeading: "Dismiss correction",
+  resolutionLabel: "Resolution note (required)",
+  resolutionPlaceholder: "Record how this correction was handled (at least 10 characters).",
+  colSubmitted: "Submitted",
+  colExplanation: "Explanation",
+  colRelationship: "Relationship",
+  // Audit viewer.
+  auditHeading: "Audit events",
+  auditFilterLabel: "Filter by subject id",
+  auditFilterApply: "Apply",
+  auditEmpty: "No audit events match this filter.",
+  colWhen: "When",
+  colActor: "Actor",
+  colAction: "Action",
+  colObject: "Object",
+  prev: "Previous",
+  next: "Next",
+} as const;

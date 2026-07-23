@@ -29,6 +29,10 @@ export const notFound = (message = "Resource not found"): ApiError =>
   new ApiError(404, "NOT_FOUND", message);
 export const badRequest = (message: string, code = "BAD_REQUEST"): ApiError =>
   new ApiError(400, code, message);
+export const unauthorized = (message = "Authentication required."): ApiError =>
+  new ApiError(401, "UNAUTHORIZED", message);
+export const conflict = (message: string, code = "CONFLICT"): ApiError =>
+  new ApiError(409, code, message);
 
 export interface ErrorEnvelope {
   error: { code: string; message: string; details?: unknown };
@@ -90,8 +94,12 @@ export function cors(webOrigin: string): MiddlewareHandler {
     c.header("Vary", "Origin");
     if (origin && isAllowedOrigin(origin, webOrigin)) {
       c.header("Access-Control-Allow-Origin", origin);
-      c.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+      c.header("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTIONS");
       c.header("Access-Control-Allow-Headers", "Content-Type");
+      // Credentialed requests: the authed `/review` console sends the session
+      // cookie (fetch `credentials: "include"`). This requires a specific
+      // reflected origin (never `*`, enforced above) plus this header.
+      c.header("Access-Control-Allow-Credentials", "true");
       c.header("Access-Control-Max-Age", "600");
     }
     if (c.req.method === "OPTIONS") {
