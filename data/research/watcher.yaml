@@ -1,0 +1,544 @@
+# CHANNELWATCH research record — Watcher (Watcher Entertainment)
+#
+# DRAFT for human review. Nothing here is published without verification.
+# reviewed_by is intentionally UNSET (not yet reviewed).
+#
+# Profile: a creator-CONTROLLED channel with a strong TEMPORAL/brand-transition
+# story that PARALLELS The Try Guys (see try-guys.yaml) but differs in two
+# material ways. Steven Lim, Ryan Bergara and Shane Madej met as BuzzFeed
+# employees — Bergara & Madej co-hosted "BuzzFeed Unsolved", Lim created/co-hosted
+# "Worth It". In 2019 they quit BuzzFeed as full-time staff and founded the
+# independent LA studio Watcher Entertainment, launching the "Watcher" YouTube
+# channel in January 2020 to gain ownership/creative control of their own IP.
+#
+# TWO DIFFERENCES FROM THE TRY GUYS MODEL (both evidence-driven):
+#   (1) NO BRAND TRANSFER. The prior shows (Unsolved, Worth It) STAYED WITH
+#       BuzzFeed — BuzzFeed retained that IP and the trio kept working on them
+#       under contract into ~2021. Nothing transferred FROM BuzzFeed TO Watcher.
+#       So BuzzFeed's ownership of those show-brands is modeled as STILL ACTIVE
+#       (not an ENDED->ACTIVE handover), and the "Watcher" brand/channel is new.
+#   (2) NOT SOLE-OWNED. Watcher Entertainment is documented as "majority-owned by
+#       the trio", with outside INVESTORS (Neuro, Boba Guys, and YouTube co-founder
+#       Steve Chen). So the joint-SOLE-owner convention (which requires documented
+#       SOLE ownership, e.g. try-guys) does NOT strictly apply. The trio's joint
+#       CONTROL is documented (majority), so each founder is encoded PARTIALLY_OWNS
+#       + CONTROLLING (this is what makes the company creator-controlled), and the
+#       outside backers are modeled as INVESTED_IN + MINORITY (investment, NOT
+#       controlling ownership; none is a PE/VC firm) — enriching the graph without
+#       changing the served label.
+#
+# TEMPORAL MODELING CAUTION (per task): this channel (UCircJf-FlToBNjuy9xG-i5A)
+# was NEVER BuzzFeed-owned. It was created ~Apr 2019 and publicly launched Jan
+# 2020 as an independent property. What transitioned from BuzzFeed was (a) the
+# three creators' EMPLOYMENT (ENDED 2019) — NOT (b) any channel ownership and NOT
+# (c) any show-brand ownership (BuzzFeed kept Unsolved/Worth It). The BuzzFeed era
+# is therefore modeled on ENDED EMPLOYS edges plus BuzzFeed's still-ACTIVE
+# ownership of the prior show-brands — never as a former owner of THIS channel.
+# The channel's only ever owner is Watcher Entertainment (-> CREATOR_OWNED).
+
+channel:
+  # Canonical id read from the raw @watcher channel-page HTML "externalId" field
+  # (curl of https://www.youtube.com/@watcher -> "externalId":
+  # "UCircJf-FlToBNjuy9xG-i5A"). Independently cross-checked against YouTube's OWN
+  # feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCircJf-FlToBNjuy9xG-i5A
+  # returns <yt:channelId>UCircJf-FlToBNjuy9xG-i5A</yt:channelId>, <title>Watcher
+  # </title> and <name>Watcher</name>; the feed's channel-level <published> is
+  # 2019-04-09 (the account-creation date, ~9 months before the Jan-2020 public
+  # launch — see reviewer note).
+  youtube_channel_id: UCircJf-FlToBNjuy9xG-i5A
+  display_name: Watcher
+  handle: "@watcher"
+
+entities:
+  - slug: watcher_co
+    canonical_name: Watcher Entertainment
+    entity_type: COMPANY
+    jurisdiction: US-CA # Los Angeles-based independent studio
+    website: https://www.watcherentertainment.com
+    aliases:
+      - Watcher
+      - Watcher Entertainment LLC
+  - slug: steven
+    canonical_name: Steven Lim
+    entity_type: CREATOR
+    aliases:
+      - Steven
+  - slug: ryan
+    canonical_name: Ryan Bergara
+    entity_type: CREATOR
+    aliases:
+      - Ryan
+  - slug: shane
+    canonical_name: Shane Madej
+    entity_type: CREATOR
+    aliases:
+      - Shane
+  # BuzzFeed entity reused VERBATIM from try-guys.yaml (same slug and fields) so
+  # the two records share the entity in the whole-graph recompute.
+  - slug: buzzfeed
+    canonical_name: BuzzFeed
+    entity_type: COMPANY
+    legal_name: BuzzFeed, Inc.
+    website: https://www.buzzfeed.com
+    aliases:
+      - BuzzFeed, Inc.
+  # Outside investors / brand partners in Watcher Entertainment. None is a PE or
+  # VC firm: Neuro and Boba Guys are consumer-products COMPANYs; Steve Chen is an
+  # individual (YouTube co-founder) angel. So no PE-label rule is triggered.
+  - slug: neuro
+    canonical_name: Neuro
+    entity_type: COMPANY
+    aliases:
+      - Neuro Gum
+  - slug: boba_guys
+    canonical_name: Boba Guys
+    entity_type: COMPANY
+  - slug: steve_chen
+    canonical_name: Steve Chen
+    entity_type: PERSON
+    aliases:
+      - Steven Chen
+  # Prior BuzzFeed shows that STAYED WITH BuzzFeed (IP not transferred). Declared
+  # to make the temporal distinction precise: BuzzFeed owned/owns these show
+  # brands; it never owned the Watcher channel. Outside the channel's ownership
+  # chain, so no label impact.
+  - slug: unsolved_brand
+    canonical_name: BuzzFeed Unsolved
+    entity_type: BRAND
+    aliases:
+      - Unsolved
+      - BuzzFeed Unsolved Supernatural
+  - slug: worth_it_brand
+    canonical_name: Worth It
+    entity_type: BRAND
+    aliases:
+      - BuzzFeed Worth It
+
+relationships:
+  # ============================ CURRENT (ACTIVE) ============================
+  # 0: Watcher Entertainment owns the channel. control_level CONTROLLING; no
+  # ownership percentage disclosed, so none asserted. effective_from 2020-01-01
+  # (documented public launch on YouTube). See notes on the ~Apr-2019 account
+  # creation date, ~9 months earlier.
+  - subject: watcher_co
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2020-01-01
+    confidence: 0.85
+    status: ACTIVE
+  # 1-3: the three founders jointly hold the MAJORITY of Watcher Entertainment
+  # ("majority-owned by the trio", Wikipedia). Their joint control is documented;
+  # the individual split is not, so each is PARTIALLY_OWNS + CONTROLLING with no
+  # percentage. This is what makes the company creator-controlled (-> CREATOR_OWNED).
+  # NOTE this is a MAJORITY (not SOLE) holding — outside investors hold the
+  # remainder (rels 20-22) — so this is the majority-creator variant of the
+  # convention, not the joint-SOLE-owner case used for try-guys.
+  - subject: steven
+    type: PARTIALLY_OWNS
+    object: watcher_co
+    control_level: CONTROLLING
+    effective_from: 2020-01-01
+    confidence: 0.75
+    status: ACTIVE
+  - subject: ryan
+    type: PARTIALLY_OWNS
+    object: watcher_co
+    control_level: CONTROLLING
+    effective_from: 2020-01-01
+    confidence: 0.75
+    status: ACTIVE
+  - subject: shane
+    type: PARTIALLY_OWNS
+    object: watcher_co
+    control_level: CONTROLLING
+    effective_from: 2020-01-01
+    confidence: 0.75
+    status: ACTIVE
+  # 4-6: Watcher Entertainment co-founded by the three. effective_from 2020-01-01
+  # (documented launch); reporting dates the company's formation to 2019 (see notes).
+  - subject: watcher_co
+    type: FOUNDED_BY
+    object: steven
+    effective_from: 2020-01-01
+    confidence: 0.9
+    status: ACTIVE
+  - subject: watcher_co
+    type: FOUNDED_BY
+    object: ryan
+    effective_from: 2020-01-01
+    confidence: 0.9
+    status: ACTIVE
+  - subject: watcher_co
+    type: FOUNDED_BY
+    object: shane
+    effective_from: 2020-01-01
+    confidence: 0.9
+    status: ACTIVE
+  # 7-9: the channel was created by the three founders as part of the launch.
+  # effective_from 2020-01-01 (public launch); account-creation ~2019-04-09 (feed).
+  - subject: channel
+    type: FOUNDED_BY
+    object: steven
+    effective_from: 2020-01-01
+    confidence: 0.8
+    status: ACTIVE
+  - subject: channel
+    type: FOUNDED_BY
+    object: ryan
+    effective_from: 2020-01-01
+    confidence: 0.8
+    status: ACTIVE
+  - subject: channel
+    type: FOUNDED_BY
+    object: shane
+    effective_from: 2020-01-01
+    confidence: 0.8
+    status: ACTIVE
+  # 10-11: Ryan and Shane are the channel's principal on-camera hosts (e.g. Ghost
+  # Files, the Unsolved successor). Steven Lim is primarily executive/producer
+  # (rel 12), so no HOSTED_BY edge is asserted for him (flagged).
+  - subject: channel
+    type: HOSTED_BY
+    object: ryan
+    confidence: 0.9
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: shane
+    confidence: 0.9
+    status: ACTIVE
+  # 12: Steven Lim manages Watcher Entertainment as CEO. All three were co-CEOs
+  # from launch; Bergara & Madej stepped down from the CEO role (rels 13-14),
+  # leaving Lim as SOLE CEO (announced ~late 2023 / early Jan 2024). This is a
+  # MANAGEMENT/role edge, NOT ownership — Lim's control_level is MANAGEMENT and
+  # this does not assert additional equity. (See notes: the task framed this as
+  # "Steven Lim stepped back"; the documented direction is the OPPOSITE — Lim
+  # stepped UP to sole CEO while Bergara & Madej stepped back.)
+  - subject: steven
+    type: MANAGES
+    object: watcher_co
+    control_level: MANAGEMENT
+    effective_from: 2020-01-01
+    confidence: 0.8
+    status: ACTIVE
+  # 13-14: Bergara and Madej were co-CEOs from launch until stepping down from the
+  # CEO role (~Jan 2024) to focus on content creation. Modeled as MANAGES edges
+  # ENDED 2024-01-01. Crucially this is a ROLE change, NOT an equity change — NO
+  # source documents any ownership/stake change, so their PARTIALLY_OWNS edges
+  # (rels 2-3) stay ACTIVE. effective_to 2024-01-01 is approximate (announcement
+  # reported early Jan 2024; exact operative date not documented — reviewer refine).
+  - subject: ryan
+    type: MANAGES
+    object: watcher_co
+    control_level: MANAGEMENT
+    effective_from: 2020-01-01
+    effective_to: 2024-01-01
+    confidence: 0.7
+    status: ENDED
+  - subject: shane
+    type: MANAGES
+    object: watcher_co
+    control_level: MANAGEMENT
+    effective_from: 2020-01-01
+    effective_to: 2024-01-01
+    confidence: 0.7
+    status: ENDED
+  # ===================== BuzzFeed EMPLOYMENT (temporal) =====================
+  # 15-17: the three were BuzzFeed employees who created/hosted Unsolved and Worth
+  # It until they quit as full-time staff in 2019 to found Watcher. effective_from
+  # 2016-01-01 (year the flagship shows began; exact individual hire dates not
+  # documented) and effective_to 2019-10-01 (approx; "quit BuzzFeed earlier this
+  # year" per the Oct-2019 launch reporting — see notes on the ~2021 contractor
+  # tail). This is the ONLY thing that transitioned from BuzzFeed.
+  - subject: buzzfeed
+    type: EMPLOYS
+    object: steven
+    effective_from: 2016-01-01
+    effective_to: 2019-10-01
+    confidence: 0.8
+    status: ENDED
+  - subject: buzzfeed
+    type: EMPLOYS
+    object: ryan
+    effective_from: 2016-01-01
+    effective_to: 2019-10-01
+    confidence: 0.8
+    status: ENDED
+  - subject: buzzfeed
+    type: EMPLOYS
+    object: shane
+    effective_from: 2016-01-01
+    effective_to: 2019-10-01
+    confidence: 0.8
+    status: ENDED
+  # 18-19: BuzzFeed owns the PRIOR show brands, which STAYED WITH BuzzFeed when the
+  # trio left (no transfer to Watcher). Modeled as STILL ACTIVE (not an ENDED->
+  # ACTIVE handover), to make the "BuzzFeed owned the shows, not this channel"
+  # distinction explicit. Outside the channel's ownership chain -> no label impact.
+  # effective_from 2016-01-01 (show launch year). INFERRED that BuzzFeed holds the
+  # IP (standard for a BuzzFeed-produced series; the trio left specifically because
+  # they lacked ownership of these) — flagged, moderate confidence.
+  - subject: buzzfeed
+    type: OWNS
+    object: unsolved_brand
+    control_level: CONTROLLING
+    effective_from: 2016-01-01
+    confidence: 0.7
+    status: ACTIVE
+  - subject: buzzfeed
+    type: OWNS
+    object: worth_it_brand
+    control_level: CONTROLLING
+    effective_from: 2016-01-01
+    confidence: 0.7
+    status: ACTIVE
+  # ===================== OUTSIDE INVESTORS (minority) =====================
+  # 20-22: outside backers of Watcher Entertainment. Modeled as INVESTED_IN with
+  # control_level MINORITY (investment, NOT controlling ownership) — consistent
+  # with "majority-owned by the trio" and the data-model rule that investment must
+  # not be conflated with ownership or editorial control. None is a PE/VC firm, so
+  # no PE-label evidence rule applies. Whether these remain current is not fully
+  # documented; kept ACTIVE at moderate confidence (flagged). effective_from
+  # 2020-01-01 (launch-era funding).
+  - subject: neuro
+    type: INVESTED_IN
+    object: watcher_co
+    control_level: MINORITY
+    effective_from: 2020-01-01
+    confidence: 0.7
+    status: ACTIVE
+  - subject: boba_guys
+    type: INVESTED_IN
+    object: watcher_co
+    control_level: MINORITY
+    effective_from: 2020-01-01
+    confidence: 0.7
+    status: ACTIVE
+  - subject: steve_chen
+    type: INVESTED_IN
+    object: watcher_co
+    control_level: MINORITY
+    effective_from: 2020-01-01
+    confidence: 0.65
+    status: ACTIVE
+
+sources:
+  - ref: variety_2019
+    url: https://variety.com/2019/digital/news/watcher-entertainment-buzzfeed-steven-lim-ryan-bergara-shane-madej-1203427669/
+    title: Ex-BuzzFeed Video Staffers Launch Watcher Entertainment Digital Studio (EXCLUSIVE)
+    publisher: Variety
+    published_at: 2019-10-30
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Steven Lim, Ryan Bergara and Shane Madej [...] quit BuzzFeed earlier this
+      year and founded L.A.-based Watcher Entertainment, with the trio looking to
+      get full creative control and ownership of their videos. [...] The three of
+      them currently have contracts with BuzzFeed to continue working on "Worth
+      It" and "Unsolved" alongside their launch of Watcher Entertainment.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 15
+      - relationship: 16
+      - relationship: 17
+      - relationship: 18
+      - relationship: 19
+  - ref: tubefilter_2020
+    url: https://www.tubefilter.com/2020/04/08/caa-signs-watcher-entertainment/
+    title: CAA Signs 'Watcher', The YouTube Studio Founded By 3 Former BuzzFeeders
+    publisher: Tubefilter
+    published_at: 2020-04-08
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Watcher [...] founded by longtime BuzzFeed creators Steven Lim, Ryan Bergara,
+      and Shane Madej [...] debuted in Jan. 2020 on YouTube with a slate of nine
+      original series focused on food, travel, and horror. [...] Their BuzzFeed
+      shows, including "Worth It" and "BuzzFeed Unsolved," amassed a collective 2
+      billion views to date. [...] Neuro and Boba Guys serve as both brand partners
+      and investors in the company.
+    supports:
+      - relationship: 0
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 18
+      - relationship: 19
+      - relationship: 20
+      - relationship: 21
+  - ref: wikipedia_watcher
+    url: https://en.wikipedia.org/wiki/Watcher_Entertainment
+    title: Watcher Entertainment
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Watcher Entertainment was launched in January 2020 by Steven Lim, Ryan
+      Bergara, and Shane Madej, who met at BuzzFeed (Bergara and Madej co-hosted
+      "BuzzFeed Unsolved"; Lim created "Worth It"). The company is majority-owned
+      by the trio and received funding from Neuro, Boba Guys, and YouTube
+      co-founder Steve Chen. The three initially served as co-CEOs; Bergara and
+      Madej stepped down to focus on content, leaving Lim as sole CEO.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+      - relationship: 8
+      - relationship: 9
+      - relationship: 10
+      - relationship: 11
+      - relationship: 12
+      - relationship: 13
+      - relationship: 14
+      - relationship: 15
+      - relationship: 16
+      - relationship: 17
+      - relationship: 18
+      - relationship: 19
+      - relationship: 20
+      - relationship: 21
+      - relationship: 22
+  - ref: watcher_about
+    url: https://www.watcherentertainment.com/about
+    title: About — Watcher Entertainment
+    publisher: Watcher Entertainment
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Launched in January, 2020, Watcher is a new production studio from Steven
+      Lim, Ryan Bergara, and Shane Madej. Having previously created the viral shows
+      Worth It and BuzzFeed Unsolved, our founders took that knowledge and applied
+      it to a company that is focused on creating innovative unscripted series in
+      the digital space.
+    supports:
+      - relationship: 0
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+      - relationship: 8
+      - relationship: 9
+      - relationship: 18
+      - relationship: 19
+  - ref: youtube_channel_feed
+    url: https://www.youtube.com/channel/UCircJf-FlToBNjuy9xG-i5A
+    title: Watcher — YouTube channel
+    publisher: Watcher (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCircJf-FlToBNjuy9xG-i5A
+    excerpt: >-
+      The raw @watcher channel-page HTML exposes "externalId":
+      "UCircJf-FlToBNjuy9xG-i5A", and YouTube's own feed for that id carries
+      <yt:channelId>UCircJf-FlToBNjuy9xG-i5A</yt:channelId>, <title>Watcher</title>
+      and <name>Watcher</name>, confirming the canonical channel id and the
+      channel's ongoing uploads by its current hosts. The feed's channel-level
+      <published> is 2019-04-09 (account-creation date).
+    supports:
+      - relationship: 0
+      - relationship: 10
+      - relationship: 11
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally OMITTED — this is a DRAFT, not yet human-reviewed.
+  notes: >-
+    DRAFT for human review — creator-CONTROLLED channel with a BuzzFeed -> Watcher
+    Entertainment TEMPORAL story that parallels The Try Guys. reviewed_by
+    intentionally unset. last_reviewed_at holds the draft authoring date
+    (schema-required), NOT a completed review.
+
+    EXPECTED CLASSIFICATION: CREATOR_OWNED. The channel's sole active owner is
+    Watcher Entertainment (COMPANY, rel 0); Watcher is itself controlled by its
+    three creator founders (rels 1-3, PARTIALLY_OWNS + CONTROLLING, documented
+    "majority-owned by the trio"), so the classifier's creator-controlled-company
+    rule fires (explanation code CREATOR_CONTROLLED_COMPANY). Confidence ~0.75 (min
+    over the load-bearing chain: the founder-ownership edges). REVIEWER JUDGMENT
+    CALL: because outside investors exist (rels 20-22), a stricter reading could
+    argue EXTERNALLY_FUNDED; this record treats the trio's documented MAJORITY /
+    control as decisive (investment != controlling ownership; none of the backers
+    is a PE/VC firm), so CREATOR_OWNED. If the classifier weights any external
+    equity toward EXTERNALLY_FUNDED, that is the alternative label to consider.
+
+    CHANNEL ID: UCircJf-FlToBNjuy9xG-i5A, taken from the raw @watcher page HTML
+    "externalId" and cross-checked against YouTube's own RSS feed (yt:channelId +
+    title + author all "Watcher"; channel-level <published> 2019-04-09).
+
+    TEMPORAL / OWNERSHIP MODELING (the crux):
+    (a) The channel was NEVER BuzzFeed-owned. Account created ~Apr 2019, publicly
+    launched Jan 2020 as an independent property. So NO former-BuzzFeed-owner edge
+    is placed on the channel.
+    (b) UNLIKE The Try Guys, there was NO brand transfer FROM BuzzFeed. The prior
+    shows (BuzzFeed Unsolved, Worth It) STAYED WITH BuzzFeed; the trio kept working
+    on them under contract into ~2021. BuzzFeed's ownership of those show-brands
+    (rels 18-19) is therefore modeled as STILL ACTIVE, not an ENDED->ACTIVE
+    handover. Those brands are OUTSIDE the channel's ownership chain -> no label
+    impact. rels 18-19 are an INFERENCE (BuzzFeed-produced series IP; the trio left
+    precisely because they lacked ownership) — flagged, confidence 0.7; a reviewer
+    may seek a primary trademark/contract source or loosen these.
+    (c) The only thing that transitioned from BuzzFeed is EMPLOYMENT (rels 15-17,
+    ENDED 2019).
+
+    NOT SOLE-OWNED (key difference from try-guys): Watcher is "majority-owned by
+    the trio" WITH outside investors (Neuro, Boba Guys, Steve Chen). The joint-
+    SOLE-owner convention (requires documented SOLE ownership) does NOT strictly
+    apply. Founders encoded PARTIALLY_OWNS + CONTROLLING (documented joint
+    majority/control, split undisclosed -> no percentages); investors encoded
+    INVESTED_IN + MINORITY (rels 20-22). None of Neuro (gum COMPANY), Boba Guys
+    (tea COMPANY), or Steve Chen (PERSON, angel) is a PE/VC firm, so the §14.3
+    PE-label evidence rule is NOT triggered. A reviewer should seek a primary/
+    registry source (CA business filing / cap table) to confirm the exact split.
+
+    CEO ROLE CHANGE (rels 12-14): all three were co-CEOs from launch; Bergara &
+    Madej stepped down from the CEO role (~Jan 2024, announced early Jan 2024) to
+    focus on content, leaving Lim as SOLE CEO. Modeled as MANAGES edges
+    (MANAGEMENT), ENDED for Bergara/Madej 2024-01-01, ACTIVE for Lim. This is a
+    ROLE change, NOT an equity change — NO source documents any stake change, so
+    the founders' PARTIALLY_OWNS edges (rels 1-3) all remain ACTIVE. NOTE: the task
+    framed this as "Steven Lim's 2024 stepped-back role"; the DOCUMENTED direction
+    is the OPPOSITE — Lim stepped UP to sole CEO while Bergara & Madej stepped back.
+    This record follows the documented facts and flags the discrepancy for the
+    reviewer. effective_to 2024-01-01 is approximate (exact operative date not
+    documented).
+
+    2024 STREAMING-SERVICE REVERSAL: in April 2024 Watcher announced moving new
+    content behind a paid streaming service, drew heavy backlash (large subscriber
+    loss), and reversed within days. This is an OPERATIONAL/distribution event, NOT
+    an ownership change, so it is recorded here in prose only and NO ownership edge
+    is asserted or altered for it (legal-safe: describes structure, not misconduct).
+
+    DATES / JUDGMENT CALLS:
+    (1) OWNS / founding / creator-ownership edges use effective_from 2020-01-01
+    (documented public launch). Reporting dates the company's FORMATION and the
+    trio quitting BuzzFeed to 2019, and the channel account was created ~2019-04-09
+    (feed) — an ~9-month gap flagged; a reviewer may anchor company FOUNDED_BY to
+    2019.
+    (2) EMPLOYS effective_from 2016-01-01 (flagship shows' launch year; exact hire
+    dates not documented — Bergara joined BuzzFeed earlier, ~2014-15) and
+    effective_to 2019-10-01 (approx: "quit earlier this year" per Oct-2019 launch
+    reporting). A post-2019 contractor tail (Unsolved/Worth It through ~2021) is
+    noted but NOT modeled as a separate edge to avoid over-reach.
+    (3) Watcher jurisdiction recorded US-CA (LA-based studio); no exact LLC
+    registration state verified from a primary filing — flagged.
+    (4) variety_2019 is a hard-paywalled article; its excerpt was captured via
+    search/cache, not a full direct fetch — a reviewer should re-verify the verbatim
+    quote against the original before publication. tubefilter_2020, wikipedia_watcher,
+    watcher_about and youtube_channel_feed were all directly fetched/verified.
+
+    LEGAL-SAFE / NEUTRALITY: no PE-implying label is asserted anywhere, so the
+    §14.3 PE-label rule is not triggered. All backing sources are Tier 1-2; no
+    Tier 3/4 source supports any edge. Language describes ownership STRUCTURE only;
+    no claim of editorial interference or misconduct is made.
+  last_reviewed_at: 2026-07-23

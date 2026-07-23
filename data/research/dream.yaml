@@ -1,0 +1,187 @@
+# CHANNELWATCH research record — Dream (Clay)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: independent, creator-owned single-creator channel. The "Dream"
+# YouTube channel was created and is hosted by the Minecraft creator known as
+# Dream (first name Clay, self-disclosed; full legal surname NOT publicly
+# disclosed and deliberately NOT recorded here — see privacy note). No company,
+# management firm, or external investor was found to own or have acquired the
+# channel. Associated structures that DO exist — the "Dream Team" content
+# collaboration group, the Dream SMP server, a merch store, and a Dec 2022 music
+# recording deal — are collaboration/commercial arrangements, NOT channel
+# ownership, and are discussed in the notes rather than modeled as owning edges.
+# Expected computed classification: CREATOR_OWNED.
+
+channel:
+  # Extracted from the "externalId" field embedded in the raw HTML of
+  # https://www.youtube.com/@dream (curl fetch, no JS execution). The page
+  # source contains exactly one "externalId":"UC..." value, this channel's own
+  # external/browse id, and the page's own
+  # <link rel="canonical" href="https://www.youtube.com/channel/UCTkXRDQl0luXxVQrRQvWS6w">
+  # confirms this UC id is the page's own channel.
+  youtube_channel_id: UCTkXRDQl0luXxVQrRQvWS6w
+  display_name: Dream
+  handle: "@dream"
+
+entities:
+  - slug: dream
+    canonical_name: Dream
+    entity_type: CREATOR
+    # legal_name intentionally OMITTED: only the first name "Clay" is publicly
+    # self-disclosed; the full legal surname is not public. Recording a partial
+    # or inferred legal name would be doxxing-adjacent and is excluded per
+    # docs/evidence-policy.md §5. "Clay" is carried as an alias only.
+    aliases:
+      - DreamWasTaken
+      - DreamTraps
+      - Clay
+
+relationships:
+  # 0: The channel was created by Dream. Wikipedia: "Dream created his YouTube
+  # channel on February 8, 2014, under the username DreamTraps and started to
+  # upload content regularly in July 2019." effective_from set to the documented
+  # channel-creation date. Regular uploads began July 2019 (see notes).
+  - subject: channel
+    type: FOUNDED_BY
+    object: dream
+    effective_from: 2014-02-08
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: Dream owns/controls the channel. Recorded OWNS + CONTROLLING with
+  # ownership_percentage OMITTED. This is the load-bearing edge for the
+  # classification and is, in part, an INFERENCE FROM DOCUMENTED ABSENCE: the
+  # sources consistently present the channel as Dream's own, and NO source found
+  # reports any external owner, investor, or acquirer of the channel. No explicit
+  # "Dream owns 100% of the channel" statement or corporate filing was located,
+  # so no percentage is asserted. Flagged for reviewer — see notes (2).
+  - subject: dream
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Dream is the channel's principal on-camera/behind-the-mask creator and
+  # host. Distinct from the ownership edge. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: dream
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_dream
+    url: https://en.wikipedia.org/wiki/Dream_(YouTuber)
+    title: Dream (YouTuber)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "Clay (born August 12, 1999), known online as Dream, is an American
+      YouTuber, Twitch streamer, speedrunner, and musician primarily known for
+      creating Minecraft content." "Dream created his YouTube channel on
+      February 8, 2014, under the username DreamTraps and started to upload
+      content regularly in July 2019." "He revealed his face in said YouTube
+      video, titled hi, I'm Dream., thirteen days later, on October 2, 2022."
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+  - ref: time_dream_identity
+    url: https://time.com/6219355/dream-identity-minecraft/
+    title: "Dream Revealed His Face After Years of Streaming. Here's Why It Matters"
+    publisher: TIME
+    published_at: 2022-10-06
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "On Oct. 2, the anonymous gaming streamer Dream finally showed the world
+      what was behind the cartoon-smiley mask he's worn for a little over three
+      years." "Dream's YouTube page, where he posts his Minecraft gaming videos,
+      is three years old and has amassed over 30 million followers." The article
+      presents him throughout as an independent creator; it names no company as
+      owning or having acquired his channel.
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by omitted: not yet reviewed (schema field is optional, not nullable).
+  notes: >-
+    DRAFT for human review — "independent, creator-owned single-creator channel"
+    case, structurally the same shape as mkbhd.yaml / the PewDiePie ownership
+    edge. Computed classification is expected to be CREATOR_OWNED: the channel's
+    only owner/controller is the CREATOR himself (rel 1), with no company, firm,
+    or external investor anywhere in the chain. No PE-label evidence rule is
+    engaged (no PRIVATE_EQUITY_FIRM or PORTFOLIO_COMPANY_OF edge). No
+    OWNERSHIP_CHANGED_RECENTLY warning expected (the single OWNS edge is
+    continuous from the 2014 founding; no ENDED ownership edge exists).
+
+    CHANNEL ID: UCTkXRDQl0luXxVQrRQvWS6w, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@dream (curl fetch, no JS),
+    corroborated by the page's own <link rel="canonical"
+    href="https://www.youtube.com/channel/UCTkXRDQl0luXxVQrRQvWS6w">.
+
+    PRIVACY HANDLING (docs/evidence-policy.md §5): Dream is a partially-anonymous
+    creator who did a documented face reveal on 2022-10-02. Only his
+    self-disclosed first name "Clay" is recorded, and only as an alias; his full
+    legal surname is NOT publicly disclosed, so legal_name is OMITTED rather than
+    guessed. No birth date, no residential/location, no family, and no other
+    personal-life details are recorded — none is ownership-relevant and all are
+    outside the transparency scope. Framing is strictly neutral: the record
+    describes channel ownership/hosting only and makes no claim of editorial
+    interference or wrongdoing.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) FOUNDING DATE: rel 0 effective_from 2014-02-08 is the documented
+    channel-creation date (Wikipedia), when the account existed under the name
+    "DreamTraps". Regular uploads did not begin until July 2019; a reviewer may
+    prefer to characterize July 2019 as the effective start of the channel's
+    activity as known today.
+    (2) OWNERSHIP EDGE (rel 1) is the reviewer's primary focus. Recorded OWNS +
+    CONTROLLING with NO percentage. This is partly an inference from DOCUMENTED
+    ABSENCE — every source presents the channel as Dream's own and none reports
+    any external owner/investor/acquirer — rather than from an explicit ownership
+    statement or corporate filing. Confidence set to 0.7 to reflect that. No
+    percentage was guessed. A US business-registry filing or a direct
+    on-the-record ownership statement would be a Tier 1 corroboration lead.
+
+    CORPORATE-ENTITY CHECK (requested): NO entity that owns the channel was
+    found. Specifically:
+    - "Dream Team" is a CONTENT COLLABORATION GROUP (Dream, GeorgeNotFound,
+      Sapnap and associates), not a legal owner of this channel; no ownership or
+      management edge is modeled from it.
+    - "Dream SMP" is a private Minecraft server / content project (created ~April
+      2020), not an ownership entity.
+    - MERCH: Dream operates an official merch store; publicly it has been run via
+      third-party merch-fulfillment operations (commonly reported as Killer
+      Merch). Merch fulfillment is a commercial/licensing service, NOT ownership
+      of the YouTube channel, and no reliably-sourced legal entity for Dream's
+      own business was located — so no COMPANY entity or company-ownership edge
+      is modeled here. "DreamXD" appears only as a secondary channel / merch
+      search term, not as a business entity. If a reviewer confirms a formal
+      operating company (name, jurisdiction, founding date) via a primary source,
+      the model should move to a creator-controlled-company shape (creator
+      OWNS/PARTIALLY_OWNS company; company OWNS channel), which would still
+      compute CREATOR_OWNED.
+    - MUSIC: Dream signed a recording deal with Mercury Records / Republic
+      Records (~December 2022). That is a music recording contract, NOT ownership
+      or acquisition of the YouTube channel, and creates no inbound channel-owning
+      edge; omitted from the graph for lack of channel relevance.
+    - DISAMBIGUATION: "DreamCrew" (the multi-disciplinary media/management company
+      co-founded by Drake and Adel "Future" Nur, 2017) is UNRELATED to this
+      creator despite the similar name; it must not be linked to this channel.
+    (3) EXTERNAL INVESTMENT / ACQUISITION: none of the channel was found. The
+    MrBeast connection is limited to a one-off co-branded product (the "Dream
+    Burger" on MrBeast Burger, released 2021-04-26) — a promotional collaboration,
+    not an investment in or acquisition of the channel.
+    (4) SOURCES: both are Tier 2 (ESTABLISHED_INDUSTRY_PUBLICATION: Wikipedia and
+    TIME) from independent publishers. No Tier 1 primary source (business-registry
+    filing or a direct on-the-record ownership statement) was captured — a lead
+    for a reviewer wanting Tier 1 corroboration of sole ownership. No Tier 3/4
+    source is used.
+  last_reviewed_at: 2026-07-23

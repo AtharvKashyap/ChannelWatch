@@ -1,0 +1,216 @@
+# CHANNELWATCH research record — NileRed (Nigel Braun)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: creator-founded, creator-owned independent chemistry channel. Founded
+# and hosted by Nigel Braun (a Canadian chemist from Montreal, Quebec); the
+# channel's commercial/merchandise business is associated with the numbered
+# Quebec company "9380-5174 Québec inc." (doing business as "NileRed"), whose
+# named contact is Nigel Braun per US customs import records.
+#
+# NO external corporate acquisition or equity investment was found. This was
+# checked specifically against Electrify Video Partners — the firm behind the
+# Veritasium majority investment, which has backed several education channels
+# (Veritasium, Astrum, Mentour Pilot, Simple History, Fireship). NileRed does
+# NOT appear in Electrify's disclosed portfolio, and no other outside investor
+# was found. No ownership CHANGE / acquisition event was found, so no
+# effective_to / superseded-owner edges are recorded. This record therefore
+# asserts no PE/corporate ownership. It does NOT assert independence beyond what
+# the sources state: the absence of a documented investor is recorded as an
+# absence, not as an affirmative "verified independent" claim.
+
+channel:
+  # Extracted from the canonical externalId embedded in the raw HTML of
+  # https://www.youtube.com/@NileRed (curl fetch, no JS execution): the page
+  # source lists exactly one externalId "UCFhXFikryT4aFcLkLw2LBLA", and the
+  # dominant canonicalBaseUrl on the page is "/@NileRed" (59 occurrences),
+  # distinct from the creator's other channels also referenced in the source
+  # (@NileBlue 26 occurrences, @NileRedExtra 24). The vanityChannelUrl on the
+  # page is "http://www.youtube.com/@NileRed", confirming the id belongs to this
+  # handle.
+  youtube_channel_id: UCFhXFikryT4aFcLkLw2LBLA
+  display_name: NileRed
+  handle: "@NileRed"
+
+entities:
+  - slug: braun
+    canonical_name: Nigel Braun
+    entity_type: CREATOR
+    aliases:
+      - NileRed
+
+  - slug: nilered_inc
+    canonical_name: 9380-5174 Québec inc.
+    entity_type: COMPANY
+    legal_name: 9380-5174 Québec inc.
+    jurisdiction: CA-QC
+    aliases:
+      - NileRed
+      - 9380-5174 Quebec Inc
+
+relationships:
+  # 0: Channel founded by Nigel Braun. The NileRed YouTube channel was created
+  # 2014-03-10 (Wikipedia), with the first video uploaded 2014-03-24.
+  # effective_from is the channel creation date.
+  - subject: channel
+    type: FOUNDED_BY
+    object: braun
+    effective_from: 2014-03-10
+    confidence: 0.9
+    status: ACTIVE
+
+  # 1: Nigel Braun is recorded as the owner of the channel. He is the sole
+  # documented creator/principal and the associated Quebec company lists him as
+  # its contact; no external owner or investor was found. control_level
+  # CONTROLLING reflects documented sole-creator control (single public
+  # principal, company associated to him), NOT a disclosed shareholding
+  # percentage — no share register is public in the sources found, so no
+  # ownership_percentage is asserted. Flagged for reviewer (see notes).
+  - subject: braun
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: The channel's commercial/merchandise business is associated with the
+  # numbered Quebec company "9380-5174 Québec inc." (doing business as
+  # "NileRed"). OPERATES (not OWNS): the source (US customs import records naming
+  # the legal entity + its "NileRed" trade name and Nigel Braun as contact)
+  # links the company to NileRed's commercial operations, NOT to a disclosed
+  # equity holding in the channel itself. No incorporation date was retrievable
+  # from the primary Quebec registry (blocked — see notes), so no effective_from
+  # is set. Confidence held low (Tier 3 single source). Flagged for reviewer.
+  - subject: nilered_inc
+    type: OPERATES
+    object: channel
+    control_level: MANAGEMENT
+    confidence: 0.5
+    status: ACTIVE
+
+  # 3: Nigel Braun is the on-camera host/creator of the channel. Distinct from
+  # the ownership/control edges above.
+  - subject: channel
+    type: HOSTED_BY
+    object: braun
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_nilered
+    url: https://en.wikipedia.org/wiki/NileRed
+    title: NileRed
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      NileRed is a chemistry-focused YouTube channel created by Canadian chemist
+      Nigel Braun (born in Montreal, Quebec). Braun holds a B.Sc. in biochemistry
+      with a minor in pharmacology from McGill University and worked as a
+      laboratory technician before going full-time on the channel. The channel
+      was created on 10 March 2014, with the first video uploaded 24 March 2014.
+      Braun also runs the related channels NileBlue and NileRed 2. No
+      acquisition, external investor, or corporate owner is mentioned.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 3
+
+  - ref: importgenius_nilered_inc
+    url: https://www.importgenius.com/importers/9380-5174-quebec-inc-dba-nilered
+    title: 9380-5174 Quebec Inc (Dba Nilered) — importer record
+    publisher: ImportGenius (US Customs import/export records aggregator)
+    source_type: SHARED_LEGAL_DOCUMENTATION
+    tier: 3
+    excerpt: >-
+      US customs import records list the importer "9380-5174 Quebec Inc" doing
+      business as "NileRed", in Pointe-Claire, Quebec, Canada, with the contact
+      named as Nigel Braun. Shipment records show import activity (e.g. from
+      laboratory/chemistry suppliers), consistent with the channel's
+      merchandise/chemistry-kit operations.
+    supports:
+      - relationship: 2
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted: this is an unverified DRAFT (schema treats
+  # reviewed_by as an optional string; null is not a valid value, so the field is
+  # left unset rather than populated).
+  last_reviewed_at: 2026-07-23
+  notes: >-
+    DRAFT for human review — "independent, creator-owned channel" case. No
+    external acquisition or equity investment was found; the record asserts no
+    PE/corporate ownership.
+
+    CHANNEL ID: UCFhXFikryT4aFcLkLw2LBLA, extracted from the externalId field in
+    the raw HTML of https://www.youtube.com/@NileRed (curl fetch, no JS
+    execution). Exactly one externalId is present; the dominant canonicalBaseUrl
+    is "/@NileRed" (59 occurrences) and the vanityChannelUrl is
+    "http://www.youtube.com/@NileRed", confirming the id belongs to this handle.
+    The creator's other channels (@NileBlue 26 occurrences, @NileRedExtra 24)
+    also appear in the source but are clearly distinct handles. This matches the
+    long-publicly-known NileRed channel id.
+
+    EXTERNAL-INVESTMENT CHECK (per task): specifically checked whether Electrify
+    Video Partners (majority investor in Veritasium; also backs Astrum, Mentour
+    Pilot, Simple History, Fireship) has any stake in NileRed. It does NOT appear
+    in Electrify's disclosed portfolio, and no other outside investor,
+    private-equity backing, or acquisition was found in any source. The record
+    records this as an ABSENCE of documented investment, not as an affirmative
+    "verified independent" assertion.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) OWNER EDGE (rel 1, braun OWNS channel) rests on inference from
+    (a) Nigel Braun being the sole documented public creator/principal and
+    (b) the associated Quebec company naming him as contact. No source discloses
+    a share register, so control_level is set to CONTROLLING (documented
+    sole-creator control) but no ownership_percentage is asserted, and confidence
+    is held at 0.7. Wikipedia does not carry a formal "Owner" infobox
+    disclosure; a reviewer should confirm the shareholder(s) of the company and
+    whether Braun holds the channel directly or via the company.
+    (2) OPERATING COMPANY NOT PRIMARY-VERIFIED. The company "9380-5174 Québec
+    inc." (dba NileRed) is a numbered Quebec company; the ONLY source naming it
+    is a US customs import-records aggregator (ImportGenius), classified
+    SHARED_LEGAL_DOCUMENTATION (Tier 3). The primary Registraire des entreprises
+    du Québec (REQ) entry — which would give the NEQ number, incorporation date,
+    officers/shareholders, and status, and would be a Tier 1
+    CORPORATE_REGISTRY_RECORD — could NOT be retrieved (REQ site returned HTTP
+    403 to automated fetch; OpenCorporates was behind a CAPTCHA). A reviewer with
+    REQ access should confirm the NEQ, incorporation date, and principals, then
+    upgrade this source. The OPERATES edge is held at low confidence (0.5,
+    control_level MANAGEMENT) accordingly. The customs record links the company
+    to NileRed's COMMERCIAL/merchandise operations (imports of lab/chemistry
+    goods); whether it is the operating entity of the CHANNEL specifically vs the
+    store/merch line is not fully established — reviewer to refine.
+    (3) MERCH / PARTNER RELATIONSHIPS ARE NOT OWNERSHIP. Merchandise is sold via
+    DFTBA (store.dftba.com) and NileRed has announced chemistry kits in
+    partnership with InqFactory. These are fulfilment/retail and product
+    partnerships, NOT equity or ownership, and are deliberately NOT recorded as
+    ownership or investment edges. A reviewer may optionally model them as
+    DISTRIBUTED_BY / LICENSES_FROM if desired, but they must not be conflated
+    with ownership.
+    (4) COMPANY FOUNDED_BY NOT RECORDED. No source states that Nigel Braun
+    incorporated 9380-5174 Québec inc. (the customs record lists him only as
+    "contact"), so no nilered_inc FOUNDED_BY braun edge is asserted; this should
+    be confirmed against the REQ filing before adding.
+    (5) DATES. FOUNDED_BY (rel 0) effective_from 2014-03-10 is the YouTube
+    channel creation date per Wikipedia (first video 2014-03-24). No
+    effective_from is set on the OPERATES edge because no incorporation date for
+    the company was retrievable.
+    (6) CREATOR-SAFETY. The customs/importer record exposes a street address in
+    Pointe-Claire, Quebec. Per the creator-safety exclusions
+    (evidence-policy §5), that street address is deliberately NOT recorded in
+    this file; only the CA-QC jurisdiction is kept.
+    (7) SOURCE-TYPE MAPPING. Wikipedia → ESTABLISHED_INDUSTRY_PUBLICATION
+    (Tier 2). ImportGenius customs import records → SHARED_LEGAL_DOCUMENTATION
+    (Tier 3): it is documentary evidence linking the legal entity to the
+    "NileRed" trade name, but is neither a primary corporate registry record nor
+    a creator self-disclosure. No Tier 1 creator/company self-disclosure of
+    ownership structure was located.
+
+    PROPOSED CLASSIFICATION (computed by importer, not asserted here): expected
+    CREATOR_OWNED (GREEN) — founder-owned and hosted, with the commercial
+    business run through a creator-associated Quebec company and no external
+    equity owner found. Confidence moderate: the owner edge rests on inference
+    plus a Tier 2 publication, and the operating company rests on a single Tier 3
+    source pending primary-registry verification.
