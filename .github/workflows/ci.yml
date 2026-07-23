@@ -46,8 +46,14 @@ jobs:
       - name: Format check
         run: pnpm run format:check
 
+      # Migrations must run BEFORE the test step so the DB-gated API suites
+      # (services/api/tests/*.integration.test.ts) find their tables. The
+      # postgres service above provides the reachable DATABASE_URL that makes
+      # those suites RUN instead of skipping.
       - name: Apply database migrations
         run: pnpm --filter @channelwatch/api run db:migrate
 
+      # `pnpm exec` runs the workspace-local turbo binary (node_modules/.bin);
+      # a bare `turbo` is not on PATH in CI and would fail with command-not-found.
       - name: Lint, typecheck, test, build
-        run: turbo run lint typecheck test build
+        run: pnpm exec turbo run lint typecheck test build
