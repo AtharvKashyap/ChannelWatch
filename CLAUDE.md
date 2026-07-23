@@ -101,7 +101,7 @@ cached `published_classification` (the importer's per-record label is informatio
 only — re-import must be a no-op); `apps/web` exists (Next.js 15): public site
 (channel pages, search, methodology, corrections) + authed `/review` console
 (scrypt + Postgres-session cookie auth, claim queue with two-person rule, entity
-CRUD, correction inbox, audit viewer); 17 researched channels in `data/research/`.
+CRUD, correction inbox, audit viewer); 33 researched channels in `data/research/`.
 Remaining for M3: dataset expansion toward ~100 verified channels and launch prep
 (legal review §23.4, Chrome Web Store listing, reproducible build). Open taxonomy
 policy questions are tracked in `.superpowers/sdd/progress.md`.

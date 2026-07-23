@@ -12,7 +12,7 @@ ownership-history derivation (`packages/graph`), PostgreSQL
 schema/migrations/seed, the public read API, and authed reviewer endpoints
 with session auth and a two-person review rule (`services/api`); the YAML
 research-record importer (whole-graph recompute is the single writer of
-cached classifications) with 17 researched channel records
+cached classifications) with 33 researched channel records
 (`data/research/`); the Manifest V3 Chrome extension (`apps/extension`) that
 shows ownership badges and an evidence panel — including "Ownership over
 time" — on YouTube watch and channel pages; and the Next.js web app
