@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { POPUP_COPY } from "@channelwatch/schemas";
+import Link from "next/link";
+import { POPUP_COPY, SITE_COPY } from "@channelwatch/schemas";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: POPUP_COPY.title,
@@ -8,22 +10,31 @@ export const metadata: Metadata = {
 };
 
 /**
- * Root layout shared by the future public site and the authed `/review`
- * console. This milestone ships only the shared foundation.
+ * Root layout for the public site. Renders the shared navigation (home,
+ * methodology, corrections) — all labels from the reviewed copy module — around
+ * each page's content. The authed `/review` console is a separate track.
  */
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body
-        style={{
-          margin: 0,
-          fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-          lineHeight: 1.5,
-          color: "#0f0f0f",
-          backgroundColor: "#ffffff",
-        }}
-      >
-        {children}
+      <body>
+        <nav className="cw-nav" aria-label="Primary">
+          <div className="cw-nav__inner">
+            <Link className="cw-nav__brand" href="/">
+              {POPUP_COPY.title}
+            </Link>
+            <Link className="cw-nav__link" href="/">
+              {SITE_COPY.navHome}
+            </Link>
+            <Link className="cw-nav__link" href="/methodology">
+              {SITE_COPY.navMethodology}
+            </Link>
+            <Link className="cw-nav__link" href="/corrections">
+              {SITE_COPY.navCorrections}
+            </Link>
+          </div>
+        </nav>
+        <div className="cw-shell">{children}</div>
       </body>
     </html>
   );
