@@ -9,6 +9,7 @@ import {
   Source,
   Claim,
   ChannelLookupResponse,
+  OwnershipHistoryEntry,
 } from "../src/schemas.js";
 
 const fixture = JSON.parse(
@@ -241,6 +242,47 @@ describe("ChannelLookupResponse (§17.2)", () => {
     expect(parsed.ownership_chain).toBeUndefined();
   });
 
+  it("additive ownership_history is optional (the §17.2 example omits it)", () => {
+    const parsed = ChannelLookupResponse.parse(fixture);
+    expect(parsed.ownership_history).toBeUndefined();
+    // and the pristine fixture still round-trips 1:1 with the field absent
+    expect(parsed).toEqual(fixture);
+  });
+
+  it("parses an additive ownership_history when present", () => {
+    const withHistory = {
+      ...fixture,
+      ownership_history: [
+        {
+          name: "Candle Media",
+          type: "COMPANY",
+          relationship: "OWNS",
+          control_level: "CONTROLLING",
+          ownership_percentage: 75,
+          effective_from: "2021-11-04",
+          effective_to: null,
+          is_current: true,
+        },
+        {
+          name: "Old Owner",
+          type: "COMPANY",
+          relationship: "FORMERLY_OWNED_BY",
+          control_level: "CONTROLLING",
+          ownership_percentage: null,
+          effective_from: "2015-01-01",
+          effective_to: "2021-11-04",
+          is_current: false,
+        },
+      ],
+    };
+    const parsed = ChannelLookupResponse.parse(withHistory);
+    expect(parsed.ownership_history).toHaveLength(2);
+    expect(parsed.ownership_history?.[0]?.is_current).toBe(true);
+    expect(parsed.ownership_history?.[0]?.ownership_percentage).toBe(75);
+    expect(parsed.ownership_history?.[1]?.effective_to).toBe("2021-11-04");
+    expect(parsed.ownership_history?.[1]?.is_current).toBe(false);
+  });
+
   it("parses an additive ownership_chain and direct_owner.mechanism when present", () => {
     const withChain = {
       ...fixture,
@@ -270,5 +312,37 @@ describe("ChannelLookupResponse (§17.2)", () => {
     expect(parsed.ownership_chain?.[0]?.name).toBe("Moonbug Entertainment");
     expect(parsed.ownership_chain?.[1]?.relationship).toBe("PORTFOLIO_COMPANY_OF");
     expect(parsed.ownership_chain?.[1]?.ownership_percentage).toBeNull();
+  });
+});
+
+describe("OwnershipHistoryEntry (Track A)", () => {
+  const entry = {
+    name: "Candle Media",
+    type: "COMPANY" as const,
+    relationship: "OWNS" as const,
+    control_level: "CONTROLLING" as const,
+    ownership_percentage: 75,
+    effective_from: "2021-11-04",
+    effective_to: null,
+    is_current: true,
+  };
+
+  it("round-trips a fully-populated entry unchanged", () => {
+    expect(OwnershipHistoryEntry.parse(entry)).toEqual(entry);
+  });
+
+  it("accepts null dates and a null (undisclosed) percentage", () => {
+    const undated = {
+      ...entry,
+      ownership_percentage: null,
+      effective_from: null,
+      effective_to: null,
+    };
+    expect(OwnershipHistoryEntry.parse(undated)).toEqual(undated);
+  });
+
+  it("rejects an out-of-range percentage and a non-enum relationship", () => {
+    expect(() => OwnershipHistoryEntry.parse({ ...entry, ownership_percentage: 150 })).toThrow();
+    expect(() => OwnershipHistoryEntry.parse({ ...entry, relationship: "NOT_A_TYPE" })).toThrow();
   });
 });

@@ -90,11 +90,21 @@ Extension API origin is baked at build time from `VITE_API_BASE_URL`
 
 ## Status
 
-M0 (scaffold + constitution docs), M1 (data core: schemas/scoring/graph/DB/importer,
-12 researched channels in `data/research/`), and M2 (public `/api/v1` read endpoints +
-corrections POST, MV3 extension with badge + evidence panel, selector-health suite)
-are complete. Next: M3 — reviewer console in `apps/web`, ~100-channel dataset, launch
-prep. Open taxonomy policy questions are tracked in `.superpowers/sdd/progress.md`.
+M0 (scaffold + constitution docs), M1 (data core: schemas/scoring/graph/DB/importer),
+M2 (public `/api/v1` read endpoints + corrections POST, MV3 extension with badge +
+evidence panel, selector-health suite), and the M3 core are complete. M3 so far:
+temporal ownership history (`ownershipHistory()` in `packages/graph`,
+`ownership_history` on the lookup payload, "Ownership over time" in the extension
+panel and web channel pages; transition conventions documented in
+`data/research/_TEMPLATE.yaml`); the whole-graph recompute is the SINGLE writer of
+cached `published_classification` (the importer's per-record label is informational
+only — re-import must be a no-op); `apps/web` exists (Next.js 15): public site
+(channel pages, search, methodology, corrections) + authed `/review` console
+(scrypt + Postgres-session cookie auth, claim queue with two-person rule, entity
+CRUD, correction inbox, audit viewer); 17 researched channels in `data/research/`.
+Remaining for M3: dataset expansion toward ~100 verified channels and launch prep
+(legal review §23.4, Chrome Web Store listing, reproducible build). Open taxonomy
+policy questions are tracked in `.superpowers/sdd/progress.md`.
 Package/npm namespace is `channelwatch`; directory is `YT_Channel_Watch`.
 
 Research records in `data/research/` are drafts until a human sets `reviewed_by`;

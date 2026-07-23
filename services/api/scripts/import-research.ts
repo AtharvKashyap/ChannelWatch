@@ -12,7 +12,15 @@ import {
 import { canPublishPeLabel, scoreClaimConfidence, type PeLabelSource } from "@channelwatch/scoring";
 import { deriveClassification } from "@channelwatch/graph";
 import { getDb, closeDb, type Database } from "../src/db/client.js";
+import { recomputeClassifications, type RecomputeSummary } from "../src/db/recompute.js";
 import { syncRow } from "../src/db/sync-row.js";
+
+// The whole-graph recompute — the SINGLE WRITER of published_classification —
+// now lives in `src/db/recompute.ts` so the authed reviewer routes can call the
+// same writer. Re-exported here for backward compatibility with existing
+// callers/tests that import it from the importer module.
+export { recomputeClassifications };
+export type { RecomputeSummary };
 import {
   channelId as channelIdFor,
   claimId as claimIdFor,
@@ -145,7 +153,15 @@ export async function importRecord(
     claimIdFor(resolveRef(claim.subject), claim.predicate, resolveRef(claim.object)),
   );
 
-  // ---- compute classification (never from YAML) --------------------------
+  // ---- compute a RECORD-LOCAL classification (never from YAML) -----------
+  // This is INFORMATIONAL ONLY: it is reported in the ImportSummary/log as "what
+  // this record says about its own channel in isolation". It is NOT written to
+  // the cached `channels.published_classification` column — that column is owned
+  // solely by the whole-graph recompute pass (`recomputeClassifications`), which
+  // derives every channel over its full connected sub-graph (the view the API
+  // serves). Having a single, whole-graph writer is what keeps re-imports a true
+  // no-op: a record-local write here would disagree with the recompute wherever
+  // records share entities, and the two would overwrite each other every run.
   const graphEntities: GraphEntity[] = record.entities.map((e) => ({
     id: entityIdBySlug.get(e.slug)!,
     name: e.canonical_name,
@@ -259,7 +275,13 @@ export async function importRecord(
       );
     }
 
-    // ---- channel (with COMPUTED classification) ----------------------------
+    // ---- channel -----------------------------------------------------------
+    // The cached classification columns (`published_classification`,
+    // `classification_confidence`) are DELIBERATELY not written here — they are
+    // owned by the whole-graph `recomputeClassifications` pass, the single writer
+    // (see the classification comment above). syncRow only compares/writes the
+    // columns in `desired`, so leaving them out means this write never fights the
+    // recompute, and a re-import over settled data is a true no-op.
     changed += await record_(
       "channel",
       channelId,
@@ -268,8 +290,6 @@ export async function importRecord(
         handle: record.channel.handle ?? null,
         displayName: record.channel.display_name,
         researchStatus: "PUBLISHED",
-        publishedClassification: classification.classification,
-        classificationConfidence: String(classification.confidence),
         lastReviewedAt: new Date(record.review.last_reviewed_at),
       }),
     );
@@ -399,6 +419,24 @@ export async function importAll(
     }
     summaries.push(await importRecord(db, raw, file));
   }
+
+  // Settle the cached labels over the WHOLE graph once every record is imported.
+  // This is the single writer of `published_classification`, so importing the
+  // whole directory leaves the cache fully settled — and re-importing is a true
+  // no-op (no writer disagrees with another). Callers that import via `importAll`
+  // (the CLI and the tests) therefore always get consistent, idempotent state.
+  const recomputed = await recomputeClassifications(db);
+  const rewritten = recomputed.filter((r) => r.changed);
+  for (const r of rewritten) {
+    console.log(
+      `recomputed ${r.youtubeChannelId}: ${r.classification} (${r.classificationConfidence}) ` +
+        `[whole-graph]`,
+    );
+  }
+  console.log(
+    `whole-graph recompute: ${rewritten.length} of ${recomputed.length} cached label(s) settled`,
+  );
+
   return summaries;
 }
 
@@ -415,6 +453,8 @@ async function main(): Promise<void> {
     );
   }
   if (summaries.length === 0) console.log("no research records imported");
+  // `importAll` already ran the whole-graph recompute that settles the cached
+  // labels (it is the single writer of `published_classification`).
   await closeDb();
 }
 

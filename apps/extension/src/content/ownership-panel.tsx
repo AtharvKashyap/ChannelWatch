@@ -34,6 +34,7 @@ import {
   ownershipStakeText,
   type CorrectionSubmission,
   type OwnershipChainStep,
+  type OwnershipHistoryEntry,
   type ResearchedChannelLookup,
 } from "@channelwatch/schemas";
 import type { SubmitCorrectionResponse } from "../shared/messages.js";
@@ -163,6 +164,17 @@ export function OwnershipPanel({ payload, onClose, onSubmitCorrection }: Ownersh
         </div>
       )}
 
+      {payload.ownership_history && payload.ownership_history.length > 0 && (
+        <div className="cw-panel__history">
+          <h3>{CHAIN_COPY.historyHeading}</h3>
+          <ol className="cw-history">
+            {payload.ownership_history.map((entry, i) => (
+              <HistoryPeriod key={`${entry.name}-${i}`} entry={entry} />
+            ))}
+          </ol>
+        </div>
+      )}
+
       {payload.warnings.length > 0 && (
         <div className="cw-panel__warnings">
           <h3>{PANEL_COPY.warningsLabel}</h3>
@@ -243,6 +255,43 @@ function ChainHop({ step }: { step: OwnershipChainStep }) {
       </span>
     </li>
   );
+}
+
+/**
+ * One period of the "Ownership over time" history (Track A): the FULL entity
+ * name, whether the period is current or a prior one, the neutral sourced
+ * mechanism, and the documented date range (a from–to range, an open-ended
+ * "since" for the current period, or the `dateUndisclosed` fallback when a date
+ * is not publicly documented — never inferred). All strings come from the
+ * reviewed copy module (CLAUDE.md rule 2); the standing disclaimer stays.
+ */
+function HistoryPeriod({ entry }: { entry: OwnershipHistoryEntry }) {
+  const mechanism = ownershipMechanismText(entry.relationship, entry.control_level);
+  const marker = entry.is_current ? CHAIN_COPY.currentLabel : CHAIN_COPY.previouslyPrefix;
+  return (
+    <li className="cw-history__period">
+      <span className="cw-history__name">{entry.name}</span>
+      <span className="cw-history__meta">
+        {marker} · {mechanism} · {dateRangeText(entry)}
+      </span>
+    </li>
+  );
+}
+
+/**
+ * Neutral date-range text for one ownership period. Both dates undocumented →
+ * the honest `dateUndisclosed`. Otherwise a from–to range joined by
+ * `dateRangeSeparator`, where an open-ended current period reads "… – current"
+ * and an undocumented endpoint falls back to `dateUndisclosed`. Dates are never
+ * inferred (§23.1).
+ */
+function dateRangeText(entry: OwnershipHistoryEntry): string {
+  if (entry.effective_from === null && entry.effective_to === null) {
+    return CHAIN_COPY.dateUndisclosed;
+  }
+  const from = entry.effective_from ?? CHAIN_COPY.dateUndisclosed;
+  const to = entry.effective_to ?? (entry.is_current ? CHAIN_COPY.currentLabel : null);
+  return to === null ? from : `${from} ${CHAIN_COPY.dateRangeSeparator} ${to}`;
 }
 
 function Fact({ term, value }: { term: string; value: string }) {

@@ -1,0 +1,238 @@
+# CHANNELWATCH research record — Kurzgesagt – In a Nutshell
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: creator-founded, creator-owned independent animation studio. The
+# channel is founded and owned by Philipp Dettmer and operated by the Munich
+# legal entity "In a nutshell - kurzgesagt GmbH" (Handelsregister München HRB
+# 220774). No external corporate acquisition or equity investment was found.
+# The channel HAS received large restricted GRANTS (Bill & Melinda Gates
+# Foundation 2015; Open Philanthropy 2022) — those are funding, NOT ownership
+# or equity, and are deliberately NOT recorded as ownership/investment edges
+# (see review notes). No ownership CHANGE / acquisition event was found, so no
+# effective_to / FORMERLY_OWNED_BY edges are recorded.
+
+channel:
+  # Extracted from the canonical externalId embedded in the raw HTML of
+  # https://www.youtube.com/@kurzgesagt (curl fetch, no JS execution): the
+  # page's own ytInitialData lists externalId "UCsXVk37bltHxD1rDPwtNM8Q", and
+  # every canonicalBaseUrl on the page is "/@kurzgesagt", confirming this UC id
+  # belongs to this handle (distinct from the unrelated "channelId" values of
+  # featured/recommended channels also present in the page source).
+  youtube_channel_id: UCsXVk37bltHxD1rDPwtNM8Q
+  display_name: Kurzgesagt – In a Nutshell
+  handle: "@kurzgesagt"
+
+entities:
+  - slug: dettmer
+    canonical_name: Philipp Dettmer
+    entity_type: CREATOR
+    aliases:
+      - Kurzgesagt
+
+  - slug: kurzgesagt_gmbh
+    canonical_name: In a nutshell - kurzgesagt GmbH
+    entity_type: COMPANY
+    legal_name: In a nutshell - kurzgesagt GmbH
+    jurisdiction: DE
+    website: https://kurzgesagt.org
+    aliases:
+      - Kurzgesagt GmbH
+      - Kurzgesagt Inc.
+
+  - slug: berger
+    canonical_name: Peter Berger
+    entity_type: PERSON
+
+relationships:
+  # 0: Channel founded by Philipp Dettmer. The Kurzgesagt YouTube channel was
+  # created 2013-07-10 (Wikipedia); Kurzgesagt's own site lists Philipp Dettmer
+  # as "Founder & Managing Director". effective_from is the channel creation
+  # date.
+  - subject: channel
+    type: FOUNDED_BY
+    object: dettmer
+    effective_from: 2013-07-10
+    confidence: 0.9
+    status: ACTIVE
+
+  # 1: Philipp Dettmer is recorded as the owner of the channel. Wikipedia's
+  # infobox lists "Owner: Philipp Dettmer" and "Type: Private". control_level
+  # is UNKNOWN because no source discloses a shareholding percentage or control
+  # structure (a German GmbH's shareholder list is not public in the sources
+  # found). confidence is moderate: the "owner" characterization rests on a
+  # Tier 2 source, not a Tier 1 ownership disclosure. Flagged for reviewer.
+  - subject: dettmer
+    type: OWNS
+    object: channel
+    control_level: UNKNOWN
+    confidence: 0.6
+    status: ACTIVE
+
+  # 2: The channel's business is operated by the Munich legal entity "In a
+  # nutshell - kurzgesagt GmbH" (Handelsregister München HRB 220774). The GmbH
+  # was incorporated 2015-09-16 (Northdata/registry); effective_from is that
+  # incorporation date. OPERATES (not OWNS): the sources establish the GmbH is
+  # the operating studio/legal entity behind the channel, not a disclosed
+  # equity holder of the channel itself.
+  - subject: kurzgesagt_gmbh
+    type: OPERATES
+    object: channel
+    effective_from: 2015-09-16
+    confidence: 0.75
+    status: ACTIVE
+
+  # 3: Philipp Dettmer founded the operating studio (Kurzgesagt); Kurzgesagt's
+  # own site lists him as "Founder & Managing Director" and its timeline places
+  # the GmbH / first full-time hires in 2015. No exact ISO founding day for the
+  # studio-as-passion-project is documented, so no effective_from is set here
+  # (the GmbH's formal incorporation date is captured on rel 2 instead).
+  - subject: kurzgesagt_gmbh
+    type: FOUNDED_BY
+    object: dettmer
+    confidence: 0.85
+    status: ACTIVE
+
+  # 4: Peter Berger is a managing director (Geschäftsführer) of the GmbH, per
+  # Kurzgesagt's own imprint and the Munich commercial-register entry.
+  # Recorded as MANAGES / MANAGEMENT — an operational role, not an ownership
+  # claim.
+  - subject: berger
+    type: MANAGES
+    object: kurzgesagt_gmbh
+    control_level: MANAGEMENT
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: kurzgesagt_who_we_are
+    url: https://kurzgesagt.org/who-we-are/
+    title: Who we are | kurzgesagt
+    publisher: Kurzgesagt (in a nutshell - kurzgesagt GmbH)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Philipp Dettmer is listed as "Founder & Managing Director." The page's
+      own account: "Kurzgesagt started as a passion project out of university
+      with the goal to create videos about science that wouldn't be dry or
+      boring." Its timeline references the "Kurzgesagt GmbH" and the first
+      full-time employees being hired (2015).
+    supports:
+      - relationship: 0
+      - relationship: 3
+
+  - ref: kurzgesagt_imprint
+    url: https://kurzgesagt.org/imprint
+    title: Imprint | kurzgesagt
+    publisher: Kurzgesagt (in a nutshell - kurzgesagt GmbH)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Legal entity: "in a nutshell – kurzgesagt GmbH"; Managing Directors:
+      "Philipp Dettmer, Peter Berger"; Commercial Register: "Munich, HRB
+      220774"; registered address "Landwehrstraße 39 – RGB, 80336 Munich,
+      Germany".
+    supports:
+      - relationship: 2
+      - relationship: 4
+
+  - ref: northdata_kurzgesagt_gmbh
+    url: https://www.northdata.com/In%20a%20nutshell%20-%20kurzgesagt%20GmbH,%20M%C3%BCnchen/HRB%20220774
+    title: In a nutshell - kurzgesagt GmbH, Munich, Germany
+    publisher: North Data (mirror of German Handelsregister)
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      Register entry for "In a nutshell - kurzgesagt GmbH", District Court of
+      Munich, HRB 220774; incorporation date 16 September 2015; share capital
+      €25,000; managing directors Peter Berger and Philipp Dettmer. (Entry
+      notes possible management changes since July 2023 — see review notes.)
+    supports:
+      - relationship: 2
+      - relationship: 4
+
+  - ref: wikipedia_kurzgesagt
+    url: https://en.wikipedia.org/wiki/Kurzgesagt
+    title: Kurzgesagt
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Describes the studio as "founded by Philipp Dettmer"; the infobox lists
+      "Owner: Philipp Dettmer" and "Type: Private". The channel "was created on
+      10 July 2013". Notes grants received: a US$570,000 Bill and Melinda Gates
+      Foundation grant (2015) and €2.97 million via Open Philanthropy (March
+      2022).
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted: not yet reviewed (schema treats
+  # reviewed_by as optional-string; null is not a valid value, so the field is
+  # left unset for this unverified draft).
+  notes: >-
+    DRAFT for human review — "independent, creator-owned studio" case. No
+    external acquisition or equity investment was found; the record asserts no
+    PE/corporate ownership.
+
+    CHANNEL ID: UCsXVk37bltHxD1rDPwtNM8Q, extracted from the externalId field
+    in the raw HTML of https://www.youtube.com/@kurzgesagt (curl fetch, no JS).
+    Every canonicalBaseUrl on the page is "/@kurzgesagt", confirming the id
+    belongs to this handle. This matches the long-publicly-known Kurzgesagt
+    channel id.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) GRANTS ARE NOT OWNERSHIP. The channel received large restricted grants
+    (US$570k Gates Foundation 2015; €2.97M Open Philanthropy 2022) and Wikipedia
+    reports Kurzgesagt's own statement that in 2020–2022 ~65% of income came
+    from viewers (merch + AdSense) and only ~24% from sponsorships/grants. These
+    are funding relationships, NOT equity/ownership, and are deliberately NOT
+    recorded as ownership or INVESTED_IN edges. A reviewer may optionally add
+    FUNDS edges (grantor -> channel/GmbH) if the DB wants funding modelled, but
+    they must not be conflated with ownership.
+    (2) LEGAL ENTITY NAME DISCREPANCY. Wikipedia's infobox calls the entity
+    "Kurzgesagt Inc.", but the company's own imprint and the German commercial
+    register (Handelsregister München HRB 220774) give the actual legal name as
+    "in a nutshell - kurzgesagt GmbH" (a German GmbH, not a US Inc.). The
+    registry/official name is used as canonical_name/legal_name; "Kurzgesagt
+    Inc." is retained only as an alias. Reviewer should confirm the canonical
+    form.
+    (3) OWNER EDGE (rel 1, dettmer OWNS channel) is the weakest-supported edge:
+    it rests on Wikipedia's infobox "Owner: Philipp Dettmer" (Tier 2), not a
+    Tier 1 shareholding disclosure. A German GmbH's shareholder list
+    (Gesellschafterliste) is filed with the Handelsregister but was not
+    retrieved here; a reviewer with Handelsregister.de access should confirm the
+    actual shareholder(s) of the GmbH and whether Dettmer holds the channel
+    directly or via the GmbH. control_level left UNKNOWN and confidence set low
+    (0.6) to reflect this. No ownership percentage is asserted.
+    (4) MANAGING-DIRECTOR CONTRADICTION. The current imprint and the who-we-are
+    page list Philipp Dettmer as a managing director / "Founder & Managing
+    Director", while the North Data register mirror indicates a possible
+    management change with Dettmer no longer listed as Geschäftsführer as of
+    ~July 2023. Because of this unresolved contradiction, NO dettmer-MANAGES
+    edge with a firm date is asserted; only Peter Berger (consistently listed in
+    both official sources) is recorded as MANAGES (rel 4). Reviewer should
+    reconcile against the primary Handelsregister filing.
+    (5) SOURCE-TYPE MAPPING. The kurzgesagt.org imprint and who-we-are pages are
+    the company's own official self-disclosures; the SourceType enum has no
+    "official company page" member, so DIRECT_CREATOR_CONFIRMATION (the closest
+    Tier 1 "official statement" type) was used. North Data is an aggregator that
+    mirrors the German Handelsregister; classified as CORPORATE_REGISTRY_RECORD
+    (Tier 1) on that basis — the primary Handelsregister.de entry (same HRB
+    220774) would be the ideal direct citation for verification.
+    (6) DATES. channel FOUNDED_BY (rel 0) effective_from 2013-07-10 is the
+    channel creation date; the GmbH's OPERATES edge (rel 2) and its formal
+    existence use the 2015-09-16 incorporation date from the register. The
+    studio existed as a project before the GmbH was incorporated, hence the two
+    distinct dates; the GmbH FOUNDED_BY edge (rel 3) carries no day-precise date
+    because no exact ISO founding day for the pre-incorporation project was
+    documented.
+
+    PROPOSED CLASSIFICATION (computed by importer, not asserted here): expected
+    CREATOR_OWNED (GREEN) — founder-owned, operated through a creator-founded
+    GmbH, with no external equity owner found. Confidence moderate given the
+    Tier-2-only owner edge.
+  last_reviewed_at: 2026-07-23

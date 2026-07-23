@@ -122,6 +122,54 @@ describe.skipIf(!reachable)("public API endpoints (§17)", () => {
     expect(payload.direct_owner?.mechanism).toBe("controlling stake");
   });
 
+  it("carries the additive ownership_history for Little Baby Bum (current owners, newest-first)", async () => {
+    const app = createApp();
+    const res = await app.request(`/api/v1/channels/youtube/${LBB_YT_ID}`);
+    expect(res.status).toBe(200);
+    const payload = ChannelLookupPayload.parse(await res.json());
+    if (!payload.researched) throw new Error("expected researched payload");
+
+    const history = payload.ownership_history ?? [];
+    expect(history.length).toBeGreaterThan(0);
+    // Moonbug owns the channel and Candle owns Moonbug — both are surfaced.
+    const names = history.map((h) => h.name);
+    expect(names).toContain("Moonbug Entertainment");
+    expect(names).toContain("Candle Media");
+    // No transition here, so every surfaced period is current; percentages are
+    // undisclosed in the sources, so they are null (legal-safe, never inferred).
+    expect(history.every((h) => h.is_current)).toBe(true);
+    // Candle's OWNS→Moonbug edge is dated 2021-11-04; the newest transition tops.
+    expect(history[0]?.effective_from).toBe("2021-11-04");
+  });
+
+  it("carries prior owners in ownership_history for a channel with an ownership transition (Smosh)", async () => {
+    const SMOSH_YT_ID = "UCY30JRSgfhYXA6i6xX1erWg";
+    const app = createApp();
+    const res = await app.request(`/api/v1/channels/youtube/${SMOSH_YT_ID}`);
+    expect(res.status).toBe(200);
+    const payload = ChannelLookupPayload.parse(await res.json());
+    if (!payload.researched) throw new Error("expected researched payload");
+
+    const history = payload.ownership_history ?? [];
+    const names = history.map((h) => h.name);
+    // Current creator co-owners plus the documented prior owners.
+    expect(names).toContain("Mythical Entertainment");
+    expect(names).toContain("Defy Media");
+    // The prior owners are marked not-current; at least one current period exists.
+    const mythicalFormer = history.find(
+      (h) => h.name === "Mythical Entertainment" && h.relationship === "FORMERLY_OWNED_BY",
+    );
+    expect(mythicalFormer?.is_current).toBe(false);
+    expect(mythicalFormer?.effective_to).toBe("2023-06-20");
+    expect(history.some((h) => h.is_current)).toBe(true);
+    // Defy's period has no documented dates (never inferred), so it is undated and
+    // sorts into the undated tail; the first (top) period is a dated, recent one.
+    const defy = history.find((h) => h.name === "Defy Media");
+    expect(defy?.effective_from).toBeNull();
+    expect(defy?.is_current).toBe(false);
+    expect(history[0]?.effective_from).not.toBeNull();
+  });
+
   it("GET /channels/youtube/:id returns a neutral UNRESEARCHED 200 for an unknown channel", async () => {
     const app = createApp();
     const res = await app.request("/api/v1/channels/youtube/UCaaaaaaaaaaaaaaaaaaaaaa");

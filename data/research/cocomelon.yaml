@@ -1,0 +1,292 @@
+# CHANNELWATCH research record — CoComelon (Cocomelon - Nursery Rhymes)
+#
+# DRAFT FOR HUMAN REVIEW — nothing here is published without human verification
+# (Spec §12.7). Multi-level PE-backed ownership chain with documented acquisition
+# dates:
+#
+#   channel (CoComelon)
+#     └─ OWNS ──────────────── Moonbug Entertainment Ltd.   (acquired 2020-07-30)
+#          └─ OWNS (control) ── Candle Media                 (acquired Moonbug 2021-11-04)
+#               └─ PORTFOLIO_COMPANY_OF ── Blackstone        (principal backer, 2021)
+#
+# The moonbug / candle / blackstone entities (slugs, canonical_name, legal fields)
+# are kept IDENTICAL to data/research/little-baby-bum.yaml so both records resolve
+# to the same shared entities in the graph. Classification is COMPUTED by the
+# importer, never asserted here. See review.notes for open items and nuances.
+
+channel:
+  # Extracted from the "externalId" field in ytInitialData embedded in the raw
+  # HTML of https://www.youtube.com/@CoComelon (curl fetch, no JS). The canonical
+  # /channel/UC... URL in the same page source resolves to the identical id.
+  youtube_channel_id: UCbCmjCuTUZos6Inko4u57UQ
+  display_name: Cocomelon - Nursery Rhymes
+  handle: "@CoComelon"
+
+entities:
+  # --- SHARED ENTITIES: fields kept identical to little-baby-bum.yaml ---
+  - slug: moonbug
+    canonical_name: Moonbug Entertainment
+    entity_type: COMPANY
+    legal_name: Moonbug Entertainment Limited
+    jurisdiction: GB
+    website: https://www.moonbug.com
+    aliases:
+      - Moonbug
+      - Moonbug Entertainment Ltd.
+  - slug: candle
+    canonical_name: Candle Media
+    entity_type: COMPANY
+    website: https://www.candlemedia.com
+    aliases:
+      - Candle
+  - slug: blackstone
+    # See review.notes: Blackstone Inc. is a diversified alternative asset
+    # manager. Classified PRIVATE_EQUITY_FIRM because the founding investment in
+    # Candle was led by Blackstone's Global Head of Private Equity and Blackstone
+    # is Candle's principal equity backer; the specific investing fund vehicle is
+    # not named in the sources. (Identical to little-baby-bum.yaml.)
+    canonical_name: Blackstone Inc.
+    entity_type: PRIVATE_EQUITY_FIRM
+    legal_name: Blackstone Inc.
+    jurisdiction: US-DE
+    website: https://www.blackstone.com
+    aliases:
+      - Blackstone
+      - The Blackstone Group
+
+relationships:
+  # 0: Moonbug owns the CoComelon channel. Acquisition announced 2020-07-30 in
+  # Moonbug's own PR Newswire release ("Moonbug Entertainment Ltd. has acquired
+  # two of the world's most successful kids programs... CoComelon..."), corroborated
+  # by Kidscreen (T2). Blackstone's 2021 PR (T1) also lists CoComelon among
+  # Moonbug's shows. Not a PE-implying edge (both endpoints COMPANY / channel).
+  - subject: moonbug
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    ownership_percentage: 100
+    effective_from: 2020-07-30
+    confidence: 0.92
+    status: ACTIVE
+  # 1: Candle Media acquired Moonbug (announced 2021-11-04, ~$3B); Candle is
+  # Moonbug's controlling corporate parent. Not a PE-implying edge (both COMPANY).
+  # Same edge as little-baby-bum.yaml (shared parent hop).
+  - subject: candle
+    type: OWNS
+    object: moonbug
+    control_level: CONTROLLING
+    effective_from: 2021-11-04
+    confidence: 0.9
+    status: ACTIVE
+  # 2: Candle Media is a portfolio company of Blackstone (PE-implying: object is a
+  # PRIVATE_EQUITY_FIRM). Sources' own words: "backed by investment capital from
+  # Blackstone." Stake/control NOT stated by sources -> control_level UNKNOWN.
+  # Same edge as little-baby-bum.yaml.
+  - subject: candle
+    type: PORTFOLIO_COMPANY_OF
+    object: blackstone
+    control_level: UNKNOWN
+    # effective_from omitted: sources date the Blackstone backing to 2021 without a day (see notes)
+    confidence: 0.75
+    status: ACTIVE
+
+sources:
+  - ref: moonbug_cocomelon_pr
+    url: https://www.prnewswire.com/news-releases/moonbug-entertainment-acquires-youtube-sensations-cocomelon-and-blippi-to-become-worlds-largest-digital-kids-media-company-301103216.html
+    title: Moonbug Entertainment Acquires YouTube Sensations CoComelon and Blippi to Become World's Largest Digital Kids Media Company
+    publisher: Moonbug Entertainment (via PR Newswire)
+    published_at: 2020-07-30
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    archive_url: https://web.archive.org/web/20260705040218/https://www.prnewswire.com/news-releases/moonbug-entertainment-acquires-youtube-sensations-cocomelon-and-blippi-to-become-worlds-largest-digital-kids-media-company-301103216.html
+    excerpt: >-
+      LONDON, July 30, 2020 /PRNewswire/ -- Moonbug Entertainment Ltd. has
+      acquired two of the world's most successful kids programs to become the
+      world's largest digital kids media company. CoComelon, the world's
+      most-viewed YouTube channel with over 3.5 billion average monthly views,
+      is about relatable family experiences that help kids constructively
+      interact with daily routines.
+    supports:
+      - relationship: 0
+      - claim: 0
+  - ref: kidscreen_cocomelon
+    url: https://kidscreen.com/2020/07/30/moonbug-acquires-cocomelon-blippi/
+    title: Moonbug acquires CoComelon, Blippi
+    publisher: Kidscreen
+    published_at: 2020-07-30
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Moonbug has acquired major YouTube brands CoComelon and Blippi, and plans
+      to invest in new content while building the channels' distribution reach
+      and consumer products presence. [...] In the two years since its launch,
+      Moonbug has focused on acquiring popular brands [...] It previously
+      acquired My Magic Pet Morphle, Dr. Poppy's Pet Rescue, ARPO and Little
+      Baby Bum.
+    supports:
+      - relationship: 0
+      - claim: 0
+  # --- SHARED SOURCES: reused verbatim from little-baby-bum.yaml (same hops) ---
+  - ref: blackstone_moonbug_pr
+    url: https://www.blackstone.com/news/press/moonbug-entertainment-to-be-acquired-by-next-generation-media-company-backed-by-kevin-mayer-tom-staggs-and-blackstone/
+    title: Moonbug Entertainment to Be Acquired by Next Generation Media Company Backed by Kevin Mayer, Tom Staggs and Blackstone
+    publisher: Blackstone
+    published_at: 2021-11-04
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    archive_url: https://web.archive.org/web/20260525061900/https://www.blackstone.com/news/press/moonbug-entertainment-to-be-acquired-by-next-generation-media-company-backed-by-kevin-mayer-tom-staggs-and-blackstone/
+    excerpt: >
+      Moonbug Entertainment Ltd., the digital-first, global children's
+      entertainment company, today announced it has entered into a definitive
+      agreement to be acquired by the recently formed media company run by
+      leading entertainment executives Kevin Mayer and Tom Staggs and backed by
+      investment capital from Blackstone. [...] Founded in 2018, Moonbug has
+      rapidly built [...] popular shows such as CoComelon, Blippi, Little Baby
+      Bum, and many others.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - claim: 0
+      - claim: 1
+      - claim: 2
+  - ref: blackstone_westbrook_pr
+    url: https://www.blackstone.com/news/press/westbrook-inc-announces-strategic-minority-investment-from-candle-media-next-generation-media-company-backed-by-kevin-mayer-tom-staggs-and-blackstone/
+    title: Westbrook Inc. Announces Strategic Minority Investment from Candle Media, Next-Generation Media Company Backed by Kevin Mayer, Tom Staggs, and Blackstone
+    publisher: Blackstone
+    published_at: 2022-01-04
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    archive_url: https://web.archive.org/web/20260329164256/https://www.blackstone.com/news/press/westbrook-inc-announces-strategic-minority-investment-from-candle-media-next-generation-media-company-backed-by-kevin-mayer-tom-staggs-and-blackstone/
+    excerpt: >
+      Candle Media ("Candle"), the next-generation media company run by leading
+      entertainment executives Kevin Mayer and Tom Staggs and backed by
+      investment capital from Blackstone, today announced a strategic minority
+      investment in Westbrook Inc.
+    supports:
+      - relationship: 2
+      - claim: 2
+  - ref: thr_candle_moonbug
+    url: https://www.hollywoodreporter.com/business/business-news/miptv-2022-kevin-mayer-candle-media-deals-buying-moonbug-1235124766/
+    title: Candle Media's Kevin Mayer on Billion-Dollar Deals, the Future of Entertainment
+    publisher: The Hollywood Reporter
+    published_at: 2022-04-04
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >
+      Candle acquired [Moonbug] for a reported $3 billion in a deal in November
+      [...] the fast-growing Blackstone-backed media company he runs with Tom
+      Staggs.
+    supports:
+      - relationship: 1
+      - relationship: 2
+      - claim: 1
+
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: moonbug
+    effective_date: 2020-07-30
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 0.95
+      entityMatch: 0.95
+      recencyFactor: 0.85
+      corroborationFactor: 1.0
+      contradictionPenalty: 1.0
+  - predicate: OWNED_BY
+    subject: moonbug
+    object: candle
+    effective_date: 2021-11-04
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 0.95
+      entityMatch: 0.95
+      recencyFactor: 0.9
+      corroborationFactor: 1.0
+      contradictionPenalty: 1.0
+  - predicate: PORTFOLIO_COMPANY_OF
+    subject: candle
+    object: blackstone
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 0.7
+      entityMatch: 0.9
+      recencyFactor: 0.9
+      corroborationFactor: 1.0
+      contradictionPenalty: 1.0
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted — NOT yet human-reviewed. Absence signals
+  # "unverified draft" (schema rejects an explicit null).
+  last_reviewed_at: "2026-07-23"
+  notes: >
+    DRAFT — UNVERIFIED, requires two-person human review (Spec §20.3: PE
+    involvement + named individuals). Do not publish without verification.
+
+    CHANNEL ID. UCbCmjCuTUZos6Inko4u57UQ, extracted from the "externalId" field
+    in ytInitialData in the raw HTML of https://www.youtube.com/@CoComelon (curl
+    fetch, no JS). The canonical /channel/UC... URL in the same page source
+    resolves to the identical id, and it matches the long-publicly-known
+    CoComelon channel id.
+
+    CHAIN & CONFIDENCE.
+    (0) Moonbug OWNS CoComelon: HIGH. Announced 2020-07-30 in Moonbug's own PR
+    Newswire release (T1) which names CoComelon explicitly, corroborated by
+    Kidscreen (T2, same date) and by Blackstone's 2021 acquisition PR (T1) which
+    lists CoComelon among Moonbug's shows. effective_from recorded at day
+    precision (2020-07-30, announcement date). ownership_percentage set to 100
+    as an INFERENCE — sources describe an outright acquisition ("has acquired")
+    of the brand/channel, not a partial/minority stake; reviewer to confirm
+    whether the underlying deal was a full IP/brand acquisition (the PRs do not
+    state a percentage). If in doubt, drop ownership_percentage and keep only
+    control_level CONTROLLING.
+    (1) Candle Media OWNS Moonbug: HIGH/CONFIRMED. 2021-11-04 official Blackstone
+    announcement (T1) + THR (T2); deal reported ~$3B and has closed. This is the
+    SAME hop recorded in little-baby-bum.yaml and uses the same sources.
+    (2) Candle Media PORTFOLIO_COMPANY_OF Blackstone: MODERATE. Two Blackstone T1
+    PRs describe Candle as "backed by investment capital from Blackstone"; THR
+    calls it "Blackstone-backed." No source states a percentage or a controlling
+    stake, so control_level and ownership_percentage are UNKNOWN. Same hop and
+    same caveats as little-baby-bum.yaml.
+
+    SHARED-ENTITY REUSE. The moonbug, candle and blackstone entities (slug,
+    canonical_name, legal_name, jurisdiction, website, aliases) are copied
+    verbatim from data/research/little-baby-bum.yaml so both records resolve to
+    the same graph nodes. The blackstone_moonbug_pr, blackstone_westbrook_pr and
+    thr_candle_moonbug sources are also reused verbatim (same URLs, tiers,
+    archive URLs, excerpts).
+
+    BLACKSTONE ENTITY-TYPE NUANCE (reviewer decision, carried from LBB record).
+    Blackstone Inc. is a diversified alternative asset manager, NOT solely a PE
+    firm. Classified PRIVATE_EQUITY_FIRM because (a) the founding Candle
+    investment was led by Blackstone's Global Head of Private Equity (Joe
+    Baratta, per the Westbrook PR) and (b) Blackstone is Candle's principal
+    equity backer. The actual investing VEHICLE (a specific Blackstone-managed
+    fund) is not named in the sources; if identified, model it as a FUND that
+    Blackstone MANAGES holding the Candle stake. Keep consistent with the LBB
+    record's reviewer decision.
+
+    PE-LABEL RULE (§14.3). The PE-implying edge (rel 2, endpoint is a
+    PRIVATE_EQUITY_FIRM) is backed by a Tier 1 source (blackstone_moonbug_pr),
+    satisfying the "one Tier 1, or two independent Tier 2" requirement.
+
+    DATE PRECISION. Moonbug->CoComelon: 2020-07-30 (announcement date, day
+    precision). Candle->Moonbug: 2021-11-04 (announcement date). Candle
+    backed by Blackstone: 2021, year only — effective_from omitted.
+
+    ENTITY GAPS (carried from LBB). Candle Media legal name and jurisdiction of
+    incorporation not verified. Moonbug UK registry number not verified. Confirm
+    at review.
+
+    LEGAL/NEUTRALITY. Language describes ownership structure only; no claim of
+    editorial interference or misconduct. Exact stakes disclosed only where
+    public (100% inferred for rel 0 and flagged; Blackstone stake UNKNOWN).
+
+    SOURCES. T1: Moonbug/PR Newswire (2020-07-30, CoComelon acquisition);
+    Blackstone PRs (2021-11-04, 2022-01-04) — the Blackstone pages are blocked to
+    WebFetch by Cloudflare, so archive_url (Wayback) is provided and excerpts are
+    from the archived copies. T2: Kidscreen (2020-07-30), The Hollywood Reporter
+    (2022). Variety's 2020-07-30 report corroborates but is now paywalled
+    (tollbit redirect, HTTP 402) so it was not recorded as a source.

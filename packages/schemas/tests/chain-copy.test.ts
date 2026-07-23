@@ -118,6 +118,21 @@ describe("ownershipStakeText", () => {
   });
 });
 
+describe("CHAIN_COPY — temporal ownership history additions (Track A)", () => {
+  it("exposes the history section heading and period markers", () => {
+    expect(CHAIN_COPY.historyHeading).toBe("Ownership over time");
+    expect(CHAIN_COPY.previouslyPrefix).toBe("previously");
+    expect(CHAIN_COPY.currentLabel).toBe("current");
+    expect(CHAIN_COPY.dateRangeSeparator).toBe("–");
+    expect(CHAIN_COPY.dateUndisclosed).toBe("date not publicly disclosed");
+  });
+  it("keeps every history string non-empty", () => {
+    for (const value of Object.values(CHAIN_COPY)) {
+      expect(value.length).toBeGreaterThan(0);
+    }
+  });
+});
+
 describe("banned language (§23.1) across chain + badge copy", () => {
   const banned = [
     /sold out/i,

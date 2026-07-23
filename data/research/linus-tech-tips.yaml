@@ -1,0 +1,250 @@
+# CHANNELWATCH research record — Linus Tech Tips (Linus Media Group)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: creator-founded flagship channel operated by a founder-owned company.
+# The Linus Tech Tips YouTube channel is operated by Linus Media Group Inc.
+# (LMG), a privately held Canadian company founded by Linus Sebastian and his
+# wife Yvonne Ho in 2012. Per LMG's own reporting and secondary coverage,
+# Sebastian and Ho remain the sole shareholders and directors — i.e. the
+# channel is CREATOR-OWNED through a founder-controlled company. No external
+# investment or private-equity involvement was found; on the contrary, a ~$100M
+# buyout offer was publicly disclosed as DECLINED in 2023. A leadership change
+# (not an ownership change) is recorded: Sebastian stepped down as CEO effective
+# 2023-07-01, replaced by Terren Tong, while retaining ownership and moving to a
+# "Chief Vision Officer" role.
+
+channel:
+  # Extracted from the "externalId" field embedded in the raw HTML of
+  # https://www.youtube.com/@LinusTechTips (curl fetch, no JS execution). The
+  # page source contains exactly one "externalId":"UC..." value, this channel's
+  # own external/browse id; it matches the long-publicly-known LTT channel id.
+  youtube_channel_id: UCXuqSBlHAE6Xw-yeJA0Tunw
+  display_name: Linus Tech Tips
+  handle: "@LinusTechTips"
+
+entities:
+  - slug: lmg
+    canonical_name: Linus Media Group
+    entity_type: COMPANY
+    legal_name: Linus Media Group Inc.
+    jurisdiction: CA-BC # incorporated in Surrey, British Columbia, Canada (Oct 2012)
+    website: https://linusmediagroup.com
+    aliases:
+      - LMG
+      - Linus Media Group Inc.
+
+  - slug: linus
+    canonical_name: Linus Sebastian
+    entity_type: CREATOR
+    aliases:
+      - Linus
+      - Linus Gabriel Sebastian
+
+  - slug: yvonne
+    canonical_name: Yvonne Ho
+    entity_type: PERSON # co-founder, co-owner and CFO; not an on-camera creator
+
+  - slug: tong
+    canonical_name: Terren Tong
+    entity_type: PERSON # CEO from 2023-07-01; management, not an owner
+
+relationships:
+  # 0: The Linus Tech Tips channel was created 2008-11-24 by Linus Sebastian,
+  # pre-dating the incorporation of Linus Media Group (2012). Recorded as a
+  # founding edge on the channel with the documented creation date.
+  - subject: channel
+    type: FOUNDED_BY
+    object: linus
+    effective_from: 2008-11-24
+    confidence: 0.8
+    status: ACTIVE
+
+  # 1: Linus Media Group owns and operates the channel. Wikipedia states LMG
+  # "owns and operates several technology-oriented YouTube channels," of which
+  # Linus Tech Tips is the flagship. control_level CONTROLLING (a company
+  # operating its own flagship channel). effective_from is set to LMG's Oct 2012
+  # incorporation, an APPROXIMATION: the exact date the channel (created 2008 by
+  # Sebastian personally) was assigned to/held by the company is not documented
+  # in the sources found — flagged for reviewer. ownership_percentage omitted
+  # (no percentage disclosed).
+  - subject: lmg
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2012-10-01
+    confidence: 0.75
+    status: ACTIVE
+
+  # 2: Linus Sebastian remains the channel's principal on-camera host. Distinct
+  # from ownership/management edges. Confirmed by ongoing uploads and the fact
+  # his post-CEO "Chief Vision Officer" role was explicitly framed around
+  # appearing in more videos.
+  - subject: channel
+    type: HOSTED_BY
+    object: linus
+    confidence: 0.85
+    status: ACTIVE
+
+  # 3: Linus Sebastian is a controlling co-owner of Linus Media Group. Recorded
+  # PARTIALLY_OWNS + CONTROLLING: TechSpot (2023) and Wikipedia both state
+  # Sebastian and Ho are/remain the sole shareholders and directors. The pair
+  # JOINTLY hold 100% and jointly control the company; the individual split
+  # between Sebastian and Ho is NOT publicly disclosed, so ownership_percentage
+  # is omitted and CONTROLLING here denotes their joint controlling shareholder/
+  # director status rather than a documented individual majority. This edge is
+  # what drives the computed CREATOR_OWNED classification (creator-controlled
+  # company rule). Flagged for reviewer — see notes (2).
+  - subject: linus
+    type: PARTIALLY_OWNS
+    object: lmg
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 4: Yvonne Ho is the other controlling co-owner (and CFO) of Linus Media
+  # Group; same joint sole-shareholder/director basis as rel 3. Percentage not
+  # disclosed; ownership_percentage omitted.
+  - subject: yvonne
+    type: PARTIALLY_OWNS
+    object: lmg
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 5: Linus Media Group Inc. was founded by Linus Sebastian in 2012
+  # (incorporated October 2012). effective_from set to Oct 2012.
+  - subject: lmg
+    type: FOUNDED_BY
+    object: linus
+    effective_from: 2012-10-01
+    confidence: 0.85
+    status: ACTIVE
+
+  # 6: Linus Media Group Inc. was co-founded by Yvonne Ho in 2012.
+  - subject: lmg
+    type: FOUNDED_BY
+    object: yvonne
+    effective_from: 2012-10-01
+    confidence: 0.85
+    status: ACTIVE
+
+  # 7: Linus Sebastian was CEO of Linus Media Group until 2023-07-01, when he
+  # stepped down. Recorded as a MANAGEMENT edge, now ENDED (superseded by rel 8),
+  # with effective_to marking the handover. This is a LEADERSHIP change, NOT an
+  # ownership change — Sebastian retained ownership (see rel 3).
+  - subject: linus
+    type: MANAGES
+    object: lmg
+    control_level: MANAGEMENT
+    effective_to: 2023-07-01
+    confidence: 0.8
+    status: ENDED
+
+  # 8: Terren Tong became CEO of Linus Media Group effective 2023-07-01,
+  # replacing Sebastian. MANAGEMENT control only — Tong is not documented as an
+  # owner/shareholder. Supersedes rel 7.
+  - subject: tong
+    type: MANAGES
+    object: lmg
+    control_level: MANAGEMENT
+    effective_from: 2023-07-01
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_lmg
+    url: https://en.wikipedia.org/wiki/Linus_Media_Group
+    title: Linus Media Group
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Linus Media Group Inc. [...] founded by Linus Sebastian and Yvonne Ho in
+      2012. The company owns and operates several technology-oriented YouTube
+      channels [...] incorporated in October 2012. Sebastian and his wife,
+      Yvonne Ho, remain the owners [...] Sebastian stepped down effective
+      July 1, 2023, replaced by Terren Tong. [...] Linus Tech Tips was created
+      on November 24, 2008.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+      - relationship: 8
+
+  - ref: techspot_2023_ceo
+    url: https://www.techspot.com/news/98751-linus-sebastian-stepping-down-ceo-linus-media-group.html
+    title: >-
+      Linus Sebastian is stepping down as CEO of Linus Media Group, rejects
+      $100 million takeover offer
+    publisher: TechSpot
+    published_at: 2023-05-19
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Linus and his wife, Yvonne, will continue to be the sole shareholders and
+      directors of Linus Media Group. [...] the founder is moving to the new
+      position of Chief Vision Officer [...] Linus Media Group received a $100
+      million buyout proposal, with 60% of it in cash and 40% in equity [...]
+      Linus said he rejected the deal because he loves working at his
+      organization.
+    supports:
+      - relationship: 3
+      - relationship: 4
+      - relationship: 7
+      - relationship: 8
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by omitted: not yet reviewed (schema field is optional, not nullable).
+  notes: >-
+    DRAFT for human review — "creator-owned via founder-controlled company" case.
+    Computed classification is expected to be CREATOR_OWNED (creator-controlled
+    company: the direct channel owner LMG is a COMPANY, but LMG is controllingly
+    owned by CREATOR/PERSON founders Sebastian and Ho — rels 3/4 trigger the
+    CREATOR_CONTROLLED_COMPANY path in @channelwatch/graph). No PE or corporate
+    owner in the chain; no PE-label evidence rule engaged.
+
+    CHANNEL ID: UCXuqSBlHAE6Xw-yeJA0Tunw, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@LinusTechTips (curl fetch,
+    no JS). Matches the long-publicly-known LTT channel id.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) LMG->channel (rel 1) effective_from 2012-10-01 is APPROXIMATE — it is
+    LMG's incorporation month. The channel was created by Sebastian personally
+    on 2008-11-24 (rel 0), four years before the company existed; the exact date
+    the channel became a company-held asset is not documented in the sources
+    found. A reviewer may prefer to drop the effective_from or add a note.
+    (2) linus/yvonne PARTIALLY_OWNS lmg (rels 3/4): both marked control_level
+    CONTROLLING and ownership_percentage OMITTED. Sources state the two are the
+    "sole shareholders and directors" (TechSpot) / "remain the owners"
+    (Wikipedia) — i.e. jointly 100% and jointly controlling. The individual
+    Sebastian/Ho equity split is NOT publicly disclosed; CONTROLLING here encodes
+    their joint controlling status, not a documented individual majority. This is
+    the load-bearing pair for the classification and should be the reviewer's
+    primary focus. No percentage was guessed.
+    (3) LEADERSHIP vs OWNERSHIP: Sebastian stepped down as CEO on 2023-07-01,
+    replaced by Terren Tong (rels 7 ENDED / 8 ACTIVE, both MANAGEMENT). This is
+    explicitly a management change only — Sebastian retained ownership per both
+    sources. It is modeled as a superseded MANAGES edge (effective_to) plus a new
+    MANAGES edge (effective_from), NOT as an ownership change, and does not affect
+    the ownership classification.
+    (4) NO EXTERNAL INVESTMENT / ACQUISITION found. Both sources report a ~$100M
+    buyout offer (60% cash / 40% equity) in 2023 that was DECLINED; it is
+    therefore recorded as no acquisition/PE edge (a declined offer transfers no
+    ownership). Neutral-language note: the record asserts only the disclosed
+    founder ownership; no conclusion about editorial control is drawn.
+    (5) Both sources used are Tier 2 (ESTABLISHED_INDUSTRY_PUBLICATION:
+    Wikipedia and TechSpot). No Tier 1 primary source (e.g. a BC corporate
+    registry / Canada federal corporation record for "Linus Media Group Inc.",
+    or a direct WAN Show creator statement) was captured here — leads for a
+    reviewer wanting Tier 1 corroboration of the sole-shareholder structure and
+    incorporation details. entity_type for Yvonne Ho and Terren Tong is PERSON
+    (neither is an on-camera CREATOR); reviewer may reassess if the DB prefers
+    otherwise.
+  last_reviewed_at: 2026-07-23

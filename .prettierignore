@@ -5,3 +5,7 @@ services/api/migrations/
 
 # Sanitized YouTube page snapshots — kept byte-faithful for resolver tests.
 apps/extension/tests/fixtures/*.html
+
+# Next.js build output + its generated ambient types (not hand-edited).
+apps/web/.next/
+apps/web/next-env.d.ts

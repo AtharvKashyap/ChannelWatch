@@ -51,22 +51,27 @@ export function createV1Router(): Hono {
   const v1 = new Hono();
 
   // Rate limiting: reads 60/min/IP, POSTs 5/min/IP (in-memory token bucket).
+  // SCOPED to the PUBLIC endpoint paths (`/channels/*`, `/entities/*`,
+  // `/corrections`, `/submissions`) rather than a bare `*` wildcard: this router
+  // is mounted at `/api/v1`, and a `*` middleware there also matches sibling
+  // authed routers mounted under `/api/v1/auth` and `/api/v1/reviewer` (Hono
+  // merges the prefixed routes), which would wrongly throttle authenticated
+  // reviewer mutations at the public 5/min POST cap. Path-scoping keeps the
+  // public limits on the public surface only.
   const readLimit = createRateLimit({ capacity: 60, refillWindowMs: 60_000 });
   const postLimit = createRateLimit({ capacity: 5, refillWindowMs: 60_000 });
-  v1.on(["GET"], "*", readLimit);
-  v1.on(["POST"], "*", postLimit);
+  v1.use("/channels/*", readLimit);
+  v1.use("/entities/*", readLimit);
 
   // Cap POST bodies before they are buffered/parsed (`c.req.json()` would
   // otherwise read an unbounded body into memory). Over-limit → 413.
-  v1.on(
-    ["POST"],
-    "*",
-    bodyLimit({
-      maxSize: MAX_POST_BODY_BYTES,
-      onError: (c) =>
-        c.json(errorEnvelope("PAYLOAD_TOO_LARGE", "Request body exceeds the 32KB limit."), 413),
-    }),
-  );
+  const postBodyLimit = bodyLimit({
+    maxSize: MAX_POST_BODY_BYTES,
+    onError: (c) =>
+      c.json(errorEnvelope("PAYLOAD_TOO_LARGE", "Request body exceeds the 32KB limit."), 413),
+  });
+  v1.use("/corrections", postLimit, postBodyLimit);
+  v1.use("/submissions", postLimit, postBodyLimit);
 
   // ---- Channel lookup (§17.2). Unknown/unresearched → 200 neutral payload,
   // NOT 404, so the extension renders a "not researched" state. A MALFORMED id

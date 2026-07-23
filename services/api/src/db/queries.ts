@@ -12,10 +12,11 @@ import {
   type DirectOwnerRef,
   type Entity,
   type OwnershipChainStep,
+  type OwnershipHistoryEntry,
   type Relationship,
   type ResearchStatus,
 } from "@channelwatch/schemas";
-import { deriveClassification } from "@channelwatch/graph";
+import { deriveClassification, ownershipHistory } from "@channelwatch/graph";
 import type { Database } from "./client.js";
 import {
   channels,
@@ -124,6 +125,9 @@ interface ChannelDerivation {
   nodeIds: Set<string>;
   relRows: RelationshipRow[];
   entityRows: EntityRow[];
+  /** The channel's sub-graph as mapped graph edges + entities (what the derivation ran on). */
+  edges: Relationship[];
+  entities: Entity[];
 }
 
 /**
@@ -136,7 +140,10 @@ interface ChannelDerivation {
  * in some unrelated channel's data cannot affect this channel, and a malformed
  * row within this sub-graph degrades the result instead of failing the request.
  */
-async function deriveForChannel(db: Database, channel: ChannelRow): Promise<ChannelDerivation> {
+export async function deriveForChannel(
+  db: Database,
+  channel: ChannelRow,
+): Promise<ChannelDerivation> {
   const relRows = await db.select().from(relationships);
   const nodeIds = connectedNodeIds(channel.id, relRows);
   const subgraphRows = relRows.filter((r) => {
@@ -157,7 +164,15 @@ async function deriveForChannel(db: Database, channel: ChannelRow): Promise<Chan
     asOf: new Date(),
     lastReviewedAt: channel.lastReviewedAt,
   });
-  return { result, skipped: relSkipped + entSkipped, nodeIds, relRows, entityRows };
+  return {
+    result,
+    skipped: relSkipped + entSkipped,
+    nodeIds,
+    relRows,
+    entityRows,
+    edges,
+    entities: mappedEntities,
+  };
 }
 
 export async function getChannelByYoutubeId(
@@ -205,7 +220,10 @@ export async function assembleLookup(
   db: Database,
   channel: ChannelRow,
 ): Promise<ChannelLookupPayload> {
-  const { result, skipped, nodeIds } = await deriveForChannel(db, channel);
+  const { result, skipped, nodeIds, edges, entities: subgraphEntities } = await deriveForChannel(
+    db,
+    channel,
+  );
 
   // Live result is authoritative. Fall back to the cached published label when
   // the graph found no ownership evidence, OR when a sub-graph row had to be
@@ -218,6 +236,15 @@ export async function assembleLookup(
   // The display chain, channel-owner upward (ADDITIVE, M3). Empty in the degraded
   // fallback path below, where the live graph inputs are incomplete.
   let ownershipChainSteps = result.ownershipChain;
+  // The temporal ownership history, newest-first (ADDITIVE, M3 Track A), derived
+  // from the SAME sub-graph the classification ran on. Cleared in the degraded
+  // fallback path (incomplete live inputs), consistent with the chain.
+  let historyEntries = ownershipHistory({
+    channelId: channel.id,
+    relationships: edges,
+    entities: subgraphEntities,
+    asOf: new Date(),
+  });
   const noEvidence = result.explanationCodes.includes("NO_OWNERSHIP_EVIDENCE");
   const degraded = noEvidence || (skipped > 0 && result.classification === "OWNERSHIP_UNCLEAR");
   if (degraded && channel.publishedClassification) {
@@ -226,6 +253,7 @@ export async function assembleLookup(
     directOwner = null;
     ultimateParent = null;
     ownershipChainSteps = [];
+    historyEntries = [];
   }
 
   const sourceIds = await evidenceSourceIds(db, nodeIds);
@@ -241,6 +269,22 @@ export async function assembleLookup(
       ownership_percentage: s.ownershipPercentage,
       control_level: s.controlLevel,
       effective_from: s.effectiveFrom,
+    }));
+
+  // Response-shaped ownership history: only periods whose owner name resolved
+  // (an unnamed period cannot be displayed), newest-first, each carrying its
+  // sourced mechanism and bounding dates (nulls surfaced as-is, never inferred).
+  const ownership_history: OwnershipHistoryEntry[] = historyEntries
+    .filter((h): h is typeof h & { name: string } => typeof h.name === "string" && h.name !== "")
+    .map((h) => ({
+      name: h.name,
+      type: h.entityType ?? "UNKNOWN_ENTITY",
+      relationship: h.relationship,
+      control_level: h.controlLevel,
+      ownership_percentage: h.ownershipPercentage,
+      effective_from: h.effectiveFrom,
+      effective_to: h.effectiveTo,
+      is_current: h.isCurrent,
     }));
 
   // The direct owner's mechanism is how it holds the CHANNEL — the first
@@ -267,6 +311,9 @@ export async function assembleLookup(
   return {
     researched: true,
     youtube_channel_id: channel.youtubeChannelId,
+    // Internal channel UUID (ADDITIVE, M3 Track C): lets the public site fetch
+    // itemized evidence + the timeline, which are keyed by internal id.
+    channel_id: channel.id,
     display_name: channel.displayName,
     research_status: (channel.researchStatus ?? "PUBLISHED") as ResearchStatus,
     classification: {
@@ -281,6 +328,7 @@ export async function assembleLookup(
     direct_owner: directOwnerRef,
     ultimate_parent: ultimateParent,
     ownership_chain: ownershipChain,
+    ownership_history,
     // Creator involvement is only asserted when explicitly modeled; the pilot
     // records do not carry a creator entity, so this is null rather than a guess.
     creator_status: null,

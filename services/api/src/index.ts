@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { getSql } from "./db/client.js";
 import { cors, errorEnvelope, securityHeaders } from "./http/middleware.js";
 import { createV1Router, renderError } from "./routes.js";
+import { createAuthRouter, createReviewerRouter } from "./reviewer/routes.js";
 
 /**
  * CHANNELWATCH API (SPEC §17). `GET /healthz` plus the public `/api/v1`
@@ -38,6 +39,11 @@ export function createApp(): Hono {
   });
 
   app.route("/api/v1", createV1Router());
+  // Authed reviewer surface (M3, SPEC §17 authed endpoints). Mounted as sibling
+  // routers so the public router's rate limits (scoped to its own paths) do not
+  // throttle authenticated reviewer mutations.
+  app.route("/api/v1/auth", createAuthRouter());
+  app.route("/api/v1/reviewer", createReviewerRouter());
 
   return app;
 }

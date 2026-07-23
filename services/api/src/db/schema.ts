@@ -198,5 +198,31 @@ export const reviewers = pgTable("reviewers", {
   email: text("email").notNull().unique(),
   displayName: text("display_name"),
   role: text("role"),
+  // Password verifier for the reviewer-console login (M3). Nullable so a
+  // reviewer row can exist before a credential is provisioned (e.g. the M1 seed
+  // reviewer, which predates auth). Stores a self-describing KDF string
+  // (`scrypt$N$r$p$salt$hash`), never a plaintext password (see src/auth).
+  passwordHash: text("password_hash"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
+
+/**
+ * Server-side reviewer sessions (M3 auth). Login mints an opaque random token,
+ * sets it in an HttpOnly SameSite=Lax cookie, and stores ONLY its SHA-256 hash
+ * here — a database leak therefore never exposes a live cookie value. A session
+ * is valid while `expiresAt` is in the future; logout deletes the row. No public
+ * signup path exists; reviewer rows are provisioned by the seed script.
+ */
+export const sessions = pgTable(
+  "sessions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    tokenHash: text("token_hash").notNull(),
+    reviewerId: uuid("reviewer_id")
+      .notNull()
+      .references(() => reviewers.id),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  },
+  (t) => [uniqueIndex("sessions_token_hash_key").on(t.tokenHash)],
+);

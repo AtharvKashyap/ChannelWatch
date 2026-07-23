@@ -24,6 +24,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts",
+    "db:seed-reviewer": "tsx scripts/seed-reviewer.ts",
     "import:research": "tsx scripts/import-research.ts"
   },
   "dependencies": {
