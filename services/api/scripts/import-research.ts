@@ -12,8 +12,15 @@ import {
 import { canPublishPeLabel, scoreClaimConfidence, type PeLabelSource } from "@channelwatch/scoring";
 import { deriveClassification } from "@channelwatch/graph";
 import { getDb, closeDb, type Database } from "../src/db/client.js";
-import { deriveForChannel } from "../src/db/queries.js";
+import { recomputeClassifications, type RecomputeSummary } from "../src/db/recompute.js";
 import { syncRow } from "../src/db/sync-row.js";
+
+// The whole-graph recompute — the SINGLE WRITER of published_classification —
+// now lives in `src/db/recompute.ts` so the authed reviewer routes can call the
+// same writer. Re-exported here for backward compatibility with existing
+// callers/tests that import it from the importer module.
+export { recomputeClassifications };
+export type { RecomputeSummary };
 import {
   channelId as channelIdFor,
   claimId as claimIdFor,
@@ -430,78 +437,6 @@ export async function importAll(
     `whole-graph recompute: ${rewritten.length} of ${recomputed.length} cached label(s) settled`,
   );
 
-  return summaries;
-}
-
-const RECOMPUTE_ACTION = "RECOMPUTE_CLASSIFICATION";
-
-export interface RecomputeSummary {
-  channelId: string;
-  youtubeChannelId: string;
-  classification: string;
-  classificationConfidence: number;
-  /** True when the cached column was actually rewritten (produced an audit row). */
-  changed: boolean;
-}
-
-/**
- * Post-import WHOLE-GRAPH recompute of the cached `channels.published_classification`
- * column (flagged M3 wart). `importRecord` computes each channel's label from ONLY
- * that record's own relationships, but the public API serves a whole-graph
- * recompute over the channel's connected sub-graph (which can span entities shared
- * across records). This step re-derives every channel's classification the exact
- * same way the API does — via `deriveForChannel` — and writes the result back so
- * the cached labels match what is served.
- *
- * It mirrors the API assembler's degraded-fallback rule: the whole-graph live
- * derivation is authoritative UNLESS it is degraded (no ownership evidence, or an
- * OWNERSHIP_UNCLEAR caused by a sub-graph row that had to be skipped), in which
- * case the existing per-record cached label is left in place as the honest
- * fallback rather than being overwritten with a weaker one. Change-detected: a
- * channel whose label/confidence is unchanged is not rewritten and emits no audit.
- */
-export async function recomputeClassifications(db: Database): Promise<RecomputeSummary[]> {
-  const channelRows = await db.select().from(channels);
-  const summaries: RecomputeSummary[] = [];
-  for (const channel of channelRows) {
-    const { result, skipped } = await deriveForChannel(db, channel);
-    const noEvidence = result.explanationCodes.includes("NO_OWNERSHIP_EVIDENCE");
-    const degraded = noEvidence || (skipped > 0 && result.classification === "OWNERSHIP_UNCLEAR");
-    if (degraded) {
-      summaries.push({
-        channelId: channel.id,
-        youtubeChannelId: channel.youtubeChannelId,
-        classification: channel.publishedClassification ?? result.classification,
-        classificationConfidence: channel.classificationConfidence
-          ? Number(channel.classificationConfidence)
-          : result.confidence,
-        changed: false,
-      });
-      continue;
-    }
-
-    const synced = await syncRow(db, channels, channel.id, {
-      publishedClassification: result.classification,
-      classificationConfidence: String(result.confidence),
-    });
-    if (synced.result !== "unchanged") {
-      await db.insert(auditEvents).values({
-        actorId: null,
-        action: RECOMPUTE_ACTION,
-        objectType: "channel",
-        objectId: channel.id,
-        beforeState: (synced.before ?? null) as object | null,
-        afterState: (synced.after ?? null) as object | null,
-      });
-    }
-    summaries.push({
-      channelId: channel.id,
-      youtubeChannelId: channel.youtubeChannelId,
-      classification: result.classification,
-      classificationConfidence: result.confidence,
-      changed: synced.result !== "unchanged",
-    });
-  }
   return summaries;
 }
 
