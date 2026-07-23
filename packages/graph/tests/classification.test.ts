@@ -479,10 +479,7 @@ describe("deriveClassification — creator-controlled company (ownership rules v
   });
 
   it("a company owner merely FOUNDED_BY a creator (no controlling stake) is NOT creator-controlled", () => {
-    const entities = [
-      entity("co", "COMPANY", "Studio"),
-      entity("creator", "CREATOR", "Founder"),
-    ];
+    const entities = [entity("co", "COMPANY", "Studio"), entity("creator", "CREATOR", "Founder")];
     const relationships = [
       rel({ type: "OWNS", from_entity_id: "co", to_entity_id: CHAN, control_level: "CONTROLLING" }),
       rel({ type: "FOUNDED_BY", from_entity_id: "co", to_entity_id: "creator" }),

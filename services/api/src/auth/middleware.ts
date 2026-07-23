@@ -2,12 +2,7 @@ import type { Context, MiddlewareHandler } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import { getDb } from "../db/client.js";
 import { unauthorized } from "../http/middleware.js";
-import {
-  SESSION_COOKIE,
-  SESSION_TTL_MS,
-  resolveSession,
-  type ReviewerRow,
-} from "./sessions.js";
+import { SESSION_COOKIE, SESSION_TTL_MS, resolveSession, type ReviewerRow } from "./sessions.js";
 
 /**
  * Reviewer authentication middleware for the authed `/review` API surface. Reads

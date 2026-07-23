@@ -360,6 +360,8 @@ describe.skipIf(!reachable)("authed reviewer API (§17/§19.5/§20)", () => {
     const after = await authed(token, "/api/v1/reviewer/claims");
     expect(after.status).toBe(401);
     // Clean up any sessions left for the test reviewers.
-    await getDb().delete(sessions).where(inArray(sessions.reviewerId, [reviewerAId, reviewerBId]));
+    await getDb()
+      .delete(sessions)
+      .where(inArray(sessions.reviewerId, [reviewerAId, reviewerBId]));
   });
 });

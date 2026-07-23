@@ -1,10 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  REVIEW_CONSOLE_COPY as C,
-  type ClaimQueueItem,
-} from "@channelwatch/schemas";
+import { REVIEW_CONSOLE_COPY as C, type ClaimQueueItem } from "@channelwatch/schemas";
 import { ClaimQueue, ReasoningDialog } from "../../components/review/index.js";
 import { approveClaim, fetchClaimQueue, rejectClaim } from "../../lib/review-client.js";
 import { ReviewShell } from "./ReviewShell.js";
@@ -59,9 +56,7 @@ export default function QueuePage() {
       {pending ? (
         <ReasoningDialog
           heading={
-            pending.mode === "approve"
-              ? C.reviewDialogApproveHeading
-              : C.reviewDialogRejectHeading
+            pending.mode === "approve" ? C.reviewDialogApproveHeading : C.reviewDialogRejectHeading
           }
           busy={busy}
           onConfirm={onConfirm}

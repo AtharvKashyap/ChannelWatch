@@ -114,7 +114,10 @@ async function ResearchedChannel({ payload }: { payload: ResearchedChannelLookup
             value={CONFIDENCE_LABEL_TEXT[classification.confidence_label]}
           />
           <Fact term={PANEL_COPY.evidenceLabel} value={evidenceCountText(payload.evidence_count)} />
-          <Fact term={PANEL_COPY.lastReviewedLabel} value={lastReviewedText(payload.last_reviewed_at)} />
+          <Fact
+            term={PANEL_COPY.lastReviewedLabel}
+            value={lastReviewedText(payload.last_reviewed_at)}
+          />
         </dl>
 
         {payload.warnings.length > 0 && (

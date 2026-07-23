@@ -1,6 +1,10 @@
 "use client";
 
-import { CLAIM_STATUSES, REVIEW_CONSOLE_COPY as C, type ClaimQueueItem } from "@channelwatch/schemas";
+import {
+  CLAIM_STATUSES,
+  REVIEW_CONSOLE_COPY as C,
+  type ClaimQueueItem,
+} from "@channelwatch/schemas";
 import { ConfidenceLabel } from "../ConfidenceLabel.js";
 
 /**
@@ -26,7 +30,9 @@ function claimLabel(claim: ClaimQueueItem): string {
 }
 
 function isReviewable(status: string | null): boolean {
-  return status === null || status === "DRAFT" || status === "UNDER_REVIEW" || status === "DISPUTED";
+  return (
+    status === null || status === "DRAFT" || status === "UNDER_REVIEW" || status === "DISPUTED"
+  );
 }
 
 export function ClaimQueue({
@@ -92,11 +98,7 @@ export function ClaimQueue({
                 <td className="cw-actions">
                   {isReviewable(claim.claim_status) ? (
                     <>
-                      <button
-                        type="button"
-                        className="cw-approve"
-                        onClick={() => onApprove(claim)}
-                      >
+                      <button type="button" className="cw-approve" onClick={() => onApprove(claim)}>
                         {C.approve}
                       </button>
                       <button type="button" className="cw-reject" onClick={() => onReject(claim)}>

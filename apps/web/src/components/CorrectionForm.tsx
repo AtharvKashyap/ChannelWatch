@@ -30,9 +30,7 @@ export interface CorrectionFormProps {
 }
 
 type FormState =
-  | { kind: "editing"; error: string | null }
-  | { kind: "submitting" }
-  | { kind: "done" };
+  { kind: "editing"; error: string | null } | { kind: "submitting" } | { kind: "done" };
 
 export function CorrectionForm({ initialChannelId = "", onSubmit }: CorrectionFormProps) {
   const submit = onSubmit ?? submitCorrection;
@@ -110,11 +108,7 @@ export function CorrectionForm({ initialChannelId = "", onSubmit }: CorrectionFo
       </label>
       <label>
         {PANEL_COPY.relationshipLabel}
-        <input
-          type="text"
-          value={relationship}
-          onChange={(e) => setRelationship(e.target.value)}
-        />
+        <input type="text" value={relationship} onChange={(e) => setRelationship(e.target.value)} />
       </label>
       {form.kind === "editing" && form.error && (
         <p role="alert" className="cw-correction__error">

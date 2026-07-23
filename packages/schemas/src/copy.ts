@@ -472,8 +472,7 @@ export const METHODOLOGY_COPY = {
     },
     {
       title: "Low confidence",
-      description:
-        "Evidence is suggestive but insufficient for a public ownership label.",
+      description: "Evidence is suggestive but insufficient for a public ownership label.",
     },
     {
       title: "Disputed",
@@ -518,8 +517,7 @@ export const METHODOLOGY_COPY = {
   twoPersonIntro:
     "Two reviewers must approve before publication for high-risk claims involving hidden ownership, undisclosed acquisition, fraud, misrepresentation, editorial interference, political influence, or named individuals.",
   llmHeading: "How we use language models",
-  llm:
-    "Language models may assist research — summarizing announcements, extracting names and dates, suggesting entity matches — but must not act as autonomous publishers. Models draft; humans publish. Model confidence is never treated as factual confidence, and no claim is published without human review.",
+  llm: "Language models may assist research — summarizing announcements, extracting names and dates, suggesting entity matches — but must not act as autonomous publishers. Models draft; humans publish. Model confidence is never treated as factual confidence, and no claim is published without human review.",
 } as const;
 
 /** "N sources reviewed", pluralized; "No sources reviewed" for zero. */

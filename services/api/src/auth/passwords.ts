@@ -60,7 +60,10 @@ export async function hashPassword(plain: string): Promise<string> {
  * Verify a plaintext password against a stored verifier. Returns false (never
  * throws) for a malformed/empty stored value, and compares in constant time.
  */
-export async function verifyPassword(plain: string, stored: string | null | undefined): Promise<boolean> {
+export async function verifyPassword(
+  plain: string,
+  stored: string | null | undefined,
+): Promise<boolean> {
   if (!stored || typeof plain !== "string" || plain.length === 0) return false;
   const parts = stored.split("$");
   if (parts.length !== 6 || parts[0] !== "scrypt") return false;

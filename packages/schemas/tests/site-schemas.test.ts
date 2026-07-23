@@ -114,7 +114,9 @@ describe("ChannelTimelineResponse", () => {
     expect(() =>
       ChannelTimelineResponse.parse({
         channel_id: "c",
-        events: [{ date: null, kind: "OTHER", type: "x", subject: null, object: null, status: null }],
+        events: [
+          { date: null, kind: "OTHER", type: "x", subject: null, object: null, status: null },
+        ],
       }),
     ).toThrow();
   });

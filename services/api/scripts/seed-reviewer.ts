@@ -83,9 +83,7 @@ async function main(): Promise<void> {
     displayName: process.env.REVIEWER_NAME,
     role: process.env.REVIEWER_ROLE,
   });
-  console.log(
-    `reviewer ${result.created ? "created" : "updated"}: ${email} (id ${result.id})`,
-  );
+  console.log(`reviewer ${result.created ? "created" : "updated"}: ${email} (id ${result.id})`);
   await closeDb();
 }
 

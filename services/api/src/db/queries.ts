@@ -220,10 +220,13 @@ export async function assembleLookup(
   db: Database,
   channel: ChannelRow,
 ): Promise<ChannelLookupPayload> {
-  const { result, skipped, nodeIds, edges, entities: subgraphEntities } = await deriveForChannel(
-    db,
-    channel,
-  );
+  const {
+    result,
+    skipped,
+    nodeIds,
+    edges,
+    entities: subgraphEntities,
+  } = await deriveForChannel(db, channel);
 
   // Live result is authoritative. Fall back to the cached published label when
   // the graph found no ownership evidence, OR when a sub-graph row had to be

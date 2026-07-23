@@ -88,7 +88,9 @@ describe("OwnershipHistory", () => {
       />,
     );
     const text = view.container.textContent ?? "";
-    expect(text).toContain(`2021-11-04 ${CHAIN_COPY.dateRangeSeparator} ${CHAIN_COPY.currentLabel}`);
+    expect(text).toContain(
+      `2021-11-04 ${CHAIN_COPY.dateRangeSeparator} ${CHAIN_COPY.currentLabel}`,
+    );
     expect(text).toContain(`2019-02-22 ${CHAIN_COPY.dateRangeSeparator} 2021-11-04`);
     expect(text).toContain(CHAIN_COPY.dateUndisclosed);
   });
@@ -129,9 +131,7 @@ describe("dateRangeText (unit)", () => {
 
   it("shows just the from date for a non-current period with no end date", () => {
     expect(
-      dateRangeText(
-        entry({ effective_from: "2019-02-22", effective_to: null, is_current: false }),
-      ),
+      dateRangeText(entry({ effective_from: "2019-02-22", effective_to: null, is_current: false })),
     ).toBe("2019-02-22");
   });
 });

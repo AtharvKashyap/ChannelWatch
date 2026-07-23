@@ -1,10 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  REVIEW_CONSOLE_COPY as C,
-  type CorrectionInboxItem,
-} from "@channelwatch/schemas";
+import { REVIEW_CONSOLE_COPY as C, type CorrectionInboxItem } from "@channelwatch/schemas";
 import { CorrectionInbox, ReasoningDialog } from "../../../components/review/index.js";
 import {
   dismissCorrection,

@@ -43,11 +43,7 @@ type ReviewRow = typeof reviews.$inferSelect;
 
 // Claim statuses a reviewer may still act on. PUBLISHED / ARCHIVED / RETRACTED /
 // CORRECTED are terminal for the approve/reject actions (a 409, not a 500).
-const REVIEWABLE_STATUSES: ReadonlySet<string> = new Set([
-  "DRAFT",
-  "UNDER_REVIEW",
-  "DISPUTED",
-]);
+const REVIEWABLE_STATUSES: ReadonlySet<string> = new Set(["DRAFT", "UNDER_REVIEW", "DISPUTED"]);
 
 function isReviewable(status: string | null): boolean {
   return status === null || REVIEWABLE_STATUSES.has(status);
@@ -96,7 +92,10 @@ function toReviewRecord(r: ReviewRow): ReviewRecord {
 
 /** Entity types participating in a claim (subject + object, when they are entities). */
 function involvedTypes(claim: ClaimRow, entityType: Map<string, string>): (string | null)[] {
-  return [entityType.get(claim.subjectId) ?? null, claim.objectId ? entityType.get(claim.objectId) ?? null : null];
+  return [
+    entityType.get(claim.subjectId) ?? null,
+    claim.objectId ? (entityType.get(claim.objectId) ?? null) : null,
+  ];
 }
 
 /**
@@ -104,12 +103,13 @@ function involvedTypes(claim: ClaimRow, entityType: Map<string, string>): (strin
  * status. Each item carries the resolved names, the sensitivity flag, and the
  * two-person decision surface (§20.3).
  */
-export async function listClaims(
-  db: Database,
-  statusFilter?: string,
-): Promise<ClaimQueueItem[]> {
+export async function listClaims(db: Database, statusFilter?: string): Promise<ClaimQueueItem[]> {
   const rows = statusFilter
-    ? await db.select().from(claims).where(eq(claims.claimStatus, statusFilter)).orderBy(desc(claims.updatedAt))
+    ? await db
+        .select()
+        .from(claims)
+        .where(eq(claims.claimStatus, statusFilter))
+        .orderBy(desc(claims.updatedAt))
     : await db.select().from(claims).orderBy(desc(claims.updatedAt));
   if (rows.length === 0) return [];
 
@@ -149,7 +149,7 @@ export async function listClaims(
       predicate: c.predicate,
       object_type: c.objectType,
       object_id: c.objectId,
-      object_name: c.objectId ? name.get(c.objectId) ?? null : null,
+      object_name: c.objectId ? (name.get(c.objectId) ?? null) : null,
       confidence,
       confidence_label: confidenceLabel,
       claim_status: c.claimStatus as ClaimQueueItem["claim_status"],
@@ -487,7 +487,10 @@ export async function listAudit(
 }
 
 /** Parse + bound the pagination inputs for the audit viewer. */
-export function parsePagination(limitRaw?: string, offsetRaw?: string): {
+export function parsePagination(
+  limitRaw?: string,
+  offsetRaw?: string,
+): {
   limit: number;
   offset: number;
 } {

@@ -1,9 +1,5 @@
 import { z } from "zod";
-import {
-  ClaimStatusSchema,
-  EntityTypeSchema,
-  ConfidenceLabelSchema,
-} from "./enums.js";
+import { ClaimStatusSchema, EntityTypeSchema, ConfidenceLabelSchema } from "./enums.js";
 
 /**
  * Zod schemas for the authenticated `/review` console (SPEC §17 authed

@@ -83,7 +83,11 @@ export function EntityForm({ initial, busy = false, onSubmit }: EntityFormProps)
         {C.entityDescriptionLabel}
         <textarea value={description} rows={3} onChange={(e) => setDescription(e.target.value)} />
       </label>
-      <button type="submit" className="cw-entity-save" disabled={busy || canonicalName.trim() === ""}>
+      <button
+        type="submit"
+        className="cw-entity-save"
+        disabled={busy || canonicalName.trim() === ""}
+      >
         {busy ? C.entitySaving : C.entitySave}
       </button>
     </form>

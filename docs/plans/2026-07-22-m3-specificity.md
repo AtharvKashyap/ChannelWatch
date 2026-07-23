@@ -7,7 +7,7 @@ where sourced; UNCLEAR only when genuinely unclear; panels show the full ownersh
 
 ## Global Constraints
 
-- All M0–M2 conventions. Copy module only for user-facing strings; badge colors via schemas map; precision-over-recall still governs — these rules widen what counts as *documented* ownership, they never invent it. Neutral mechanism words ("acquired", "majority investment", "controlling stake") from sourced relationship data only.
+- All M0–M2 conventions. Copy module only for user-facing strings; badge colors via schemas map; precision-over-recall still governs — these rules widen what counts as _documented_ ownership, they never invent it. Neutral mechanism words ("acquired", "majority investment", "controlling stake") from sourced relationship data only.
 - Legal-safe: naming an owner is only ever done from ACTIVE reviewed relationships; percentage shown only when `ownership_percentage` is non-null; otherwise "stake not publicly disclosed" copy.
 
 ## Task 1: Graph + schemas — ownership rules v2 (TDD)

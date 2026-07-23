@@ -236,7 +236,12 @@ describe("ownershipHistory", () => {
     const history = ownershipHistory({
       channelId: "chan",
       relationships: [
-        rel({ type: "OWNS", from_entity_id: "later", to_entity_id: "chan", effective_from: future }),
+        rel({
+          type: "OWNS",
+          from_entity_id: "later",
+          to_entity_id: "chan",
+          effective_from: future,
+        }),
       ],
       entities: [entity("later", "COMPANY", "Later Owner"), entity("chan", "CHANNEL")],
       asOf: NOW,

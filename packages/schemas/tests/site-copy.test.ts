@@ -17,7 +17,8 @@ const banned = [
 function flatten(value: unknown, out: string[]): void {
   if (typeof value === "string") out.push(value);
   else if (Array.isArray(value)) for (const v of value) flatten(v, out);
-  else if (value && typeof value === "object") for (const v of Object.values(value)) flatten(v, out);
+  else if (value && typeof value === "object")
+    for (const v of Object.values(value)) flatten(v, out);
 }
 
 function allStrings(): string[] {
