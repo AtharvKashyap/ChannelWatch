@@ -311,6 +311,9 @@ export async function assembleLookup(
   return {
     researched: true,
     youtube_channel_id: channel.youtubeChannelId,
+    // Internal channel UUID (ADDITIVE, M3 Track C): lets the public site fetch
+    // itemized evidence + the timeline, which are keyed by internal id.
+    channel_id: channel.id,
     display_name: channel.displayName,
     research_status: (channel.researchStatus ?? "PUBLISHED") as ResearchStatus,
     classification: {
