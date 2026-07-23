@@ -4,17 +4,24 @@ Know who is behind the channel.
 
 ## Status
 
-Milestone M2 (public API + Chrome extension) complete. The repository contains:
-the monorepo tooling and founding documents; the data layer — taxonomy and Zod
-schemas (`packages/schemas`), confidence scoring (`packages/scoring`), the
-ownership-classification engine (`packages/graph`), PostgreSQL
-schema/migrations/seed and the public read API (`services/api`), the YAML
-research-record importer with 12 researched channel records
-(`data/research/`); and the Manifest V3 Chrome extension (`apps/extension`)
-that shows ownership badges and an evidence panel on YouTube watch and channel
-pages. See `apps/extension/README.md` for build/load and the local
-end-to-end workflow. Next (M3): reviewer console, ~100-channel dataset,
-launch prep.
+Milestone M3 core (temporal ownership + web app) complete. The repository
+contains: the monorepo tooling and founding documents; the data layer —
+taxonomy and Zod schemas (`packages/schemas`), confidence scoring
+(`packages/scoring`), the ownership-classification engine with temporal
+ownership-history derivation (`packages/graph`), PostgreSQL
+schema/migrations/seed, the public read API, and authed reviewer endpoints
+with session auth and a two-person review rule (`services/api`); the YAML
+research-record importer (whole-graph recompute is the single writer of
+cached classifications) with 17 researched channel records
+(`data/research/`); the Manifest V3 Chrome extension (`apps/extension`) that
+shows ownership badges and an evidence panel — including "Ownership over
+time" — on YouTube watch and channel pages; and the Next.js web app
+(`apps/web`) with the public site (channel pages with ownership chain +
+history, search, methodology, correction form) and the authed `/review`
+console (claim queue, entity CRUD, correction inbox, audit viewer). See
+`apps/extension/README.md` for build/load and the local end-to-end workflow.
+Remaining for M3: dataset expansion toward ~100 verified channels and
+launch prep (legal review, store listing, reproducible build).
 
 ## Quickstart
 
