@@ -111,7 +111,9 @@ export async function readMetrics(options: ReadMetricsOptions = {}): Promise<Met
   const currentWindow = metricWindowStart(now, windowMs);
   const earliest = currentWindow - (limitWindows - 1) * windowMs;
 
-  const rows = await sql<{ metric: string; window_start: number | string; count: number | string }[]>`
+  const rows = await sql<
+    { metric: string; window_start: number | string; count: number | string }[]
+  >`
     select metric, window_start, count
     from request_metrics
     where window_start >= ${earliest}

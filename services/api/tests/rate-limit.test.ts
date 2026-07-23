@@ -142,7 +142,9 @@ describe("resolveRateLimitStoreKind", () => {
 /** Constructor validation is pure (no DB), so it is a unit concern. */
 describe("PostgresFixedWindowStore options", () => {
   it("rejects invalid options", () => {
-    expect(() => new PostgresFixedWindowStore({ capacity: 0, windowMs: 1000, scope: "x" })).toThrow();
+    expect(
+      () => new PostgresFixedWindowStore({ capacity: 0, windowMs: 1000, scope: "x" }),
+    ).toThrow();
     expect(() => new PostgresFixedWindowStore({ capacity: 5, windowMs: 0, scope: "x" })).toThrow();
     expect(
       () =>

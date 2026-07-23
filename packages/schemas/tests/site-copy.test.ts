@@ -68,3 +68,23 @@ describe("METHODOLOGY_COPY faithfully mirrors docs/METHODOLOGY.md", () => {
     expect(METHODOLOGY_COPY.llm).toMatch(/humans publish/i);
   });
 });
+
+// LEGAL_PAGE_COPY (M3 Track F) is user-facing prose on /legal — same §23.1 bar.
+import { LEGAL_PAGE_COPY } from "../src/copy.js";
+
+describe("LEGAL_PAGE_COPY", () => {
+  const strings: string[] = [];
+  flatten(LEGAL_PAGE_COPY, strings);
+
+  it("every string is non-empty", () => {
+    for (const s of strings) expect(s.trim().length).toBeGreaterThan(0);
+  });
+
+  it("no banned §23.1 phrasing", () => {
+    for (const s of strings) for (const b of banned) expect(s).not.toMatch(b);
+  });
+
+  it("the designated-agent contact is still the NEEDS-HUMAN placeholder or a real contact (never empty)", () => {
+    expect(LEGAL_PAGE_COPY.agentContact.length).toBeGreaterThan(10);
+  });
+});

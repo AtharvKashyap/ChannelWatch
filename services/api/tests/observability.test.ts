@@ -1,10 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Hono } from "hono";
-import {
-  formatLogEntry,
-  requestLogger,
-  requestLoggingEnabled,
-} from "../src/http/request-log.js";
+import { formatLogEntry, requestLogger, requestLoggingEnabled } from "../src/http/request-log.js";
 import { RATE_LIMIT_OUTCOME_KEY } from "../src/http/rate-limit.js";
 import { metricWindowStart, metricsEnabled } from "../src/http/metrics.js";
 
@@ -105,7 +101,10 @@ describe("requestLogger middleware", () => {
   it("reflects a rate-limit outcome recorded upstream on the context", async () => {
     const lines: string[] = [];
     const app = new Hono();
-    app.use("*", requestLogger({ enabled: true, recordMetrics: false, sink: (l) => lines.push(l) }));
+    app.use(
+      "*",
+      requestLogger({ enabled: true, recordMetrics: false, sink: (l) => lines.push(l) }),
+    );
     app.use("*", async (c, next) => {
       c.set(RATE_LIMIT_OUTCOME_KEY, "limited");
       await next();

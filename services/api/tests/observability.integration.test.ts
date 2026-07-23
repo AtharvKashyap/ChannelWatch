@@ -96,7 +96,13 @@ describe.skipIf(!reachable)("Track F durable rate limiting + metrics", () => {
   });
 
   it("keys independently per client and shares state across store instances", async () => {
-    const opts = { capacity: 1, windowMs: 60_000, scope: SCOPE, now: () => 60_000, cleanupProbability: 0 };
+    const opts = {
+      capacity: 1,
+      windowMs: 60_000,
+      scope: SCOPE,
+      now: () => 60_000,
+      cleanupProbability: 0,
+    };
     const storeA = new PostgresFixedWindowStore(opts);
     // A different key has its own budget.
     expect((await storeA.take("clientX")).allowed).toBe(true);
