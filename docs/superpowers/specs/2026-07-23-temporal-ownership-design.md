@@ -6,12 +6,12 @@
 
 ## Problem
 
-The platform already *stores* temporal ownership data — `relationships` carry
+The platform already _stores_ temporal ownership data — `relationships` carry
 `effective_from` / `effective_to`, relationship types include `ACQUIRED`, and
 `getTimeline()` already assembles dated relationship + claim events. But the
 user-facing surfaces only ever show the **current** owner plus a terse "since
 {date}" suffix on each ownership-chain hop. A viewer cannot see the ownership
-*history*: **who came to own the channel, when, and who held it before**.
+_history_: **who came to own the channel, when, and who held it before**.
 
 This track surfaces a legal-safe ownership history across the lookup payload and
 the extension panel. It **reuses the existing temporal data model** — it does not
@@ -26,13 +26,13 @@ percentages shown only when publicly disclosed.
 ## Scope (this spec)
 
 1. **Derivation (`packages/graph`)** — a pure function `ownershipHistory(...)`
-   producing an ordered list of ownership *periods* from a channel's connected
+   producing an ordered list of ownership _periods_ from a channel's connected
    relationships. It includes only ownership/control/founding edges
    (`OWNS`, `PARTIALLY_OWNS`, `ACQUIRED`, `INVESTED_IN`, `FOUNDED_BY`,
    `CREATOR_OWNED`-producing edges); it excludes non-ownership edges such as
    `HOSTED_BY` (those remain on the fuller `/timeline` stream). Each entry:
    `{ name, type, relationship, control_level, ownership_percentage|null,
-   effective_from|null, effective_to|null, is_current }`. `is_current` = the
+effective_from|null, effective_to|null, is_current }`. `is_current` = the
    effective window covers today (or the edge is open-ended and not superseded).
    Ordered newest-first (most recent transition at top).
 
