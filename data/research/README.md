@@ -28,8 +28,37 @@ before authoring a record.
 
    The importer validates every file, enforces the evidence rules below,
    **computes** the ownership classification with `@channelwatch/graph`, and
-   upserts the result. It is idempotent: re-importing an unchanged file writes
-   nothing (and adds no audit rows).
+   upserts the result. After all files are imported it runs a **whole-graph
+   recompute** of every channel's cached `published_classification`, re-deriving
+   each label over the channel's full connected sub-graph (the same view the API
+   serves) so the cached labels stay consistent when a record shares entities
+   with another. It is idempotent: re-importing an unchanged file writes nothing
+   (and adds no audit rows), and the recompute rewrites only labels that changed.
+
+## Recording an ownership transition
+
+Ownership **history** — who owns the channel, when, and who owned it before — is
+derived from the relationship edges' dates and lifecycle status. There is **no
+separate "former owner" column**; a prior owner is simply an ownership edge whose
+`effective_to` is in the past (and whose `status` is `ENDED`).
+
+When a new owner supersedes a prior one:
+
+1. **On the superseded owner's edge**, set `effective_to` to the operative
+   handover date and `status: ENDED`. It becomes a prior period — surfaced in the
+   "Ownership over time" history, never marked current.
+2. **On the new owner's edge**, set `effective_from` to the **same operative
+   date**, leave `effective_to: null`, and keep `status: ACTIVE`. This is the
+   current period.
+
+`effective_from` is the **operative** date — when ownership actually changed —
+**not** the announcement date. Record the acquiring entity as the new edge's
+`subject`. Capture the **announcement** date on the supporting source's
+`published_at`, not on the relationship (the operative and announcement dates
+often differ; conflating them would misdate the transition).
+
+Because the classifier reads only currently-active edges, adding history has **no
+effect on the served classification** — it only enriches the history surface.
 
 ## What the importer enforces
 
