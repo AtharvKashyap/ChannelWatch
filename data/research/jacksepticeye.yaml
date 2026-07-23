@@ -1,0 +1,378 @@
+# CHANNELWATCH research record — jacksepticeye (Seán McLoughlin)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: independent, creator-owned gaming channel with a DOCUMENTED PAST
+# MULTI-CHANNEL-NETWORK (MCN) RELATIONSHIP — NOT a past ownership change. Seán
+# William McLoughlin created and hosts the "jacksepticeye" channel (uploads under
+# that name began December 2012) and no source documents any sale or transfer of
+# the channel itself. From January 2016 the channel was REPRESENTED by Revelmode,
+# a Maker Studios sub-network led by PewDiePie; Revelmode was shut down by Disney
+# in 2017. McLoughlin was subsequently affiliated with Disney's Maker Studios
+# gaming network Polaris / Disney Digital Network (the Maker successor brand). All
+# of these are NETWORK/REPRESENTATION affiliations that ENDED — an MCN
+# represents/distributes a creator's channel; it does NOT own it. These edges are
+# therefore REPRESENTS / SUBSIDIARY_OF / ACQUIRED — never OWNS / FORMERLY_OWNED_BY.
+# Because ownership never changed, this is a creator-owned channel with historical
+# network context, NOT an ownership-transition (OWNERSHIP_CHANGED) case.
+#
+# The maker / disney / revelmode entities are reused VERBATIM from pewdiepie.yaml
+# (same Maker Studios MCN, its Disney acquisition, and the Revelmode sub-network),
+# so the shared sub-graph stays consistent on import.
+#
+# McLoughlin's business ventures (Top of The Mornin' Coffee; Cloak apparel,
+# co-founded with Markiplier) are recorded ONLY as documented context and are
+# OUTSIDE the channel ownership chain — they are companies he founded, not owners
+# of the channel, and do NOT feed the ownership classification.
+
+channel:
+  # Extracted from the canonical externalId embedded in the raw HTML of
+  # https://www.youtube.com/@jacksepticeye (curl fetch, no JS execution): the
+  # page source lists externalId "UCYzPXprvl5Y-Sf0g4vX-m6g", and the page's own
+  # <link rel="canonical"> is
+  # https://www.youtube.com/channel/UCYzPXprvl5Y-Sf0g4vX-m6g — confirming this UC
+  # id is the page's own channel. The embedded keywords ("... games gaming
+  # jacksepticeye Let's Play Irish Jack ...") corroborate the match.
+  youtube_channel_id: UCYzPXprvl5Y-Sf0g4vX-m6g
+  display_name: jacksepticeye
+  handle: "@jacksepticeye"
+
+entities:
+  - slug: mcloughlin
+    canonical_name: Seán McLoughlin
+    entity_type: CREATOR
+    legal_name: Seán William McLoughlin
+    aliases:
+      - jacksepticeye
+      - Jack
+
+  # Reused VERBATIM from pewdiepie.yaml — same Maker Studios MCN entity.
+  - slug: maker
+    canonical_name: Maker Studios
+    entity_type: MEDIA_NETWORK
+    legal_name: Maker Studios, Inc.
+    jurisdiction: US-CA
+    aliases:
+      - Maker
+      - Disney Digital Network # Maker's remnants were rebranded/folded into this
+
+  # Reused VERBATIM from pewdiepie.yaml — same Disney entity.
+  - slug: disney
+    canonical_name: The Walt Disney Company
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://thewaltdisneycompany.com
+    aliases:
+      - Disney
+      - Walt Disney Company
+
+  # Reused VERBATIM from pewdiepie.yaml — same Revelmode sub-network entity.
+  - slug: revelmode
+    canonical_name: Revelmode
+    entity_type: MEDIA_NETWORK
+    aliases:
+      - RevelMode
+
+  - slug: polaris
+    canonical_name: Polaris
+    entity_type: MEDIA_NETWORK
+    aliases:
+      - The Game Station # Polaris's former name (Maker's gaming sub-network)
+
+  # VENTURE — NOT a channel owner. See review notes.
+  - slug: totm_coffee
+    canonical_name: Top of The Mornin' Coffee
+    entity_type: COMPANY
+    aliases:
+      - Top of the Mornin Coffee
+
+  # VENTURE — NOT a channel owner. See review notes.
+  - slug: cloak
+    canonical_name: Cloak
+    entity_type: COMPANY
+
+  - slug: markiplier
+    canonical_name: Markiplier
+    entity_type: CREATOR
+    legal_name: Mark Edward Fischbach
+    aliases:
+      - Mark Fischbach
+
+relationships:
+  # 0: Channel created/started by Seán McLoughlin. Uploads under the name
+  # "jacksepticeye" began in December 2012 (Wikipedia). effective_from is OMITTED:
+  # only the month ("December" 2012) is documented, with no ISO day — asserting a
+  # day would be false precision. This pre-dates every network relationship below.
+  - subject: channel
+    type: FOUNDED_BY
+    object: mcloughlin
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: McLoughlin owns the channel. This is the current, ACTIVE ownership edge and
+  # the one the classifier reads. No source documents any sale or transfer of the
+  # channel itself: the Revelmode / Polaris / Disney Digital Network relationships
+  # were multi-channel-NETWORK representation (rels 5, 7), not acquisitions of the
+  # channel. control_level CONTROLLING (sole individual creator-owner). confidence
+  # is moderate because "ownership" rests on his creating/hosting the channel
+  # (rels 0, 2) plus the DOCUMENTED ABSENCE of any ownership transfer, rather than
+  # a direct Tier-1 ownership disclosure. effective_from omitted (see rel 0).
+  # Flagged for reviewer.
+  - subject: mcloughlin
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.65
+    status: ACTIVE
+
+  # 2: McLoughlin is the creator/host of the channel (he IS jacksepticeye).
+  # Distinct from the ownership edge above.
+  - subject: channel
+    type: HOSTED_BY
+    object: mcloughlin
+    confidence: 0.95
+    status: ACTIVE
+
+  # 3: The Walt Disney Company acquired Maker Studios. Announced/agreed 2014-03-24
+  # ($500M plus a performance earn-out of up to $450M). Company-to-company
+  # acquisition — CONTEXT for the network relationships below, NOT an acquisition
+  # of the jacksepticeye channel. Kept ACTIVE (never reversed); Maker was later
+  # wound down and folded into "Disney Digital Network". Reused VERBATIM from
+  # pewdiepie.yaml.
+  - subject: disney
+    type: ACQUIRED
+    object: maker
+    control_level: CONTROLLING
+    effective_from: 2014-03-24
+    confidence: 0.9
+    status: ACTIVE
+
+  # 4: Revelmode was a Maker Studios sub-network / "imprint", launched January 2016
+  # and disbanded around February 2017 when Disney/Maker cut ties with PewDiePie.
+  # SUBSIDIARY_OF Maker. effective_to omitted: the disbanding is reported in early
+  # 2017 without a firm ISO day. Historical network context. Reused VERBATIM from
+  # pewdiepie.yaml.
+  - subject: revelmode
+    type: SUBSIDIARY_OF
+    object: maker
+    effective_from: 2016-01-14
+    confidence: 0.8
+    status: ENDED
+
+  # 5: FORMER NETWORK REPRESENTATION — NOT OWNERSHIP. McLoughlin was "one of the
+  # initial YouTubers signed under PewDiePie's multi-channel network Revelmode"
+  # (Wikipedia), from January 2016 until Revelmode was shut down by Disney in 2017.
+  # Recorded as REPRESENTS with status ENDED. effective_to is OMITTED: the shutdown
+  # is documented to 2017 without a firm ISO day (same precedent as pewdiepie.yaml
+  # rels 5/6). control_level left UNSET: an MCN represents/distributes a creator's
+  # channel and does not, by itself, hold ownership or control. NOT a channel-
+  # owning type; does NOT affect the ownership classification.
+  - subject: revelmode
+    type: REPRESENTS
+    object: channel
+    effective_from: 2016-01-14
+    confidence: 0.8
+    status: ENDED
+
+  # 6: Polaris was Maker Studios' gaming sub-network — "the gaming editorial
+  # division within Disney's recently-formed Digital Network" (Tubefilter).
+  # SUBSIDIARY_OF Maker. Dates omitted: no firm ISO founding/wind-down day is
+  # documented to a Tier 1/2 standard (Polaris was folded into Disney Digital
+  # Network). Historical network context.
+  - subject: polaris
+    type: SUBSIDIARY_OF
+    object: maker
+    confidence: 0.7
+    status: ENDED
+
+  # 7: FORMER NETWORK REPRESENTATION — NOT OWNERSHIP. After Revelmode's shutdown
+  # McLoughlin was affiliated with Maker's gaming network Polaris / Disney Digital
+  # Network — Tubefilter's 2017 headline calls him "Maker's Jacksepticeye" and
+  # Wikipedia states "McLoughlin was signed under the Disney Digital Network".
+  # Recorded as REPRESENTS with status ENDED. Both effective dates OMITTED: no firm
+  # ISO start is documented, and no end date is documented either (he is no longer
+  # publicly affiliated with any network as of 2026, but the operative end is not
+  # dated). This is the SOFTEST network edge (see notes) — moderate/low confidence.
+  # control_level left UNSET. NOT a channel-owning type; does NOT affect the
+  # ownership classification.
+  - subject: polaris
+    type: REPRESENTS
+    object: channel
+    confidence: 0.55
+    status: ENDED
+
+  # 8: VENTURE — OUTSIDE THE CHANNEL OWNERSHIP CHAIN. McLoughlin founded the coffee
+  # company Top of The Mornin' Coffee, announced 15 June 2020 (Wikipedia). Recorded
+  # as FOUNDED_BY for documented context only. This company does NOT own the
+  # channel; it is not a channel-owning edge and does NOT feed the classification.
+  - subject: totm_coffee
+    type: FOUNDED_BY
+    object: mcloughlin
+    effective_from: 2020-06-15
+    confidence: 0.85
+    status: ACTIVE
+
+  # 9: VENTURE — OUTSIDE THE CHANNEL OWNERSHIP CHAIN. McLoughlin co-founded the
+  # gamer apparel brand Cloak, announced October 2018, "which he created with
+  # Markiplier" (Wikipedia). effective_from omitted (month only, no ISO day).
+  # McLoughlin departed the brand in 2023 (see notes); FOUNDED_BY records the
+  # historical founding fact and is left ACTIVE. Not a channel-owning edge.
+  - subject: cloak
+    type: FOUNDED_BY
+    object: mcloughlin
+    confidence: 0.8
+    status: ACTIVE
+
+  # 10: Cloak co-founder Markiplier (Mark Fischbach). Documented context for the
+  # venture only; not a channel-owning edge.
+  - subject: cloak
+    type: FOUNDED_BY
+    object: markiplier
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: disney_press_release
+    url: https://thewaltdisneycompany.com/the-walt-disney-company-to-acquire-maker-studios-the-leading-network-of-online-video-content/
+    title: The Walt Disney Company to Acquire Maker Studios, the Leading Network of Online Video Content
+    publisher: The Walt Disney Company
+    published_at: 2014-03-24
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >-
+      "Furthering its goal of bringing content to consumers on all the platforms
+      they prefer, The Walt Disney Company (NYSE:DIS) has agreed to acquire Maker
+      Studios, the leading network of online video content on YouTube." "Maker
+      Studios shareholders will receive total consideration of $500 million, and a
+      performance-linked earn-out of up to $450 million if the strong performance
+      targets are met."
+    supports:
+      - relationship: 3
+
+  - ref: wikipedia_jacksepticeye
+    url: https://en.wikipedia.org/wiki/Jacksepticeye
+    title: Jacksepticeye
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "Seán William 'Jack' McLoughlin (born 7 February 1990)" "started uploading
+      videos to YouTube under the name 'jacksepticeye' in December 2012." "In
+      January 2016, he was one of the initial YouTubers signed under PewDiePie's
+      multi-channel network Revelmode." "the Revelmode network had been shut down
+      by Disney". "McLoughlin was signed under the Disney Digital Network."
+      "In October 2018 ... Cloak, a clothing brand ... he created with Markiplier."
+      "On 15 June 2020 ... Top of The Mornin' Coffee."
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 4
+      - relationship: 5
+      - relationship: 7
+      - relationship: 8
+      - relationship: 9
+      - relationship: 10
+
+  - ref: tubefilter_disney_xd
+    url: https://www.tubefilter.com/2017/06/15/disney-xd-maker-studios-jacksepticeye-parkergames-strawburry17-tv/
+    title: Disney XD Taps Maker's Jacksepticeye, ParkerGames, Strawburry17 For Summer TV Block
+    publisher: Tubefilter
+    published_at: 2017-06-15
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Headline: "Disney XD Taps Maker's Jacksepticeye, ParkerGames, Strawburry17
+      For Summer TV Block." Polaris is described as "the gaming editorial division
+      within Disney's recently-formed Digital Network," and the Disney XD show
+      Polaris: Player Select is "a 'greatest hits'-style compilation series
+      featuring top videos from YouTube creators like Jacksepticeye."
+    supports:
+      - relationship: 6
+      - relationship: 7
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >-
+    DRAFT for human review — "independent creator-owned channel with a documented
+    PAST MCN/NETWORK relationship (not a past ownership change)" case. Same model
+    as pewdiepie.yaml; the maker / disney / revelmode entities are reused VERBATIM
+    so the shared sub-graph stays consistent on import.
+
+    CHANNEL ID: UCYzPXprvl5Y-Sf0g4vX-m6g, extracted from the externalId field in
+    the raw HTML of https://www.youtube.com/@jacksepticeye (curl fetch, no JS
+    execution). Corroborated by the page's own
+    <link rel="canonical" href="https://www.youtube.com/channel/UCYzPXprvl5Y-Sf0g4vX-m6g">
+    and the embedded keywords naming "games gaming jacksepticeye Let's Play Irish
+    Jack".
+
+    CORE MODELING DECISION — MCN/NETWORK REPRESENTATION IS NOT OWNERSHIP. Revelmode
+    (a Maker Studios sub-network), and later Polaris / Disney Digital Network (the
+    Maker successor gaming network), REPRESENTED the jacksepticeye channel; no
+    source documents any sale, equity stake, or transfer of the channel itself. The
+    relationships are therefore encoded as REPRESENTS (rels 5, 7; status ENDED) and
+    SUBSIDIARY_OF / ACQUIRED (rels 3, 4, 6) — NOT as OWNS or FORMERLY_OWNED_BY.
+    Consequently there is NO ownership transition here: McLoughlin's OWNS edge
+    (rel 1) is continuous, and no ENDED ownership edge / prior-owner period is
+    recorded.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) OWNERSHIP EDGE (rel 1, mcloughlin OWNS channel) is the weakest-supported
+    edge and the reviewer's primary focus. It rests on his creating/hosting the
+    channel (rels 0, 2) plus the DOCUMENTED ABSENCE of any ownership transfer — not
+    a direct Tier-1 ownership disclosure. control_level CONTROLLING; confidence
+    deliberately moderate (0.65); no ownership percentage asserted.
+    (2) CHANNEL FOUNDING DATE. Wikipedia documents uploads under "jacksepticeye"
+    beginning "December" 2012 (month only). No ISO day is documented, so rels 0/1
+    OMIT effective_from rather than guess.
+    (3) REVELMODE (rels 4, 5). Wikipedia places McLoughlin among the initial
+    creators signed under Revelmode in January 2016 (effective_from 2016-01-14,
+    matching pewdiepie.yaml's Revelmode launch date). The shutdown is documented to
+    2017 without a firm ISO day, so effective_to is OMITTED while status is ENDED
+    (same precedent as pewdiepie.yaml).
+    (4) POLARIS / DISNEY DIGITAL NETWORK (rels 6, 7) is the SOFTEST part of this
+    record. Tubefilter (2017-06-15) calls him "Maker's Jacksepticeye" and describes
+    Polaris as Disney's gaming editorial division; Wikipedia states he "was signed
+    under the Disney Digital Network." These establish a documented network
+    affiliation but not clean ISO start/end dates, so both effective dates on rel 7
+    are omitted and confidence is low (0.55). Note "Disney Digital Network" is
+    carried as an ALIAS of the reused maker entity (Maker's rebranded successor);
+    the Polaris affiliation is modeled via the polaris entity rather than a second
+    maker→channel edge to avoid double-counting. A reviewer may prefer to fold rels
+    6/7 into a single maker→channel REPRESENTS edge, or to add a distinct Disney
+    Digital Network entity.
+    (5) DISNEY→MAKER (rel 3): effective_from 2014-03-24 is the ANNOUNCEMENT /
+    agreement date from Disney's own press release. Reused VERBATIM from
+    pewdiepie.yaml; kept ACTIVE (acquisition never reversed).
+    (6) VENTURES OUTSIDE THE OWNERSHIP CHAIN (rels 8, 9, 10). Top of The Mornin'
+    Coffee (founded/announced 2020-06-15) and Cloak (gamer apparel, announced
+    October 2018, co-founded with Markiplier) are companies McLoughlin founded, NOT
+    owners of the channel. They are recorded as FOUNDED_BY for documented context
+    only and are not channel-owning edges, so they do NOT feed the classification.
+    Wikipedia notes McLoughlin departed Cloak in 2023; the FOUNDED_BY edge records
+    the historical founding fact and is left ACTIVE (founding does not "end"). Cloak
+    date omitted (month only). A reviewer may add ownership/percentage detail for
+    these ventures if documented to a Tier 1/2 standard — none is asserted here.
+    (7) ENTITY TYPES. Maker Studios, Revelmode, and Polaris are typed MEDIA_NETWORK
+    (MCN / sub-networks). Disney is COMPANY (US-DE, NYSE:DIS). Top of The Mornin'
+    Coffee and Cloak are COMPANY (ventures). Keep canonical_name/legal_name/
+    jurisdiction consistent with pewdiepie.yaml for the shared maker/disney/
+    revelmode entities.
+    (8) NEUTRAL FRAMING. Per docs/legal-risk.md, this record describes ownership and
+    network structure only and makes NO claim of editorial interference or
+    wrongdoing. The 2017 Revelmode shutdown is stated only as the documented reason
+    that network affiliation ended; no conclusion about editorial control is drawn.
+
+    PROPOSED CLASSIFICATION (computed by importer, not asserted here): expected
+    CREATOR_OWNED (GREEN) — the only ACTIVE channel-owning edge is McLoughlin (a
+    CREATOR) OWNS channel / CONTROLLING. All network edges are either ENDED (rels 4,
+    5, 6, 7) or are not channel-owning types (rel 3 is a company-to-company ACQUIRED
+    edge), and the venture edges (8, 9, 10) are company FOUNDED_BY creator — none
+    feeds the ownership label. No OWNERSHIP_CHANGED_RECENTLY warning expected (no
+    ownership edge changed; the ENDED network edges are from 2016–2017, well outside
+    the 12-month window as of the 2026 evaluation date). Confidence moderate, gated
+    by the Tier-2-only, inference-based OWNS edge.
+
+    All backing sources are Tier 1 (Disney's own acquisition announcement) and Tier
+    2 (Wikipedia, Tubefilter). No Tier 3/4 source is used.
+  last_reviewed_at: 2026-07-23

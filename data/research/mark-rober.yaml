@@ -1,0 +1,295 @@
+# CHANNELWATCH research record — Mark Rober
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: a creator-founded, creator-owned eponymous channel. Mark Rober (former
+# NASA/Apple engineer) created the "Mark Rober" YouTube channel in 2011 and, more
+# than a decade later (2022), founded CrunchLabs LLC — a media-and-education
+# company (STEM subscription boxes + multi-platform content) that now operates the
+# channel as the "entertainment" pillar of its business. The central factual
+# distinctions this record encodes:
+#
+#   channel (Mark Rober)
+#     ├─ FOUNDED_BY ───────── Mark Rober (first video October 2011; the channel
+#     │                       pre-dates CrunchLabs by ~11 years)
+#     ├─ OWNS ←────────────── Mark Rober (creator/sole public principal; the
+#     │                       personal, eponymous channel — CONTROLLING, inferred
+#     │                       sole-creator control, no disclosed shareholding)
+#     └─ OPERATES ←────────── CrunchLabs LLC (the company runs the channel as its
+#                             "entertainment" pillar; OPERATES is NOT an ownership
+#                             edge and does not change the classification)
+#
+#   CrunchLabs LLC
+#     ├─ FOUNDED_BY ───────── Mark Rober (launched 2022)
+#     └─ FOUNDED_BY ───────── Jim Lee (co-founder; President & COO)
+#
+# CRITICAL CORRECTION TO THE RESEARCH BRIEF: the brief anticipated a "documented
+# 2023 outside investment round" in CrunchLabs and asked to verify investors,
+# amounts, and minority/majority stakes for the §14.3 PE gate. The evidence points
+# the OTHER way. Every reputable source found describes CrunchLabs as BOOTSTRAPPED
+# and PROFITABLE, having deliberately AVOIDED outside capital. No Tier 1/Tier 2
+# source documents any equity investment, investor, amount, or valuation. The
+# investor names surfaced by data aggregators (e.g. "$3.5M ... Factor Capital,
+# Multicoin Capital, Fabric VC, Elixir Capital") are almost certainly a
+# name-collision contamination with an unrelated crypto/AI entity ("CrunchDAO" /
+# "crunch-a-data-ai-agency" appeared in the same aggregator queries) and are NOT
+# recorded here. Evidence-first: a funding round we cannot document is not modeled.
+# Consequently there is NO PRIVATE_EQUITY_FIRM / VENTURE_CAPITAL_FIRM entity, NO
+# INVESTED_IN / PORTFOLIO_COMPANY_OF edge, and the §14.3 PE-evidence gate DOES NOT
+# APPLY (nothing PE-implying to gate). See review.notes.
+
+channel:
+  # Canonical externalId extracted from the raw HTML of
+  # https://www.youtube.com/@MarkRober (curl fetch, no JS execution): the page's
+  # own "externalId" is "UCY1kMZp36IQSyNx_9h4mpCg", captured alongside
+  # "canonicalBaseUrl":"/@MarkRober". Corroborated by the canonical channel URL
+  # youtube.com/channel/UCY1kMZp36IQSyNx_9h4mpCg surfaced in search.
+  youtube_channel_id: UCY1kMZp36IQSyNx_9h4mpCg
+  display_name: Mark Rober
+  handle: "@MarkRober"
+
+entities:
+  - slug: mark_rober
+    # Recorded as CREATOR (not PERSON): Rober is himself the on-camera face and
+    # creator of the eponymous channel, in addition to being founder of CrunchLabs.
+    # Former NASA engineer (nine years, incl. the Curiosity rover) and Apple
+    # Special Projects product designer (2015–2020).
+    canonical_name: Mark Rober
+    entity_type: CREATOR
+    aliases:
+      - Mark B. Rober
+
+  - slug: crunchlabs
+    canonical_name: CrunchLabs
+    entity_type: COMPANY
+    legal_name: CrunchLabs LLC
+    # HQ state not verified in a fetched source (Rober is based in the California
+    # Bay Area, but no source firmly states CrunchLabs' registered jurisdiction),
+    # so jurisdiction is omitted rather than guessed.
+    website: https://www.crunchlabs.com
+    aliases:
+      - CrunchLabs LLC
+      - Crunch Labs
+
+  - slug: jim_lee
+    # Co-founder, President & COO. A former Google executive. Recorded PERSON
+    # (business co-founder/operator, not on-camera talent).
+    canonical_name: Jim Lee
+    entity_type: PERSON
+    aliases:
+      - Jim E Lee
+
+relationships:
+  # 0: The "Mark Rober" channel was created by Mark Rober himself. Wikipedia:
+  # "In October 2011, Rober recorded his first YouTube video." Only month/year is
+  # documented (no exact day), so effective_from is OMITTED rather than guessed;
+  # the 2011 first-video date is captured here and in the source excerpt. This
+  # pre-dates CrunchLabs (2022) by ~11 years — a personal founding edge on the
+  # channel (cf. smarter-every-day.yaml, mkbhd.yaml).
+  - subject: channel
+    type: FOUNDED_BY
+    object: mark_rober
+    confidence: 0.9
+    status: ACTIVE
+
+  # 1: Mark Rober is recorded as the OWNER of his eponymous channel. He is the
+  # sole documented creator/principal and on-camera face; the channel bears his
+  # personal name and predates CrunchLabs. control_level CONTROLLING reflects
+  # documented sole-creator control, NOT a disclosed shareholding percentage (no
+  # membership/equity schedule is public in the sources found) — so no
+  # ownership_percentage is asserted. This is the edge that drives the computed
+  # classification. Same shape as smarter-every-day.yaml rel 1; flagged for the
+  # reviewer. confidence 0.7 (sole-creator control is an inference from the
+  # absence of any other principal, not a quoted ownership statement).
+  - subject: mark_rober
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: CrunchLabs LLC operates the channel as the "entertainment" pillar of its
+  # media-and-education business (the company's Chief Content Officer describes
+  # CrunchLabs' "three E's: entertainment, experience, and education", the
+  # entertainment pillar encompassing the YouTube videos, Netflix releases and
+  # Samsung FAST channel). OPERATES (not OWNS): the sources establish CrunchLabs as
+  # the operating/content vehicle around the channel, NOT that the company holds
+  # title to the channel — indeed CrunchLabs' brand is described as deliberately
+  # SEPARATE from Rober personally. Per the classifier, OPERATES does NOT resolve
+  # as an ownership edge, so this enriches the graph without affecting the
+  # creator-owned classification. effective_from 2022-03-30 (CrunchLabs' founding
+  # date, the earliest this operating relationship could exist). Flagged for the
+  # reviewer — see JUDGMENT CALL (2). confidence 0.6.
+  - subject: crunchlabs
+    type: OPERATES
+    object: channel
+    effective_from: 2022-03-30
+    confidence: 0.6
+    status: ACTIVE
+
+  # 3: CrunchLabs was founded by Mark Rober, launched 2022. Wikipedia's CrunchLabs
+  # infobox gives "Founded March 30, 2022"; Forbes describes "the company he
+  # co-founded with Jim Lee". effective_from is the documented founding date. This
+  # is a CONTEXTUAL edge (Rober founding his company) — the company OPERATES but
+  # does not OWN the channel, so it does not itself set the channel's owner.
+  - subject: crunchlabs
+    type: FOUNDED_BY
+    object: mark_rober
+    effective_from: 2022-03-30
+    confidence: 0.95
+    status: ACTIVE
+
+  # 4: CrunchLabs was co-founded by Jim Lee (a former Google executive), who
+  # serves as President & COO. Contextual — establishes the company's operating
+  # leadership; does not affect the channel's ownership classification.
+  - subject: crunchlabs
+    type: FOUNDED_BY
+    object: jim_lee
+    effective_from: 2022-03-30
+    confidence: 0.85
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_mark_rober
+    url: https://en.wikipedia.org/wiki/Mark_Rober
+    title: Mark Rober
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      In October 2011, Rober recorded his first YouTube video. [...] Rober is the
+      founder of CrunchLabs, an educational technology company he launched in
+      2022. [...] Rober worked as a NASA engineer for nine years, spending seven
+      years on the Curiosity rover project, and later worked as a product designer
+      in Apple's Special Projects Group from 2015 to early 2020.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 3
+
+  - ref: wikipedia_crunchlabs
+    url: https://en.wikipedia.org/wiki/CrunchLabs
+    title: CrunchLabs
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      CrunchLabs LLC [...] Founded March 30, 2022 [...] co-founded in 2022 [...]
+      by Mark Rober [...] along with Jim E Lee as president. [CrunchLabs is a]
+      monthly STEM toy subscription box for kids, designed by former NASA engineer
+      and YouTuber Mark Rober.
+    supports:
+      - relationship: 3
+      - relationship: 4
+
+  - ref: forbes_2025
+    url: https://www.forbes.com/sites/ianshepherd/2025/07/14/mark-robers-bold-plan-to-reach-one-billion-young-minds/
+    title: Mark Rober's Bold Plan To Reach One Billion Young Minds
+    publisher: Forbes
+    published_at: 2025-07-14
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      What sets CrunchLabs apart in an era of venture-backed hypergrowth is its
+      bootstrapped, profitable model [...] the company has avoided outside capital
+      in favor of sustainability [...] "We've resisted the VC-backed 'growth at
+      all costs' approach" [...] the company he co-founded with Jim Lee, a former
+      Google executive who serves as President and COO.
+    supports:
+      - relationship: 3
+      - relationship: 4
+
+  - ref: netinfluencer_media
+    url: https://www.netinfluencer.com/how-crunch-labs-built-a-multi-platform-media-strategy-around-mark-rober/
+    title: How Crunch Labs Built A Multi-Platform Media Strategy Around Mark Rober
+    publisher: Net Influencer
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Mark Rober [...] founded Crunch Labs as a media and education company. [...]
+      Crunch Labs operates around what Lewers calls "the three E's: entertainment,
+      experience, and education." The entertainment pillar encompasses YouTube
+      videos, Netflix releases, and Samsung programming. [...] "I love that he
+      created the Crunch Labs brand because that has nothing to do with him."
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+review:
+  researched_by: claude-research-agent
+  last_reviewed_at: 2026-07-23 # research/authoring date; NOT a human review date.
+  notes: >-
+    DRAFT for human review — "creator-founded, creator-owned eponymous channel;
+    creator's separate company OPERATES the channel" case. Requires human
+    verification before publication.
+
+    CHANNEL ID. UCY1kMZp36IQSyNx_9h4mpCg, taken from the "externalId" field in the
+    raw HTML of https://www.youtube.com/@MarkRober (curl, no JS execution),
+    captured adjacent to "canonicalBaseUrl":"/@MarkRober", and corroborated by the
+    youtube.com/channel/UCY1kMZp36IQSyNx_9h4mpCg canonical URL. Reviewer should
+    confirm against the live channel.
+
+    MAJOR CORRECTION TO THE RESEARCH BRIEF — NO DOCUMENTED OUTSIDE INVESTMENT.
+    The brief anticipated a "documented 2023 outside investment round" in
+    CrunchLabs and asked to verify investors/amounts/dates and the minority-vs-
+    majority split for the §14.3 PE gate. The evidence contradicts that premise.
+    Forbes (2025) states verbatim that CrunchLabs has a "bootstrapped, profitable
+    model", that "the company has avoided outside capital in favor of
+    sustainability", and quotes leadership: "We've resisted the VC-backed 'growth
+    at all costs' approach". No Tier 1 or Tier 2 source documents any equity round,
+    investor, amount, valuation, or minority/majority stake. Wikipedia's CrunchLabs
+    article contains NO funding section. The only investor names that surfaced came
+    from low-quality data aggregators (ZoomInfo/Crunchbase-derived snippets:
+    "$3.5M ... Factor Capital, Multicoin Capital, Fabric VC, Elixir Capital") —
+    these are crypto/venture funds and appeared in the SAME queries that returned
+    "CrunchDAO" and "crunch-a-data-ai-agency", i.e. a near-certain name-collision
+    contamination with an UNRELATED company. Per evidence-first policy, no
+    investment relationship is modeled and no investor entity is declared.
+
+    §14.3 PE GATE — NOT APPLICABLE. Because there is no PRIVATE_EQUITY_FIRM /
+    VENTURE_CAPITAL_FIRM entity and no PE-implying edge (no INVESTED_IN, no
+    PORTFOLIO_COMPANY_OF, no PE endpoint), the §14.3 PE-evidence sourcing rule is
+    not triggered at all. There is nothing to gate. (Contrast epic-gardening.yaml,
+    where the gate applied to a MINORITY INVESTED_IN edge from a PE firm.)
+
+    EXPECTED COMPUTED CLASSIFICATION — CREATOR_OWNED. The direct channel owner is
+    Mark Rober (entity_type CREATOR) via a CONTROLLING OWNS edge (rel 1), so the
+    classifier should compute CREATOR_OWNED. CrunchLabs OPERATES the channel
+    (rel 2) but OPERATES is not an ownership edge and does not enter the ownership
+    chain, so it neither yields CORPORATE_OWNED nor OWNERSHIP_UNCLEAR here (the
+    creator OWNS edge is the resolving owner). There is no investor/PE entity in
+    the graph, so PE_BACKED is impossible. Confirm the computed label at import.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) rel 1 (Mark Rober OWNS channel, CONTROLLING, conf 0.7). No fetched source
+    states channel ownership as a percentage/verbatim title statement; it is
+    inferred from Rober being the sole documented creator/principal and the
+    channel being his personal, eponymous account that predates the company. This
+    mirrors smarter-every-day.yaml rel 1 (sole-creator control without a public
+    shareholding). Primary edge for the reviewer to scrutinize. If a reviewer finds
+    that CrunchLabs LLC (not Rober personally) holds the channel, this would shift
+    to a company OWNS edge and the label toward CORPORATE_OWNED (still NOT
+    PE_BACKED) — do not make that change without a firm source.
+    (2) rel 2 (CrunchLabs OPERATES channel, conf 0.6). The sources establish
+    CrunchLabs as the media/content operating vehicle around the channel (its
+    "entertainment" pillar spans YouTube, Netflix drops, and a Samsung FAST
+    channel), but explicitly describe the CrunchLabs BRAND as separate from Rober
+    personally ("that has nothing to do with him"). OPERATES was chosen precisely
+    because no source documents CrunchLabs OWNING the channel. A reviewer could
+    reasonably drop this edge as unnecessary; it is retained to capture the
+    channel's operating context the brief asked about. It does not affect the
+    computed classification.
+    (3) CrunchLabs jurisdiction was NOT verified (Rober is Bay-Area-based, but no
+    fetched source states the LLC's registered state), so it is omitted rather than
+    guessed. A corporate-registry record would resolve this and could also
+    document Rober's/Jim Lee's ownership stakes.
+    (4) Jim Lee's title is given as "President & COO" per Forbes (2025); Wikipedia's
+    CrunchLabs text has at one point called him "president and CEO". The title
+    discrepancy does not affect any relationship here (he is recorded only as a
+    co-founder PERSON); reviewer may reconcile.
+    (5) SOURCES / ARCHIVES. All four sources are Tier 2 (Wikipedia x2, Forbes,
+    Net Influencer). Excerpts are verbatim fragments captured via fetch. No Tier 1
+    primary source (e.g. an LLC registry filing) was located. archive_urls should
+    be captured at review, and a corporate-registry pull is the recommended next
+    diligence step to firm up the ownership edges (rel 1) and jurisdiction.

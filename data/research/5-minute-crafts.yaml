@@ -1,0 +1,244 @@
+# CHANNELWATCH research record — 5-Minute Crafts
+#
+# DRAFT FOR HUMAN REVIEW — nothing here is published without human verification
+# (Spec §12.7).
+#
+# PURE CORPORATE-OWNED CASE. The channel is a brand operated/owned by a single
+# for-profit corporate parent, TheSoul Group (formerly TheSoul Publishing),
+# headquartered in Limassol, Cyprus. Its two founders are named as PERSON
+# entities via FOUNDED_BY, but NO documented individual ownership stake exists
+# for either founder and both stepped away from day-to-day operations to
+# non-executive advisory roles in 2022 — so the founders' presence does NOT make
+# this creator-controlled. Expected computed classification: CORPORATE_OWNED.
+#
+#   channel (5-Minute Crafts)
+#     └─ OWNS ──────────── TheSoul Group (fka TheSoul Publishing; legal: ADME (CY) LTD)
+#          ├─ FOUNDED_BY ── Pavel Radaev   (no documented ownership stake)
+#          └─ FOUNDED_BY ── Marat Mukhametov (no documented ownership stake)
+#
+# Classification is COMPUTED by the importer, never asserted here.
+
+channel:
+  # Extracted from the "externalId" field in the raw HTML of
+  # https://www.youtube.com/@5MinuteCraftsYouTube (curl fetch, no JS). The
+  # canonical /channel/UC... URL with this id resolves to the same channel.
+  youtube_channel_id: UC295-Dw_tDNtZXFeAPAW6Aw
+  display_name: 5-Minute Crafts
+  handle: "@5MinuteCraftsYouTube"
+
+entities:
+  - slug: thesoul
+    # Company founded by Pavel Radaev and Marat Mukhametov, headquartered in
+    # Limassol, Cyprus. Renamed from "TheSoul Publishing" to "TheSoul Group";
+    # the corporate about page lists ADME (CY) LTD as the legal entity name.
+    canonical_name: TheSoul Group
+    entity_type: COMPANY
+    legal_name: ADME (CY) LTD
+    jurisdiction: CY
+    website: https://thesoul.group
+    aliases:
+      - TheSoul Publishing
+      - TheSoul Group
+      - AdMe
+  - slug: radaev
+    canonical_name: Pavel Radaev
+    entity_type: PERSON
+  - slug: mukhametov
+    canonical_name: Marat Mukhametov
+    entity_type: PERSON
+
+relationships:
+  # 0: TheSoul owns/operates the 5-Minute Crafts channel. The corporate about
+  # page lists 5-Minute Crafts as its own brand ("the No. 1 DIY digital brand in
+  # the world"); The Hollywood Reporter (T2) describes the channel as part of
+  # TheSoul's portfolio. No ownership percentage is published; CONTROLLING is
+  # inferred from the channel being a wholly-operated house brand of the company
+  # (not a stated percentage). effective_from omitted: the channel is widely
+  # dated to 2016 but no fetchable T1/T2 source pinned an exact launch date, and
+  # sources disagree on the company's own founding year (see notes).
+  - subject: thesoul
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.85
+    status: ACTIVE
+  # 1: Pavel Radaev co-founded the company. FOUNDED_BY only — NO ownership stake
+  # is asserted (individual splits undisclosed), so this does NOT confer
+  # creator control. control_level intentionally omitted.
+  - subject: thesoul
+    type: FOUNDED_BY
+    object: radaev
+    confidence: 0.9
+    status: ACTIVE
+  # 2: Marat Mukhametov co-founded the company. Same treatment as (1).
+  - subject: thesoul
+    type: FOUNDED_BY
+    object: mukhametov
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: thesoul_about
+    url: https://thesoul.group/about
+    title: "About — TheSoul Group"
+    publisher: TheSoul Group
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    archive_url: https://web.archive.org/web/20260616075739/https://thesoul.group/about
+    excerpt: >-
+      TheSoul Group (formerly TheSoul Publishing), founded by Pavel Radaev and
+      Marat Mukhametov and headquartered in Limassol, Cyprus, lists 5-Minute
+      Crafts among its brands as "the No. 1 DIY digital brand in the world."
+      The page names ADME (CY) LTD as the legal entity.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - claim: 0
+      - claim: 1
+      - claim: 2
+  - ref: thr_feature
+    url: https://www.hollywoodreporter.com/business/digital/how-thesoul-publishing-became-the-next-big-thing-in-online-content-1235000467/
+    title: How TheSoul Publishing Became the Next Big Thing in Online Content
+    publisher: The Hollywood Reporter
+    published_at: 2021-08-20
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    archive_url: https://web.archive.org/web/20260626172215/https://www.hollywoodreporter.com/business/digital/how-thesoul-publishing-became-the-next-big-thing-in-online-content-1235000467/
+    excerpt: >-
+      "In 2015, from its base of operations in Cyprus, TheSoul Publishing
+      shifted to online videos." The feature identifies Pavel Radaev and Marat
+      Mukhametov as the company's founders/co-CEOs and describes 5-Minute
+      Crafts (the ninth most-subscribed channel on YouTube as of May 2021) as
+      part of TheSoul's portfolio of channels.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - claim: 0
+      - claim: 1
+      - claim: 2
+  - ref: prnewswire_ceo_2022
+    url: https://www.prnewswire.com/in/news-releases/leading-digital-studio-thesoul-publishing-names-longtime-coo-arthur-mamedov-ceo-301643652.html
+    title: Leading Digital Studio TheSoul Publishing Names Longtime COO Arthur Mamedov CEO
+    publisher: TheSoul Publishing (via PR Newswire)
+    published_at: 2022-10-07
+    # Company self-published corporate statement distributed via PR Newswire (not
+    # an acquisition). Recorded conservatively as a Tier 3 corporate page; it
+    # corroborates founder identity and the founders' 2022 move to advisory
+    # roles. See notes on the source_type fit.
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: >-
+      Founders Pavel Radaev and Marat Mukhametov, former co-CEOs, "step away
+      from day-to-day operations to assume non-executive advisory positions,"
+      with Arthur Mamedov (COO since 2016) named CEO. 5-Minute Crafts is
+      described as part of "TheSoul Publishing's universe of well-known brands,"
+      based at the company's headquarters in Cyprus.
+    supports:
+      - relationship: 1
+      - relationship: 2
+      - claim: 1
+      - claim: 2
+
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: thesoul
+    confidence_factors:
+      sourceQuality: 0.75
+      directness: 0.85
+      entityMatch: 0.9
+      recencyFactor: 0.7
+      corroborationFactor: 0.85
+      contradictionPenalty: 1.0
+  - predicate: FOUNDED_BY
+    subject: thesoul
+    object: radaev
+    confidence_factors:
+      sourceQuality: 0.8
+      directness: 0.9
+      entityMatch: 0.9
+      recencyFactor: 0.7
+      corroborationFactor: 0.9
+      contradictionPenalty: 1.0
+  - predicate: FOUNDED_BY
+    subject: thesoul
+    object: mukhametov
+    confidence_factors:
+      sourceQuality: 0.8
+      directness: 0.9
+      entityMatch: 0.9
+      recencyFactor: 0.7
+      corroborationFactor: 0.9
+      contradictionPenalty: 1.0
+
+review:
+  researched_by: claude-research-agent-m1
+  last_reviewed_at: 2026-07-23
+  notes: >
+    DRAFT — requires human review. Pure corporate-owned case commissioned as
+    such and confirmed by research.
+
+    CHANNEL ID. UC295-Dw_tDNtZXFeAPAW6Aw extracted from the "externalId" field
+    in the raw HTML of https://www.youtube.com/@5MinuteCraftsYouTube (curl
+    fetch, no JS, 2026-07-23); the /channel/UC295-Dw_tDNtZXFeAPAW6Aw URL
+    resolves to the same channel.
+
+    OWNERSHIP (rel 0). TheSoul Group (formerly TheSoul Publishing) operates
+    5-Minute Crafts as an in-house brand. Backed by the company's own about
+    page (T3, lists it as "the No. 1 DIY digital brand in the world") and The
+    Hollywood Reporter (T2, portfolio channel). No ownership percentage is
+    published, so ownership_percentage is omitted and CONTROLLING is an
+    INFERENCE from the house-brand relationship, not a stated figure —
+    reviewer to confirm this inference is acceptable. Note the two supporting
+    sources are T3 + T2 (no T1 acquisition/registry doc), because this is a
+    company-created channel rather than an acquired one; reviewer may want to
+    add a Cyprus corporate-registry record for ADME (CY) LTD as a T1 anchor.
+
+    FOUNDERS (rels 1-2). Pavel Radaev and Marat Mukhametov are consistently
+    named as founders/co-CEOs (THR T2; corporate page T3; PR Newswire 2022
+    release). Modeled as FOUNDED_BY with NO ownership stake and NO
+    control_level: individual ownership splits are undisclosed, and both
+    founders stepped away from day-to-day operations to non-executive advisory
+    roles in Oct 2022 (Arthur Mamedov became CEO). Consequently this record
+    should NOT resolve as creator-owned — FOUNDED_BY alone, absent a
+    documented controlling stake, is not creator control. EXPECTED
+    CLASSIFICATION: CORPORATE_OWNED (direct owner is a for-profit COMPANY;
+    explanation code DIRECT_OWNER_CONFIRMED).
+
+    ENTITY / LEGAL NAME. Corporate about page (thesoul.group) shows the legal
+    entity as ADME (CY) LTD and the current trading name as TheSoul Group
+    (renamed from TheSoul Publishing); jurisdiction CY (Cyprus, HQ Limassol).
+    AdMe is the founders' earlier Kazan-based venture from which the company
+    grew; kept only as an alias. The exact Cyprus registration number was not
+    verified in this pass — confirm at review.
+
+    DATE PRECISION. effective_from omitted throughout: the 5-Minute Crafts
+    channel is widely dated to 2016 but no fetchable T1/T2 source pinned an
+    exact launch date, and sources disagree on the company's founding year
+    (Wikipedia/most coverage: 2016 in Limassol; THR frames a 2003 B2B-blog
+    origin as AdMe and a 2015 shift to video). Rather than assert a conflicting
+    date, all founding/launch dates are left unstated and flagged here.
+
+    SOURCE_TYPE FIT (reviewer note). The 2022 PR Newswire item is a company
+    self-published statement, not an acquisition announcement; the enum has no
+    generic "official corporate statement" type, so it is recorded
+    conservatively as ARCHIVED_CORPORATE_PAGE (T3) rather than inflated to a
+    T1 acquisition type. It backs only the founder edges (identity + advisory
+    move), not the ownership edge. No Wayback snapshot was available for this
+    URL at research time (archive.org "closest" returned none); reviewer should
+    capture one. Snapshots WERE captured for the about page and THR (archive
+    URLs recorded).
+
+    DATA-QUALITY-RELEVANT FACTS (neutral). Reporting notes TheSoul's
+    high-volume, format-driven output and that some content has drawn criticism
+    for accuracy (e.g. a 2019 episode on a related TheSoul channel with
+    historically inaccurate claims that the company removed and apologized for).
+    Recorded here only as neutral context bearing on content data-quality; it
+    is NOT an ownership fact and implies no misconduct in ownership. No claim of
+    editorial interference is made.
+
+    LEGAL/NEUTRALITY. Language describes ownership/operating structure only.
+    Exact ownership percentages are undisclosed and left unstated; founders'
+    individual stakes are unknown and not asserted.

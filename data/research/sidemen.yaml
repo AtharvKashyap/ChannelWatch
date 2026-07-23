@@ -1,0 +1,507 @@
+# CHANNELWATCH research record — Sidemen
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: a creator-OWNED channel. "Sidemen" is the flagship YouTube channel of
+# the UK creator collective the Sidemen — seven creators who collectively create,
+# run and own the channel (KSI, Miniminter, Zerkaa, TBJZL, Behzinga, Vikkstar123
+# and W2S). There is NO outside/parent owner of the channel. The seven are also
+# jointly the directors of the group's UK holding company, SIDEMEN HOLDINGS
+# LIMITED (Companies House 12129201). A separate MANAGEMENT company, Arcade,
+# handles the group's representation and took a minority outside investment in
+# 2025 — that stake is in the manager, NOT in the channel, and does not change the
+# channel's creator-owned status (modeled as non-ownership context, rels 22-23).
+#
+# JOINT SOLE-OWNER CONVENTION (project policy, 2026-07-23): the seven are the
+# documented joint owner-operators of the channel but their individual split is
+# undisclosed, so each is encoded PARTIALLY_OWNS + control_level CONTROLLING with
+# no percentage (rels 0-6). This is what makes the channel CREATOR_OWNED.
+
+channel:
+  # Canonical id verified three ways: (1) the RAW channel-page HTML for
+  # youtube.com/@Sidemen carries "externalId":"UCDogdKl7t7NHzQ95aEwkdMw";
+  # (2) that page's <link rel="canonical"> points to
+  # youtube.com/channel/UCDogdKl7t7NHzQ95aEwkdMw and og:title is "Sidemen";
+  # (3) YouTube's own RSS feed for that channel id returns <title>Sidemen</title>
+  # and <name>Sidemen</name>.
+  youtube_channel_id: UCDogdKl7t7NHzQ95aEwkdMw
+  display_name: Sidemen
+  handle: "@Sidemen"
+
+entities:
+  # The seven Sidemen members. Real/legal names are cross-checked against the
+  # SIDEMEN HOLDINGS LIMITED officer register (all seven are directors), so the
+  # creator identities are anchored to a Tier 1 registry, not just press.
+  - slug: ksi
+    canonical_name: JJ Olatunji
+    entity_type: CREATOR
+    legal_name: Olajide Olayinka William Olatunji
+    aliases:
+      - KSI
+      - JJ Olatunji
+      - Olajide Olatunji
+  - slug: miniminter
+    canonical_name: Simon Minter
+    entity_type: CREATOR
+    legal_name: Simon Edward Minter
+    aliases:
+      - Miniminter
+      - Simon Minter
+  - slug: zerkaa
+    canonical_name: Josh Bradley
+    entity_type: CREATOR
+    legal_name: Joshua Charlie Joseph Bradley
+    aliases:
+      - Zerkaa
+      - ZerkaaHD
+      - Josh Bradley
+  - slug: tbjzl
+    canonical_name: Tobi Brown
+    entity_type: CREATOR
+    legal_name: Tobit John Brown
+    aliases:
+      - TBJZL
+      - Tobjizzle
+      - Tobi Brown
+  - slug: behzinga
+    canonical_name: Ethan Payne
+    entity_type: CREATOR
+    legal_name: Ethan Leigh Payne
+    aliases:
+      - Behzinga
+      - Ethan Payne
+  - slug: vikkstar
+    canonical_name: Vik Barn
+    entity_type: CREATOR
+    legal_name: Vikram Singh Barn
+    aliases:
+      - Vikkstar123
+      - Vik Barn
+  - slug: w2s
+    canonical_name: Harry Lewis
+    entity_type: CREATOR
+    legal_name: Harry Lewis
+    aliases:
+      - W2S
+      - Wroetoshaw
+      - Harry Lewis
+  - slug: sidemen_holdings
+    canonical_name: SIDEMEN HOLDINGS LIMITED
+    entity_type: COMPANY
+    legal_name: SIDEMEN HOLDINGS LIMITED
+    jurisdiction: GB
+    aliases:
+      - Sidemen Holdings Ltd
+  # Arcade is the Sidemen's external MANAGEMENT company (founded 2021). Declared
+  # to record the management arrangement and the 2025 outside investment into it;
+  # it is a manager, NOT an owner of the channel. entity_type COMPANY (no
+  # dedicated management-company node type is assumed).
+  - slug: arcade
+    canonical_name: Arcade
+    entity_type: COMPANY
+    aliases:
+      - Arcade Media
+  # Lumina Media, the investment/media company (founded by Thomas Benski) that
+  # took a minority stake in Arcade in September 2025. Declared to record that
+  # investment as non-ownership context for the channel.
+  - slug: lumina
+    canonical_name: Lumina Media
+    entity_type: COMPANY
+    aliases:
+      - Lumina
+
+relationships:
+  # 0-6: JOINT SOLE-OWNER CONVENTION. The seven members collectively created, run
+  # and own the Sidemen channel; the individual split is undisclosed. Each is
+  # encoded PARTIALLY_OWNS channel at control_level CONTROLLING (joint control
+  # documented; internal split not). This is what makes the channel CREATOR_OWNED.
+  # Percentages omitted (undisclosed). effective_from omitted: the group formed
+  # 2013 and the channel launched ~2016 (year only in sources) — see notes.
+  - subject: ksi
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: miniminter
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: zerkaa
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: tbjzl
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: behzinga
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: vikkstar
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: w2s
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  # 7: HISTORICAL / SUPERSEDED. UK Companies House records KSI (Olatunji) as the
+  # person with significant control of SIDEMEN HOLDINGS LIMITED from incorporation
+  # (30 July 2019) holding 75% or more of shares and voting rights, until he
+  # CEASED as a PSC on 4 December 2019. Modeled as an ENDED controlling ownership
+  # of the holding company (statutory band, not an exact %, so no percentage).
+  # NOTE: this concerns the holding company, not the channel itself.
+  - subject: ksi
+    type: OWNS
+    object: sidemen_holdings
+    control_level: CONTROLLING
+    effective_from: "2019-07-30"
+    effective_to: "2019-12-04"
+    confidence: 0.9
+    status: ENDED
+  # 8-14: CURRENT holding-company ownership (INFERENCE — see notes). After KSI
+  # ceased as PSC (4 Dec 2019) the company filed a statement that there is "no
+  # registrable person" — i.e. no single holder of 25% or more — and all seven
+  # members are equal directors. This is consistent with the seven jointly owning
+  # the company with no majority holder; encoded via the joint sole-owner
+  # convention (PARTIALLY_OWNS / CONTROLLING, no percentages). Lower confidence
+  # because the share register itself is not public. effective_from = the PSC
+  # cessation date (operative unwinding of the majority stake).
+  - subject: ksi
+    type: PARTIALLY_OWNS
+    object: sidemen_holdings
+    control_level: CONTROLLING
+    effective_from: "2019-12-04"
+    confidence: 0.6
+    status: ACTIVE
+  - subject: miniminter
+    type: PARTIALLY_OWNS
+    object: sidemen_holdings
+    control_level: CONTROLLING
+    effective_from: "2019-12-04"
+    confidence: 0.6
+    status: ACTIVE
+  - subject: zerkaa
+    type: PARTIALLY_OWNS
+    object: sidemen_holdings
+    control_level: CONTROLLING
+    effective_from: "2019-12-04"
+    confidence: 0.6
+    status: ACTIVE
+  - subject: tbjzl
+    type: PARTIALLY_OWNS
+    object: sidemen_holdings
+    control_level: CONTROLLING
+    effective_from: "2019-12-04"
+    confidence: 0.6
+    status: ACTIVE
+  - subject: behzinga
+    type: PARTIALLY_OWNS
+    object: sidemen_holdings
+    control_level: CONTROLLING
+    effective_from: "2019-12-04"
+    confidence: 0.6
+    status: ACTIVE
+  - subject: vikkstar
+    type: PARTIALLY_OWNS
+    object: sidemen_holdings
+    control_level: CONTROLLING
+    effective_from: "2019-12-04"
+    confidence: 0.6
+    status: ACTIVE
+  - subject: w2s
+    type: PARTIALLY_OWNS
+    object: sidemen_holdings
+    control_level: CONTROLLING
+    effective_from: "2019-12-04"
+    confidence: 0.6
+    status: ACTIVE
+  # 15-21: DIRECTORSHIPS (officers). UK Companies House lists all seven members as
+  # active directors of SIDEMEN HOLDINGS LIMITED, each appointed 30 July 2019, none
+  # resigned. Modeled as MANAGES / control_level MANAGEMENT (Tier 1 registry).
+  - subject: ksi
+    type: MANAGES
+    object: sidemen_holdings
+    control_level: MANAGEMENT
+    effective_from: "2019-07-30"
+    confidence: 0.9
+    status: ACTIVE
+  - subject: miniminter
+    type: MANAGES
+    object: sidemen_holdings
+    control_level: MANAGEMENT
+    effective_from: "2019-07-30"
+    confidence: 0.9
+    status: ACTIVE
+  - subject: zerkaa
+    type: MANAGES
+    object: sidemen_holdings
+    control_level: MANAGEMENT
+    effective_from: "2019-07-30"
+    confidence: 0.9
+    status: ACTIVE
+  - subject: tbjzl
+    type: MANAGES
+    object: sidemen_holdings
+    control_level: MANAGEMENT
+    effective_from: "2019-07-30"
+    confidence: 0.9
+    status: ACTIVE
+  - subject: behzinga
+    type: MANAGES
+    object: sidemen_holdings
+    control_level: MANAGEMENT
+    effective_from: "2019-07-30"
+    confidence: 0.9
+    status: ACTIVE
+  - subject: vikkstar
+    type: MANAGES
+    object: sidemen_holdings
+    control_level: MANAGEMENT
+    effective_from: "2019-07-30"
+    confidence: 0.9
+    status: ACTIVE
+  - subject: w2s
+    type: MANAGES
+    object: sidemen_holdings
+    control_level: MANAGEMENT
+    effective_from: "2019-07-30"
+    confidence: 0.9
+    status: ACTIVE
+  # 22: NON-OWNERSHIP MANAGEMENT relationship. Arcade is the Sidemen's external
+  # management company. Modeled as MANAGES / control_level MANAGEMENT — a
+  # representation/management arrangement, NOT ownership of the channel.
+  # effective_from omitted: Arcade was founded 2021 but the start of its mandate
+  # over this channel is not documented to a full date — see notes.
+  - subject: arcade
+    type: MANAGES
+    object: channel
+    control_level: MANAGEMENT
+    confidence: 0.8
+    status: ACTIVE
+  # 23: NON-OWNERSHIP CONTEXT. In September 2025 Lumina Media took a MINORITY
+  # stake (undisclosed seven-figure investment) in ARCADE, the Sidemen's
+  # management company. This is a stake in the MANAGER, not in the channel or the
+  # group's holding company, and does not affect the channel's classification.
+  # Modeled as PARTIALLY_OWNS / MINORITY. Not a PE label (Lumina is not encoded as
+  # a private-equity firm and no PORTFOLIO_COMPANY_OF edge is used). effective_from
+  # omitted; the 2025-09-22 announcement date is on the source's published_at.
+  - subject: lumina
+    type: PARTIALLY_OWNS
+    object: arcade
+    control_level: MINORITY
+    confidence: 0.85
+    status: ACTIVE
+
+sources:
+  - ref: youtube_channel
+    url: https://www.youtube.com/channel/UCDogdKl7t7NHzQ95aEwkdMw
+    title: Sidemen — YouTube channel
+    publisher: YouTube (Sidemen channel)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCDogdKl7t7NHzQ95aEwkdMw
+    excerpt: >-
+      The raw channel-page HTML for youtube.com/@Sidemen carries
+      "externalId":"UCDogdKl7t7NHzQ95aEwkdMw", <link rel="canonical"> to
+      /channel/UCDogdKl7t7NHzQ95aEwkdMw and og:title "Sidemen"; YouTube's own RSS
+      feed for that id returns <title>Sidemen</title> / <name>Sidemen</name>,
+      confirming the canonical id and that this is the group's own channel.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+  - ref: wikipedia_sidemen
+    url: https://en.wikipedia.org/wiki/Sidemen
+    title: Sidemen
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      The Sidemen are a British YouTube collective of seven members — Miniminter
+      (Simon Minter), Zerkaa (Josh Bradley), Vikkstar123 (Vik Barn), TBJZL (Tobi
+      Brown), Behzinga (Ethan Payne), Wroetoshaw/W2S (Harry Lewis) and KSI (JJ
+      Olatunji). The group originated in 2013; its official YouTube channel became
+      the fastest to reach one million subscribers. The members collectively run
+      the channel and their Sidemen-branded businesses.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+  - ref: ch_overview
+    url: https://find-and-update.company-information.service.gov.uk/company/12129201
+    title: SIDEMEN HOLDINGS LIMITED overview
+    publisher: UK Companies House
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      SIDEMEN HOLDINGS LIMITED, company number 12129201, incorporated 30 July
+      2019. Company status: Active. Company type: Private limited Company.
+      Registered office: Amelia House, Crescent Road, Worthing, West Sussex,
+      BN11 1RL. Nature of business (SIC): 64209 — Activities of other holding
+      companies not elsewhere classified.
+    supports:
+      - relationship: 15
+      - relationship: 16
+      - relationship: 17
+      - relationship: 18
+      - relationship: 19
+      - relationship: 20
+      - relationship: 21
+  - ref: ch_officers
+    url: https://find-and-update.company-information.service.gov.uk/company/12129201/officers
+    title: SIDEMEN HOLDINGS LIMITED officers
+    publisher: UK Companies House
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      Directors, all appointed 30 July 2019, all Active, none resigned: OLATUNJI,
+      Olajide Olayinka William; MINTER, Simon Edward; BRADLEY, Joshua Charlie
+      Joseph; BROWN, Tobit John; PAYNE, Ethan Leigh; BARN, Vikram Singh; LEWIS,
+      Harry. Seven active directors.
+    supports:
+      - relationship: 8
+      - relationship: 9
+      - relationship: 10
+      - relationship: 11
+      - relationship: 12
+      - relationship: 13
+      - relationship: 14
+      - relationship: 15
+      - relationship: 16
+      - relationship: 17
+      - relationship: 18
+      - relationship: 19
+      - relationship: 20
+      - relationship: 21
+  - ref: ch_psc
+    url: https://find-and-update.company-information.service.gov.uk/company/12129201/persons-with-significant-control
+    title: SIDEMEN HOLDINGS LIMITED persons with significant control
+    publisher: UK Companies House
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      Active statement (filed 5 December 2019): "there is no registrable person or
+      registrable relevant legal entity in relation to the company." Ceased PSC:
+      Mr Olajide Olayinka Williams Olatunji, notified 30 July 2019, ceased 4
+      December 2019 — nature of control: ownership of shares 75% or more;
+      ownership of voting rights 75% or more.
+    supports:
+      - relationship: 7
+      - relationship: 8
+      - relationship: 9
+      - relationship: 10
+      - relationship: 11
+      - relationship: 12
+      - relationship: 13
+      - relationship: 14
+  - ref: deadline_arcade
+    url: https://deadline.com/2025/09/the-sidemen-arcade-minority-stake-lumina-thomas-benski-1236552096/
+    title: The Sidemen's Management Company Lands Seven-Figure Investment From Thomas Benski's Lumina
+    publisher: Deadline
+    published_at: 2025-09-22
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Lumina Media, founded by Thomas Benski, made a seven-figure investment and
+      took a minority stake in Arcade, the management company behind the Sidemen.
+      Arcade was founded in 2021 and manages the Sidemen creators. The deal
+      provides capital and strategic expertise to expand across EMEA.
+    supports:
+      - relationship: 22
+      - relationship: 23
+  - ref: tubefilter_arcade
+    url: https://www.tubefilter.com/2025/09/23/sidemen-management-company-arcade-media-minority-stake-lumina/
+    title: Sidemen management company Arcade takes minority-stake investment from Lumina
+    publisher: Tubefilter
+    published_at: 2025-09-23
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Arcade, the management company representing the Sidemen, has taken a
+      minority-stake investment from Thomas Benski's Lumina Media. The stake is in
+      the management firm; the Sidemen creators continue to run their own
+      channels and businesses.
+    supports:
+      - relationship: 22
+      - relationship: 23
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >-
+    DRAFT for human review — "creator-owned" case. Expected computed
+    classification: CREATOR_OWNED (joint creator control). The Sidemen channel
+    (UCDogdKl7t7NHzQ95aEwkdMw) is jointly owned and operated by its seven members
+    (rels 0-6, PARTIALLY_OWNS / CONTROLLING, split undisclosed per the joint
+    sole-owner convention). No outside/parent owner of the CHANNEL was found. No
+    PE-implying label is asserted, so the §14.3 PE-label evidence rule is not
+    triggered.
+
+    CHANNEL ID: UCDogdKl7t7NHzQ95aEwkdMw. Verified from the RAW channel-page HTML
+    ("externalId":"UCDogdKl7t7NHzQ95aEwkdMw" and <link rel="canonical"> to
+    /channel/UCDogdKl7t7NHzQ95aEwkdMw, og:title "Sidemen"), and independently
+    against YouTube's own RSS feed (title/author = Sidemen).
+
+    REGISTRY (Tier 1, UK Companies House — SIDEMEN HOLDINGS LIMITED, 12129201):
+    incorporated 30 July 2019; all SEVEN members are active directors appointed
+    30 July 2019 (officers captured as rels 15-21). PSC history captured: KSI
+    (Olatunji) was the 75%-or-more PSC from incorporation until he CEASED on 4
+    December 2019 (rel 7, ENDED), after which the company filed a "no registrable
+    person" statement (no holder of 25%+).
+
+    JUDGMENT CALLS / INFERENCES FLAGGED FOR A REVIEWER:
+    (1) CURRENT HOLDING-COMPANY OWNERSHIP (rels 8-14) is an INFERENCE, not a
+    direct filing: it is derived from the seven being equal directors plus the
+    "no registrable person" PSC statement (no >=25% holder), consistent with the
+    seven jointly owning SIDEMEN HOLDINGS with no majority stake. The share
+    register is not public; confidence set to 0.6. A reviewer with the
+    confirmation statement / share register should confirm or correct.
+    (2) CHANNEL vs HOLDING COMPANY. No source documents SIDEMEN HOLDINGS LIMITED
+    (or any single company) as the legal owner of THIS YouTube channel, and the
+    channel predates the 2019 company. The channel is therefore modeled as
+    directly creator-owned by the seven (rels 0-6); the holding company is
+    included as corporate context (officers + PSC), not asserted as the channel's
+    owner. Sidemen also operate sibling companies (Sidemen Clothing Ltd, Sidemen
+    Entertainment Ltd, Sidemen Ventures Ltd) that were out of scope here.
+    (3) ARCADE / LUMINA (rels 22-23) are NON-ownership context for the channel.
+    Arcade is the group's external MANAGEMENT company (founded 2021 by Jordan
+    Schwarzenberger, Sam Uwins and Aaron O'Neill — not encoded as entities).
+    In September 2025 Lumina Media (Thomas Benski) took a MINORITY stake in
+    Arcade. This is investment in the MANAGER, not the channel; it does not change
+    the CREATOR_OWNED classification. Modeled with two independent Tier 2 trade
+    sources (Deadline, Tubefilter).
+    (4) MISSING EXACT DAYS. effective_from omitted where only a year/month is
+    documented rather than fabricated: channel/group formation (2013 group,
+    ~2016 channel launch — rels 0-6); Arcade's management mandate start (rel 22);
+    Lumina deal operative date (rel 23; 2025-09-22 announcement recorded on the
+    source's published_at instead).
+    (5) NAME NOTE. Companies House officer register spells KSI "Olajide Olayinka
+    William Olatunji"; the PSC entry spells it "Olajide Olayinka Williams
+    Olatunji" — same individual. W2S's legal name recorded as "Harry Lewis" (the
+    Companies House officer entry). All seven real names were cross-checked
+    against the officer register.
+    All backing sources are Tier 1-2; no Tier 4 used. reviewed_by intentionally
+    omitted: this is a DRAFT, not yet human-reviewed.
+  last_reviewed_at: 2026-07-23

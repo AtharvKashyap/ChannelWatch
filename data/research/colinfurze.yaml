@@ -1,0 +1,303 @@
+# CHANNELWATCH research record — colinfurze (Colin Furze)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: creator-founded, creator-controlled independent channel operated
+# through a creator-controlled UK company. Colin Furze (Colin Peter Furze), a
+# British inventor/engineer and YouTuber from Stamford, Lincolnshire, created
+# and hosts the channel. His UK operating company is FUZ PRODUCTIONS LTD
+# (Companies House no. 12529243, incorporated 20 March 2020, formerly named
+# LONSDALE GENIUS LTD until 28 June 2021; SIC 90010 "Performing arts"). Colin
+# Furze is the majority Person with Significant Control (PSC) of that company
+# (>50% but <75% of shares and voting rights, plus the right to appoint/remove
+# directors). No external corporate acquisition, private-equity backing, or
+# outside equity investment in the channel was found — recorded as a documented
+# ABSENCE, not an affirmative independence claim. Expected computed
+# classification: CREATOR_OWNED (via a creator-controlled company).
+
+channel:
+  # Extracted from the sole "externalId" field embedded in the raw HTML of
+  # https://www.youtube.com/@colinfurze (curl fetch, no JS execution). The page
+  # source contains exactly one "externalId":"UCp68_FLety0O-n9QU6phsgw"; the
+  # dominant canonicalBaseUrl is "/@colinfurze" (180 occurrences) and the
+  # vanityChannelUrl is "http://www.youtube.com/@colinfurze", confirming the id
+  # belongs to this handle. (One unrelated "/channel/UCQ4z6vG6qy2Tr1W090bMuww"
+  # appears once — a featured/related channel reference, not this channel.)
+  youtube_channel_id: UCp68_FLety0O-n9QU6phsgw
+  display_name: colinfurze
+  handle: "@colinfurze"
+
+entities:
+  - slug: furze
+    canonical_name: Colin Furze
+    entity_type: CREATOR
+    jurisdiction: GB
+    aliases:
+      - colinfurze
+      - Colin Peter Furze
+
+  - slug: fuz_productions
+    canonical_name: FUZ PRODUCTIONS LTD
+    entity_type: COMPANY
+    legal_name: FUZ PRODUCTIONS LTD
+    jurisdiction: GB
+    aliases:
+      - LONSDALE GENIUS LTD # former name (until 2021-06-28)
+      - "Company no. 12529243"
+
+  - slug: stapling
+    canonical_name: Charlotte Alice Stapling
+    entity_type: PERSON
+    jurisdiction: GB
+
+relationships:
+  # 0: Channel founded by Colin Furze. The channel's own YouTube "About" page
+  # (raw HTML) shows "Joined Nov 15, 2006"; effective_from set to that
+  # account-creation date. Wikipedia states his first video (a "wall of death"
+  # ramp) was uploaded in 2007. Pre-dates the operating company (2020) by well
+  # over a decade — a personal founding edge on the channel.
+  - subject: channel
+    type: FOUNDED_BY
+    object: furze
+    effective_from: 2006-11-15
+    confidence: 0.9
+    status: ACTIVE
+
+  # 1: Colin Furze owns/controls the channel. Recorded OWNS + CONTROLLING with
+  # ownership_percentage OMITTED. Load-bearing edge for the classification. It
+  # rests on (a) Furze being the sole documented public creator/principal of the
+  # channel and (b) his majority-controlling PSC position in FUZ PRODUCTIONS LTD,
+  # his eponymous production company (rel 4). No source states an explicit
+  # "Colin Furze owns X% of the channel"; no external owner/investor/acquirer was
+  # found. Partly an inference from documented absence — flagged for reviewer.
+  - subject: furze
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Colin Furze is the channel's principal on-camera host/creator. Distinct
+  # from the ownership edge. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: furze
+    confidence: 0.95
+    status: ACTIVE
+
+  # 3: FUZ PRODUCTIONS LTD operates the channel's commercial/production activity.
+  # OPERATES (not OWNS): the company is Furze's eponymous UK production company
+  # (SIC 90010 "Performing arts", registered at his Stamford correspondence
+  # address, he is its majority PSC and a director). No source EXPLICITLY states
+  # that FUZ PRODUCTIONS LTD holds the YouTube channel as an asset, so this is an
+  # inference that the company is the operating vehicle for the channel's
+  # business rather than a disclosed equity holding in the channel. control_level
+  # MANAGEMENT; confidence held moderate. Flagged for reviewer.
+  - subject: fuz_productions
+    type: OPERATES
+    object: channel
+    control_level: MANAGEMENT
+    confidence: 0.6
+    status: ACTIVE
+
+  # 4: Colin Furze majority-controls FUZ PRODUCTIONS LTD. PARTIALLY_OWNS +
+  # CONTROLLING, no exact percentage (the PSC register discloses a BAND, not a
+  # precise figure). Companies House PSC filing records him with "Ownership of
+  # shares - More than 50% but less than 75%", "Ownership of voting rights - More
+  # than 50% but less than 75%", and "Right to appoint or remove directors",
+  # notified 20 March 2020 (company incorporation). This documented controlling
+  # majority is what makes the company creator-controlled (→ CREATOR_OWNED).
+  - subject: furze
+    type: PARTIALLY_OWNS
+    object: fuz_productions
+    control_level: CONTROLLING
+    effective_from: 2020-03-20
+    confidence: 0.95
+    status: ACTIVE
+
+  # 5: Charlotte Alice Stapling is a minority PSC of FUZ PRODUCTIONS LTD.
+  # PARTIALLY_OWNS + MINORITY, no exact percentage (band only). Companies House
+  # PSC filing records her with "Ownership of shares - More than 25% but not more
+  # than 50%" and matching voting rights, notified 5 May 2026. She is a MINORITY
+  # co-owner of the operating company only; she does NOT control it and this edge
+  # does NOT change the computed classification. She is a private individual with
+  # no other public connection to the channel found — see notes (creator-safety /
+  # reviewer discretion).
+  - subject: stapling
+    type: PARTIALLY_OWNS
+    object: fuz_productions
+    control_level: MINORITY
+    effective_from: 2026-05-05
+    confidence: 0.85
+    status: ACTIVE
+
+sources:
+  - ref: youtube_channel_page
+    url: https://www.youtube.com/@colinfurze
+    title: colinfurze — YouTube channel (raw page HTML)
+    publisher: YouTube
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Raw page HTML contains exactly one "externalId":"UCp68_FLety0O-n9QU6phsgw"
+      and, on the channel's About page, "joinedDateText":{"content":"Joined Nov
+      15, 2006"}. The dominant canonicalBaseUrl is "/@colinfurze" and the
+      vanityChannelUrl is "http://www.youtube.com/@colinfurze", confirming the id
+      belongs to this handle.
+    supports:
+      - relationship: 0
+      - relationship: 2
+
+  - ref: wikipedia_colinfurze
+    url: https://en.wikipedia.org/wiki/Colin_Furze
+    title: Colin Furze
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Colin Furze is a British YouTuber, inventor, engineer and presenter from
+      Stamford, Lincolnshire. He began uploading videos to YouTube in 2007, his
+      first being a "wall of death" ramp, and works from his home workshop. The
+      article names no company owner, investor, acquirer, or external ownership
+      of the channel; brand collaborations (e.g. eBay, Ubisoft, Sky1) are
+      per-project, not channel-ownership arrangements.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+
+  - ref: companies_house_fuz_overview
+    url: https://find-and-update.company-information.service.gov.uk/company/12529243
+    title: FUZ PRODUCTIONS LTD overview
+    publisher: Companies House (UK)
+    published_at: 2020-03-20
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      FUZ PRODUCTIONS LTD, company number 12529243, a Private limited Company,
+      incorporated 20 March 2020, status Active. Nature of business (SIC): 90010
+      - Performing arts. Previously registered as LONSDALE GENIUS LTD from
+      incorporation until 28 June 2021.
+    supports:
+      - relationship: 3
+
+  - ref: companies_house_fuz_psc
+    url: https://find-and-update.company-information.service.gov.uk/company/12529243/persons-with-significant-control
+    title: FUZ PRODUCTIONS LTD — persons with significant control
+    publisher: Companies House (UK)
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      Mr Colin Peter Furze, date of birth October 1979: "Ownership of shares -
+      More than 50% but less than 75%", "Ownership of voting rights - More than
+      50% but less than 75%", "Right to appoint or remove directors"; notified 20
+      March 2020. Miss Charlotte Alice Stapling, date of birth July 1986:
+      "Ownership of shares - More than 25% but not more than 50%" and matching
+      voting rights; notified 5 May 2026.
+    supports:
+      - relationship: 1
+      - relationship: 4
+      - relationship: 5
+
+  - ref: companies_house_furze_appointments
+    url: https://find-and-update.company-information.service.gov.uk/officers/FvDQykChz0ahbK_Gy8_3dO-oR98/appointments
+    title: Colin Peter Furze — personal appointments
+    publisher: Companies House (UK)
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      Mr Colin Peter Furze (born October 1979) is an active Director of FUZ
+      PRODUCTIONS LTD (12529243), appointed 20 March 2020. FUZ PRODUCTIONS LTD
+      was formerly LONSDALE GENIUS LTD. He holds further active directorships in
+      related Stamford companies (Lonsdale Talent, Lonsdale Farming, Lonsdale
+      Commercial, Lonsdale Residential).
+    supports:
+      - relationship: 4
+
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: furze
+
+review:
+  researched_by: claude-research-agent-m1
+  last_reviewed_at: 2026-07-23
+  notes: >-
+    DRAFT for human review — "independent, creator-controlled company" case,
+    UK creator. Expected computed classification: CREATOR_OWNED (GREEN). The
+    channel's only owner/controller is the CREATOR himself (rel 1), and the
+    operating company (rel 3) is majority-controlled by that same creator via a
+    documented Companies House PSC position (rel 4) — a CREATOR_CONTROLLED_COMPANY
+    shape. No PRIVATE_EQUITY_FIRM / PORTFOLIO_COMPANY_OF edge exists, so the
+    §14.3 PE-label evidence rule is not engaged.
+
+    CHANNEL ID: UCp68_FLety0O-n9QU6phsgw, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@colinfurze (curl fetch, no
+    JS). canonicalBaseUrl "/@colinfurze" (180 occurrences) and vanityChannelUrl
+    "http://www.youtube.com/@colinfurze" confirm the id belongs to this handle.
+    A single unrelated "/channel/UCQ4z6vG6qy2Tr1W090bMuww" also appears once in
+    the source (a featured/related channel) and is NOT this channel.
+
+    OPERATING COMPANY (Tier 1, primary): FUZ PRODUCTIONS LTD, Companies House no.
+    12529243, incorporated 20 March 2020, Active, SIC 90010 "Performing arts",
+    formerly LONSDALE GENIUS LTD until 28 June 2021. This is Furze's eponymous
+    ("FUZ") UK production company. Colin Peter Furze is a director and the
+    majority PSC (>50% but <75% shares AND voting rights, plus right to appoint/
+    remove directors), notified at incorporation. Strong, primary, Tier 1
+    corporate-registry evidence of a creator-controlled company.
+
+    EXTERNAL-INVESTMENT / ACQUISITION CHECK (per task): NO external corporate
+    acquisition, private-equity backing, or outside equity investment in the
+    channel was found. He does not appear on tracked PE-ownership lists (e.g.
+    Electrify Video Partners, Spotter, Jellysmack roll-ups). Recorded as a
+    documented ABSENCE, not as an affirmative "verified independent" claim.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) OWNER EDGE (rel 1, furze OWNS channel, CONTROLLING, no %): partly an
+    inference — Furze is the sole documented public creator/principal, and he
+    majority-controls his eponymous production company. No explicit "owns X% of
+    the channel" statement or asset schedule was located, so no percentage is
+    asserted and confidence is held at 0.7. Retained as the load-bearing
+    creator-ownership edge alongside the company structure (mirrors mkbhd/nilered
+    modelling).
+    (2) COMPANY-TO-CHANNEL LINK (rel 3, fuz_productions OPERATES channel): the
+    inference is that FUZ PRODUCTIONS LTD is the operating vehicle for the
+    channel's business (eponymous production company, "Performing arts" SIC,
+    registered at his correspondence address). No source EXPLICITLY states the
+    company holds the YouTube channel as an asset, so OPERATES/MANAGEMENT at
+    moderate confidence (0.6) rather than OWNS. Reviewer to confirm the company
+    is the channel's operating entity (vs the store/merch line or other Lonsdale-
+    branded companies) — e.g. via ToS/business filings or a creator statement.
+    (3) NO EXACT PERCENTAGES. Both PSC edges (rel 4, rel 5) use the Companies
+    House disclosure BANDS (>50%-<75% for Furze; >25%-<=50% for Stapling). The
+    register does not publish precise figures, so ownership_percentage is omitted
+    on both; control_level (CONTROLLING / MINORITY) carries the meaning.
+    (4) SECOND PSC — CREATOR-SAFETY / PRIVACY FLAG. Charlotte Alice Stapling
+    (rel 5) is recorded as a MINORITY PSC of the operating company strictly from
+    the public Companies House PSC register (Tier 1, ownership-relevant). She is
+    a private individual with NO other public connection to the channel found;
+    NO relationship to the creator is asserted or implied here. Only her name and
+    the register-disclosed control band are recorded — no date of birth beyond
+    the register's month/year, no address. Her minority stake does NOT change the
+    classification (Furze remains majority-controlling). Reviewer to decide
+    whether surfacing a private minority co-owner meets the transparency-vs-
+    privacy balance, or whether this edge should be held back.
+    (5) RECENT SHAREHOLDING CHANGE. Stapling's PSC was notified 5 May 2026 (vs
+    Furze's 20 March 2020), indicating a share/PSC change in the OPERATING
+    COMPANY during 2026. This is a change in the company's shareholding, NOT a
+    change in who controls the channel (Furze remains the majority PSC), so no
+    superseded/ENDED ownership edge on the channel is recorded. A reviewer may
+    note this as OWNERSHIP_CHANGED_RECENTLY context at the company level only.
+    (6) ADDRESS EXCLUDED. The company's registered office / Furze's correspondence
+    address (a Stamford street address on the public register) is deliberately NOT
+    recorded per creator-safety exclusions (evidence-policy §5); only GB / Stamford
+    jurisdiction is kept.
+    (7) FOUNDING DATE. rel 0 effective_from 2006-11-15 is the channel's own
+    "Joined Nov 15, 2006" About-page metadata (Tier 1, direct). Wikipedia dates
+    the first upload to 2007; a reviewer may prefer to characterise 2007 as the
+    effective start of channel activity.
+    (8) SOURCES. Four Tier 1 primaries (YouTube channel/About page; three
+    Companies House records: overview, PSC, appointments) plus one Tier 2
+    (Wikipedia). Companies House records mapped to CORPORATE_REGISTRY_RECORD
+    (Tier 1). No PE-label evidence rule engaged.

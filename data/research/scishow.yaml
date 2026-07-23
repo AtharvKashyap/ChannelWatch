@@ -115,6 +115,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   notes: >
     Companion to the vlogbrothers pilot record. SciShow is a clearer
     Complexly-production case than vlogbrothers: whereas vlogbrothers is the

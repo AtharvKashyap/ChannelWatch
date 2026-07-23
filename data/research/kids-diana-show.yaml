@@ -154,6 +154,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-23
   last_reviewed_at: 2026-07-23
   notes: >-
     DRAFT for human review — "creator/family-owned channel with an external
