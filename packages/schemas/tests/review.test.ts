@@ -17,6 +17,11 @@ describe("reviewer request schemas", () => {
     expect(LoginRequest.safeParse({ email: "a@b.co", password: "" }).success).toBe(false);
   });
 
+  it("LoginRequest lowercases the email (reviewer rows store lowercased emails)", () => {
+    const parsed = LoginRequest.parse({ email: "Reviewer@Example.COM", password: "x" });
+    expect(parsed.email).toBe("reviewer@example.com");
+  });
+
   it("ReviewDecisionRequest enforces substantive reasoning (>=10 chars)", () => {
     expect(ReviewDecisionRequest.safeParse({ reasoning: "short" }).success).toBe(false);
     expect(

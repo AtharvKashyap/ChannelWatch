@@ -21,9 +21,16 @@ import {
 
 // ---- Auth ----------------------------------------------------------------
 
-/** `POST /api/v1/auth/login` body. Password is never logged or echoed. */
+/**
+ * `POST /api/v1/auth/login` body. Password is never logged or echoed.
+ * Email is lowercased on parse: reviewer rows store lowercased emails (see
+ * seed-reviewer), so a mixed-case login must still match its reviewer.
+ */
 export const LoginRequest = z.object({
-  email: z.email().max(320),
+  email: z
+    .email()
+    .max(320)
+    .transform((v) => v.toLowerCase()),
   password: z.string().min(1).max(1024),
 });
 export type LoginRequest = z.infer<typeof LoginRequest>;
