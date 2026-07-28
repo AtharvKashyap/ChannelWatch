@@ -16,7 +16,7 @@ Actionable gate for the first large-scale public launch (M3 launch prep;
 > **MVP-blocking** and can only be discharged by a qualified lawyer in the
 > relevant jurisdiction(s). Nothing here substitutes for that review.
 
-Counts: **9 PASS · 19 NEEDS-HUMAN · 2 GAP** (33 items; Track F closed 5.3, 5.4, 7.2 and narrowed 1.12 to the agent-registration human step; remaining GAPs: 7.1 alerting, and 1.12's registration until done).
+Counts: **10 PASS · 18 NEEDS-HUMAN · 2 GAP** (33 items; Track F closed 5.3, 5.4, 7.2 and narrowed 1.12 to the agent-registration human step; Track G chose the all-free hosting stack — `render.yaml` + `apps/web/vercel.json` + `docs/launch-runbook.md` — and closed 6.2 (managed HTTPS via Render/Vercel subdomains); remaining GAPs: 7.1 alerting, and 1.12's registration until done).
 
 ---
 
@@ -124,21 +124,47 @@ is closed or waived in writing.
 
 ## 6. DNS / hosting decisions to make
 
-All **NEEDS-HUMAN** — these are launch-time infrastructure decisions, not code:
+**Chosen stack: all-free hosting** — Neon (Postgres) + Render free web service
+(API) + Vercel Hobby (web), using the free `*.onrender.com` / `*.vercel.app`
+subdomains (no custom domain). The only unavoidable cost is the one-time $5
+Chrome Web Store fee. Config is committed as `render.yaml` (API blueprint) and
+`apps/web/vercel.json` (web build). **The full step-by-step is
+`docs/launch-runbook.md` — these rows are the gate; the runbook is the how-to.**
+Account creation and the deliberate origin choice remain **NEEDS-HUMAN**.
 
-- [ ] **6.1 — Register the production domain** and decide the public API origin
-      (spec placeholder is `api.channelwatch.example`). This value is baked into
-      the extension at build time and cannot change without a new store release —
-      choose it deliberately. See `docs/reproducible-build.md` §"API origin".
-- [ ] **6.2 — TLS/HTTPS** on the API and web origins (managed cert). The manifest
-      host permission is `https://` only.
+- [ ] **6.1 — Decide the public API origin.** With the free stack this is the
+      Render subdomain (e.g. `https://channelwatch-api.onrender.com`) chosen when
+      the service is created. It is baked into the extension at build time and
+      **cannot change without a new store release** — so a later move to a custom
+      domain forces a store re-release. Choose the Render service name
+      deliberately. **NEEDS-HUMAN** (create the Render service; pick the name).
+      See `docs/launch-runbook.md` Step 3 and `docs/reproducible-build.md`
+      §"API origin".
+- [x] **6.2 — TLS/HTTPS** on the API and web origins. **PASS** — Render and
+      Vercel serve managed HTTPS on their subdomains by default; the Neon string
+      carries `?sslmode=require` (read by `postgres-js`, no code change). The
+      manifest host permission is `https://` only. See runbook Steps 1, 3, 4.
 - [ ] **6.3 — Set `WEB_ORIGIN`** on the API deploy so CORS admits the production
-      web app (`services/api/src/index.ts`).
+      web app (`services/api/src/index.ts`). **NEEDS-HUMAN** — set it in the
+      Render dashboard to the exact Vercel URL after the web deploy (runbook
+      Step 4).
 - [ ] **6.4 — Update `SECURITY.md` contact.** The security email is a placeholder
       (`security@channelwatch.example`) — set a real inbox and/or enable GitHub
-      private security advisories before launch.
-- [ ] **6.5 — Managed Postgres** with backups; run `pnpm db:migrate` on deploy.
+      private security advisories before launch. **NEEDS-HUMAN.**
+- [ ] **6.5 — Managed Postgres** with backups. **NEEDS-HUMAN** — create the Neon
+      project (free tier includes automatic backups/point-in-time within the
+      retention window). Migrations run once **from the local machine** against
+      the Neon **direct** connection string via `npx pnpm@9 db:migrate` — not on
+      the Render deploy (runbook Steps 1–2). Note the free-tier storage/compute
+      caps in `docs/launch-runbook.md`.
 - [ ] **6.6 — Designate a legal/abuse/notice contact** (ties to item 1.12).
+      **NEEDS-HUMAN.**
+
+> **Free-tier operational caveat (documented, accepted):** the Render free web
+> service sleeps after ~15 min idle and cold-starts in ~30–60s. The extension is
+> fail-silent and caches with TTLs, so a cold start shows a blank badge on the
+> first request rather than a broken page. Full detail + Neon caps in
+> `docs/launch-runbook.md` "Free-tier caveats".
 
 ---
 
