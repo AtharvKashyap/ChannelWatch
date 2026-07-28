@@ -1,0 +1,278 @@
+# CHANNELWATCH research record — Wendover Productions (Sam Denby)
+#
+# DRAFT for human review. Nothing here is published without verification.
+# Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: creator-founded, creator-owned edutainment channel. Wendover
+# Productions is Sam Denby's flagship YouTube channel; he founded, owns, and
+# hosts it, and also runs the sibling channels Half as Interesting, Extremities
+# (podcast) and Jet Lag: The Game. No external acquisition of, or equity
+# investment IN, the Wendover Productions CHANNEL was found.
+#
+# CRITICAL DISTINCTION this record encodes: Denby co-founded and is a minority
+# owner of the creator-owned STREAMING PLATFORM Nebula (operated by Standard
+# Broadcast LLC), and CuriosityStream took a documented minority stake in Nebula
+# in Sept 2021. Those equity relationships attach to NEBULA (the platform),
+# NOT to this YouTube channel. They are modelled here — precisely typed — as a
+# sub-graph that terminates at Nebula and is OUTBOUND from Denby (Denby owns part
+# of Nebula), so they place no owner above the channel. The channel's only owner
+# is the creator himself. Expected computed classification: CREATOR_OWNED.
+
+channel:
+  # Extracted from the sole "externalId" field embedded in the raw HTML of
+  # https://www.youtube.com/@Wendoverproductions (curl fetch, no JS execution):
+  # the page source contains exactly one "externalId":"UC9RM-iSvTu1uPJb8X5yp3EQ".
+  # The dominant canonicalBaseUrl on the page is "/@Wendoverproductions" (82
+  # occurrences) and the vanityChannelUrl is
+  # "http://www.youtube.com/@Wendoverproductions", confirming the id belongs to
+  # this handle. The creator's sibling channels also appear in the source
+  # (@halfasinteresting, @Extremities, @jetlagthegame, @samfromwendover993) but
+  # are clearly distinct handles.
+  youtube_channel_id: UC9RM-iSvTu1uPJb8X5yp3EQ
+  display_name: Wendover Productions
+  handle: "@Wendoverproductions"
+
+entities:
+  - slug: denby
+    canonical_name: Sam Denby
+    entity_type: CREATOR
+    aliases:
+      - Wendover Productions
+      - Sam from Wendover
+
+  - slug: standard_broadcast
+    # The sponsorship/ad-sales agency Denby developed with Dave Wiskus; also the
+    # entity that operates the Nebula streaming platform. Recorded COMPANY.
+    canonical_name: Standard Broadcast LLC
+    entity_type: COMPANY
+    legal_name: Standard Broadcast LLC
+    jurisdiction: US
+    aliases:
+      - Standard
+      - Standard Broadcast
+
+  - slug: nebula
+    # The creator-owned subscription streaming platform Denby co-founded. Typed
+    # MEDIA_NETWORK (a platform aggregating 100s of creators), NOT part of this
+    # channel's ownership chain — see header + notes.
+    canonical_name: Nebula
+    entity_type: MEDIA_NETWORK
+    website: https://nebula.tv
+    aliases:
+      - Nebula Media Group
+      - Watch Nebula
+
+  - slug: curiosity
+    canonical_name: CuriosityStream
+    entity_type: COMPANY
+    aliases:
+      - Curiosity Stream
+      - Curiosity
+
+relationships:
+  # 0: Channel founded by Sam Denby. Wikipedia states the channel was "created in
+  # 2010"; the Wendover Productions brand/uploads are widely dated to 2015. Day/
+  # month precision and the 2010-vs-2015 characterization are unresolved, so
+  # effective_from is OMITTED rather than guessed (see notes 3). Pre-dates all of
+  # Denby's Nebula/Standard business activity below.
+  - subject: channel
+    type: FOUNDED_BY
+    object: denby
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: Sam Denby owns/controls the channel. Recorded OWNS + CONTROLLING with
+  # ownership_percentage OMITTED. This is the load-bearing edge for the
+  # classification and is partly an INFERENCE FROM DOCUMENTED ABSENCE: every
+  # source presents Wendover as Denby's own channel/studio and NONE reports any
+  # external owner, investor, or acquirer of the CHANNEL itself. No explicit
+  # "Denby owns 100% of the Wendover channel" statement or corporate filing was
+  # located, so no percentage is asserted. Confidence 0.7. Flagged (notes 2).
+  - subject: denby
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Sam Denby is the channel's principal on-camera host/creator. Distinct from
+  # the ownership edge. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: denby
+    confidence: 0.9
+    status: ACTIVE
+
+  # 3: Ad sales / sponsorship for the channel are handled by Standard Broadcast
+  # LLC — the agency Denby developed with Dave Wiskus (from ~2018) to secure
+  # sponsorships for his YouTube content. Recorded AD_SALES_BY (subject: channel)
+  # with control_level MANAGEMENT: this is a monetization/representation
+  # relationship, NOT ownership or control of the channel. Does not put Standard
+  # above the channel in the ownership chain.
+  - subject: channel
+    type: AD_SALES_BY
+    object: standard_broadcast
+    control_level: MANAGEMENT
+    confidence: 0.6
+    status: ACTIVE
+
+  # 4: Sam Denby is a minority owner of the Nebula streaming platform (Wikipedia:
+  # "became a minority owner in Nebula in 2020"). This is an OUTBOUND stake from
+  # Denby INTO Nebula (Denby owns part of the platform) — it does NOT make Nebula
+  # an owner of this channel. PARTIALLY_OWNS + MINORITY. Year-only ("in 2020"), so
+  # effective_from omitted. OUTSIDE the channel ownership chain.
+  - subject: denby
+    type: PARTIALLY_OWNS
+    object: nebula
+    control_level: MINORITY
+    confidence: 0.75
+    status: ACTIVE
+
+  # 5: Standard Broadcast operates the Nebula platform. Tubefilter (2021):
+  # "Operational and creative control remains in the hands of Standard, and
+  # Standard answers only to the creators." Recorded OPERATES + MANAGEMENT. This
+  # edge terminates at Nebula and is unrelated to the channel's ownership.
+  # (Secondary sources also describe Standard as holding the majority of Nebula's
+  # equity; that equity split is not cleanly primary-sourced here — see notes 5.)
+  - subject: standard_broadcast
+    type: OPERATES
+    object: nebula
+    control_level: MANAGEMENT
+    confidence: 0.7
+    status: ACTIVE
+
+  # 6: CuriosityStream took a documented MINORITY stake in Nebula, announced Sept
+  # 2021, with a Nebula board seat and "options and milestones to invest more."
+  # INVESTED_IN + MINORITY, terminating at NEBULA (the platform) — NOT at this
+  # channel. effective_from omitted (only the Sept 2021 announcement window is
+  # documented; operative close date not stated — recorded on the source's
+  # published_at instead). OUTSIDE the channel ownership chain.
+  - subject: curiosity
+    type: INVESTED_IN
+    object: nebula
+    control_level: MINORITY
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_sam_denby
+    url: https://en.wikipedia.org/wiki/Sam_Denby
+    title: Sam Denby
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Wendover Productions [...] created in 2010 [...] based in Aspen, Colorado.
+      By 2018, Denby had begun working with Dave Wiskus to secure sponsorships
+      for his YouTube content, eventually developing a sponsorship agency known
+      as Standard Broadcast LLC. Denby became a minority owner in Nebula in 2020.
+      In August 2023, Nebula announced that they had appointed him as their chief
+      content officer.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+
+  - ref: tubefilter_curiosity_2021
+    url: https://www.tubefilter.com/2021/09/21/youtube-creator-owned-nebula-curiosity-stream-investment/
+    title: >-
+      Creator-Owned Streaming Service Nebula Just Scored Its First Investment At
+      A $50+ Million Valuation
+    publisher: Tubefilter
+    published_at: 2021-09-21
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      The company is taking a minority stake in Nebula, with "options and
+      milestones to invest more." [...] [The investment values Nebula at] at
+      least $50 million [and grants CuriosityStream] a Nebula board seat.
+      Creator shareholders collectively receive 50% of profits from Nebula's
+      monthly subscription revenue [...]. Operational and creative control
+      remains in the hands of Standard, and Standard answers only to the
+      creators.
+    supports:
+      - relationship: 5
+      - relationship: 6
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally OMITTED: this is an unverified DRAFT (the schema
+  # field is optional, not nullable). Do NOT set it without human review.
+  last_reviewed_at: 2026-07-23 # research/authoring date; NOT a human review date.
+  notes: >-
+    DRAFT for human review — "independent, creator-owned single-creator channel,
+    with the creator holding equity in a SEPARATE streaming platform" case.
+    Requires human verification before publication.
+
+    CHANNEL ID: UC9RM-iSvTu1uPJb8X5yp3EQ, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@Wendoverproductions (curl
+    fetch, no JS execution). Dominant canonicalBaseUrl "/@Wendoverproductions"
+    (82 occurrences); vanityChannelUrl "http://www.youtube.com/@Wendoverproductions".
+    Sibling handles (@halfasinteresting, @Extremities, @jetlagthegame,
+    @samfromwendover993) also appear in the source but are distinct channels.
+    Matches the long-publicly-known Wendover Productions channel id.
+
+    EXPECTED COMPUTED CLASSIFICATION: CREATOR_OWNED (GREEN). The channel's only
+    owner/controller is the CREATOR himself (rel 1, denby OWNS channel,
+    CONTROLLING). No company, network, or external investor sits ABOVE the channel
+    in the ownership chain. The Nebula sub-graph (rels 4–6) is OUTBOUND from Denby
+    / terminates at Nebula and never points at the channel, so it does not change
+    the channel's direct owner. No PRIVATE_EQUITY_FIRM entity and no
+    PORTFOLIO_COMPANY_OF edge, so the §14.3 PE-label evidence gate does not apply.
+
+    NEBULA vs CHANNEL — the core finding a reviewer must not conflate. Sam Denby
+    co-founded and is a minority owner of Nebula, the creator-owned streaming
+    PLATFORM (operated by Standard Broadcast LLC / "Standard"; he was also named
+    Nebula's chief content officer in Aug 2023). CuriosityStream took a documented
+    MINORITY stake in Nebula in Sept 2021 (~$50M+ valuation, board seat, options
+    to invest more). ALL of these equity/control facts attach to NEBULA, a
+    separate company, NOT to the Wendover Productions YouTube channel. They are
+    modelled precisely (rels 4–6) but deliberately kept off the channel's
+    ownership chain. Per legal-risk policy: investment is not proof of editorial
+    control; no conclusion is drawn about editorial influence over the channel.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) NEBULA MODELLING. Nebula is typed MEDIA_NETWORK; Standard Broadcast LLC as
+    COMPANY; CuriosityStream as COMPANY. Standard OPERATES Nebula (rel 5,
+    MANAGEMENT) per Tubefilter's "operational and creative control remains in the
+    hands of Standard." Multiple SECONDARY sources (Medium, LegalClarity) also say
+    Standard holds the MAJORITY of Nebula's equity while creators collectively
+    hold 50% — an apparent tension a reviewer should reconcile with a primary
+    source before recording any equity-percentage or CONTROLLING edge for Standard
+    over Nebula. Not asserted here for lack of clean sourcing.
+    (2) OWNER EDGE (rel 1) is the reviewer's primary focus. OWNS + CONTROLLING with
+    NO percentage — partly an inference from DOCUMENTED ABSENCE (no source reports
+    any external owner/investor/acquirer of the CHANNEL). Confidence 0.7. No
+    percentage guessed. A US business filing / registered entity for Denby's
+    Wendover studio operation would be a Tier 1 corroboration lead — none located.
+    (3) FOUNDING DATE (rel 0). Wikipedia says the channel was "created in 2010";
+    the Wendover brand and first uploads are widely dated to 2015 (channel
+    registered years before it became active — the same account-creation vs
+    activity-start gap seen on other records). The 2010/2015 discrepancy is
+    unresolved and day/month precision is unknown, so effective_from is OMITTED
+    rather than guessed. Reviewer to confirm against the channel's own About page
+    join date and set a precise date if desired.
+    (4) NO PRODUCTION-COMPANY OWNERSHIP EDGE FOR THE CHANNEL. No reliably-sourced
+    legal entity that OWNS the Wendover channel was found. Standard Broadcast LLC
+    is documented as Denby's SPONSORSHIP/AD-SALES agency (rel 3, AD_SALES_BY,
+    MANAGEMENT) and as Nebula's operator — NOT as an owner of the channel. If a
+    reviewer confirms a formal operating company that owns the channel (name,
+    jurisdiction, and Denby's controlling stake), the model should move to a
+    creator-controlled-company shape (creator OWNS/CONTROLLING-PARTIALLY_OWNS the
+    company; company OWNS the channel), which would still compute CREATOR_OWNED.
+    (5) DATES ON NEBULA EDGES. rel 4 (Denby minority owner of Nebula) is year-only
+    ("in 2020", Wikipedia) → effective_from omitted. rel 6 (CuriosityStream
+    INVESTED_IN Nebula) is dated to the Sept 2021 announcement window only; the
+    operative close date is not stated, so effective_from is omitted and the
+    announcement date is carried on the source's published_at (2021-09-21).
+    (6) SOURCES. Both supporting sources are Tier 2 (ESTABLISHED_INDUSTRY_
+    PUBLICATION): Wikipedia (Sam Denby) and Tubefilter. No Tier 1 primary source
+    (corporate registry record for the Wendover operation or Standard Broadcast
+    LLC, an official Curiosity/Nebula investment filing, or a direct on-the-record
+    ownership statement) was captured — leads for a reviewer wanting Tier 1
+    corroboration. archive_urls should be captured at review. The BusinessWire
+    primary release of the Curiosity–Nebula investment (2021-09-02) exists and
+    timed out on fetch here; a reviewer should attach it (likely Tier 1
+    OFFICIAL_ACQUISITION_ANNOUNCEMENT / official statement) to rel 6.

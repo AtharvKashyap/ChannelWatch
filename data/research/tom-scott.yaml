@@ -1,0 +1,391 @@
+# CHANNELWATCH research record — Tom Scott (@TomScottGo)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: creator-founded, creator-controlled independent UK channel operated
+# through a creator-controlled UK company structure. Thomas David Scott (British
+# presenter/educator, b. Nov 1984), known online as "Tom Scott", created and
+# hosts the channel. The channel's own description explicitly states it "is a
+# production of Pad 26 Limited, registered in England and Wales, № 11662641" —
+# an on-channel (Tier 1) statement of the operating company. Pad 26 Limited
+# (Companies House 11662641, SIC 59112 "Video production activities") is, per
+# Companies House, 75%+ owned by EXTERNAL TANK LIMITED (12321615, SIC 64209
+# holding company), which in turn is 75%+ owned by Thomas David Scott — a
+# creator-controlled chain (Tom Scott → External Tank Ltd → Pad 26 Ltd →
+# channel). Tom Scott was himself the direct 75%+ PSC of Pad 26 until 27 Dec
+# 2019, when his stake was reorganised under the holding company (recorded as a
+# superseded company-level edge; NOT a change in who controls the channel). The
+# main channel stopped weekly uploads on 1 Jan 2024 but remains active with
+# projects; the Lateral podcast and The Technical Difficulties are separate
+# operations/collaborations (see notes). No external corporate acquisition,
+# private-equity backing, or outside equity investment was found — recorded as a
+# documented ABSENCE. Expected computed classification: CREATOR_OWNED.
+
+channel:
+  # Extracted from the sole "externalId" field in the raw HTML of
+  # https://www.youtube.com/@TomScottGo (curl fetch, no JS execution). The page
+  # source contains exactly one "externalId":"UCBa659QWEk1AI4Tg--mrJ2A"; the
+  # dominant canonicalBaseUrl is "/@TomScottGo" (150 occurrences) and the
+  # vanityChannelUrl is "http://www.youtube.com/@TomScottGo", confirming the id
+  # belongs to this handle. Other handles that appear far less often
+  # (@lateralcast x26, @tomscottplus x2, @techdif x2) are related/featured
+  # channels, NOT this channel.
+  youtube_channel_id: UCBa659QWEk1AI4Tg--mrJ2A
+  display_name: Tom Scott
+  handle: "@TomScottGo"
+
+entities:
+  - slug: tom
+    canonical_name: Tom Scott
+    entity_type: CREATOR
+    legal_name: Thomas David Scott
+    jurisdiction: GB
+    aliases:
+      - Thomas David Scott
+      - enyay
+
+  - slug: pad26
+    canonical_name: PAD 26 LIMITED
+    entity_type: COMPANY
+    legal_name: PAD 26 LIMITED
+    jurisdiction: GB
+    aliases:
+      - "Company no. 11662641"
+
+  - slug: external_tank
+    canonical_name: EXTERNAL TANK LIMITED
+    entity_type: COMPANY
+    legal_name: EXTERNAL TANK LIMITED
+    jurisdiction: GB
+    aliases:
+      - "Company no. 12321615"
+
+relationships:
+  # 0: Channel founded by Tom Scott. The channel's own YouTube About page (raw
+  # HTML) shows "Joined May 17, 2006"; effective_from set to that account-creation
+  # date. Wikipedia records him as active on YouTube from 2006 (mainstream
+  # popularity from 2014). Pre-dates the operating company (2018) by over a decade
+  # — a personal founding edge on the channel.
+  - subject: channel
+    type: FOUNDED_BY
+    object: tom
+    effective_from: 2006-05-17
+    confidence: 0.9
+    status: ACTIVE
+
+  # 1: Tom Scott owns/controls the channel. Recorded OWNS + CONTROLLING with
+  # ownership_percentage OMITTED. Load-bearing edge for the classification. Rests
+  # on (a) Scott being the sole documented public creator/principal/host, (b) the
+  # channel description naming his production company Pad 26 Limited, and (c) his
+  # documented 75%+ control of the full company chain (rels 5-6). No source states
+  # an explicit "Tom Scott owns X% of the channel"; partly an inference from
+  # documented absence of any external owner — flagged for reviewer.
+  - subject: tom
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.75
+    status: ACTIVE
+
+  # 2: Tom Scott is the channel's principal on-camera host/creator. Distinct from
+  # the ownership edge. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: tom
+    confidence: 0.95
+    status: ACTIVE
+
+  # 3: Pad 26 Limited operates the channel. Unlike most creator records this is
+  # NOT an inference: the channel's own description (raw HTML) states verbatim
+  # "This channel is a production of Pad 26 Limited, registered in England and
+  # Wales, № 11662641." Modeled as OPERATES / MANAGEMENT (the description says the
+  # channel is "a production of" the company, i.e. its operating/production
+  # vehicle; it does not use the language of an equity asset transfer). High
+  # confidence because the link is stated on-channel. A reviewer could
+  # alternatively model this as pad26 OWNS channel — either way the computed
+  # classification stays CREATOR_OWNED (see notes).
+  - subject: pad26
+    type: OPERATES
+    object: channel
+    control_level: MANAGEMENT
+    confidence: 0.9
+    status: ACTIVE
+
+  # 4: Tom Scott formerly held Pad 26 Limited directly (SUPERSEDED). Companies
+  # House PSC register records Mr Thomas David Scott as a PSC of Pad 26 from
+  # incorporation (6 Nov 2018) with "Ownership of shares - 75% or more",
+  # "Ownership of voting rights - 75% or more" and "Right to appoint or remove
+  # directors", CEASED 27 Dec 2019 — the date his holding was reorganised under
+  # External Tank Limited (rel 5). PARTIALLY_OWNS/OWNS with control CONTROLLING,
+  # no exact % (register discloses a band). This is a COMPANY-level ownership
+  # transition, NOT a change in who ultimately controls the channel (Scott remains
+  # the controller via External Tank Ltd). Kept for ownership history.
+  - subject: tom
+    type: OWNS
+    object: pad26
+    control_level: CONTROLLING
+    effective_from: 2018-11-06
+    effective_to: 2019-12-27
+    confidence: 0.9
+    status: ENDED
+
+  # 5: External Tank Limited controls Pad 26 Limited (current). Companies House
+  # PSC register records EXTERNAL TANK LIMITED as a PSC of Pad 26 with "Ownership
+  # of shares - 75% or more" and "Ownership of voting rights - 75% or more",
+  # notified 27 Dec 2019. OWNS + CONTROLLING, no exact % (band only). effective_from
+  # is the operative reorganisation date (same as rel 4's effective_to).
+  - subject: external_tank
+    type: OWNS
+    object: pad26
+    control_level: CONTROLLING
+    effective_from: 2019-12-27
+    confidence: 0.95
+    status: ACTIVE
+
+  # 6: Tom Scott controls External Tank Limited. Companies House PSC register
+  # records Mr Thomas David Scott (b. Nov 1984, British) as a PSC of EXTERNAL TANK
+  # LIMITED (12321615, a SIC 64209 holding company) with "Ownership of shares -
+  # 75% or more" and "Ownership of voting rights - 75% or more", notified 19 Nov
+  # 2019 (incorporation). OWNS + CONTROLLING, no exact % (band only). This is the
+  # top of the creator-controlled chain and is what makes the structure
+  # creator-controlled (→ CREATOR_OWNED).
+  - subject: tom
+    type: OWNS
+    object: external_tank
+    control_level: CONTROLLING
+    effective_from: 2019-11-19
+    confidence: 0.95
+    status: ACTIVE
+
+  # 7: Tom Scott is the sole director of Pad 26 Limited (management edge, distinct
+  # from ownership). Companies House officers list shows SCOTT, Thomas David —
+  # Director — Appointed 6 November 2018 — Active (1 officer / 0 resignations).
+  - subject: tom
+    type: MANAGES
+    object: pad26
+    control_level: MANAGEMENT
+    effective_from: 2018-11-06
+    confidence: 0.95
+    status: ACTIVE
+
+sources:
+  - ref: youtube_channel_page
+    url: https://www.youtube.com/@TomScottGo
+    title: Tom Scott — YouTube channel (raw page HTML)
+    publisher: YouTube
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Raw page HTML contains exactly one "externalId":"UCBa659QWEk1AI4Tg--mrJ2A";
+      dominant canonicalBaseUrl "/@TomScottGo" and vanityChannelUrl
+      "http://www.youtube.com/@TomScottGo". Channel description: "Hi, I'm Tom
+      Scott. ... This channel is a production of Pad 26 Limited, registered in
+      England and Wales, № 11662641. Registered office: Amelia House, Crescent
+      Road, Worthing, West Sussex, BN11 1QR (This address is only for legal
+      documents; no other mail will be forwarded.)"
+    supports:
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+
+  - ref: youtube_about
+    url: https://www.youtube.com/@TomScottGo/about
+    title: Tom Scott — YouTube channel About page (raw HTML)
+    publisher: YouTube
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      The channel's About page raw HTML contains
+      "joinedDateText":{"content":"Joined May 17, 2006"} and a view count of
+      2,178,350 views (for the channel's About panel at time of capture),
+      confirming the account-creation date used for the founding edge.
+    supports:
+      - relationship: 0
+
+  - ref: wikipedia_tom_scott
+    url: https://en.wikipedia.org/wiki/Tom_Scott_(entertainer)
+    title: Tom Scott (entertainer)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Thomas Scott (born 1984/1985) is an English YouTuber, presenter and
+      educator known for educational videos on linguistics, technology,
+      geography, history and science. Active on YouTube from 2006 (mainstream
+      popularity from 2014). Weekly uploads to the main channel ended 1 January
+      2024. Also runs the Lateral podcast (with David Bodycombe). The article
+      names no external owner, investor or acquirer of the channel.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+  - ref: ch_pad26_overview
+    url: https://find-and-update.company-information.service.gov.uk/company/11662641
+    title: PAD 26 LIMITED overview
+    publisher: Companies House (UK)
+    published_at: 2018-11-06
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      PAD 26 LIMITED, company number 11662641, a Private limited Company,
+      incorporated 6 November 2018, status Active. Nature of business (SIC):
+      59112 - Video production activities. Registered office: Amelia House,
+      Crescent Road, Worthing, West Sussex, BN11 1QR. (Company number and name
+      match the production-company statement in the channel's own description.)
+    supports:
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+
+  - ref: ch_pad26_psc
+    url: https://find-and-update.company-information.service.gov.uk/company/11662641/persons-with-significant-control
+    title: PAD 26 LIMITED — persons with significant control
+    publisher: Companies House (UK)
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      EXTERNAL TANK LIMITED (active PSC): "Ownership of shares – 75% or more",
+      "Ownership of voting rights - 75% or more"; notified 27 December 2019. Mr
+      Thomas David Scott (ceased PSC, b. November 1984, British): "Ownership of
+      shares – 75% or more", "Ownership of voting rights - 75% or more", "Right
+      to appoint or remove directors"; notified 6 November 2018, ceased 27
+      December 2019.
+    supports:
+      - relationship: 4
+      - relationship: 5
+
+  - ref: ch_pad26_officers
+    url: https://find-and-update.company-information.service.gov.uk/company/11662641/officers
+    title: PAD 26 LIMITED — officers
+    publisher: Companies House (UK)
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      SCOTT, Thomas David — Director — Appointed 6 November 2018 — Active —
+      Nationality British — date of birth November 1984 — country of residence
+      United Kingdom. Officers: 1 officer / 0 resignations (sole director).
+    supports:
+      - relationship: 7
+
+  - ref: ch_external_tank_overview
+    url: https://find-and-update.company-information.service.gov.uk/company/12321615
+    title: EXTERNAL TANK LIMITED overview
+    publisher: Companies House (UK)
+    published_at: 2019-11-19
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      EXTERNAL TANK LIMITED, company number 12321615, a Private limited Company,
+      incorporated 19 November 2019, status Active. Nature of business (SIC):
+      64209 - Activities of other holding companies not elsewhere classified.
+      Registered office: Amelia House, Crescent Road, Worthing, West Sussex,
+      BN11 1QR.
+    supports:
+      - relationship: 6
+
+  - ref: ch_external_tank_psc
+    url: https://find-and-update.company-information.service.gov.uk/company/12321615/persons-with-significant-control
+    title: EXTERNAL TANK LIMITED — persons with significant control
+    publisher: Companies House (UK)
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: >-
+      Mr Thomas David Scott, date of birth November 1984, British; notified 19
+      November 2019: "Ownership of shares – 75% or more", "Ownership of voting
+      rights - 75% or more".
+    supports:
+      - relationship: 6
+
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: tom
+
+review:
+  researched_by: claude-research-agent-m1
+  last_reviewed_at: 2026-07-23
+  notes: >-
+    DRAFT for human review — "independent, creator-controlled company" case, UK
+    creator, with a documented two-tier holding structure. Expected computed
+    classification: CREATOR_OWNED (GREEN). The channel's ultimate controller is
+    the CREATOR himself: Tom Scott → 75%+ of EXTERNAL TANK LIMITED → 75%+ of PAD
+    26 LIMITED → the channel (Pad 26 is named on-channel as the production
+    company). No PRIVATE_EQUITY_FIRM / PORTFOLIO_COMPANY_OF edge exists, so the
+    §14.3 PE-label evidence rule is not engaged.
+
+    CHANNEL ID: UCBa659QWEk1AI4Tg--mrJ2A, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@TomScottGo (curl fetch, no
+    JS). canonicalBaseUrl "/@TomScottGo" (150 occurrences) and vanityChannelUrl
+    "http://www.youtube.com/@TomScottGo" confirm the id belongs to this handle.
+    Lower-frequency handles in the source (@lateralcast, @tomscottplus, @techdif)
+    are related/featured channels, NOT this channel.
+
+    COMPANY-TO-CHANNEL LINK (unusually strong): unlike most single-creator
+    records, the company link is NOT an inference — the channel's own description
+    states verbatim "This channel is a production of Pad 26 Limited, registered
+    in England and Wales, № 11662641." Modeled as pad26 OPERATES channel
+    (MANAGEMENT, conf 0.9). A reviewer may prefer pad26 OWNS channel; either
+    modelling still computes CREATOR_OWNED via the creator-controlled-company
+    rule, since Scott controls Pad 26 through External Tank Ltd.
+
+    OWNERSHIP CHAIN (Tier 1, Companies House primaries):
+    - PAD 26 LIMITED (11662641), incorporated 6 Nov 2018, Active, SIC 59112
+      "Video production activities". Current 75%+ PSC: EXTERNAL TANK LIMITED
+      (notified 27 Dec 2019). Sole director: Thomas David Scott (since 6 Nov
+      2018).
+    - EXTERNAL TANK LIMITED (12321615), incorporated 19 Nov 2019, Active, SIC
+      64209 (holding company). 75%+ PSC: Thomas David Scott (notified 19 Nov
+      2019). This is Scott's personal holding vehicle.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) OWNERSHIP REORGANISATION (rel 4 → rel 5). Companies House shows Tom Scott
+    was the DIRECT 75%+ PSC of Pad 26 from incorporation (6 Nov 2018) and CEASED
+    on 27 Dec 2019, when EXTERNAL TANK LIMITED became the 75%+ PSC (same date).
+    This is a company-level restructuring (interposing a holding company), NOT a
+    change in who ultimately controls the channel — Scott remains the controller
+    throughout. Recorded rel 4 as status ENDED (effective_to 2019-12-27) and rel
+    5 as ACTIVE (effective_from 2019-12-27) to preserve the history at company
+    level; no superseded/ENDED edge on the CHANNEL is recorded.
+    (2) NO EXACT PERCENTAGES. All PSC edges use the Companies House disclosure
+    band "75% or more"; ownership_percentage is omitted on rels 4/5/6.
+    control_level (CONTROLLING) carries the meaning. A reviewer with the
+    confirmation statement / share register could tighten these.
+    (3) CREATOR-DIRECT OWNERSHIP EDGE (rel 1, tom OWNS channel, CONTROLLING, no
+    %): partly an inference from documented absence — Scott is the sole
+    documented public creator/host/principal and controls the full company chain,
+    but no source states an explicit "owns X% of the channel". Confidence held at
+    0.75. Retained as the load-bearing creator-ownership edge alongside the
+    company structure (mirrors colinfurze/mrwhosetheboss modelling).
+    (4) UPLOAD HIATUS (context, not an ownership signal). The main channel ended
+    weekly uploads on 1 January 2024 but remains active with projects (e.g. the
+    2026 "Tom Scott: England" series). Per evidence policy §4 / SPEC §13.4,
+    upload-pattern changes are Tier-4 behavioural signals and are NOT treated as
+    ownership evidence — noted for context only, no edge.
+    (5) SEPARATE OPERATIONS / COLLABORATORS (documented, NOT modeled as channel
+    ownership). "Lateral with Tom Scott" is a separate podcast operation
+    co-created with David Bodycombe (question producer/exec producer), edited at
+    The Podcast Studios, Dublin — it has its own handle (@lateralcast) and is not
+    part of this channel's ownership. "The Technical Difficulties" is a comedy
+    troupe with Matt Gray, Gary Brannan and Chris Joel (separate channel/brand).
+    Matt Gray has been Scott's long-time producer/collaborator. None of these
+    individuals has any documented ownership of the Tom Scott channel, Pad 26
+    Limited, or External Tank Limited, so no ownership/collaborator edge is
+    asserted (legal-safe: no implication of ownership or control from
+    collaboration). A reviewer could add REPRESENTS/collaboration edges if the
+    data model supports them, but they would not affect classification.
+    (6) EXTERNAL-INVESTMENT / ACQUISITION CHECK (per task): NO external corporate
+    acquisition, private-equity backing, or outside equity investment in the
+    channel or either company was found. External Tank Limited is Scott's own
+    holding company, not a third-party investor. Recorded as a documented
+    ABSENCE, not an affirmative "verified independent" claim.
+    (7) ADDRESS HANDLING. The Worthing registered-office address appears in the
+    channel description and on the public register; it is a COMPANY registered
+    office (legal-documents address, explicitly not a residence), so it is quoted
+    within the corporate-registry excerpts as ownership-relevant provenance, but
+    is NOT recorded as a creator home address (evidence-policy §5). Only
+    GB/Worthing jurisdiction is kept on entities.
+    (8) SOURCES. Six Tier 1 primaries (YouTube channel page + About page as
+    DIRECT_CREATOR_CONFIRMATION; four Companies House CORPORATE_REGISTRY_RECORDs
+    across both companies: two overviews, two PSC registers, one officers list)
+    plus one Tier 2 (Wikipedia). No PE-label evidence rule engaged.

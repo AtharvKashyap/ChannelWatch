@@ -1,0 +1,444 @@
+# CHANNELWATCH research record — MrBallen (John Allen)
+#
+# DRAFT for human review. Nothing here is published without verification.
+# Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: an independent, CREATOR-OWNED eponymous channel. John Allen (legal
+# name Jonathan Bartlett Allen), a former U.S. Navy SEAL known as "MrBallen,"
+# launched the "MrBallen" YouTube channel in 2020, telling true-crime and
+# "strange, dark and mysterious" stories. In 2022 he and his manager Nick Witters
+# opened Ballen Studios, a content/production company that now sits BEHIND and
+# OPERATES the MrBallen brand and channel and produces multiple creator-led
+# podcasts; Witters is its CEO.
+#
+# CRITICAL DISTINCTION encoded here: MrBallen's high-profile PODCAST deals are
+# DISTRIBUTION / LICENSING / AD-SALES contracts, NOT acquisitions of or equity
+# stakes in the YouTube channel:
+#   - The 2022 AMAZON MUSIC deal (announced 2022-09-28; podcast moved exclusively
+#     to Amazon Music from 2022-11-01; the show sat under Amazon's Wondery unit)
+#     was an EXCLUSIVE DISTRIBUTION + FIRST-LOOK + co-production arrangement for
+#     the PODCAST. It later lapsed — per Wikipedia the podcast became "freely
+#     available across multiple platforms" as of February 2024. Recorded as a
+#     status-ENDED DISTRIBUTED_BY edge on the podcast (NOT the channel).
+#   - The 2025 SIRIUSXM deal (announced 2025-10-27) granted SiriusXM EXCLUSIVE
+#     ADVERTISING-SALES rights over the flagship podcast AND the YouTube channel.
+#     Ad-sales representation is NOT ownership; recorded as an AD_SALES_BY edge
+#     (control_level LICENSE), which the classifier does not treat as ownership.
+# None of these deals is described in any fetched source as a sale, transfer, or
+# equity stake in the "MrBallen" YouTube channel.
+#
+# No outside/venture investment in Ballen Studios was documented in any fetched
+# source (see review.notes) — the studio reads as founder-owned (Allen/Witters).
+
+channel:
+  # Canonical externalId extracted from the raw HTML of
+  # https://www.youtube.com/@MrBallen (curl fetch, no JS execution): the page's
+  # source carries "externalId":"UCtPrkXdtCM5DACLufB9jbsA" and the page's own
+  # <link rel="canonical"> is
+  # https://www.youtube.com/channel/UCtPrkXdtCM5DACLufB9jbsA. Independently
+  # CROSS-CHECKED against YouTube's OWN feed
+  # (youtube.com/feeds/videos.xml?channel_id=UCtPrkXdtCM5DACLufB9jbsA), whose
+  # <title>MrBallen</title>, <author><name>MrBallen</name> and
+  # <yt:channelId>UCtPrkXdtCM5DACLufB9jbsA</yt:channelId> all confirm this UC id
+  # and display name. (Three unrelated "channelId" values also appear in the page
+  # HTML — recommended/related channels in the page layout — and were NOT used;
+  # the page's own externalId and canonical URL both resolve to this UC id.)
+  youtube_channel_id: UCtPrkXdtCM5DACLufB9jbsA
+  display_name: MrBallen
+  handle: "@MrBallen"
+
+entities:
+  - slug: allen
+    canonical_name: John Allen
+    entity_type: CREATOR
+    legal_name: Jonathan Bartlett Allen
+    aliases:
+      - MrBallen
+      - Mr. Ballen
+      - John B. Allen
+
+  - slug: ballen_studios
+    canonical_name: Ballen Studios
+    entity_type: COMPANY
+    # Content/production company co-founded 2022 by John Allen and Nick Witters;
+    # "the global content company behind" MrBallen. Operates the channel and
+    # produces multiple creator-led podcasts. No legal_name / jurisdiction /
+    # registry record was documented to a Tier 1/2 standard, so none is asserted.
+    website: https://ballenstudios.com
+
+  - slug: witters
+    canonical_name: Nick Witters
+    entity_type: PERSON
+    # Allen's manager and CEO of Ballen Studios; former WME / Night Media exec.
+
+  - slug: uta
+    canonical_name: United Talent Agency
+    entity_type: COMPANY
+    # Talent agency that represents Allen / Ballen Studios (signed 2022).
+    # Representation, NOT ownership.
+    aliases:
+      - UTA
+
+  - slug: mrballen_podcast
+    canonical_name: "MrBallen Podcast: Strange, Dark & Mysterious Stories"
+    entity_type: BRAND
+    # Allen's flagship audio podcast. Declared ONLY to anchor the podcast
+    # distribution/ad-sales deals precisely and keep them OFF the channel's
+    # ownership chain. NOT the YouTube channel.
+    aliases:
+      - MrBallen Podcast
+      - Strange Dark and Mysterious Stories
+
+  - slug: amazon_music
+    canonical_name: Amazon Music
+    entity_type: COMPANY
+    # Distribution counterparty for the 2022 podcast deal; the show sat under
+    # Amazon's Wondery podcast unit. Recorded as documented context, NOT a
+    # channel owner.
+    aliases:
+      - Wondery
+      - Amazon
+      - Amazon Music / Wondery
+
+  - slug: siriusxm
+    canonical_name: SiriusXM
+    entity_type: COMPANY
+    # Ad-sales counterparty for the 2025 deal (exclusive advertising sales over
+    # the podcast and the YouTube channel). Ad-sales rep, NOT a channel owner.
+    aliases:
+      - Sirius XM
+
+relationships:
+  # 0: The MrBallen channel was launched by John Allen. Wikipedia: he "launched
+  # his YouTube channel in 2020." effective_from OMITTED: only a YEAR (2020) is
+  # documented, not an ISO launch date, so asserting a day would be false
+  # precision. status ACTIVE (a founding fact).
+  - subject: channel
+    type: FOUNDED_BY
+    object: allen
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: John Allen OWNS the channel. This is the current, ACTIVE ownership edge and
+  # the one the classifier reads. control_level CONTROLLING (sole on-camera
+  # creator-owner of his eponymous personal channel, launched 2020 before Ballen
+  # Studios existed); no ownership percentage is publicly disclosed, so none is
+  # asserted. confidence moderate: ownership rests on the eponymous/sole-creator
+  # identity plus the DOCUMENTED ABSENCE of any sale/transfer of the CHANNEL,
+  # rather than a direct Tier-1 ownership disclosure. Flagged for reviewer.
+  - subject: allen
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.75
+    status: ACTIVE
+
+  # 2: Allen is the channel's on-camera creator/host. Distinct from ownership.
+  - subject: channel
+    type: HOSTED_BY
+    object: allen
+    confidence: 0.9
+    status: ACTIVE
+
+  # 3: Ballen Studios OPERATES the channel — "the global content company behind"
+  # MrBallen (podnews press release) that manages the brand/channel and produces
+  # its shows (Tubefilter). OPERATES + MANAGEMENT: this is an operating/management
+  # relationship, NOT ownership. The classifier does NOT treat OPERATES as an
+  # ownership/control edge, so this does not put Ballen Studios in the channel's
+  # ownership chain. effective_from OMITTED (only the year 2022 is documented for
+  # the studio's founding, not an operative day for it taking over channel ops).
+  - subject: ballen_studios
+    type: OPERATES
+    object: channel
+    control_level: MANAGEMENT
+    confidence: 0.8
+    status: ACTIVE
+
+  # 4: John Allen co-founded Ballen Studios (2022). Tubefilter: "In 2022, Allen
+  # and his manager Nick Witters parlayed his success into opening Ballen
+  # Studios." effective_from OMITTED (year only). Context — Ballen Studios does
+  # not own THIS channel; see notes.
+  - subject: ballen_studios
+    type: FOUNDED_BY
+    object: allen
+    confidence: 0.9
+    status: ACTIVE
+
+  # 5: Nick Witters co-founded Ballen Studios (same 2022 founding). Context.
+  - subject: ballen_studios
+    type: FOUNDED_BY
+    object: witters
+    confidence: 0.85
+    status: ACTIVE
+
+  # 6: John Allen CONTROLS Ballen Studios as its founder/principal (his eponymous
+  # company). CONTROLS + CONTROLLING; no equity split with co-founder Witters is
+  # disclosed, so NO ownership_percentage and OWNS is avoided in favor of CONTROLS
+  # (founder/principal control is documented; the cap table is not). Context — even
+  # if a reviewer finds Ballen Studios is the channel's operating entity, the chain
+  # stays CREATOR-controlled and the outcome would not change.
+  - subject: allen
+    type: CONTROLS
+    object: ballen_studios
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 7: Nick Witters MANAGES Ballen Studios as CEO. Tubefilter: "Witters, who's
+  # Ballen Studios' CEO as well as Allen's manager." MANAGES + MANAGEMENT
+  # (operational leadership), NOT ownership.
+  - subject: witters
+    type: MANAGES
+    object: ballen_studios
+    control_level: MANAGEMENT
+    confidence: 0.85
+    status: ACTIVE
+
+  # 8: United Talent Agency REPRESENTS Ballen Studios / Allen (signed 2022).
+  # REPRESENTS + MANAGEMENT: talent representation, NOT ownership and not a channel
+  # edge.
+  - subject: uta
+    type: REPRESENTS
+    object: ballen_studios
+    control_level: MANAGEMENT
+    confidence: 0.7
+    status: ACTIVE
+
+  # 9: The MrBallen Podcast is hosted by Allen. Anchors the podcast entity so the
+  # distribution/ad-sales deals attach to the PODCAST, not the channel.
+  - subject: mrballen_podcast
+    type: HOSTED_BY
+    object: allen
+    confidence: 0.85
+    status: ACTIVE
+
+  # 10: The 2022 Amazon Music deal — an EXCLUSIVE DISTRIBUTION + first-look +
+  # co-production arrangement for the PODCAST (show sat under Amazon's Wondery
+  # unit). DISTRIBUTED_BY + LICENSE, on the PODCAST (not the channel).
+  # effective_from 2022-11-01 (podcast moved exclusively to Amazon Music that
+  # date). status ENDED: per Wikipedia the podcast became "freely available across
+  # multiple platforms" as of February 2024. effective_to OMITTED — only "February
+  # 2024" (a month) is documented, so a precise handover DAY would be false
+  # precision (this is a non-ownership edge; see notes).
+  - subject: mrballen_podcast
+    type: DISTRIBUTED_BY
+    object: amazon_music
+    control_level: LICENSE
+    effective_from: 2022-11-01
+    confidence: 0.85
+    status: ENDED
+
+  # 11: The 2025 SiriusXM deal — EXCLUSIVE ADVERTISING-SALES rights over the
+  # flagship podcast AND the YouTube channel (Hollywood Reporter, 2025-10-27).
+  # AD_SALES_BY + LICENSE: ad-sales representation, NOT ownership; the classifier
+  # does not treat AD_SALES_BY as an ownership/control edge, so this does not enter
+  # the channel's ownership chain. This is the one currently-active deal that
+  # touches the channel, and it is deliberately typed to make clear it is a
+  # commercial ad-sales arrangement, not control of the channel.
+  - subject: channel
+    type: AD_SALES_BY
+    object: siriusxm
+    control_level: LICENSE
+    effective_from: 2025-10-27
+    confidence: 0.85
+    status: ACTIVE
+
+sources:
+  - ref: youtube_channel_feed
+    url: https://www.youtube.com/channel/UCtPrkXdtCM5DACLufB9jbsA
+    title: MrBallen — YouTube channel
+    publisher: MrBallen (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCtPrkXdtCM5DACLufB9jbsA
+    excerpt: >-
+      YouTube's own feed for channel UCtPrkXdtCM5DACLufB9jbsA carries
+      <title>MrBallen</title>, <yt:channelId>UCtPrkXdtCM5DACLufB9jbsA</yt:channelId>
+      and <author><name>MrBallen</name>, confirming the canonical channel id and
+      display name and that the channel publishes ongoing "MrBallen" uploads.
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+  - ref: wikipedia_mrballen
+    url: https://en.wikipedia.org/wiki/MrBallen
+    title: MrBallen
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Jonathan Bartlett Allen, known as MrBallen, is a former U.S. Navy SEAL who
+      "launched his YouTube channel in 2020 and began filming true crime and
+      mysteries." His podcast was "licensed to Amazon Music in September 2022";
+      "As of February 2024, the podcast became freely available across multiple
+      platforms." His sister Evan Allen became "the full-time Head of Ballen
+      Studios."
+    supports:
+      - relationship: 0
+      - relationship: 9
+      - relationship: 10
+
+  - ref: tubefilter_ballen_studios
+    url: https://www.tubefilter.com/2025/03/05/ballen-studios-late-nights-with-nexpo/
+    title: Ballen Studios is building a business that turns creators into career storytellers. Its next star? Nexpo.
+    publisher: Tubefilter
+    published_at: 2025-03-05
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "In 2022, Allen and his manager Nick Witters parlayed his success into
+      opening Ballen Studios." "Witters, who's Ballen Studios' CEO as well as
+      Allen's manager," runs a company that "produces seven creator-led podcasts"
+      and operates a management division with representation through United Talent
+      Agency.
+    supports:
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+      - relationship: 8
+
+  - ref: podnews_amazon_deal
+    url: https://podnews.net/press-release/mrballen-amazon
+    title: MrBallen and Global Content Company Ballen Studios Ink Exclusive Distribution and First-Look Deal with Amazon
+    publisher: Podnews
+    published_at: 2022-09-28
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Ballen Studios is "the global content company behind one of the internet's
+      biggest storytellers, John Allen–also known to his millions of fans globally
+      as MrBallen." "Amazon Music will also produce additional podcasts with Ballen
+      Studios, and have first-look rights for all new content." The podcast moved
+      exclusively to Amazon Music starting November 1, 2022. Nick Witters is CEO.
+    supports:
+      - relationship: 3
+      - relationship: 10
+
+  - ref: hollywoodreporter_siriusxm
+    url: https://www.hollywoodreporter.com/business/digital/mrballen-siriusxm-podcast-deal-1236410445/
+    title: MrBallen Podcast Moves to SiriusXM (Exclusive)
+    publisher: The Hollywood Reporter
+    published_at: 2025-10-27
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "SiriusXM will have exclusive advertising sales rights to Allen's flagship
+      show, The MrBallen Podcast: Strange, Dark & Mysterious, on audio, as well as
+      on his YouTube channel" (10.5M subscribers), plus his network of shows. Allen
+      "had signed a three-year, first-look deal with Amazon in 2022"; the move
+      followed the August 2025 breakup of Amazon-owned Wondery.
+    supports:
+      - relationship: 11
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally OMITTED: this is an unreviewed DRAFT. Do NOT set it
+  # without human review.
+  last_reviewed_at: 2026-07-23 # research/authoring date; NOT a human review date.
+  notes: >-
+    DRAFT for human review — "independent creator-owned eponymous channel whose
+    creator built a production company (Ballen Studios) around it and signed
+    PODCAST distribution/ad-sales deals that are NOT channel ownership" case.
+    Requires human verification before publication.
+
+    CHANNEL ID. UCtPrkXdtCM5DACLufB9jbsA, taken from the "externalId" field in the
+    raw HTML of https://www.youtube.com/@MrBallen (curl, no JS execution), matching
+    the page's own <link rel="canonical">
+    (youtube.com/channel/UCtPrkXdtCM5DACLufB9jbsA), and independently cross-checked
+    against YouTube's OWN RSS feed, whose <title>MrBallen</title>,
+    <author><name>MrBallen</name> and <yt:channelId> all confirm this UC id /
+    display name. Three unrelated "channelId" values also appear in the page HTML
+    (recommended/related channels in the layout) and were NOT used. Reviewer should
+    confirm against the live channel.
+
+    CORE MODELING DECISION — THE PODCAST DEALS ARE CONTRACTS, NOT CHANNEL OWNERSHIP.
+    (1) The 2022 AMAZON MUSIC deal (announced 2022-09-28; podcast exclusive to
+    Amazon Music from 2022-11-01; the show sat under Amazon's Wondery unit) was an
+    EXCLUSIVE DISTRIBUTION + FIRST-LOOK + co-production arrangement for the PODCAST.
+    No fetched source describes it as an acquisition of, equity stake in, or
+    transfer of the "MrBallen" YouTube channel. It is modeled as a DISTRIBUTED_BY /
+    LICENSE edge ON THE PODCAST entity (rel 10), status ENDED — per Wikipedia the
+    podcast became "freely available across multiple platforms" as of February
+    2024. effective_to is OMITTED (only a month, "February 2024," is documented;
+    this is a non-ownership edge so no precise handover day is asserted).
+    (2) The 2025 SIRIUSXM deal (announced 2025-10-27) is EXCLUSIVE ADVERTISING-SALES
+    rights over the flagship podcast AND the YouTube channel — modeled as
+    AD_SALES_BY / LICENSE (rel 11). It is the one active deal that touches the
+    channel, but ad-sales representation is NOT ownership or control; AD_SALES_BY is
+    not an ownership/control edge type, so it does not enter the channel's ownership
+    chain and does not change the classification. Wondery is captured as an alias of
+    the amazon_music entity; the 2025 SiriusXM move followed Amazon's August 2025
+    wind-down of Wondery (context only).
+
+    OWNERSHIP — the core finding. "MrBallen" is Allen's eponymous PERSONAL channel
+    (launched 2020, before Ballen Studios existed in 2022); he is its sole on-camera
+    creator and no source documents any sale or transfer. He is encoded as CREATOR
+    OWNS channel / CONTROLLING (rel 1), the only ACTIVE channel-owning edge.
+    confidence moderate (0.75): ownership rests on the eponymous/sole-creator
+    identity plus the documented absence of any transfer, not on a direct ownership
+    disclosure — reviewer's primary focus. No ownership percentage is asserted
+    (none disclosed).
+
+    BALLEN STUDIOS' RELATIONSHIP TO THE CHANNEL. Documented as OPERATOR, not owner:
+    it is "the global content company behind" MrBallen (podnews) and manages the
+    brand/produces its shows (Tubefilter). Modeled as OPERATES / MANAGEMENT (rel 3),
+    a non-ownership edge — the classifier does not treat OPERATES as ownership, so
+    Ballen Studios is NOT placed in the channel's ownership chain. NO fetched source
+    states in a verbatim "Ballen Studios owns the MrBallen channel" form, so it is
+    NOT modeled as the channel owner (precision over recall). Allen co-founded the
+    studio (rel 4) with Nick Witters (rel 5, its CEO — rel 7), and CONTROLS it as
+    founder/principal (rel 6, CONTROLS not OWNS: the equity split with Witters is
+    undisclosed, so no cap-table claim / percentage is asserted). Even if a reviewer
+    confirms Ballen Studios is the channel's operating entity, the chain stays
+    CREATOR-controlled (Allen controls the studio) and the CREATOR_OWNED outcome
+    would not change. No legal_name / jurisdiction / registry record for Ballen
+    Studios was documented, so none is asserted.
+
+    OUTSIDE INVESTMENT IN BALLEN STUDIOS. NONE was documented in any fetched source
+    — no venture round, PE/VC investor, or acquisition of the studio was found; it
+    reads as founder-owned (Allen/Witters). This is an INFERENCE FROM DOCUMENTED
+    ABSENCE, not a positive "no investors" statement; a reviewer wanting certainty
+    should check a corporate registry. No PRIVATE_EQUITY_FIRM / VENTURE_CAPITAL_FIRM
+    entity and no PORTFOLIO_COMPANY_OF or INVESTED_IN edge exist, so the §14.3
+    PE-label evidence gate does not apply. (Note: the widely reported "$1M pledge"
+    is Ballen Studios / the MrBallen Foundation funding a charitable initiative —
+    the studio as a GRANT-GIVER, NOT investment INTO the studio; deliberately not
+    modeled.)
+
+    OTHER CONTEXT ENTITIES (none own the channel): UTA — talent agency that
+    REPRESENTS Allen / Ballen Studios (rel 8, signed 2022), representation not
+    ownership. Amazon Music / Wondery and SiriusXM — podcast distribution / ad-sales
+    counterparties (rels 10, 11). The MrBallen Podcast — a BRAND node declared only
+    to anchor those deals off the channel (rel 9). Nick Witters — co-founder, CEO,
+    and Allen's manager (rels 5, 7). Allen's sister Evan Allen is reported as Head of
+    Ballen Studios but was NOT added as an entity (no channel-ownership signal); a
+    reviewer may add her.
+
+    EXPECTED COMPUTED CLASSIFICATION (computed by importer, not asserted here):
+    CREATOR_OWNED (GREEN), explanation DIRECT_OWNER_CONFIRMED — the only ACTIVE
+    channel-owning edge is Allen (a CREATOR) OWNS channel / CONTROLLING (rel 1). All
+    other edges are either about the separate company Ballen Studios (operates the
+    channel / founded/controlled by Allen — none of which is a channel-OWNING edge),
+    management/representation edges (rels 7, 8), or non-ownership commercial deals on
+    the podcast/channel (rels 9-11). No PE entity and no PORTFOLIO_COMPANY_OF edge,
+    so §14.3 does not apply. No OWNERSHIP_CHANGED warning expected: the channel's
+    ownership never changed; the ENDED item (rel 10) is a lapsed PODCAST distribution
+    contract, not a channel-ownership edge. Confidence moderate, gated by the
+    inference-based OWNS edge (rel 1). Confirm the computed label at import.
+
+    NEUTRAL FRAMING (docs/legal-risk.md). This record describes ownership and
+    business structure only and makes NO claim of editorial interference or
+    wrongdoing. The distribution/ad-sales deals and the lapse of the Amazon deal are
+    recorded as neutral, documented facts, not as conclusions about control. The
+    exact ownership percentages of the channel and of Ballen Studios were not
+    publicly disclosed.
+
+    SOURCES. One Tier 1 (YouTube's own feed, for channel-id/identity) and four Tier
+    2 ESTABLISHED_INDUSTRY_PUBLICATION sources (Wikipedia; Tubefilter; Podnews press
+    release republish; The Hollywood Reporter). No Tier 1 corporate-registry or
+    filing source for the channel's or the studio's ownership was located; nothing
+    here should be treated as CONFIRMED without further primary-source diligence. No
+    Tier 3/4 source is used. archive_urls (beyond the feed) should be captured at
+    review.

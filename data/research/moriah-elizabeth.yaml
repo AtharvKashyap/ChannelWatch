@@ -1,0 +1,246 @@
+# CHANNELWATCH research record — Moriah Elizabeth
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: an independent, creator-owned solo-creator channel. The Moriah
+# Elizabeth YouTube channel (US art/craft creator; "Squishy Makeovers", DIY and
+# painting content) was created and is hosted by Moriah Elizabeth herself; it
+# long pre-dates any business structure and no external investment in, or
+# acquisition of, the CHANNEL was found. She is represented by talent-management
+# company Night Media — that is REPRESENTATION, not ownership (not modeled as an
+# edge; see notes). She runs a MERCHANDISE and self-published-BOOKS business
+# ("Create This Book", apparel, pins, stickers) — that is commerce that sits with
+# her, not a change in channel ownership, and no separate operating-company name
+# was reliably sourced (see notes). She also SEPARATELY co-founded a digital-art
+# startup, Spark, which HAS taken documented outside VC investment; that
+# investment sits in Spark and is DELIBERATELY OUT of this channel's ownership
+# chain (see notes). Expected computed classification: CREATOR_OWNED.
+
+channel:
+  # Extracted from the sole "externalId" field embedded in the raw HTML of
+  # https://www.youtube.com/@MoriahElizabeth (curl fetch, no JS execution),
+  # captured alongside "canonicalBaseUrl":"/@MoriahElizabeth". This is the page's
+  # own channel/browse id.
+  youtube_channel_id: UCYAB7hh1ohA8-iX54EpMdeA
+  display_name: Moriah Elizabeth
+  handle: "@MoriahElizabeth"
+
+entities:
+  - slug: moriah
+    # On-camera creator, host, and owner of the channel. Recorded CREATOR (she is
+    # herself the face/host), not PERSON.
+    canonical_name: Moriah Elizabeth
+    entity_type: CREATOR
+
+  - slug: spark
+    # CONTEXT ONLY — a SEPARATE company Moriah Elizabeth co-founded (with Laura Mae
+    # Brown, CEO), NOT the channel and NOT in the channel's ownership chain.
+    # Modeled solely to type it precisely and to anchor the fact that the
+    # documented outside investors (Konvoy; Long Journey) are investors in THIS
+    # startup, not in the YouTube channel. Exact legal name not verified in a
+    # fetched source, so legal_name is omitted.
+    canonical_name: Spark
+    entity_type: COMPANY
+    jurisdiction: US-CA
+    aliases:
+      - Spark Creative Play
+
+relationships:
+  # 0: The Moriah Elizabeth channel was created by Moriah Elizabeth. Wikidata
+  # records the channel's "start time" as 25 August 2010. effective_from set to
+  # that documented date. Pre-dates any business structure, so this is a personal
+  # founding edge on the channel. Source is community-editable — flagged (notes 2).
+  - subject: channel
+    type: FOUNDED_BY
+    object: moriah
+    effective_from: 2010-08-25
+    confidence: 0.8
+    status: ACTIVE
+
+  # 1: Moriah Elizabeth owns/controls the channel. Recorded OWNS + CONTROLLING
+  # with ownership_percentage OMITTED. This is the load-bearing edge for the
+  # classification and is, in part, an INFERENCE FROM DOCUMENTED ABSENCE: sources
+  # consistently present the channel as her own channel and business, and NO
+  # source found reports any external owner, investor, or acquirer of the CHANNEL.
+  # No explicit "Moriah Elizabeth owns 100% of the channel" statement or corporate
+  # filing was located, so no percentage is asserted. confidence 0.7. Flagged —
+  # see notes (3).
+  - subject: moriah
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Moriah Elizabeth is the channel's principal on-camera host/creator.
+  # Distinct from the ownership edge. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: moriah
+    confidence: 0.9
+    status: ACTIVE
+
+  # 3: CONTEXT ONLY — Moriah Elizabeth co-founded the SEPARATE digital-art startup
+  # Spark. FinSMEs: "Co-founded by Laura Mae Brown (CEO) and Moriah Elizabeth,
+  # Spark provides a digital space for creative experimentation [...]." Widely
+  # reported as founded in 2021; day/month precision not established, so
+  # effective_from is omitted rather than guessed. This edge is OUTBOUND from the
+  # channel's perspective (Spark is neither an owner nor an asset of the channel)
+  # and does NOT enter the channel's ownership chain. It exists only to type Spark
+  # precisely and to locate the documented Spark investors OUTSIDE the channel's
+  # chain (see notes).
+  - subject: spark
+    type: FOUNDED_BY
+    object: moriah
+    confidence: 0.85
+    status: ACTIVE
+
+sources:
+  - ref: tubefilter_nightmedia
+    url: https://www.tubefilter.com/2020/09/02/night-media-youtube-artist-moriah-elizabeth/
+    title: >-
+      Night Media Signs YouTube Artist Moriah Elizabeth And Her 60 Million
+      Monthly Views (Exclusive)
+    publisher: Tubefilter
+    published_at: 2020-09-02
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Moriah Elizabeth wears many hats: YouTuber, graphic designer, crafter,
+      squishie enthusiast... But the one that got her signed with Night Media is
+      entrepreneur. Elizabeth [...] is the latest creator to join the management
+      company's roster [alongside] MrBeast [and] ZHC. [She has published] Create
+      This Book [and] numerous more products. [Her channel] has been her
+      full-time work since 2018.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+  - ref: wikidata_moriah
+    url: https://www.wikidata.org/wiki/Q106812834
+    title: Moriah Elizabeth (Q106812834)
+    publisher: Wikidata
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      YouTube channel ID UCYAB7hh1ohA8-iX54EpMdeA; start time 25 August 2010;
+      occupation YouTuber, artist; official website moriahelizabeth.com.
+    supports:
+      - relationship: 0
+
+  - ref: finsmes_spark
+    url: https://www.finsmes.com/2022/11/spark-raises-2-5m-in-seed-funding.html
+    title: Spark Raises $2.5M in Seed Funding
+    publisher: FinSMEs
+    published_at: 2022-11-14
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Spark, a Los Angeles, CA-based provider of a digital art app, raised $2.5M
+      in Seed funding. The round was led by Konvoy, with participation from Long
+      Journey. Co-founded by Laura Mae Brown (CEO) and Moriah Elizabeth, Spark
+      provides a digital space for creative experimentation, expression and
+      design, all with wellbeing at its core.
+    supports:
+      - relationship: 3
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >-
+    DRAFT for human review — "independent, creator-owned single-creator channel"
+    case (US art/craft creator), with a merch/publishing commerce business kept
+    in context and an adjacent (and deliberately excluded) creator-co-founded
+    startup that has outside VC investors. Requires human verification before
+    publication.
+
+    CHANNEL ID: UCYAB7hh1ohA8-iX54EpMdeA, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@MoriahElizabeth (curl fetch,
+    no JS execution), captured adjacent to "canonicalBaseUrl":"/@MoriahElizabeth"
+    and corroborated by the Wikidata record. Reviewer should confirm against the
+    live channel.
+
+    EXPECTED COMPUTED CLASSIFICATION: CREATOR_OWNED. The channel's only
+    owner/controller is the CREATOR herself (rel 1), with no company, firm, or
+    external investor anywhere in the channel's ownership chain. No PE-label
+    evidence rule is engaged for the channel: there is no PRIVATE_EQUITY_FIRM or
+    PORTFOLIO_COMPANY_OF edge in the record. Confirm the computed label at import.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) NO EN.WIKIPEDIA ARTICLE was located for Moriah Elizabeth (only Fandom
+    wikis and SEO bio sites, which are Tier 3/4 and not used as load-bearing
+    evidence). The strongest captured sources are Tubefilter (creator-economy
+    trade publication, Tier 2) and Wikidata (Tier 2). archive_urls should be
+    captured at review.
+    (2) FOUNDING DATE / WIKIDATA CAVEAT: rel 0 effective_from 2010-08-25 is the
+    channel "start time" per Wikidata (Q106812834). Wikidata is community-editable;
+    a reviewer wanting firmer corroboration can confirm against the channel's own
+    YouTube "About"/"Joined" date (requires JS-rendered page) or a Tier 1/2
+    primary source. Several bio sites report the same 25 August 2010 date and note
+    regular uploads began ~2012 and the breakout "Squishy Makeover" format from
+    2016 — a reviewer may prefer to characterize a later date as the effective
+    start of the channel's current activity.
+    (3) OWNERSHIP EDGE (rel 1) is the reviewer's primary focus. It is recorded
+    OWNS + CONTROLLING with NO percentage. This is partly an INFERENCE FROM
+    DOCUMENTED ABSENCE — every source presents the channel as Moriah Elizabeth's
+    own channel and business, and none reports any external owner/investor/acquirer
+    OF THE CHANNEL — rather than from an explicit ownership statement or corporate
+    filing. Confidence 0.7 reflects that. No percentage was guessed. If the
+    reviewer requires a positive primary source of channel ownership (e.g. a
+    registered operating entity / loan-out company), that is a Tier 1
+    corroboration lead.
+    (4) MERCH / BOOKS BUSINESS IS COMMERCE, NOT CHANNEL OWNERSHIP. Per Tubefilter,
+    she publishes the "Create This Book" series and sells apparel, enamel pins,
+    die-cut stickers, etc. (store at moriahelizabeth.com). This is a
+    creator-operated commerce line that sits WITH HER; it is not a party that owns
+    or controls the channel and creates no inbound ownership edge. NO reliably
+    sourced legal operating-company name (for the merch line or a studio/loan-out)
+    was found — low-quality/SEO sources only — so NO company entity or
+    company-ownership edge is modeled. If a reviewer confirms a formal operating
+    company (name, jurisdiction, founding date) via a primary source, the model
+    should move to a creator-controlled-company shape (creator OWNS/PARTIALLY_OWNS
+    the company; company OWNS the channel), which would still compute CREATOR_OWNED.
+    (5) SPARK IS NOT THE CHANNEL — the central distinction this record encodes
+    (parallel to the emma-chamberlain / Chamberlain Coffee case). Spark (aka Spark
+    Creative Play) is a SEPARATE Los Angeles digital-art startup Moriah Elizabeth
+    CO-founded (widely reported as founded 2021) with Laura Mae Brown (CEO, ex-EA/
+    Riot Games/Amazon). Per FinSMEs (2022-11-14), Spark "raised $2.5M in Seed
+    funding[;] the round was led by Konvoy, with participation from Long Journey."
+    Those investors invest in SPARK, NOT the YouTube channel. They are therefore
+    DELIBERATELY NOT modeled as relationships and Konvoy/Long Journey are
+    DELIBERATELY NOT declared as entities: doing so would (a) risk implying,
+    incorrectly, that the channel is investor-backed, and (b) drag an
+    investment-implying edge into a record whose subject is the channel. Spark
+    appears only as a contextual COMPANY node with a single FOUNDED_BY edge
+    (rel 3) to anchor the distinction; it is out of the channel's ownership chain.
+    If a reviewer later wants Spark's cap table modeled, it belongs in a SEPARATE
+    record about Spark, typed precisely, and would still have no bearing on this
+    channel's CREATOR_OWNED classification.
+    (6) TALENT-MANAGEMENT REPRESENTATION IS NOT OWNERSHIP. Per Tubefilter, Moriah
+    Elizabeth signed with management company Night Media in 2020 (represented by
+    Michael Gordon; Night Media's roster includes MrBeast, ZHC). Management/
+    representation is NOT ownership or control of the channel, so — consistent with
+    the emma-chamberlain (UTA) and other solo-creator records — Night Media is NOT
+    declared as an entity and NO representation/ownership edge is modeled against
+    the channel. Noted here for context only.
+    (7) NO EXTERNAL INVESTMENT / ACQUISITION OF THE CHANNEL found. All documented
+    outside capital relates to Spark (see (5)), not the channel, so it creates no
+    inbound ownership edge on the channel. Legal-safe/neutral: the record asserts
+    only her own channel ownership/hosting; no conclusion is drawn about editorial
+    control, and financial ownership / operational control / creative influence are
+    kept distinct (legal-risk policy §2).
+    (8) PRIVACY: only publicly self-disclosed / widely published professional
+    details are recorded (creator identity, channel, co-founded company). No home
+    address, family details, personal contact info, or speculative wealth figures
+    are included, per evidence-policy §5, even though SEO bio sites surface some of
+    those.
+    (9) SOURCES: tubefilter_nightmedia and wikidata_moriah are Tier 2; finsmes_spark
+    is Tier 2 and is cited ONLY for the contextual Spark-founding edge (rel 3) — it
+    is NOT evidence about the channel's ownership. The load-bearing channel-
+    ownership edge (rel 1) rests on the Tier 2 Tubefilter source plus inference from
+    documented absence; NO Tier 1 primary source (business registry filing or a
+    direct on-the-record ownership statement) of the channel's ownership was
+    captured — a lead for a reviewer wanting Tier 1 corroboration. archive_urls
+    should be captured at review.
+  last_reviewed_at: 2026-07-23

@@ -1,0 +1,190 @@
+# CHANNELWATCH research record — Internet Historian
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: independent, creator-owned single-creator channel run by a
+# PSEUDONYMOUS creator known only as "Internet Historian" (documentary-style
+# videos about internet culture and events). The creator has NOT publicly
+# self-disclosed a legal identity; a purported real name circulates on fan
+# wikis but is unverified and doxxing-adjacent, so it is deliberately NOT
+# recorded here (see privacy note). No company, management firm, media network,
+# or external investor was found to own or to have acquired the channel.
+# Expected computed classification: CREATOR_OWNED (see notes for the
+# OWNERSHIP_UNCLEAR alternative a reviewer may prefer).
+
+channel:
+  # Extracted from the sole "externalId" field in the raw HTML of
+  # https://www.youtube.com/@InternetHistorian (curl fetch, no JS execution),
+  # corroborated by the page's own
+  # <link rel="canonical" href="https://www.youtube.com/channel/UCR1D15p_vdP3HkrH8wgjQRw">.
+  youtube_channel_id: UCR1D15p_vdP3HkrH8wgjQRw
+  display_name: Internet Historian
+  handle: "@InternetHistorian"
+
+entities:
+  - slug: internet_historian
+    canonical_name: Internet Historian
+    entity_type: CREATOR
+    # legal_name intentionally OMITTED. The creator is pseudonymous and has NOT
+    # publicly self-disclosed a legal identity. A purported real name appears on
+    # fan wikis (Fandom/TV Tropes/Grokipedia) and blogs only — all Tier 4,
+    # unverified, and doxxing-adjacent — so recording it is barred by
+    # docs/evidence-policy.md §5 and §4 (Tier 4 leads-only). No birth date is
+    # recorded either (the creator has stated the widely-circulated date is a
+    # fake he supplied). No location/family is recorded (not ownership-relevant).
+    aliases:
+      - Dr. Harold # on-screen persona / Hide the Pain Harold host avatar; NOT an identity claim
+
+relationships:
+  # 0: The channel was founded by the Internet Historian creator. effective_from
+  # is the documented channel-creation ("Joined") date, 2017-01-01, read from the
+  # channel's own About page raw HTML ("joinedDateText":"Joined Jan 1, 2017").
+  # The first video was uploaded 2017-01-09 (see source kym_person / notes).
+  - subject: channel
+    type: FOUNDED_BY
+    object: internet_historian
+    effective_from: 2017-01-01
+    confidence: 0.8
+    status: ACTIVE
+
+  # 1: The creator owns/controls the channel. Recorded OWNS + CONTROLLING with
+  # ownership_percentage OMITTED. This is the load-bearing edge for the
+  # classification and is, in part, an INFERENCE FROM DOCUMENTED ABSENCE: sources
+  # consistently present the channel as the creator's own independent operation,
+  # and NO source found reports any external owner, investor, acquirer, network,
+  # or management company for the channel. No explicit "the creator owns 100% of
+  # the channel" statement or corporate filing was located, so no percentage is
+  # asserted and confidence is held modest. Flagged for reviewer — see notes (2).
+  - subject: internet_historian
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.6
+    status: ACTIVE
+
+  # 2: The creator is the channel's principal author, narrator, and host.
+  # Distinct from the ownership edge; well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: internet_historian
+    confidence: 0.85
+    status: ACTIVE
+
+sources:
+  - ref: kym_person
+    url: https://knowyourmeme.com/memes/people/internet-historian
+    title: Internet Historian
+    publisher: Know Your Meme
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "Internet Historian is a YouTuber who creates and narrates educational
+      videos explaining various events in internet history, which typically use
+      photographs of Hide the Pain Harold to represent the host of the
+      episodes." "On January 9th, 2017, Internet Historian uploaded the
+      channel's first video to YouTube, which discussed the 4chan prank
+      involving attempts to preorder the video game Battletoads from the
+      retailer Gamestop."
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+  - ref: kym_interview
+    url: https://knowyourmeme.com/editorials/interviews/internet-historian-gives-us-the-full-history-of-his-career-as-an-online-chronicler-and-the-tragic-tale-of-his-lost-neopet
+    title: >-
+      Internet Historian Gives Us The Full History Of His Career As An Online
+      Chronicler And The Tragic Tale Of His Lost Neopet
+    publisher: Know Your Meme
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "At the beginning of 2017, you launched your YouTube channel and released
+      your first video shortly after." The interview presents Internet
+      Historian throughout as an independent creator running his own operation
+      ("we have free soda in the office"); it names no company, network,
+      manager, or investor as owning or having acquired his channel.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+review:
+  researched_by: akashyap@cybastiontech.com
+  notes: >-
+    DRAFT for human review — "independent, creator-owned single-creator channel"
+    case, structurally the same shape as dream.yaml. Computed classification is
+    expected to be CREATOR_OWNED: the channel's only owner/controller is the
+    CREATOR himself (rel 1, OWNS + CONTROLLING) plus FOUNDED_BY (rel 0), with no
+    company, network, firm, or external investor anywhere in the chain. No
+    PE-label evidence rule is engaged (no PRIVATE_EQUITY_FIRM or
+    PORTFOLIO_COMPANY_OF edge). No OWNERSHIP_CHANGED warning expected (the single
+    OWNS edge is continuous from the 2017 founding; no ENDED ownership edge
+    exists).
+
+    CHANNEL ID: UCR1D15p_vdP3HkrH8wgjQRw, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@InternetHistorian (curl
+    fetch, no JS), corroborated by the page's own <link rel="canonical"
+    href="https://www.youtube.com/channel/UCR1D15p_vdP3HkrH8wgjQRw">.
+
+    PRIVACY HANDLING (docs/evidence-policy.md §5, §4) — PARAMOUNT here: the
+    creator is PSEUDONYMOUS and has NOT publicly self-disclosed a legal identity.
+    A purported real name is repeated on fan wikis (Fandom, TV Tropes,
+    Grokipedia) and SEO blogs, but that is Tier 4 (leads-only), unsourced to any
+    self-disclosure, and doxxing-adjacent — it is DELIBERATELY EXCLUDED and
+    legal_name is omitted rather than guessed. Also excluded: birth date (the
+    creator has said the widely-circulated April 20, 1989 date is a fake he
+    supplied to a celebrity-facts site), residence/location (commonly reported as
+    New Zealand, and separately Australia, on fan wikis only — unverified, not
+    ownership-relevant, so OMITTED per the "verify or omit" instruction), and
+    family details (a spouse is referenced in the interview but is not
+    ownership-relevant and is out of scope). Framing is strictly neutral: this
+    record describes channel ownership/hosting only.
+
+    OUT OF SCOPE / NEUTRALITY: a Dec 2023 plagiarism dispute (raised in
+    Hbomberguy's video re the "Man in Cave" video) received coverage. It concerns
+    content sourcing, NOT channel ownership, and per docs/legal-risk.md is not
+    modeled and implies no wrongdoing here; noted only so a reviewer knows it was
+    considered and excluded as ownership-irrelevant.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) FOUNDING DATE: rel 0 effective_from 2017-01-01 is the documented channel
+    "Joined" date from the About page raw HTML. The first public upload was
+    2017-01-09 (Know Your Meme). A reviewer may prefer 2017-01-09 as the
+    effective activity start.
+    (2) OWNERSHIP EDGE (rel 1) is the reviewer's primary focus. Recorded OWNS +
+    CONTROLLING with NO percentage and modest confidence (0.6). This is partly an
+    inference from DOCUMENTED ABSENCE — every source presents the channel as the
+    creator's own independent operation and none reports any external
+    owner/investor/acquirer/network/manager — rather than from an explicit
+    ownership statement or corporate filing. No percentage was guessed. If a
+    reviewer rejects the documented-absence inference and drops rel 1, the
+    remaining FOUNDED_BY + HOSTED_BY edges may compute OWNERSHIP_UNCLEAR instead
+    of CREATOR_OWNED; that would be an honest outcome given the pseudonymity. A
+    direct on-the-record ownership statement, or a business-registry filing for a
+    formal operating company, would be a Tier 1 corroboration lead.
+    (3) CORPORATE / NETWORK CHECK (requested): NO entity that owns the channel was
+    found. Specifically:
+    - No management company, MCN, or media network was found to own or manage the
+      channel. The creator monetizes via Patreon (patreon.com/internethistorian)
+      and in-video sponsorships; a Patreon/sponsorship relationship is a funding
+      arrangement, NOT channel ownership, and is not modeled.
+    - NEBULA: Internet Historian has been popularly associated with Nebula (a
+      creator-collective streaming platform operated by Standard, in which
+      creators collectively hold equity). This could NOT be reliably confirmed for
+      this creator from the sources gathered, and in any case platform
+      membership/distribution is NOT ownership of the YouTube channel — so it is
+      not modeled. If a reviewer confirms a current Nebula relationship via a
+      primary source, model it as DISTRIBUTED_BY (platform), which does not change
+      the CREATOR_OWNED outcome for the YouTube channel.
+    - A secondary channel, "Internet Historian: Incognito Mode," exists; it is a
+      separate channel and is out of scope for this record.
+    (4) EXTERNAL INVESTMENT / ACQUISITION: none of the channel was found.
+    (5) SOURCES: both are Tier 2 (ESTABLISHED_INDUSTRY_PUBLICATION), but from the
+    SAME publisher (Know Your Meme). No PE-label rule (which would require
+    independent publishers) is engaged, so this is acceptable for a
+    non-PE record; however a reviewer wanting stronger corroboration should seek a
+    second INDEPENDENT reputable publisher or a Tier 1 primary source (a direct
+    creator ownership statement or a business-registry filing). No Tier 3/4 source
+    is used to support any published edge.
+  last_reviewed_at: 2026-07-23
