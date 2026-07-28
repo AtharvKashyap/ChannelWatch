@@ -1,0 +1,77 @@
+# Render Blueprint — CHANNELWATCH API (services/api)
+# =============================================================================
+# Deploys the Hono/Node API as a Render FREE-plan web service, monorepo-aware.
+#
+# WHY NATIVE NODE RUNTIME (not a Dockerfile):
+#   A pnpm workspace monorepo deploys most reliably on Render's native Node
+#   runtime. Render clones the whole repo, so the pnpm workspace (root
+#   pnpm-lock.yaml + workspace:* links) resolves exactly as it does locally;
+#   `turbo run build --filter=@channelwatch/api` builds the API AND its three
+#   workspace deps (schemas/scoring/graph) via turbo's `^build` edge, and the
+#   built dist/ + symlinked node_modules run directly with `node`.
+#   A Dockerfile using `pnpm deploy --filter` to prune a production image is the
+#   usual alternative, but on a monorepo with `workspace:*` deps it is fiddly
+#   (injected-dep hoisting, needing the built dist inside the pruned store) and
+#   on Render Free it also burns limited build minutes on image builds. The
+#   native runtime avoids all of that. If a pruned image is ever required, add
+#   services/api/Dockerfile and switch `runtime: docker` + `dockerfilePath`.
+#
+# FREE-PLAN CAVEAT (documented for the operator, see docs/launch-runbook.md):
+#   The free web service SLEEPS after ~15 min idle and cold-starts in ~30-60s on
+#   the next request. The extension is fail-silent and caches with TTLs, so a
+#   cold start shows a blank/absent badge on the first hit, not a broken page.
+# =============================================================================
+
+services:
+  - type: web
+    name: channelwatch-api
+    runtime: node
+    plan: free
+    region: oregon # free tier; change if you prefer another free region
+    branch: main # the branch Render auto-deploys; adjust to your default branch
+    rootDir: . # keep the repo root so the pnpm workspace resolves
+    autoDeploy: false # deploy on demand from the dashboard until you trust it
+
+    # Monorepo-aware build: pinned pnpm 9 via npx (no global install / corepack
+    # needed), frozen install, then a turbo filtered build that also compiles the
+    # API's workspace dependencies (schemas, scoring, graph) first.
+    buildCommand: >-
+      npx pnpm@9 install --frozen-lockfile &&
+      npx pnpm@9 exec turbo run build --filter=@channelwatch/api
+
+    # Render injects $PORT; the server reads API_PORT (services/api/src/server.ts),
+    # so map one to the other. cd into the package so Node resolves the workspace
+    # symlinks in services/api/node_modules. @hono/node-server binds 0.0.0.0.
+    startCommand: cd services/api && API_PORT=$PORT node dist/server.js
+
+    healthCheckPath: /healthz
+
+    envVars:
+      # Pin the Node major used for the reproducible toolchain (see
+      # docs/reproducible-build.md). Node 20.x.
+      - key: NODE_VERSION
+        value: "20.12.1"
+
+      # ---- application config (safe to commit) ----
+      # Durable rate-limit store (survives restarts / the free-plan sleep) —
+      # uses rate_limit_counters from migration 0002.
+      - key: RATE_LIMIT_STORE
+        value: postgres
+      # Structured JSON request logging (no IPs / user identifiers — PRIVACY.md).
+      - key: REQUEST_LOG
+        value: "on"
+      # Coarse abuse counters at the reviewer-guarded /api/v1/reviewer/metrics.
+      - key: ABUSE_METRICS
+        value: "on"
+
+      # ---- secrets (set in the Render dashboard; never committed) ----
+      # Neon Postgres connection string. Use the POOLED connection string here
+      # (…-pooler.<region>.aws.neon.tech) with ?sslmode=require — postgres-js
+      # reads sslmode from the URL, so no code change is needed for TLS.
+      - key: DATABASE_URL
+        sync: false
+      # Exact public origin of the Vercel web app, e.g.
+      # https://channelwatch-web.vercel.app — CORS admits this origin with
+      # credentials for the /review console. A single origin, never "*".
+      - key: WEB_ORIGIN
+        sync: false
