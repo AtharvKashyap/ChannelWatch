@@ -1,0 +1,290 @@
+# CHANNELWATCH research record — Real Engineering (Brian McManus)
+#
+# DRAFT for human review. Nothing here is published without verification.
+# Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: creator-founded, creator-owned engineering/education channel. Real
+# Engineering is Brian (James) McManus's flagship YouTube channel; he created it,
+# is its sole documented principal, and narrates it. The channel's video
+# production is carried out by his Galway (Ireland) production company Junto Media
+# Ltd; McManus also runs an animation studio, Throttle Media. No external
+# acquisition of, or equity investment IN, the Real Engineering CHANNEL was
+# found.
+#
+# CRITICAL DISTINCTION this record encodes (same pattern as
+# wendover-productions.yaml): McManus co-founded the creator-owned STREAMING
+# PLATFORM Nebula. That platform affiliation is modelled as an OUTBOUND edge from
+# Nebula to McManus (Nebula FOUNDED_BY McManus) that terminates at Nebula — it
+# places no owner ABOVE the channel. Platform equity in Nebula is NOT ownership
+# of this YouTube channel. He is also reported to co-own the talent/ad-sales
+# company Standard (Standard Broadcast LLC), but that rests only on unfetched
+# secondary reporting and is intentionally left out of the edges (see notes).
+# The channel's only owner recorded is the creator himself. Expected computed
+# classification: CREATOR_OWNED.
+
+channel:
+  # Extracted from the sole "externalId" field embedded in the raw HTML of
+  # https://www.youtube.com/@RealEngineering (curl fetch, no JS execution): the
+  # page source contains exactly one "externalId":"UCR1IuLEqb6UEA_zQ81kwXfg".
+  # The dominant canonicalBaseUrl on the page is "/@RealEngineering" (181
+  # occurrences) and the vanityChannelUrl is
+  # "http://www.youtube.com/@RealEngineering", confirming the id belongs to this
+  # handle.
+  youtube_channel_id: UCR1IuLEqb6UEA_zQ81kwXfg
+  display_name: Real Engineering
+  handle: "@RealEngineering"
+
+entities:
+  - slug: mcmanus
+    canonical_name: Brian McManus
+    entity_type: CREATOR
+    aliases:
+      - Real Engineering
+      - Brian James McManus
+
+  - slug: junto_media
+    # McManus's Galway video-production company that publicly states it produces
+    # the Real Engineering channel. Recorded COMPANY. Not primary-verified against
+    # the Irish CRO (blocked) — see notes.
+    canonical_name: Junto Media Ltd
+    entity_type: COMPANY
+    legal_name: Junto Media Ltd
+    jurisdiction: IE
+    aliases:
+      - Junto Media
+
+  - slug: throttle_media
+    # The animation studio McManus "runs" per Wikipedia (animation production /
+    # science-communication services to engineering companies). Distinct from
+    # Junto Media; recorded COMPANY. Not primary-verified — see notes.
+    canonical_name: Throttle Media
+    entity_type: COMPANY
+    jurisdiction: IE
+    aliases:
+      - Throttle Media
+
+  - slug: nebula
+    # The creator-owned subscription streaming platform McManus co-founded. Typed
+    # MEDIA_NETWORK, NOT part of this channel's ownership chain — see header +
+    # notes. Slug/canonical_name/type reused VERBATIM from
+    # wendover-productions.yaml for cross-record entity resolution.
+    canonical_name: Nebula
+    entity_type: MEDIA_NETWORK
+    website: https://nebula.tv
+    aliases:
+      - Nebula Media Group
+      - Watch Nebula
+
+relationships:
+  # 0: Channel founded by Brian McManus. The Real Engineering YouTube channel's
+  # own About page reports "Joined Sep 11, 2013"; effective_from is that channel
+  # creation date. (Secondary sources describe McManus going full-time on the
+  # channel in 2016 — that is a career milestone, not the channel creation date.)
+  - subject: channel
+    type: FOUNDED_BY
+    object: mcmanus
+    effective_from: 2013-09-11
+    confidence: 0.9
+    status: ACTIVE
+
+  # 1: Brian McManus owns/controls the channel. Recorded OWNS + CONTROLLING with
+  # ownership_percentage OMITTED. This is the load-bearing edge for the
+  # classification and is partly an INFERENCE FROM DOCUMENTED ABSENCE: every
+  # source presents Real Engineering as McManus's own channel and NONE reports any
+  # external owner, investor, or acquirer of the CHANNEL itself. No explicit
+  # shareholding disclosure or corporate filing was located, so no percentage is
+  # asserted. Confidence 0.7. Flagged (notes).
+  - subject: mcmanus
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Brian McManus is the channel's principal creator and narrator. Distinct
+  # from the ownership edge. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: mcmanus
+    confidence: 0.85
+    status: ACTIVE
+
+  # 3: The channel's video production is carried out by Junto Media Ltd (Galway),
+  # per the company's own LinkedIn page: "Junto Media produces the popular 'Real
+  # Engineering' YouTube Channel". Recorded OPERATES + MANAGEMENT: a
+  # production/operational relationship, NOT a disclosed equity holding in the
+  # channel. No operative start date for the production relationship is
+  # documented (the company's LinkedIn "Founded 2017" post-dates the 2013 channel
+  # creation), so effective_from is OMITTED. Confidence 0.6. Flagged (notes).
+  - subject: junto_media
+    type: OPERATES
+    object: channel
+    control_level: MANAGEMENT
+    confidence: 0.6
+    status: ACTIVE
+
+  # 4: McManus runs the animation studio Throttle Media (Wikipedia: "runs an
+  # animation studio, Throttle Media, which provides animation production and
+  # science communication services to engineering companies"). Recorded
+  # FOUNDED_BY (subject: throttle_media) as the closest typed edge for a studio he
+  # runs; Wikipedia's wording is "runs", not literally "founded" — flagged. This
+  # is McManus's own company; it does NOT place any owner above the channel.
+  - subject: throttle_media
+    type: FOUNDED_BY
+    object: mcmanus
+    confidence: 0.65
+    status: ACTIVE
+
+  # 5: Brian McManus co-founded the Nebula streaming platform (Wikipedia: "He
+  # co-founded the creator-owned video platform Nebula"). Recorded FOUNDED_BY as
+  # an OUTBOUND edge from Nebula to McManus — it terminates at Nebula and does NOT
+  # make Nebula an owner of this channel. Platform equity != channel ownership.
+  # No ownership percentage / stake is asserted (Wikipedia says "co-founded", not
+  # a disclosed shareholding). OUTSIDE the channel ownership chain.
+  - subject: nebula
+    type: FOUNDED_BY
+    object: mcmanus
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_mcmanus
+    url: https://en.wikipedia.org/wiki/Brian_McManus_(YouTuber)
+    title: Brian McManus (YouTuber)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Brian James McManus is an Irish YouTuber, born in Galway, Ireland, who
+      currently lives in Texas. He taught himself animation in 2013 and has
+      worked full-time on the channel since 2016, with production based in west
+      Ireland. He runs an animation studio, Throttle Media, which provides
+      animation production and science communication services to engineering
+      companies. He co-founded the creator-owned video platform Nebula.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 4
+      - relationship: 5
+
+  - ref: youtube_channel_page
+    url: https://www.youtube.com/@RealEngineering/about
+    title: Real Engineering — YouTube channel (About)
+    publisher: YouTube (channel self-page)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Raw HTML (curl, no JS) of the channel page contains exactly one
+      "externalId":"UCR1IuLEqb6UEA_zQ81kwXfg"; the vanityChannelUrl is
+      "http://www.youtube.com/@RealEngineering" and 181 canonicalBaseUrl entries
+      are "/@RealEngineering". The About page reports
+      "joinedDateText":{"content":"Joined Sep 11, 2013"}.
+    supports:
+      - relationship: 0
+
+  - ref: junto_media_linkedin
+    url: https://ie.linkedin.com/company/junto-media-ltd
+    title: Junto Media Ltd | LinkedIn
+    publisher: Junto Media Ltd (LinkedIn company page)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Junto Media Ltd company page: headquarters "Galway"; "Junto Media produces
+      the popular 'Real Engineering' YouTube Channel, which has gained over half
+      a million subscribers"; "Junto Media is one [of] Ireland's fastest growing
+      online video production companies"; company size "2-10 employees"; Founded
+      2017; industry "Media Production" / "film production".
+    supports:
+      - relationship: 3
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted: this is an unverified DRAFT (schema treats
+  # reviewed_by as an optional string; null is not a valid value, so the field is
+  # left unset rather than populated).
+  last_reviewed_at: 2026-07-28
+  notes: >-
+    DRAFT for human review — "independent, creator-owned channel" case. No
+    external acquisition or equity investment IN the channel was found; the
+    record asserts no PE/corporate ownership. Absence of a documented investor is
+    recorded as an absence, not as an affirmative "verified independent" claim.
+
+    CHANNEL ID: UCR1IuLEqb6UEA_zQ81kwXfg, extracted from the externalId field in
+    the raw HTML of https://www.youtube.com/@RealEngineering (curl fetch, no JS
+    execution). Exactly one externalId is present; the dominant canonicalBaseUrl
+    is "/@RealEngineering" (181 occurrences) and the vanityChannelUrl is
+    "http://www.youtube.com/@RealEngineering", confirming the id belongs to this
+    handle.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) OWNER EDGE (rel 1, mcmanus OWNS channel) rests on the fact that McManus is
+    the sole documented public creator/principal of Real Engineering plus the
+    absence of any reported external owner. No source discloses a share register,
+    so control_level is CONTROLLING (documented sole-creator control) but no
+    ownership_percentage is asserted and confidence is held at 0.7. Reviewer
+    should confirm whether McManus holds the channel directly or via a company
+    (Junto Media / Throttle Media).
+    (2) OPERATING COMPANY — SOURCE STRENGTH. The Junto Media -> channel OPERATES
+    edge rests on Junto Media Ltd's OWN LinkedIn company page ("Junto Media
+    produces the popular 'Real Engineering' YouTube Channel"). Classified
+    DIRECT_CREATOR_CONFIRMATION (Tier 1) as a company self-disclosure, but a
+    LinkedIn page is weaker than a registry filing — flagged. The Irish CRO
+    (core.cro.ie) and OpenCorporates were NOT retrievable to automated fetch
+    (CRO returned HTTP 403 / Cloudflare; OpenCorporates behind a CAPTCHA), so
+    Junto Media Ltd's company number, incorporation date, directors and
+    shareholders were NOT primary-verified. A reviewer with CRO access should
+    confirm the entity, its principals, and its exact relationship to the channel,
+    then add a CORPORATE_REGISTRY_RECORD (Tier 1) source. Confidence held at 0.6.
+    (3) JUNTO vs THROTTLE. Two McManus-associated companies appear: Junto Media
+    (Galway; its LinkedIn says it produces Real Engineering) and Throttle Media
+    (Wikipedia: an animation studio McManus "runs", serving engineering-company
+    clients). They are modelled as distinct entities. Secondary reporting
+    (borntoengineer / becomeviral) that states McManus "established" Junto Media
+    could NOT be fetched (HTTP 403 / no matching text on retrieval), so NO
+    junto_media FOUNDED_BY mcmanus edge is asserted — only the LinkedIn-backed
+    OPERATES edge. The throttle_media FOUNDED_BY edge (rel 4) uses Wikipedia's
+    "runs" wording as the closest support; reviewer should confirm founder/owner
+    status and each company's jurisdiction (set to IE on the "production based in
+    west Ireland" / Galway basis; not registry-confirmed).
+    (4) NEBULA = PLATFORM AFFILIATION, NOT CHANNEL OWNERSHIP. Wikipedia states
+    McManus "co-founded the creator-owned video platform Nebula." This is recorded
+    as an OUTBOUND edge (nebula FOUNDED_BY mcmanus, rel 5) that terminates at
+    Nebula; it does NOT put Nebula above the channel and does not affect the
+    channel's classification. No Nebula ownership percentage / stake is asserted
+    (Wikipedia says "co-founded", not a disclosed shareholding). The nebula
+    entity (slug, canonical_name "Nebula", entity_type MEDIA_NETWORK, website,
+    aliases) is reused VERBATIM from wendover-productions.yaml so the two records
+    resolve to the same platform node.
+    (5) STANDARD (Standard Broadcast LLC) DELIBERATELY OMITTED FROM EDGES.
+    Secondary reporting (a Medium article; search snippets) states McManus
+    co-owns the talent/ad-sales company Standard alongside Dave Wiskus and others,
+    and wendover-productions.yaml declares a `standard_broadcast` entity. Because
+    that co-ownership rests only on UNFETCHED secondary sources here, no Standard
+    entity or edge is recorded in this file (evidence-first). If a reviewer
+    verifies it, reuse wendover's `standard_broadcast` slug / "Standard Broadcast
+    LLC" canonical_name VERBATIM and model it as an OUTBOUND stake from McManus
+    (mcmanus PARTIALLY_OWNS standard_broadcast) — outside the channel chain.
+    (6) DATES. FOUNDED_BY (rel 0) effective_from 2013-09-11 is the YouTube channel
+    creation date ("Joined Sep 11, 2013" on the channel About page). The 2016
+    "full-time" milestone reported by secondary sources is NOT used as the
+    channel creation date. The OPERATES edge (rel 3) carries no effective_from
+    because no operative start date for Junto Media's production of the channel is
+    documented (its LinkedIn "Founded 2017" post-dates the channel).
+    (7) SOURCE-TYPE MAPPING. Wikipedia -> ESTABLISHED_INDUSTRY_PUBLICATION
+    (Tier 2). The channel's own YouTube About page and Junto Media's own LinkedIn
+    company page are self-published official-ish pages; the SourceType enum has no
+    dedicated "official platform/company page" member, so DIRECT_CREATOR_CONFIRMATION
+    (the closest Tier 1 "official statement" type) was used for both, with the
+    LinkedIn-vs-registry weakness flagged in (2). No Tier 1 corporate-registry
+    disclosure of ownership structure was located.
+
+    PROPOSED CLASSIFICATION (computed by importer, not asserted here): expected
+    CREATOR_OWNED (GREEN) — created, owned/controlled and narrated by Brian
+    McManus, with video production run through his own Galway company (Junto
+    Media) and no external equity owner or acquirer of the channel found. His
+    Nebula co-founder role is an outbound platform affiliation that does not place
+    an owner above the channel. Confidence moderate: the owner edge rests on
+    sole-creator inference plus documented absence, and the operating company
+    rests on a company self-disclosure pending primary-registry (Irish CRO)
+    verification.

@@ -1,0 +1,202 @@
+# CHANNELWATCH research record — Aphmau (Jessica Bravura)
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: creator-owned gaming (Minecraft roleplay) channel operated through the
+# creator's OWN production company, with an external TALENT-MANAGEMENT firm that
+# REPRESENTS the creator (NOT ownership). This is the same ownership-vs-
+# representation pattern encoded in ryans-world.yaml and kids-diana-show.yaml.
+# The central factual distinction this record encodes:
+#
+#   channel (Aphmau)
+#     ├─ FOUNDED_BY ───────── Jessica Bravura (creator; content began 2012)
+#     ├─ OWNS ─────────────── Jessica Bravura ── Catface (her own production co.)
+#     ├─ OPERATES ─────────── Catface (Bravura's production company, est. 2019)
+#     └─ REPRESENTS (mgmt) ── Night Media (talent management, from June 2021) —
+#                             a representative, NOT an owner of the channel
+#
+# Night Media's role is talent management/representation; NO fetched source states
+# it owns the channel. Merchandise (MeeMeows / Bonkers Toys) and any creator-
+# capital/back-catalogue licensing are COMMERCE, not ownership — see review.notes.
+
+channel:
+  # Canonical externalId extracted from the raw HTML of
+  # https://www.youtube.com/@Aphmau (curl fetch, no JS execution). This is the
+  # page's own "externalId" field, the record's natural key.
+  youtube_channel_id: UCzYfz8uibvnB7Yc1LjePi4g
+  display_name: Aphmau
+  handle: "@Aphmau"
+
+entities:
+  - slug: jessica_bravura
+    canonical_name: Jessica Bravura
+    entity_type: CREATOR
+    aliases:
+      - Aphmau
+      - Jess
+
+  - slug: catface
+    canonical_name: Catface
+    entity_type: COMPANY
+    jurisdiction: US-TX # "based in Austin, Texas" (Wikipedia); state of formation not verified
+    aliases:
+      - CatFace
+      - Catface Studios
+      - Aphmau Studios
+
+  - slug: night_media
+    canonical_name: Night Media
+    entity_type: COMPANY
+    aliases:
+      - Night
+      - Night Media LLC
+
+relationships:
+  # 0: Channel founded by / built around Jessica Bravura, its creator and on-screen
+  # star. Wikipedia: she "started creating Minecraft content for YouTube in 2012."
+  # A separate (weaker) source dates the channel launch to 2012-08-13; day-precision
+  # date not established from a strong source -> effective_from omitted. See notes (1).
+  - subject: channel
+    type: FOUNDED_BY
+    object: jessica_bravura
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: Jessica Bravura OWNS Catface — she "created a production company for her
+  # videos, Catface" (Wikipedia, July 2019). Recorded as a documented sole-creator
+  # owner: control_level CONTROLLING, percentage omitted (not disclosed). This is
+  # what routes creator control through the production company (→ CREATOR_OWNED).
+  # See notes (2).
+  - subject: jessica_bravura
+    type: OWNS
+    object: catface
+    control_level: CONTROLLING
+    # effective_from omitted: July 2019 documented at month precision only
+    confidence: 0.75
+    status: ACTIVE
+
+  # 2: Catface — Bravura's own production company — produces the content and
+  # operates the channel and its merchandise line (MeeMeows). control_level
+  # CONTROLLING reflects creator control via her own company; recorded as OPERATES
+  # (not OWNS of the channel) because sources state Catface is the "production
+  # company for her videos" and "manages Bravura's merchandise line," not a
+  # verbatim legal ownership instrument over the channel. Mirrors the Sunlight
+  # Entertainment / Ryan's World treatment. effective_from = Catface's July 2019
+  # creation (the channel itself pre-dates it, operated directly by Bravura from
+  # 2012). See notes (2).
+  - subject: catface
+    type: OPERATES
+    object: channel
+    control_level: CONTROLLING
+    # effective_from omitted: July 2019 documented at month precision only
+    confidence: 0.75
+    status: ACTIVE
+
+  # 3: Night Media REPRESENTS / MANAGES the creator — Wikipedia: "In June 2021,
+  # Bravura signed a deal with talent-management company Night, who at the time
+  # also represented popular creators like MrBeast and Matt Stonie." control_level
+  # MANAGEMENT. This is the ownership-vs-representation distinction the task calls
+  # out: Night is a talent-management partner, NOT an owner of the channel. No
+  # fetched source states Night owns the channel. effective_from = 2021-06-01
+  # (month documented; day guessed). See notes (3).
+  - subject: night_media
+    type: REPRESENTS
+    object: channel
+    control_level: MANAGEMENT
+    # effective_from omitted: June 2021 documented at month precision only
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_aphmau
+    url: https://en.wikipedia.org/wiki/Aphmau
+    title: Aphmau
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      [Jessica Bravura] started creating Minecraft content for YouTube in 2012.
+      [...] In July 2019, Bravura created a production company for her videos,
+      Catface, which is based in Austin, Texas. The company also manages Bravura's
+      merchandise line, MeeMeows, which manufactures plush toys of cats as well as
+      clothing and accessories. [...] In June 2021, Bravura signed a deal with
+      talent-management company Night, who at the time also represented popular
+      creators like MrBeast and Matt Stonie.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+
+review:
+  researched_by: claude-research-agent-m1
+  last_reviewed_at: 2026-07-23
+  notes: >-
+    DRAFT for human review — "creator-owned channel operated through the creator's
+    OWN production company, with an external talent-management/representation
+    relationship (NOT ownership)" case; the direct parallel to ryans-world.yaml and
+    kids-diana-show.yaml. Requires human verification before publication.
+
+    CHANNEL ID. UCzYfz8uibvnB7Yc1LjePi4g, taken from the "externalId" field in the
+    raw HTML of https://www.youtube.com/@Aphmau (curl, no JS execution). Reviewer
+    should confirm against the live channel.
+
+    OWNERSHIP vs REPRESENTATION — the core finding. Ownership/control of the
+    channel sits with the creator, Jessica Bravura, exercised through her OWN
+    production company, Catface (created July 2019, Austin TX; it also runs the
+    MeeMeows merchandise line). Night Media is a TALENT-MANAGEMENT firm that
+    REPRESENTS the creator (from June 2021) — recorded as REPRESENTS + MANAGEMENT.
+    NO fetched source states Night (or any outside party) owns the channel or
+    Catface. Reviewer: do NOT read the Night management deal, merch licensing, or
+    any creator-capital financing as a change of ownership.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) rel 0 (channel FOUNDED_BY jessica_bravura). Wikipedia dates the content to
+    2012; a weaker aggregator source gives a launch date of 2012-08-13. Day-precision
+    date not established from a strong source, so effective_from is omitted rather
+    than guessed. The channel identity is built around Bravura as creator/star.
+    (2) rels 1-2 (Bravura OWNS Catface; Catface OPERATES channel, both CONTROLLING).
+    Wikipedia establishes Bravura "created a production company for her videos,
+    Catface" and that it manages her merchandise; it does NOT state a verbatim legal
+    ownership instrument over the CHANNEL. OWNS(Catface) + OPERATES(channel) with
+    CONTROLLING is the honest structural reading (the creator controls the channel
+    via her own company); a reviewer may prefer a single combined edge or a direct
+    Bravura->channel OWNS edge if a clearer statement is located. Catface
+    jurisdiction recorded as US-TX from "based in Austin, Texas" — state/entity of
+    FORMATION and legal name are NOT verified (add if a filing is located). The
+    aliases "Catface Studios" / "Aphmau Studios" are included provisionally; the
+    task queried an "Aphmau Studios" name but no fetched source confirms it as a
+    distinct/legal entity — reviewer to confirm or drop.
+    (3) rel 3 (Night Media REPRESENTS channel, MANAGEMENT). effective_from set to
+    2021-06-01 (Wikipedia: "In June 2021"); day precision unknown, recorded as the
+    1st — reviewer to refine or drop. Canonical_name "Night Media" (Wikipedia says
+    "Night"); its exact legal name/jurisdiction/website were not verified. Contract
+    terms are not public and are NOT asserted (creator-safety / Spec §22.4).
+    (4) HUSBAND (Jason Bravura). Jason is Bravura's husband and appears on-screen as
+    the character "Aaron" (Wikipedia). A secondary search summary claimed he
+    "co-founded" the channel/studio, but NO strong fetched source supports an
+    ownership or operating ROLE for him, so he is deliberately NOT declared as an
+    entity or given a relationship (evidence-first). If a source documenting his
+    co-founder/co-owner role is located, add a PERSON entity + edge. Family members
+    are otherwise out of scope (Spec §22.4 / evidence-policy §5); the couple's four
+    children are not recorded.
+    (5) COMMERCE, NOT OWNERSHIP — deliberately EXCLUDED from the graph. (a)
+    Merchandise: the MeeMeows line and the licensed toy partnership with Bonkers
+    Toys (MyStreet plush, Cat Café sets, sold at Walmart/Target/GameStop) are
+    consumer-products licensing/commerce, not channel ownership. (b) SPOTTER: the
+    task flagged a possible Spotter creator-capital/back-catalogue LICENSING deal
+    (which, if real, is a time-limited ad-revenue license — NOT ownership; creators
+    retain future uploads). NO citable source specific to Aphmau confirming a
+    Spotter deal was located in this pass (only generic Spotter coverage + an
+    unattributed "listed among Spotter creators" search summary). Treated as a
+    Tier-4 LEAD ONLY (evidence-policy §4) and NOT recorded as a relationship. If a
+    reviewer verifies it, record it as type LICENSE / control_level LICENSE, NOT
+    ownership.
+    (6) NO PE INVOLVEMENT. No PRIVATE_EQUITY_FIRM entity and no PORTFOLIO_COMPANY_OF
+    edge — the §14.3 PE-label gate does not apply.
+    (7) EXPECTED COMPUTED CLASSIFICATION: CREATOR_OWNED / creator-controlled — the
+    channel is owned and operated by the creator (Jessica Bravura) through her own
+    company Catface, with Night Media as a management/representation partner, not an
+    owner. Classification is COMPUTED by the importer; confirm the computed label at
+    import.

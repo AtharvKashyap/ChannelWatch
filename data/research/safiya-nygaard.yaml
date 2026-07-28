@@ -1,0 +1,285 @@
+# CHANNELWATCH research record — Safiya Nygaard
+#
+# DRAFT for human review. Nothing here is published without verification.
+# This is a DRAFT: the review block carries researched_by + last_reviewed_at
+# only; reviewed_by is intentionally NOT present (not yet human-reviewed).
+#
+# Profile: an individual-CREATOR-OWNED channel with a light BuzzFeed EMPLOYMENT
+# backstory (NOT a brand/ownership transition). Safiya Nygaard was a BuzzFeed
+# video producer (hired Apr 2015, on the show "Ladylike") who left in Jan 2017
+# to work independently on her OWN eponymous YouTube channel. Unlike The Try
+# Guys / Watcher, there is NO operating company that owns this channel and NO
+# brand transferred from BuzzFeed: the channel has always been her personal
+# property. Her husband Tyler Williams collaborates (on- and off-camera since
+# 2017) but no ownership of THIS eponymous channel is documented for him.
+#
+# TEMPORAL MODELING (per task): the channel was NEVER BuzzFeed-owned. Her
+# BuzzFeed-era work ("Ladylike" etc.) lived on BuzzFeed's own channels; this
+# personal account is separate. The ONLY thing that ended at BuzzFeed was her
+# EMPLOYMENT (rel 4, ENDED Jan 2017). So NO former-BuzzFeed-owner edge is placed
+# on the channel. The channel's only ever owner is Safiya Nygaard herself
+# (individual creator) -> CREATOR_OWNED.
+
+channel:
+  # Canonical id read from the raw @safiya channel-page HTML "externalId" field
+  # (curl of https://www.youtube.com/@safiya -> "externalId":
+  # "UCbAwSkqJ1W_Eg7wr3cp5BUA"; og:title "Safiya Nygaard"; og:url .../channel/
+  # UCbAwSkqJ1W_Eg7wr3cp5BUA). Cross-checked against YouTube's OWN feed:
+  # https://www.youtube.com/feeds/videos.xml?channel_id=UCbAwSkqJ1W_Eg7wr3cp5BUA
+  # returns <yt:channelId>UCbAwSkqJ1W_Eg7wr3cp5BUA</yt:channelId>, <title>Safiya
+  # Nygaard</title> and <name>Safiya Nygaard</name>. The feed's channel-level
+  # <published> is 2011-11-09 (account-creation date — see reviewer note: the
+  # account predates her creator career, which began Feb/Mar 2017).
+  # VERIFICATION CAUTION: the similarly-named handle @safiyany is a DIFFERENT,
+  # unrelated person ("safiya naseemayakkoob", UC7B1HoGObsav4Oio_BGjJtA) — do NOT
+  # confuse the two.
+  youtube_channel_id: UCbAwSkqJ1W_Eg7wr3cp5BUA
+  display_name: Safiya Nygaard
+  handle: "@safiya"
+
+entities:
+  - slug: safiya
+    canonical_name: Safiya Nygaard
+    entity_type: CREATOR
+    aliases:
+      - Safiya
+      - Safiya J. Nygaard
+  - slug: tyler
+    canonical_name: Tyler Williams
+    entity_type: CREATOR
+    aliases:
+      - Tyler
+  # BuzzFeed entity reused VERBATIM from try-guys.yaml (same slug and fields) so
+  # the records share the entity in the whole-graph recompute.
+  - slug: buzzfeed
+    canonical_name: BuzzFeed
+    entity_type: COMPANY
+    legal_name: BuzzFeed, Inc.
+    website: https://www.buzzfeed.com
+    aliases:
+      - BuzzFeed, Inc.
+  # Talent-management firm she signed with in 2022. This is REPRESENTATION /
+  # management, NOT ownership and NOT a PE/VC firm — so no PE-label rule fires and
+  # it does not affect the served classification. (Night is the talent-management
+  # company, sometimes styled "Night Media".)
+  - slug: night
+    canonical_name: Night
+    entity_type: COMPANY
+    aliases:
+      - Night Media
+
+relationships:
+  # ============================ CURRENT (ACTIVE) ============================
+  # 0: Safiya Nygaard owns the channel DIRECTLY (individual creator; no operating
+  # company is documented — see notes). control_level CONTROLLING; no percentage
+  # applies to a sole individual owner. effective_from 2011-11-09 = the documented
+  # account-creation date per YouTube's own feed (the account has always been her
+  # personal property, never BuzzFeed's). Her independent CREATOR career on it
+  # began Feb/Mar 2017 after she left BuzzFeed (flagged; reviewer may prefer that
+  # 2017 pivot date). This active OWNS-channel edge is what yields CREATOR_OWNED.
+  - subject: safiya
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2011-11-09
+    confidence: 0.85
+    status: ACTIVE
+  # 1: the channel is Safiya's own creation. effective_from 2011-11-09 (feed
+  # account-creation date).
+  - subject: channel
+    type: FOUNDED_BY
+    object: safiya
+    effective_from: 2011-11-09
+    confidence: 0.8
+    status: ACTIVE
+  # 2: Safiya is the channel's principal on-camera host (ongoing uploads).
+  - subject: channel
+    type: HOSTED_BY
+    object: safiya
+    confidence: 0.95
+    status: ACTIVE
+  # 3: Tyler Williams (her husband, married late 2019) collaborates on the channel
+  # both in front of and behind the camera since 2017, increasingly on-camera over
+  # time. Modeled as a HOSTED_BY / collaborator edge only. NO ownership edge is
+  # asserted for Tyler on THIS eponymous channel — his co-ownership of it is NOT
+  # documented (they jointly run the separate "Safiya & Tyler" channel, but that
+  # is a different property). effective_from 2017-01-01 (documented "since 2017").
+  - subject: channel
+    type: HOSTED_BY
+    object: tyler
+    effective_from: 2017-01-01
+    confidence: 0.8
+    status: ACTIVE
+  # ===================== BuzzFeed EMPLOYMENT (temporal) =====================
+  # 4: Safiya was a BuzzFeed video producer (show "Ladylike") from Apr 2015 until
+  # she left in Jan 2017. This is the ONLY thing that transitioned from BuzzFeed —
+  # NOT any channel or brand ownership. effective_from 2015-04-01 (Wikipedia:
+  # "hired by BuzzFeed in April 2015"), effective_to 2017-01-01 (Wikipedia:
+  # "before leaving the company in January 2017"; exact day not documented).
+  - subject: buzzfeed
+    type: EMPLOYS
+    object: safiya
+    effective_from: 2015-04-01
+    effective_to: 2017-01-01
+    confidence: 0.9
+    status: ENDED
+  # ===================== TALENT MANAGEMENT (representation) =====================
+  # 5: In 2022 she signed with the management company Night. Modeled as MANAGES
+  # (control_level MANAGEMENT) — a REPRESENTATION relationship, NOT ownership or
+  # editorial control, and Night is not a PE/VC firm. Does not affect the served
+  # classification. effective_from 2022-01-01 (year only documented; exact date
+  # not published — flagged). Whether the arrangement still holds today is not
+  # separately verified; kept ACTIVE at lower confidence (flagged).
+  - subject: night
+    type: MANAGES
+    object: channel
+    control_level: MANAGEMENT
+    effective_from: 2022-01-01
+    confidence: 0.6
+    status: ACTIVE
+
+sources:
+  - ref: youtube_channel_feed
+    url: https://www.youtube.com/channel/UCbAwSkqJ1W_Eg7wr3cp5BUA
+    title: Safiya Nygaard — YouTube channel
+    publisher: Safiya Nygaard (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCbAwSkqJ1W_Eg7wr3cp5BUA
+    excerpt: >-
+      The raw @safiya channel-page HTML exposes "externalId":
+      "UCbAwSkqJ1W_Eg7wr3cp5BUA" (og:title "Safiya Nygaard"), and YouTube's own
+      feed for that id carries <yt:channelId>UCbAwSkqJ1W_Eg7wr3cp5BUA</yt:channelId>,
+      <title>Safiya Nygaard</title> and <name>Safiya Nygaard</name>, confirming the
+      canonical channel id and its ongoing uploads by the creator. The feed's
+      channel-level <published> is 2011-11-09 (account-creation date).
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: tubefilter_2017
+    url: https://www.tubefilter.com/2017/03/21/safiya-nygaard-left-buzzfeed-launch-youtube-channel/
+    title: Safiya Nygaard Shares Why She Left BuzzFeed To Launch A YouTube Channel
+    publisher: Tubefilter
+    published_at: 2017-03-21
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      After her January departure from BuzzFeed, Safiya Nygaard posted a video on
+      her eponymous YouTube channel explaining why she left — citing a desire for
+      more independence, responsibility, and transparency, and concerns including
+      BuzzFeed owning her name for merchandise. The channel (linked as
+      youtube.com/channel/UCbAwSkqJ1W_Eg7wr3cp5BUA) had 1.3 million subscribers at
+      the time of the article.
+    supports:
+      - relationship: 0
+      - relationship: 4
+  - ref: wikipedia_safiya
+    url: https://en.wikipedia.org/wiki/Safiya_Nygaard
+    title: Safiya Nygaard
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Nygaard was hired by BuzzFeed in April 2015 and worked as a video producer
+      for the show Ladylike before leaving the company in January 2017. After
+      leaving, she started her own YouTube channel. Nygaard is married to YouTube
+      collaborator Tyler Williams. In 2022, she signed with the management company
+      Night.
+    supports:
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+  - ref: stanford_magazine
+    url: https://stanfordmag.org/contents/lifestyle-content-for-the-curious
+    title: Lifestyle Content for the Curious
+    publisher: Stanford Magazine
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Since 2017, Nygaard and Williams have worked both in front of and behind the
+      camera on Nygaard's YouTube channel. Initially Williams split his time with
+      his start-up while Nygaard was the main on-camera personality; over time he
+      has increasingly joined her in front of the camera. Though they have
+      producers and editors to help, the pair oversee each step of the editing
+      process. The couple now make their living through content creation.
+    supports:
+      - relationship: 2
+      - relationship: 3
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >-
+    DRAFT for human review — an individual-CREATOR-OWNED channel with a light
+    BuzzFeed EMPLOYMENT backstory (no brand/ownership transition). reviewed_by is
+    intentionally absent (not yet human-reviewed). last_reviewed_at holds the
+    draft authoring date (schema-required), NOT a completed review.
+
+    EXPECTED CLASSIFICATION: CREATOR_OWNED. The channel's sole active owner is the
+    individual creator Safiya Nygaard herself (rel 0, OWNS + CONTROLLING). There is
+    NO operating company, NO external funding, and NO PE/corporate owner anywhere
+    in the active chain, so the classifier's creator-owned rule fires directly (no
+    creator-controlled-COMPANY intermediary as in try-guys/watcher). Confidence
+    ~0.85 (the direct-ownership edge). This differs structurally from The Try Guys
+    and Watcher, which each interpose a creator-controlled COMPANY between the
+    creators and the channel; here the creator owns the channel directly.
+
+    CHANNEL ID: UCbAwSkqJ1W_Eg7wr3cp5BUA, taken from the raw @safiya page HTML
+    "externalId" (og:title "Safiya Nygaard") and cross-checked against YouTube's
+    own RSS feed (yt:channelId + title + name all "Safiya Nygaard"). VERIFICATION
+    FLAG: the look-alike handle @safiyany is a DIFFERENT, unrelated person
+    ("safiya naseemayakkoob", UC7B1HoGObsav4Oio_BGjJtA) — an early wrong-channel
+    hit that was caught and discarded; the correct handle is @safiya.
+
+    "CHANNEL WAS HERS FROM THE START" — VERIFIED, with a nuance. The channel was
+    never a BuzzFeed property: while at BuzzFeed her work aired on BuzzFeed's own
+    channels (Ladylike), and this personal account is separate. Tubefilter calls it
+    "her eponymous YouTube channel"; she even cited concern over BuzzFeed owning her
+    NAME (not the channel) as a reason to leave. NUANCE: the YouTube account itself
+    was CREATED 2011-11-09 (feed <published>) — years before her Apr-2015 BuzzFeed
+    hire — as a personal account she later repurposed. Her independent CREATOR
+    career on it began Feb/Mar 2017 (the "Why I Left BuzzFeed" video, ~14.9M views).
+    rels 0-1 use effective_from 2011-11-09 (documented account creation, always
+    hers); a reviewer may prefer to anchor her creator-ownership era to 2017. Either
+    way there is no BuzzFeed-owner period to record.
+
+    TYLER WILLIAMS (husband, married late 2019): collaborator on- and off-camera
+    since 2017 (rel 3, HOSTED_BY). Per task ("record ownership only as documented"),
+    NO ownership edge is asserted for Tyler on THIS eponymous channel — his
+    co-ownership of it is not documented. They jointly run a SEPARATE channel
+    "Safiya & Tyler" (and "Safiya Shorts"); those are distinct properties not
+    covered by this record. FLAG: joint/marital co-ownership of the business is
+    plausible but undocumented for the main channel; a reviewer seeking a cap-table
+    or a formal entity could refine.
+
+    OPERATING COMPANY — NONE FOUND. No production LLC that owns/operates this
+    channel is documented in any source. (Tyler separately founded a startup app,
+    "Nextbeat", in 2015 — an unrelated venture, NOT the channel's operating company;
+    deliberately NOT modeled to avoid conflation.) If a future filing reveals a
+    Safiya/Tyler production entity, the model should shift to a company-owns-channel
+    shape (creators own the company) as in try-guys/watcher.
+
+    NIGHT (rel 5): "In 2022, she signed with the management company Night"
+    (Wikipedia). Modeled as MANAGES (MANAGEMENT) — talent representation, NOT
+    ownership or editorial control; Night is not a PE/VC firm, so the PE-label rule
+    is not triggered. Does not affect the served label. effective_from 2022-01-01
+    (year only; exact date not published) and current-status not separately
+    verified — flagged, confidence 0.6.
+
+    DATES / JUDGMENT CALLS:
+    (1) OWNS / FOUNDED_BY effective_from 2011-11-09 (feed account-creation);
+    creator-career pivot ~Feb/Mar 2017 flagged as an alternative anchor.
+    (2) EMPLOYS effective_from 2015-04-01 and effective_to 2017-01-01 (Wikipedia
+    month-level dates; exact days not documented).
+    (3) HOSTED_BY tyler effective_from 2017-01-01 ("since 2017", Stanford Magazine).
+    (4) Night MANAGES effective_from 2022-01-01 (year only).
+
+    SOURCES: youtube_channel_feed (Tier 1, directly fetched/verified) plus three
+    Tier 2 secondary sources (tubefilter_2017, wikipedia_safiya, stanford_magazine),
+    all fetched. No Tier 3/4 source backs any edge. buzzfeed entity is reused
+    VERBATIM from try-guys.yaml (shared entity for the whole-graph recompute).
+
+    LEGAL-SAFE / NEUTRALITY: language describes ownership STRUCTURE only; no PE-
+    implying label, no claim of editorial interference or misconduct. Departure from
+    BuzzFeed is stated as an employment fact, not guilt.
+  last_reviewed_at: 2026-07-23
