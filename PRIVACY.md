@@ -43,10 +43,16 @@ And it avoids sending:
 - Referrer.
 - YouTube cookies.
 
-The extension does not store a long-term history of every channel a user views;
-local caching keeps records only for their TTL (Spec §18.6). Extension permissions
-are kept minimal — no full browsing history, no tabs permission unless essential,
-no cookies, no identity permissions, no access to unrelated sites (Spec §18.7).
+The extension stores **no** user data at all. It does not write to
+`chrome.storage`, and it keeps no history of the channels a user views. The only
+caching is an **in-memory session cache** in the background service worker (a
+plain `Map` keyed by channel ID) that avoids re-fetching the same channel within
+a session; it is never persisted to disk and is gone when the service worker or
+browser restarts (Spec §18.6). Extension permissions are kept minimal — no
+`storage` permission, no full browsing history, no `tabs` permission, no
+`scripting` permission, no cookies, no identity permissions, and no access to
+unrelated sites (Spec §18.7). The only host access is `youtube.com` (to read the
+public channel ID on the watch page) and the fixed API origin.
 
 ---
 

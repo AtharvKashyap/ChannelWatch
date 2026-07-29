@@ -43,12 +43,13 @@ See who owns, finances, or operates the YouTube channel you're watching — with
 CHANNELWATCH shows YouTube viewers who owns, finances, or operates the
 channels they watch.
 
-When you visit a YouTube watch page or channel page, CHANNELWATCH places a
-small badge near the channel name describing the channel's ownership
-structure — for example Independent, Creator-Owned, Corporate-Owned, or
-PE-Backed. Click the badge to open a panel with the ownership chain, the
-public sources behind it, a confidence level, and when the record was last
-reviewed.
+When you're watching a YouTube video, click the CHANNELWATCH toolbar icon.
+The popup reads the channel of the video you're watching and shows its
+ownership structure — for example Independent, Creator-Owned, Corporate-Owned,
+or PE-Backed — along with the ownership chain, how ownership has changed over
+time, the number of public sources behind it, a confidence level, and when the
+record was last reviewed. CHANNELWATCH changes nothing on the YouTube page
+itself; everything appears in the popup.
 
 Evidence-first and human-reviewed:
 - Every published claim is supported by public evidence and reviewed by a
@@ -80,32 +81,27 @@ decide for yourself.
 
 Every claim in this description is backed by `PRIVACY.md`, `MANIFESTO.md`, and
 `SITE_COPY`/`POPUP_COPY` in `copy.ts`. Do not add wording that implies a channel
-did anything wrong.
+did anything wrong. The extension injects nothing into YouTube pages — the
+toolbar popup is the only UI, and it acts on watch pages only.
 
 ---
 
 ## Permission justifications (Google's expected format)
 
 Google asks, per requested permission, _why the item needs it_. The manifest
-(`apps/extension/manifest.config.ts`) requests exactly one API permission plus
-two host-permission patterns.
-
-### `storage`
-
-```
-Used to cache ownership lookup results locally and to store the user's own
-settings (badge scope, hide-creator-owned, only-confirmed, and the API origin).
-Caching avoids repeat network requests for the same channel; results are kept
-only for a short time-to-live. No browsing or viewing history is stored.
-```
+(`apps/extension/manifest.config.ts`) requests **no API permissions at all** —
+only two host-permission patterns. There is no `storage`, `tabs`, or `scripting`
+permission (`chrome.tabs.query`/`sendMessage`/`create` work under the youtube
+host permission alone, and the extension persists no data).
 
 ### Host permission — `https://www.youtube.com/*`
 
 ```
-Required so the content script can read the public channel identifier already
-present on the YouTube page the user is viewing, and render the ownership badge
-next to the channel name. The extension only reads the channel ID; it does not
-read watch history, search queries, comments, or account information.
+Required so a minimal content script can read the public channel identifier
+already present on the watch page the user is viewing, and return it to the
+extension's popup when the user opens it. The extension only reads the channel
+ID; it does not read watch history, search queries, comments, or account
+information, and it changes nothing on the page.
 ```
 
 ### Host permission — production API origin (`https://<api-domain>/*`)
@@ -125,9 +121,9 @@ submitted bundle.
 ### Single-purpose statement (required by Google)
 
 ```
-CHANNELWATCH has one purpose: to show the ownership, financing, and operational
-structure of the YouTube channel the user is currently viewing, with links to
-the public evidence behind each claim.
+CHANNELWATCH has one purpose: to show, in its toolbar popup, the ownership,
+financing, and operational structure of the YouTube channel whose video the
+user is currently watching, with the public evidence behind each claim.
 ```
 
 ### Remote code
@@ -137,12 +133,12 @@ No. The extension executes no remotely hosted code. All logic ships in the
 bundle; the only network calls are ownership lookups to the fixed API origin.
 ```
 
-**Permissions flagged for human review:** none. Every requested permission maps
-to an obvious, single-purpose justification above, and the manifest requests no
-permission beyond `storage` + the two host patterns. If a future manifest change
-adds `tabs`, `cookies`, `scripting`, `webRequest`, or broader host access, it
-MUST be re-flagged here and re-reviewed against SPEC §18.7 and `CLAUDE.md` rule 5
-before submission.
+**Permissions flagged for human review:** none. The manifest requests no API
+permissions — only the two host patterns above, each with an obvious
+single-purpose justification. If a future manifest change adds `storage`,
+`tabs`, `cookies`, `scripting`, `webRequest`, or broader host access, it MUST be
+re-flagged here and re-reviewed against SPEC §18.7 and `CLAUDE.md` rule 5 before
+submission.
 
 ---
 
@@ -151,12 +147,14 @@ before submission.
 Answer the "Privacy practices" tab to match `PRIVACY.md` exactly:
 
 - **Single purpose:** as stated above.
-- **Data collected:** the extension does **not** collect or transmit personal or
-  sensitive user data. The only outbound data is the public YouTube channel ID
-  and the extension version, sent to perform an ownership lookup — this is not
-  user-identifying. Declare **no** collection in every personal-data category
-  (location, personally identifiable info, health, financial, authentication,
-  personal communications, web history, user activity, website content).
+- **Data collected:** the extension does **not** collect, store, or transmit
+  personal or sensitive user data. It writes nothing to `chrome.storage` (the
+  only cache is an in-memory session `Map` that is gone on restart). The only
+  outbound data is the public YouTube channel ID and the extension version, sent
+  to perform an ownership lookup — this is not user-identifying. Declare **no**
+  collection in every personal-data category (location, personally identifiable
+  info, health, financial, authentication, personal communications, web history,
+  user activity, website content).
 - **Telemetry:** none by default; any future telemetry is opt-in and excludes
   channel/video viewing (state "not collected" at launch).
 - **Sale/transfer:** data is **not** sold or transferred to third parties.
@@ -174,25 +172,29 @@ the policy is the source of truth.
 ## Screenshots checklist
 
 Chrome Web Store requires at least one 1280×800 (or 640×400) screenshot; up to
-five recommended. Capture on a researched channel (see the manual E2E script in
-`apps/extension/README.md`, e.g. Little Baby Bum) so the panel shows real,
-sourced content.
+five recommended. Capture on a researched channel's watch page (see the manual
+E2E script in `apps/extension/README.md`, e.g. Little Baby Bum) so the popup
+shows real, sourced content.
 
-- [ ] **1 — Badge in context.** The ownership badge next to a channel name on a
-      YouTube watch page (e.g. an orange "PE-Backed · <owner>" chip). Caption:
-      "See the ownership structure right where you watch."
-- [ ] **2 — Ownership panel open.** The evidence panel showing the ownership
-      chain, confidence level, and the "No conclusion is made about editorial
-      interference" disclaimer. Caption: "Every claim links to public sources."
-- [ ] **3 — Evidence / sources list.** The panel scrolled to the source
-      citations. Caption: "Sourced and human-reviewed."
-- [ ] **4 — Settings page.** The options page (badge scope, hide-creator-owned,
-      only-confirmed). Caption: "You control when badges appear."
-- [ ] **5 — Unresearched / unknown state.** A channel with no record showing the
-      neutral "Not yet researched" state. Caption: "When we don't know, we say
-      so."
+- [ ] **1 — Popup on a watch page.** The toolbar popup open over a YouTube watch
+      page, showing the ownership box with the label (e.g. an orange "PE-Backed"
+      chip) and channel name. Caption: "See who owns the channel you're
+      watching."
+- [ ] **2 — Ownership chain + history.** The popup scrolled to the ownership
+      chain and "Ownership over time" sections. Caption: "The full ownership
+      structure, sourced and dated."
+- [ ] **3 — Evidence + disclaimer.** The popup showing the evidence count, the
+      confidence level, and the "No conclusion is made about editorial
+      interference" disclaimer. Caption: "Sourced, human-reviewed, and honest
+      about uncertainty."
+- [ ] **4 — Friendly prompt (non-watch).** The popup on the homepage or a
+      channel page showing "Open a YouTube video to see who owns its channel."
+      Caption: "One click, right from the toolbar."
+- [ ] **5 — Unresearched / unknown state.** A watch page for a channel with no
+      record, showing the neutral "Not yet researched" state. Caption: "When we
+      don't know, we say so."
 
-Screenshot rules: use a real researched channel, do not fabricate a badge or
+Screenshot rules: use a real researched channel, do not fabricate a label or
 ownership claim, and blur nothing that would misrepresent the product. Do not
 stage a screenshot that implies a channel engaged in misconduct.
 
