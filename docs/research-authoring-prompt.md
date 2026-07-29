@@ -2,7 +2,7 @@
 
 Everything you need to research a channel and produce a record the importer will
 accept. Pair this with [`data/research/README.md`](../data/research/README.md)
-(workflow) and [`docs/METHODOLOGY.md`](./METHODOLOGY.md) (evidence standards).
+(the authoring + review workflow).
 
 ## Where the file goes
 

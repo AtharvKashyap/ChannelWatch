@@ -1,9 +1,9 @@
 # Contributing to CHANNELWATCH
 
 Thank you for helping build a transparent, evidence-first record of YouTube channel
-ownership. Before contributing, please read `README.md`, `docs/METHODOLOGY.md`,
-and `docs/legal-risk.md` — they set the project's principles and evidence
-standards, and they bind every contribution.
+ownership. Before contributing, please read `README.md` and
+`docs/research-authoring-prompt.md` — they set the project's principles and
+evidence standards, and they bind every contribution.
 
 Contributions fall into two very different categories, adapted from Spec §31:
 **code** and **research**. They follow different rules.
@@ -31,7 +31,7 @@ pnpm import:research   # validate + import data/research/*.yaml
 docker compose up     # postgres + api + web for local dev
 ```
 
-Conventions (see `CLAUDE.md` for the full list):
+Conventions:
 
 - Zod schemas and enums in `packages/schemas` are the single source of truth;
   never introduce a parallel or ad-hoc shape.
@@ -56,14 +56,14 @@ Every research contribution requires:
 
 - **Source verification** — a real, retrievable source at Tier 1–3; Tier 4
   material is a research lead only and can never independently support a published
-  claim (`docs/evidence-policy.md` §4).
+  claim (see `docs/research-authoring-prompt.md`).
 - **Entity verification** — the named entity resolves to the correct canonical
   record (entity resolution, Spec §12.4).
-- **Reviewer approval** — a reviewer works the checklist in `docs/METHODOLOGY.md`
-  §4; sensitive claims (hidden ownership, fraud, named individuals, political
+- **Reviewer approval** — a reviewer works the evidence
+  checklist; sensitive claims (hidden ownership, fraud, named individuals, political
   influence, etc.) require **two-person review** before publication
   (Spec §20.3).
-- **Neutral wording** — use the prefer/avoid language in `docs/legal-risk.md` §1;
+- **Neutral wording** — use neutral, non-editorializing language (see `docs/research-authoring-prompt.md`);
   describe structure, never imply misconduct.
 - **Audit logging** — every material change writes an `audit_events` record
   (who/what/when/why/evidence, Spec §26.5). Published records are never silently
@@ -71,8 +71,8 @@ Every research contribution requires:
 
 During the seed phase, research records are authored as YAML files in
 `data/research/` (one per channel: claims + sources + excerpts), validated by Zod,
-and reviewed as pull requests before import (`plan.md` modification #6). This gives
-diffable, PR-reviewable provenance.
+and reviewed as pull requests before import. This gives diffable, PR-reviewable
+provenance.
 
 Note on scope and conflicts: CHANNELWATCH records ownership only — no ideological
 scoring (Spec §32.3). A reviewer must not approve claims involving their employer,
@@ -93,4 +93,4 @@ or any "generated with" trailers.
 - **Security vulnerabilities:** follow `SECURITY.md` (private report — never a
   public issue).
 - **Incorrect ownership records:** use the correction/appeal process
-  (`docs/legal-risk.md` §3), not a code PR.
+  via the correction form on the public site, not a code PR.

@@ -81,4 +81,4 @@ Separately from viewer privacy, CHANNELWATCH never publishes home addresses,
 personal phone numbers, family information, private email addresses, confidential
 contracts, leaked personal documents, speculative personal wealth, or any
 information unrelated to ownership transparency (Spec §22.4). See
-`docs/evidence-policy.md` §5.
+the project's evidence policy.

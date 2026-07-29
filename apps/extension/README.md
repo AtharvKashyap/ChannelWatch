@@ -2,8 +2,7 @@
 
 CHANNELWATCH browser extension (Manifest V3, React + Vite). Shows viewers who
 owns, finances, or commercially influences the YouTube channel they're
-watching — see the repo root `README.md` and `docs/SPEC.md` for the project
-as a whole.
+watching — see the repo root `README.md` for the project as a whole.
 
 ## The UI is the toolbar popup — nothing is injected into YouTube
 
@@ -143,7 +142,7 @@ backend.
    deliberately out of scope — the extension acts only on watch pages.
 3. Click the **CHANNELWATCH toolbar icon**. **Expected**: the popup shows an
    ownership box with an **orange** "PE-Backed" label (orange is reserved for
-   PE-backed structures — see `CLAUDE.md` rule 3; never an implication of
+   PE-backed structures — never red, and never an implication of
    misconduct), the ownership chain (Little Baby Bum → Moonbug Entertainment →
    Candle Media → Blackstone Inc., per `data/research/little-baby-bum.yaml`), the
    "Ownership over time" history, the evidence count, and the standing

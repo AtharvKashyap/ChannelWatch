@@ -90,9 +90,8 @@ TypeScript everywhere, one monorepo (pnpm workspaces + Turborepo):
 
 The dataset grows one well-sourced channel at a time, and that's the most valuable contribution you can make. Start here:
 
-- 📓 [`docs/research-authoring-prompt.md`](./docs/research-authoring-prompt.md) — exactly what to gather, the output format, and a copy-paste research prompt.
+- 📓 [`docs/research-authoring-prompt.md`](./docs/research-authoring-prompt.md) — exactly what to gather, the evidence standards (tiers, dates, sourcing), the output format, and a copy-paste research prompt.
 - 📁 [`data/research/README.md`](./data/research/README.md) — the authoring + review workflow.
-- 📜 [`docs/METHODOLOGY.md`](./docs/METHODOLOGY.md) — the evidence standards (tiers, confidence, review checklist).
 
 TL;DR: copy [`data/research/_TEMPLATE.yaml`](./data/research/_TEMPLATE.yaml) → `data/research/<channel>.yaml`, fill it with sourced ownership edges, run `npx pnpm@9 import:research` to validate, open a PR. The importer computes the label; a human reviewer publishes it.
 
@@ -106,14 +105,12 @@ CHANNELWATCH runs on entirely free infrastructure — **Neon** (Postgres) + **Re
 
 ## Project docs
 
-| Doc                                                                                                     |                                         |
-| ------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| [`docs/data-model.md`](./docs/data-model.md)                                                            | Entities, relationships, classification |
-| [`docs/METHODOLOGY.md`](./docs/METHODOLOGY.md) · [`docs/evidence-policy.md`](./docs/evidence-policy.md) | How research is done & judged           |
-| [`docs/legal-risk.md`](./docs/legal-risk.md)                                                            | Legal-safety framework                  |
-| [`docs/research-authoring-prompt.md`](./docs/research-authoring-prompt.md)                              | How to research & contribute a channel  |
-| [`PRIVACY.md`](./PRIVACY.md) · [`SECURITY.md`](./SECURITY.md)                                           | Privacy & security posture              |
-| [`CONTRIBUTING.md`](./CONTRIBUTING.md)                                                                  | How to help                             |
+| Doc                                                                        |                                        |
+| -------------------------------------------------------------------------- | -------------------------------------- |
+| [`docs/research-authoring-prompt.md`](./docs/research-authoring-prompt.md) | How to research & contribute a channel |
+| [`data/research/README.md`](./data/research/README.md)                     | Research authoring + review workflow   |
+| [`CONTRIBUTING.md`](./CONTRIBUTING.md)                                     | How to help                            |
+| [`PRIVACY.md`](./PRIVACY.md) · [`SECURITY.md`](./SECURITY.md)              | Privacy & security posture             |
 
 ---
 
@@ -123,4 +120,4 @@ Core platform complete and tested end-to-end: extension, public site, review con
 
 ## License & disclaimer
 
-CHANNELWATCH publishes structural ownership information from public sources and makes **no claim about editorial interference or wrongdoing** by any channel, creator, or company. To dispute a record, use the correction form or see [`docs/legal-risk.md`](./docs/legal-risk.md). See [`LICENSE`](./LICENSE) if present, otherwise all rights reserved by the project maintainers pending a license decision.
+CHANNELWATCH publishes structural ownership information from public sources and makes **no claim about editorial interference or wrongdoing** by any channel, creator, or company. To dispute a record, use the correction form on the public site. See [`LICENSE`](./LICENSE) if present, otherwise all rights reserved by the project maintainers pending a license decision.

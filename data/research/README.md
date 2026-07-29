@@ -7,8 +7,9 @@ its ownership graph, the relationships between them, the evidence backing those
 relationships, and the review provenance.
 
 This is the trust-critical publication path. The evidence standards these files
-encode are defined in [`docs/METHODOLOGY.md`](../../docs/METHODOLOGY.md); read it
-before authoring a record.
+encode are summarized in
+[`docs/research-authoring-prompt.md`](../../docs/research-authoring-prompt.md);
+read it before authoring a record.
 
 ## Workflow
 

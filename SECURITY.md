@@ -23,7 +23,7 @@ acknowledge the report, investigate, and coordinate disclosure. Please give us
 reasonable time to remediate before any public disclosure.
 
 Reports about **incorrect ownership records** are not security issues — use the
-correction/appeal process instead (see `docs/legal-risk.md` §3 and Spec §24).
+correction/appeal process instead (the correction form on the public site).
 
 ---
 
