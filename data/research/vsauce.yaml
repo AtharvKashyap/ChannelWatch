@@ -1,0 +1,326 @@
+# CHANNELWATCH research record — Vsauce (Michael Stevens)
+#
+# DRAFT for human review. Nothing here is published without verification.
+#
+# Profile: independent, creator-owned educational channel. Michael Stevens
+# founded "Vsauce" in 2010 and, per all available Tier 1/2 sourcing, still owns
+# the channel today — no sale or ownership transfer is documented (a sale has
+# only ever been discussed by Stevens HYPOTHETICALLY, in a 2023 interview). The
+# channel's non-ownership relationships are:
+#   (a) The Curiosity Box — a quarterly science subscription-box VENTURE the
+#       Vsauce hosts co-founded (2016). It is a company Stevens co-founded, NOT
+#       an owner of the channel — OUTSIDE the ownership chain (same treatment as
+#       jacksepticeye.yaml's Top of The Mornin' Coffee / Cloak).
+#   (b) Mind Field — a YouTube Red / YouTube Premium ORIGINALS series (2017–2019)
+#       commissioned for exclusive distribution and aired ON the Vsauce channel.
+#       This is a PRODUCTION / LICENSING / DISTRIBUTION deal for specific content,
+#       NOT a channel acquisition — modeled as a dated ENDED, non-ownership
+#       DISTRIBUTED_BY (LICENSE) edge, heavily flagged.
+# Because ownership never changed, this is a creator-owned channel with historical
+# production/venture context, NOT an ownership-transition (OWNERSHIP_CHANGED) case.
+#
+# VERIFICATION NOTE ON THE TASK BRIEF: the brief hinted at possible Warner Bros. /
+# Nerdist / Curiosity-streaming arrangements. These COULD NOT be verified for
+# Vsauce and are deliberately NOT encoded (see review notes) — "Curiosity" is the
+# Curiosity Box merchandise venture, not a streaming/ownership deal, and no Tier
+# 1/2 source ties Warner Bros. or Nerdist to Vsauce's ownership or to an MCN that
+# represented it. Precision over coverage (docs/evidence-policy.md §4).
+
+channel:
+  # Extracted from the canonical externalId embedded in the raw HTML of
+  # https://www.youtube.com/@Vsauce (curl fetch, no JS execution): the page source
+  # lists externalId "UC6nSFpj9HTCZ5t-N3Rm3-HA", and the page's own
+  # <link rel="canonical"> is
+  # https://www.youtube.com/channel/UC6nSFpj9HTCZ5t-N3Rm3-HA — confirming this UC
+  # id is the page's own channel. The embedded keywords ("Science questions
+  # education learning schools DiscoveryChannel") corroborate the educational
+  # subject match.
+  youtube_channel_id: UC6nSFpj9HTCZ5t-N3Rm3-HA
+  display_name: Vsauce
+  handle: "@Vsauce"
+
+entities:
+  - slug: stevens
+    canonical_name: Michael Stevens
+    entity_type: CREATOR
+    legal_name: Michael David Stevens
+    aliases:
+      - Vsauce
+      - Michael Stevens (educator)
+
+  # VENTURE — NOT a channel owner. See review notes. Subscription science-box
+  # company co-founded by the three Vsauce hosts (Stevens, Kevin Lieber, Jake
+  # Roper). Outside the channel ownership chain.
+  - slug: curiosity_box
+    canonical_name: The Curiosity Box
+    entity_type: COMPANY
+    aliases:
+      - Curiosity Box
+
+  # YouTube's paid subscription / originals service (a Google LLC product), which
+  # commissioned the Mind Field originals. Launched as "YouTube Red", rebranded
+  # "YouTube Premium" in 2018. NOT an owner of the channel — see rel 4.
+  - slug: youtube_red
+    canonical_name: YouTube Red
+    entity_type: COMPANY
+    jurisdiction: US-CA
+    website: https://www.youtube.com/premium
+    aliases:
+      - YouTube Premium
+      - YouTube Originals
+
+relationships:
+  # 0: Vsauce founded by Michael Stevens. Wikipedia: Stevens generated the name
+  # "Vsauce" in 2010 and, on 16 April 2010, claimed an existing but unused YouTube
+  # account (created 30 July 2007), renaming the channel from "Video Game Nation"
+  # to "Vsauce". effective_from 2010-04-16 is the operative founding/rebrand date
+  # (documented to the ISO day). This pre-dates every other relationship below.
+  - subject: channel
+    type: FOUNDED_BY
+    object: stevens
+    effective_from: 2010-04-16
+    confidence: 0.9
+    status: ACTIVE
+
+  # 1: Michael Stevens owns the channel. This is the current, ACTIVE ownership
+  # edge and the one the classifier reads. No source documents any sale or
+  # transfer of the channel: the Curiosity Box (rel 3) is a separate venture, and
+  # the Mind Field / YouTube Red arrangement (rel 4) was content licensing, not an
+  # acquisition. control_level CONTROLLING (sole individual creator-owner).
+  # confidence moderate — "ownership" rests on his founding/hosting the channel
+  # (rels 0, 2) plus the DOCUMENTED ABSENCE of any transfer (Dexerto 2023 reports
+  # Stevens discussing a sale only HYPOTHETICALLY and confirms none has occurred),
+  # rather than a direct Tier-1 ownership disclosure. No percentage asserted.
+  # Flagged for reviewer.
+  - subject: stevens
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2010-04-16
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Stevens is the creator/host of the channel (he IS Vsauce). Distinct from
+  # the ownership edge above.
+  - subject: channel
+    type: HOSTED_BY
+    object: stevens
+    confidence: 0.95
+    status: ACTIVE
+
+  # 3: VENTURE — OUTSIDE THE CHANNEL OWNERSHIP CHAIN. Stevens co-founded The
+  # Curiosity Box, a quarterly science subscription-box service (announced
+  # September 2016; Tubefilter). effective_from OMITTED: only the month is
+  # documented ("September 2016"), no ISO day — asserting a day would be false
+  # precision. Recorded as FOUNDED_BY for documented context only. This company
+  # does NOT own the channel and does NOT feed the ownership classification.
+  # Co-founders Kevin Lieber and Jake Roper (hosts of the sibling channels Vsauce2
+  # / Vsauce3) are noted in review, not added as edges, to keep this record scoped
+  # to the main Vsauce channel.
+  - subject: curiosity_box
+    type: FOUNDED_BY
+    object: stevens
+    confidence: 0.85
+    status: ACTIVE
+
+  # 4: FORMER PRODUCTION / LICENSING RELATIONSHIP — NOT OWNERSHIP. Mind Field, a
+  # YouTube Red (later YouTube Premium) ORIGINALS series created and hosted by
+  # Stevens, aired exclusively on the Vsauce channel from 2017-01-18 to 2019-10-24
+  # (3 seasons; co-produced by Vsauce and The Intellectual Property Corporation).
+  # YouTube Red commissioned it for exclusive distribution — a per-series content
+  # deal, NOT an acquisition of the channel. Modeled as channel DISTRIBUTED_BY
+  # youtube_red with control_level LICENSE and status ENDED, effective dates set to
+  # the series' documented premiere and final-episode dates. control_level LICENSE
+  # (a content-licensing/distribution arrangement, not an ownership or controlling
+  # interest). This edge is NOT a channel-owning type and does NOT affect the
+  # ownership classification. See review notes — scope is the Mind Field originals
+  # only, not the channel generally.
+  - subject: channel
+    type: DISTRIBUTED_BY
+    object: youtube_red
+    control_level: LICENSE
+    effective_from: 2017-01-18
+    effective_to: 2019-10-24
+    confidence: 0.7
+    status: ENDED
+
+sources:
+  - ref: wikipedia_vsauce
+    url: https://en.wikipedia.org/wiki/Vsauce
+    title: Vsauce
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "Michael Stevens came up with the name 'Vsauce' in 2010 by generating
+      available pronounceable '.com' domain names." On 16 April 2010 Stevens
+      claimed an existing but unused Vsauce YouTube account that had been created
+      on 30 July 2007, renaming a channel originally called "Video Game Nation" to
+      "Vsauce". Vsauce is described as an educational YouTube brand founded and
+      hosted by Michael Stevens, with sibling channels Vsauce2 (Kevin Lieber) and
+      Vsauce3 (Jake Roper).
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+  - ref: wikipedia_michael_stevens
+    url: https://en.wikipedia.org/wiki/Michael_Stevens_(YouTuber)
+    title: Michael Stevens (YouTuber)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "Stevens launched the Vsauce channel in 2010." "Stevens partnered with
+      YouTube Red (now YouTube Premium) to create and host Mind Field, which
+      premiered in January 2017 through YouTube's paid streaming service on the
+      Vsauce channel." Stevens moved to New York City in 2008 and gained
+      employment with Barely Political and Next New Networks; in 2012, the year
+      after Next New Networks was acquired by Google, he began working as a
+      content strategist for Google in London.
+    supports:
+      - relationship: 4
+
+  - ref: wikipedia_mind_field
+    url: https://en.wikipedia.org/wiki/Mind_Field
+    title: Mind Field
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Mind Field is a documentary series created and presented by Michael
+      Stevens, commissioned by YouTube Premium (formerly YouTube Red) as original
+      programming and aired exclusively on the Vsauce channel. Premiere 18 January
+      2017; final episode 24 October 2019; 3 seasons of 8 episodes each. Produced
+      by Vsauce and The Intellectual Property Corporation for YouTube Premium's
+      exclusive distribution — a content production deal rather than a channel
+      ownership transfer.
+    supports:
+      - relationship: 4
+
+  - ref: tubefilter_curiosity_box
+    url: https://www.tubefilter.com/2016/12/26/vsauce-curiosity-box-quarterly/
+    title: With The "Curiosity Box," Vsauce Supports Hands-On Exploration
+    publisher: Tubefilter
+    published_at: 2016-12-26
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      The Curiosity Box is a quarterly subscription service, created by the Vsauce
+      team — Michael Stevens, Kevin Lieber, and Jake Roper — announced in
+      September 2016 with the first box released that year. It ships 6–9
+      science-themed items per box; a portion of revenue supports Alzheimer's
+      research. Jake Roper: "A subscription box seemed like the perfect way to
+      bring all of these ideas together."
+    supports:
+      - relationship: 3
+
+  - ref: dexerto_hypothetical_sale
+    url: https://www.dexerto.com/entertainment/vsauce-opens-up-about-selling-youtube-channel-and-what-hed-do-next-2177616/
+    title: Vsauce opens up about selling YouTube channel and what he'd do next
+    publisher: Dexerto
+    published_at: 2023-06-01
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Reporting on Stevens' appearance on Anthony Padilla's show, the piece frames
+      a channel sale as HYPOTHETICAL and not something that has happened: Stevens
+      said if offered, "I'll go 'cool' and I'll take that money and then I'll just
+      walk away," but added "I don't think Vsauce is worth that much money, because
+      I don't run it like it's a profitable thing." The article concludes "it looks
+      doubtful that he will anytime soon."
+    supports:
+      - relationship: 1
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >-
+    DRAFT for human review — "independent creator-owned channel with documented
+    PAST PRODUCTION/VENTURE context (not a past ownership change)" case. Follows
+    the same non-ownership-context modeling as pewdiepie.yaml and jacksepticeye.yaml.
+
+    CHANNEL ID: UC6nSFpj9HTCZ5t-N3Rm3-HA, extracted from the externalId field in
+    the raw HTML of https://www.youtube.com/@Vsauce (curl fetch, no JS execution).
+    Corroborated by the page's own
+    <link rel="canonical" href="https://www.youtube.com/channel/UC6nSFpj9HTCZ5t-N3Rm3-HA">
+    and the embedded educational keywords ("Science questions education learning
+    schools DiscoveryChannel").
+
+    CORE MODELING DECISION — CREATOR-OWNED, NO OWNERSHIP TRANSITION. Michael
+    Stevens founded Vsauce (rel 0, 2010-04-16) and, per all Tier 1/2 sourcing,
+    still owns it (rel 1, ACTIVE, CONTROLLING). No source documents any sale,
+    equity stake, or transfer of the channel; a sale has only ever been discussed
+    HYPOTHETICALLY (Dexerto, 2023). There is therefore NO ENDED ownership edge and
+    NO prior-owner period.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) OWNERSHIP EDGE (rel 1, stevens OWNS channel) is the weakest-supported edge
+    and the reviewer's primary focus. It rests on his founding/hosting the channel
+    (rels 0, 2) plus the DOCUMENTED ABSENCE of any transfer, not a direct Tier-1
+    ownership disclosure. control_level CONTROLLING; confidence deliberately
+    moderate (0.7); no ownership percentage asserted. A reviewer may wish to
+    confirm the operating entity behind the channel (none is documented to a Tier
+    1/2 standard, so none is asserted).
+    (2) MIND FIELD / YOUTUBE RED (rel 4) — PRECISION FLAG. This is a per-series
+    content production/licensing/exclusive-distribution deal (2017-01-18 to
+    2019-10-24) for the Mind Field originals that aired on the channel; it is NOT
+    a channel acquisition and did NOT transfer ownership. It is modeled as
+    channel DISTRIBUTED_BY youtube_red / control_level LICENSE / status ENDED with
+    both effective dates set to the series' documented premiere and final-episode
+    dates. CAVEAT: "channel DISTRIBUTED_BY YouTube Red" is scoped in intent to the
+    Mind Field originals only — every YouTube channel is trivially distributed by
+    YouTube, so this edge is meaningful ONLY as the paid-originals licensing era.
+    A reviewer may prefer to (a) drop this edge and keep it as context only, or
+    (b) re-scope it to a series-level node, if the data model supports one. Mind
+    Field was co-produced by Vsauce and The Intellectual Property Corporation
+    (IPC); IPC is noted here rather than added as an entity to keep the graph
+    scoped to the channel.
+    (3) CURIOSITY BOX (rel 3) — VENTURE OUTSIDE THE OWNERSHIP CHAIN. A quarterly
+    science subscription-box company co-founded by the three Vsauce hosts (Stevens,
+    Kevin Lieber, Jake Roper), announced September 2016. Recorded as FOUNDED_BY for
+    documented context only; it does NOT own the channel and does NOT feed the
+    classification (same treatment as jacksepticeye.yaml's coffee/apparel
+    ventures). effective_from omitted (month only). Co-founders Lieber/Roper are
+    not added as entities (they host the separate Vsauce2/Vsauce3 channels); a
+    reviewer may add them if a Curiosity Box sub-graph is desired.
+    (4) TASK-BRIEF CLAIMS THAT DID NOT VERIFY — deliberately NOT encoded. The brief
+    hinted at Warner Bros., Nerdist, and a "Curiosity"/streaming deal.
+      - "Curiosity" resolves to The Curiosity Box merchandise venture (rel 3), NOT
+        a streaming or ownership deal. No Vsauce/Discovery/Curiosity Stream
+        streaming acquisition is documented in any Tier 1/2 source located.
+      - NERDIST: no Tier 1/2 source ties Nerdist Industries to Vsauce's ownership
+        or to an MCN that represented the channel. (Nerdist was acquired by
+        Legendary Entertainment in 2012 — unrelated to Vsauce.) Appears to be a
+        conflation; not encoded.
+      - WARNER BROS.: no Tier 1/2 source ties Warner Bros. to Vsauce. (Warner Bros.
+        took a stake in the MCN Machinima in 2014 — a different network, unrelated
+        to Vsauce.) Appears to be a conflation; not encoded.
+      Per docs/evidence-policy.md, unverified relationships remain research leads
+      and are not published; precision over coverage.
+    (5) NEXT NEW NETWORKS / GOOGLE EMPLOYMENT — CONTEXT, NOT CHANNEL EDGES.
+    Stevens was employed by Barely Political and Next New Networks (NNN) around the
+    2008–2010 period, and worked as a Google/YouTube content strategist from 2012
+    (the year after Google acquired NNN). These are EMPLOYMENT relationships of the
+    INDIVIDUAL Stevens, not ownership or representation of the Vsauce CHANNEL, and
+    no Tier 1/2 source states NNN owned or represented the channel. They are
+    recorded here as context only and intentionally NOT modeled as channel edges.
+    A reviewer with a Tier 1/2 source establishing that Vsauce was formally part of
+    the NNN network could add a dated ENDED REPRESENTS edge; none was located.
+    (6) NEUTRAL FRAMING. Per docs/legal-risk.md, this record describes ownership,
+    production, and venture structure only and makes NO claim of editorial
+    interference or wrongdoing. The YouTube Red/Mind Field arrangement is described
+    as documented content licensing; no conclusion about editorial control is drawn.
+
+    PROPOSED CLASSIFICATION (computed by importer, not asserted here): expected
+    CREATOR_OWNED (GREEN) — the only ACTIVE channel-owning edge is Stevens (a
+    CREATOR) OWNS channel / CONTROLLING. The Curiosity Box edge (rel 3) is a
+    company FOUNDED_BY a creator (outside the chain), and the Mind Field edge (rel
+    4) is an ENDED, non-owning DISTRIBUTED_BY/LICENSE edge — neither feeds the
+    ownership label. No OWNERSHIP_CHANGED_RECENTLY warning expected (no ownership
+    edge changed; the ENDED production edge is from 2017–2019, well outside the
+    12-month window as of the 2026 evaluation date). Confidence moderate, gated by
+    the Tier-2-only, inference-based OWNS edge.
+
+    All backing sources are Tier 2 (Wikipedia, Tubefilter, Dexerto). No Tier 1
+    source directly discloses channel ownership; no Tier 3/4 source is used.
+  last_reviewed_at: 2026-07-29

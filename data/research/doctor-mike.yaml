@@ -1,0 +1,177 @@
+# CHANNELWATCH research record — Doctor Mike (Mikhail Varshavski)
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: an independent, creator-owned solo-creator channel run by a
+# physician-creator. The Doctor Mike YouTube channel was created and is hosted by
+# Mikhail Varshavski himself; it pre-dates any business structure and NO external
+# investment in, or acquisition of, the CHANNEL was found. He works with a small
+# production team, but NO reliably-sourced legal entity name for an operating /
+# production company was located (recorded as absence — see notes). He separately
+# founded a charitable foundation (Limitless Tomorrow Foundation, 2015); that is a
+# SEPARATE venture, is not the channel, and is deliberately kept OUT of the
+# channel's ownership chain (see notes). Expected computed classification:
+# CREATOR_OWNED.
+
+channel:
+  # Extracted from the sole "externalId" field embedded in the raw HTML of
+  # https://www.youtube.com/@DoctorMike (curl fetch, no JS execution), captured
+  # alongside "canonicalBaseUrl":"/@DoctorMike". This is the page's own
+  # channel/browse id.
+  youtube_channel_id: UC0QHWhjbe5fGJEPz3sVb6nw
+  display_name: Doctor Mike
+  handle: "@DoctorMike"
+
+entities:
+  - slug: mike
+    # On-camera creator, host, and owner of the channel — a practicing family
+    # medicine physician. Recorded CREATOR (he is himself the face/host), not
+    # PERSON.
+    canonical_name: Mikhail Varshavski
+    entity_type: CREATOR
+    aliases:
+      - Doctor Mike
+      - Dr. Mike
+      - Mikhail Oskarovich Varshavski
+
+relationships:
+  # 0: The Doctor Mike channel was created by Mikhail Varshavski. Wikipedia's
+  # infobox gives "Years active: 2016–present" for his YouTube presence, but does
+  # NOT give a day-precise channel-creation date, so effective_from is OMITTED
+  # rather than guessed (a Tier 3 aggregator, Social Blade, lists 2016-08-19; not
+  # relied on here — see notes). Pre-dates any business structure, so this is a
+  # personal founding edge on the channel.
+  - subject: channel
+    type: FOUNDED_BY
+    object: mike
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: Mikhail Varshavski owns/controls the channel. Recorded OWNS + CONTROLLING
+  # with ownership_percentage OMITTED. This is the load-bearing edge for the
+  # classification and is, in part, an INFERENCE FROM DOCUMENTED ABSENCE: sources
+  # consistently present the channel as his own, and NO source found reports any
+  # external owner, investor, or acquirer of the CHANNEL. No explicit "Varshavski
+  # owns 100% of the channel" statement or corporate filing was located, so no
+  # percentage is asserted. confidence 0.7. Flagged — see notes.
+  - subject: mike
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Mikhail Varshavski is the channel's principal on-camera host/creator.
+  # Distinct from the ownership edge. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: mike
+    confidence: 0.9
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_doctor_mike
+    url: https://en.wikipedia.org/wiki/Doctor_Mike
+    title: Doctor Mike
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Mikhail Oskarovich "Mike" Varshavski is a Soviet-born American family
+      medicine physician, YouTuber, and internet personality. His Instagram
+      gained viral attention after being featured in BuzzFeed, and People
+      magazine designated him "The Sexiest Doctor Alive" in 2015. He maintains a
+      YouTube presence featuring medically-themed entertainment videos and
+      debunking of false health claims. (Infobox: Years active 2016–present.)
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+  - ref: forbes_business_strategy_2025
+    url: https://www.forbes.com/sites/ianshepherd/2025/01/20/the-business-strategy-behind-dr-mikes-medical-content-success/
+    title: The Business Strategy Behind Dr Mike's Medical Content Success
+    publisher: Forbes
+    published_at: 2025-01-20
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Last year alone, Dr. Mike's team produced thousands of videos reaching
+      billions of viewers.
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+review:
+  researched_by: claude-research-agent-m1
+  notes: >-
+    DRAFT for human review — "independent, creator-owned single-creator channel"
+    case, physician-creator variant. Requires human verification before
+    publication.
+
+    CHANNEL ID: UC0QHWhjbe5fGJEPz3sVb6nw, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@DoctorMike (curl fetch, no
+    JS execution), captured adjacent to "canonicalBaseUrl":"/@DoctorMike".
+    Reviewer should confirm against the live channel.
+
+    EXPECTED COMPUTED CLASSIFICATION: CREATOR_OWNED. The channel's only
+    owner/controller is the CREATOR himself (rel 1), with no company, firm, or
+    external investor anywhere in the channel's ownership chain. No PE-label
+    evidence rule is engaged: there is no PRIVATE_EQUITY_FIRM or
+    PORTFOLIO_COMPANY_OF edge in the record. Confirm the computed label at import.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) OWNERSHIP EDGE (rel 1) is the reviewer's primary focus. It is recorded
+    OWNS + CONTROLLING with NO percentage. This is partly an INFERENCE FROM
+    DOCUMENTED ABSENCE — every source presents the channel as Mikhail
+    Varshavski's own, and none reports any external owner/investor/acquirer OF THE
+    CHANNEL — rather than from an explicit ownership statement or corporate
+    filing. Confidence 0.7 reflects that. No percentage was guessed. If the
+    reviewer requires a positive primary source of channel ownership (e.g. a
+    registered operating entity / loan-out company), that is a Tier 1
+    corroboration lead.
+    (2) FOUNDING DATE: rel 0 has effective_from OMITTED. Wikipedia's infobox lists
+    "Years active: 2016–present" for his YouTube presence but gives no day-precise
+    channel-creation date; other secondary sources variously say he "launched" in
+    2016 or 2017 (he became publicly known via viral Instagram photos and 2015–16
+    TV appearances before the channel). A Tier 3 aggregator (Social Blade) lists a
+    creation date of 2016-08-19; NOT relied on here. The channel's own YouTube
+    "About" join date is a Tier 1/2 corroboration lead to pin the exact date.
+    (3) PRODUCTION / OPERATING COMPANY: RECORDED ABSENCE. Varshavski works with a
+    production team — Forbes: "Dr. Mike's team produced thousands of videos" — but
+    NO reliably-sourced legal entity name (an operating / production company that
+    owns or operates the channel) was located in any fetched source. No company
+    entity and no company-ownership edge is therefore modeled. If a reviewer
+    confirms a formal operating company (name, jurisdiction, founding date) via a
+    primary source, the model should be updated to a creator-controlled-company
+    shape (creator OWNS/PARTIALLY_OWNS the company; company OWNS the channel),
+    which would still compute CREATOR_OWNED.
+    (4) SEPARATE VENTURE, OUT OF CHAIN — LIMITLESS TOMORROW FOUNDATION. Varshavski
+    separately founded a charitable foundation, the Limitless Tomorrow Foundation
+    (reported 2015), which provides student scholarships. It is a SEPARATE entity,
+    is NOT the channel, and is deliberately NOT modeled as a node/edge here: it is
+    a nonprofit that is neither an owner nor an asset of the channel and takes no
+    outside equity, so it does not enter the channel's ownership chain. Mentioned
+    only so a reviewer knows it was considered and consciously excluded (cf. the
+    Chamberlain Coffee handling in emma-chamberlain.yaml). If ever modeled, it
+    belongs in a separate record and would have no bearing on this channel's
+    classification.
+    (5) NO EXTERNAL INVESTMENT / ACQUISITION OF THE CHANNEL found. Low-quality
+    net-worth / SEO sources describe Varshavski making OUTBOUND "savvy investments"
+    (real estate, tech/healthcare startups) — i.e. him investing in OTHER things,
+    analogous to MKBHD's Ridge stake — NOT anyone acquiring or investing in his
+    channel. Those net-worth claims are Tier 4 and are NOT asserted here; they
+    create no inbound ownership edge regardless. TALENT REPRESENTATION: no
+    specific talent-agency/management representation was located; in any case,
+    representation is NOT ownership and would not be modeled against the channel.
+    (6) SOURCES: both are Tier 2 (ESTABLISHED_INDUSTRY_PUBLICATION) from
+    independent publishers — Wikipedia (rels 0/1/2) and Forbes (rels 1/2). NO
+    Tier 1 primary source (business registry filing or a direct on-the-record
+    ownership statement) of the channel's ownership was captured — a lead for a
+    reviewer wanting Tier 1 corroboration of sole ownership. archive_urls should
+    be captured at review. Legal-safe/neutral: the record asserts only his own
+    channel ownership/hosting; no conclusion is drawn about editorial control, and
+    financial ownership / operational control / creative influence are kept
+    distinct (legal-risk policy §2).
+  last_reviewed_at: 2026-07-29

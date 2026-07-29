@@ -1,0 +1,274 @@
+# CHANNELWATCH research record — Like Nastya (Anastasia Radzinskaya)
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: creator/family-owned kids channel with external MEDIA/AGENCY
+# relationships that are MANAGEMENT / REPRESENTATION, NOT ownership — the direct
+# parallel to ryans-world.yaml (pocket.watch) and kids-diana-show.yaml. The
+# central factual distinction this record encodes:
+#
+#   channel (Like Nastya)
+#     ├─ FOUNDED_BY ───────── Anastasia Radzinskaya — on-screen star; channel
+#     │                       launched by her parents in January 2016 (notes 1)
+#     ├─ OPERATES ─────────── Anna Radzinskaya   (parent — produces/films)
+#     ├─ OPERATES ─────────── Yuri Radzinskaya   (parent — produces/co-stars)
+#     ├─ REPRESENTS (mgmt) ── Yoola  — MCN / 360° talent management (signed 2017)
+#     └─ REPRESENTS (lic.) ── IMG    — "first licensing representative" (2020)
+#
+# Neither Yoola nor IMG is documented as an owner of the channel; ownership/
+# control sits with the Radzinskaya family. See review.notes.
+
+channel:
+  # Canonical externalId extracted from the raw HTML of
+  # https://www.youtube.com/@LikeNastyaofficial (curl fetch, no JS execution).
+  # This is the page's own "externalId" field (187 occurrences; matches the
+  # <link rel="canonical"> /channel/ URL and the og:title "Like Nastya"). It is
+  # the record's natural key. Several unrelated UC ids (featured/recommended
+  # modules) also appear in the page source and were discarded.
+  youtube_channel_id: UCJplp5SjeGSdVdwsfb9Q7lQ
+  display_name: Like Nastya
+  handle: "@LikeNastyaofficial"
+
+entities:
+  - slug: anastasia
+    canonical_name: Anastasia Radzinskaya
+    entity_type: CREATOR
+    aliases:
+      - Like Nastya
+      - Nastya
+      - Nastya Radzinskaya
+      - Anastasia Yuryevna Radzinskaya
+
+  - slug: anna
+    canonical_name: Anna Radzinskaya
+    entity_type: PERSON
+
+  - slug: yuri
+    # Father. NAME DISCREPANCY across sources — recorded as "Yuri" per two Tier 2
+    # trade publications quoting the family directly (Tubefilter, Variety); the
+    # Wikipedia article names the father "Sergey". Flagged for review (notes 2);
+    # both retained (Sergey as alias) rather than silently resolved.
+    canonical_name: Yuri Radzinskaya
+    entity_type: PERSON
+    aliases:
+      - Sergey Radzinskaya
+      - Sergey
+
+  - slug: yoola
+    canonical_name: Yoola
+    entity_type: COMPANY
+    website: https://www.yoola.com
+    aliases:
+      - Yoola Entertainment
+      - Yoola Digital
+
+  - slug: img
+    canonical_name: IMG
+    entity_type: COMPANY
+    website: https://www.img.com
+    aliases:
+      - IMG Worldwide
+
+relationships:
+  # 0: Channel founded around Anastasia, its on-screen star. Launched by her
+  # parents in January 2016 (Anastasia was ~2). FOUNDED_BY anastasia mirrors the
+  # Ryan's World / Kids Diana Show model (channel identity built around the child
+  # creator); the parents' operating role is captured separately in rels 1-2.
+  # Day-precision date not established (month = January 2016) -> effective_from
+  # omitted rather than guessed. See notes (1).
+  - subject: channel
+    type: FOUNDED_BY
+    object: anastasia
+    confidence: 0.8
+    status: ACTIVE
+
+  # 1: Anna Radzinskaya (mother) — operates the channel; conceives ideas and
+  # films (videographer, off-camera). control_level CONTROLLING reflects direct
+  # family control. Recorded as OPERATES (not OWNS) because sources establish the
+  # family launched and runs the channel but do NOT state a verbatim legal
+  # ownership instrument. See notes (3).
+  - subject: anna
+    type: OPERATES
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Yuri Radzinskaya (father) — co-operates the channel; conceives ideas and
+  # co-stars in most videos. Same rationale as rel 1.
+  - subject: yuri
+    type: OPERATES
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 3: Yoola REPRESENTS / MANAGES the channel — multi-channel network providing
+  # "360-degree talent management" to the Radzinskayas (Eyal Baumel, CEO). This
+  # is the ownership-vs-representation distinction the task calls out: Yoola is
+  # the MCN / management partner, NOT an owner of the channel. No fetched source
+  # states Yoola owns the channel. control_level MANAGEMENT. Family "signed in
+  # 2017"; year-only, no month/day established -> effective_from omitted (notes 4).
+  - subject: yoola
+    type: REPRESENTS
+    object: channel
+    control_level: MANAGEMENT
+    confidence: 0.8
+    status: ACTIVE
+
+  # 4: IMG REPRESENTS the brand as its licensing agent — announced 2020-05-06 as
+  # "Anastasia's first licensing representative" for consumer products (toys,
+  # apparel, accessories, homeware, food & beverage). control_level LICENSE — a
+  # licensing/merchandising representative, NOT an owner. effective_from set to
+  # the announcement date (operative date not separately documented); see
+  # notes (5).
+  - subject: img
+    type: REPRESENTS
+    object: channel
+    control_level: LICENSE
+    effective_from: 2020-05-06
+    confidence: 0.75
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_like_nastya
+    url: https://en.wikipedia.org/wiki/Like_Nastya
+    title: Like Nastya
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Anastasia's mother Anna owned a bridal salon in Krasnodar while her father
+      Sergey owned a construction company. In 2015, Radzinskaya's parents sold
+      their companies, and in January 2016, they created their YouTube channel.
+      [...] Radzinskaya's parents signed with multi-channel network Yoola.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+
+  - ref: tubefilter_2020
+    url: https://www.tubefilter.com/2020/03/20/nastya-radzinskaya-50-million-subscribers-3-8-billion-views/
+    title: >-
+      Meet 6-Year-Old Nastya Radzinskaya, The Only Kid YouTuber With 50 Million
+      Subscribers -- And 3.8 Billion Monthly Views
+    publisher: Tubefilter
+    published_at: 2020-03-20
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      The family launched their YouTube venture in 2016. [...] Anna and Yuri say
+      they work upwards of 60 hours per week -- conceiving new video ideas and
+      filming roughly three or four videos. [...] [The family] signed in 2017
+      [with] Eyal Baumel, the CEO of multi-channel network Yoola [which]
+      provides 360-degree talent management services to the Radzinskayas, and is
+      working with them on product development through its Yoola Ventures
+      division.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+
+  - ref: variety_img_2020
+    # Original Variety report. Variety was paywalled to the fetcher (HTTP 402 /
+    # tollbit redirect); content confirmed via the Variety-syndicated copy on
+    # Yahoo Finance (finance.yahoo.com/news/nastya-6-old-youtube-superstar-
+    # 130049558.html). Reviewer to capture an archive_url.
+    url: https://variety.com/2020/digital/news/like-nastya-youtube-products-merchandise-img-1234599259/
+    title: YouTube Star 'Like Nastya' to Develop Merchandise Under IMG Deal
+    publisher: Variety
+    published_at: 2020-05-06
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      IMG [is] Anastasia's first licensing representative [and] will explore
+      licensed product opportunities [including] toys, apparel, accessories,
+      homeware, food and beverage and more. [...] "We are pleased to be working
+      with IMG to develop products that will provide new ways for Anastasia's
+      millions of viewers around the world to engage with her vibrant
+      personality," [said] Eyal Baumel, CEO of multichannel network Yoola.
+    supports:
+      - relationship: 3
+      - relationship: 4
+
+review:
+  researched_by: claude-research-agent-m1
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT for human review — "creator/family-owned kids channel with external
+    MEDIA/AGENCY management & licensing relationships (NOT ownership)" case; the
+    direct parallel to ryans-world.yaml and kids-diana-show.yaml. Requires human
+    verification before publication. reviewed_by intentionally OMITTED (schema
+    field is optional, not nullable) — this is an unverified draft.
+
+    CHANNEL ID. UCJplp5SjeGSdVdwsfb9Q7lQ, taken from the "externalId" field in
+    the raw HTML of https://www.youtube.com/@LikeNastyaofficial (curl, no JS
+    execution). It appears 187 times, matches the page's <link rel="canonical">
+    /channel/ URL, and the og:title is "Like Nastya". The bare handle
+    @LikeNastya returns 404 — the official handle is @LikeNastyaofficial.
+    Reviewer should confirm against the live channel.
+
+    OWNERSHIP vs REPRESENTATION — the core finding. Ownership/control of the
+    channel sits with the Radzinskaya family: Anastasia's parents (Anna and
+    Yuri) launched it in January 2016 and produce/run it (mother films
+    off-camera; father co-stars), reporting ~20 dedicated employees. Two external
+    partners are documented, and BOTH are representation, NOT ownership:
+    (a) YOOLA — a multi-channel network (MCN) that "provides 360-degree talent
+    management services" to the family (CEO Eyal Baumel); the family "signed in
+    2017". Recorded REPRESENTS + control_level MANAGEMENT.
+    (b) IMG — engaged 2020 as "Anastasia's first licensing representative" for
+    consumer products. Recorded REPRESENTS + control_level LICENSE.
+    NO fetched source states that Yoola or IMG owns the channel or the brand.
+    Reviewer: do NOT let the depth of the Yoola management relationship or the
+    IMG licensing deal be read as ownership.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) rel 0 (channel FOUNDED_BY anastasia). Evidence credits the PARENTS with
+    creating the channel in January 2016 (Anastasia was ~2). FOUNDED_BY anastasia
+    mirrors the Ryan's World / Kids Diana Show model (identity built around the
+    child creator) with the parents' operating role in rels 1-2; a reviewer may
+    prefer a parent or family founding edge. Day-precision date not established
+    (month = January 2016), so effective_from is omitted rather than guessed.
+    (2) FATHER'S NAME DISCREPANCY — unresolved, flagged. Tubefilter and Variety
+    (Tier 2, quoting the family) name the father "Yuri"; the Wikipedia article
+    names him "Sergey". Recorded canonical_name "Yuri Radzinskaya" with "Sergey"
+    kept as an alias. Reviewer to resolve against a primary source. (Mother "Anna"
+    is consistent across sources.)
+    (3) rels 1-2 (Anna / Yuri OPERATE channel, CONTROLLING, conf 0.7). Sources
+    establish the family launched and runs the channel but do NOT state a
+    verbatim legal ownership instrument, and NO named family production/holding
+    company was located in the fetched sources (unlike Ryan's World, which routes
+    control through Sunlight Entertainment). If such a company exists, add it and
+    re-route the OPERATES edges through it. OPERATES + CONTROLLING is the honest
+    structural reading of direct family control.
+    (4) rel 3 (Yoola REPRESENTS, MANAGEMENT). Signing dated "2017" (year only,
+    Tubefilter/Variety) — effective_from omitted rather than guessing a month.
+    Yoola is described as an L.A.-based MCN (also reported as Israeli-founded);
+    jurisdiction NOT firmly established from fetched sources, so omitted. Exact
+    contractual terms are not public and are NOT asserted (creator-safety /
+    Spec §22.4: no confidential contracts). Yoola Ventures (product development)
+    noted but not modeled as a separate edge.
+    (5) rel 4 (IMG REPRESENTS, LICENSE). effective_from = 2020-05-06, the Variety
+    announcement date (operative date not separately documented; see the
+    Ryan's/Diana convention of recording the announcement on source.published_at).
+    control_level LICENSE reflects "first licensing representative" for consumer
+    products. IMG's own corporate parentage (WME/Endeavor) is OUT OF SCOPE and
+    intentionally not modeled — it attaches to IMG, the representative, and does
+    not establish any ownership of the channel.
+    (6) CHILD-SAFETY / PRIVACY (Spec §22.4, evidence-policy §5). Anastasia is a
+    minor. Only publicly self-disclosed, ownership-relevant brand facts are
+    recorded (name/aliases; parents' operating roles; the family previously owned
+    a bridal salon and a construction company, sold 2015 to start the channel).
+    DELIBERATELY OMITTED as unrelated to ownership transparency: the family's
+    reported relocation/residence (Miami), the widely-reported health/diagnosis
+    detail, and any minor's private data.
+    (7) NO PE INVOLVEMENT. No PRIVATE_EQUITY_FIRM entity and no
+    PORTFOLIO_COMPANY_OF edge — the §14.3 PE-label gate does not apply.
+    EXPECTED COMPUTED CLASSIFICATION: CREATOR_OWNED / creator- (family-)
+    controlled — the channel is owned and operated by the Radzinskaya family,
+    with Yoola (management) and IMG (licensing) as representation partners, not
+    owners. Classification is COMPUTED by the importer; confirm the label at
+    import.
