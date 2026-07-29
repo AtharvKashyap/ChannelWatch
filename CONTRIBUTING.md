@@ -1,9 +1,9 @@
 # Contributing to CHANNELWATCH
 
 Thank you for helping build a transparent, evidence-first record of YouTube channel
-ownership. Before contributing, please read `MANIFESTO.md`,
-`docs/METHODOLOGY.md`, and `docs/legal-risk.md` — they are the project's
-constitution and they bind every contribution.
+ownership. Before contributing, please read `README.md`, `docs/METHODOLOGY.md`,
+and `docs/legal-risk.md` — they set the project's principles and evidence
+standards, and they bind every contribution.
 
 Contributions fall into two very different categories, adapted from Spec §31:
 **code** and **research**. They follow different rules.

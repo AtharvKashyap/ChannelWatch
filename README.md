@@ -100,29 +100,26 @@ TL;DR: copy [`data/research/_TEMPLATE.yaml`](./data/research/_TEMPLATE.yaml) →
 
 ## Deploy it (for $5)
 
-CHANNELWATCH runs on entirely free infrastructure — **Neon** (Postgres) + **Render** (API) + **Vercel** (web) — the only cost being the one-time $5 Chrome Web Store fee. The complete, non-ops, step-by-step guide is [`docs/launch-runbook.md`](./docs/launch-runbook.md), with `render.yaml` and `apps/web/vercel.json` committed and ready.
+CHANNELWATCH runs on entirely free infrastructure — **Neon** (Postgres) + **Render** (API) + **Vercel** (web) — the only cost being the one-time $5 Chrome Web Store fee. The `render.yaml` and `apps/web/vercel.json` blueprints are committed and ready.
 
 ---
 
 ## Project docs
 
-| Doc                                                                                                         |                                          |
-| ----------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| [`MANIFESTO.md`](./MANIFESTO.md)                                                                            | Why this exists                          |
-| [`CLAUDE.md`](./CLAUDE.md)                                                                                  | Conventions + the 9 non-negotiable rules |
-| [`docs/SPEC.md`](./docs/SPEC.md) · [`docs/plan.md`](./docs/plan.md)                                         | Founding spec & build plan               |
-| [`docs/data-model.md`](./docs/data-model.md)                                                                | Entities, relationships, classification  |
-| [`docs/METHODOLOGY.md`](./docs/METHODOLOGY.md) · [`docs/evidence-policy.md`](./docs/evidence-policy.md)     | How research is done & judged            |
-| [`docs/legal-risk.md`](./docs/legal-risk.md) · [`docs/launch-legal-audit.md`](./docs/launch-legal-audit.md) | Legal-safety framework                   |
-| [`PRIVACY.md`](./PRIVACY.md) · [`SECURITY.md`](./SECURITY.md)                                               | Privacy & security posture               |
-| [`docs/roadmap.md`](./docs/roadmap.md) · [`docs/launch-checklist.md`](./docs/launch-checklist.md)           | Where it's going & what's left to launch |
-| [`CONTRIBUTING.md`](./CONTRIBUTING.md)                                                                      | How to help                              |
+| Doc                                                                                                     |                                         |
+| ------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| [`docs/data-model.md`](./docs/data-model.md)                                                            | Entities, relationships, classification |
+| [`docs/METHODOLOGY.md`](./docs/METHODOLOGY.md) · [`docs/evidence-policy.md`](./docs/evidence-policy.md) | How research is done & judged           |
+| [`docs/legal-risk.md`](./docs/legal-risk.md)                                                            | Legal-safety framework                  |
+| [`docs/research-authoring-prompt.md`](./docs/research-authoring-prompt.md)                              | How to research & contribute a channel  |
+| [`PRIVACY.md`](./PRIVACY.md) · [`SECURITY.md`](./SECURITY.md)                                           | Privacy & security posture              |
+| [`CONTRIBUTING.md`](./CONTRIBUTING.md)                                                                  | How to help                             |
 
 ---
 
 ## Status
 
-Core platform complete and tested end-to-end: extension, public site, review console, classification engine, and a **57-channel** researched dataset (growing toward 100+). Remaining before a public launch is human/ops work, not code — finishing review of the newest draft records (with two-person sign-off on sensitive ones), a licensed-attorney pass, registering a DMCA agent, and the free-tier deploy. See [`docs/launch-checklist.md`](./docs/launch-checklist.md).
+Core platform complete and tested end-to-end: extension, public site, review console, classification engine, and a **57-channel** researched dataset (growing toward 100+). Remaining before a public launch is human/ops work, not code — finishing review of the newest draft records (with two-person sign-off on sensitive ones), a licensed-attorney pass, registering a DMCA agent, and the free-tier deploy.
 
 ## License & disclaimer
 
