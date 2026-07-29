@@ -37,9 +37,11 @@ These are policy, not preference. Do not violate them even if a change "works":
 
 TypeScript-only monorepo: pnpm workspaces + Turborepo.
 
-- `apps/extension` — Manifest V3, React + Vite. Content script: youtube-observer →
-  channel-resolver → badge-renderer → ownership-panel. Background SW: API client +
-  `chrome.storage` cache.
+- `apps/extension` — Manifest V3, React + Vite. **Popup-only UI, no DOM injection.**
+  Minimal content script resolves the current watch-page channel ID on demand
+  (renders nothing); the toolbar popup shows the ownership box. Background SW: API
+  client + an in-memory session cache (a `Map`, never `chrome.storage`). Saves no
+  user data — only a channel ID is sent to the API; no telemetry, no persistence.
 - `apps/web` — Next.js. Public site (channel pages, methodology, corrections form)
   plus authenticated `/review` console (claim queue, entity CRUD, audit viewer).
 - `services/api` — Hono + Drizzle ORM + PostgreSQL. Public read endpoints under
