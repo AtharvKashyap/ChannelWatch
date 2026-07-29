@@ -10,6 +10,7 @@ export default defineConfig({
     environmentMatchGlobs: [
       ["tests/content/**", "jsdom"],
       ["tests/ui/**", "jsdom"],
+      ["tests/popup/**", "jsdom"],
     ],
   },
 });
