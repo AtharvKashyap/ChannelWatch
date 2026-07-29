@@ -348,15 +348,29 @@ export const CHAIN_COPY = {
 } as const;
 
 /**
- * Static strings for the toolbar popup (SPEC §18.1). The popup shows no
- * ownership data; these are chrome/status strings, kept in the reviewed module
- * so no user-facing copy is inlined in the component.
+ * Static strings for the toolbar popup (SPEC §18.1). The popup is the ONLY UI:
+ * the extension injects nothing into YouTube. When opened on a watch page it
+ * shows the currently-playing video's ownership box; otherwise a friendly
+ * prompt. These are chrome/status strings kept in the reviewed module so no
+ * user-facing copy is inlined in the component (CLAUDE.md rule 2). `title` and
+ * `description` are also consumed as the public site's document metadata
+ * (`apps/web`), so `description` stays a neutral, badge-free product summary.
  */
 export const POPUP_COPY = {
   title: "CHANNELWATCH",
   description:
-    "Ownership badges appear next to channel names on watch and channel pages. Click a badge to see who owns the channel and the sources behind it.",
-  openSettings: "Open settings",
+    "Shows who owns, finances, or operates the YouTube channel you're watching, with sourced, human-reviewed evidence.",
+  /** Shown while the lookup is in flight. */
+  loading: "Looking up this channel…",
+  /** Replaces `loading` when the request is slow (e.g. a cold-start server). */
+  slowLoading: "Still working — the lookup server may be waking up.",
+  /** Friendly prompt on the homepage / channel pages / non-YouTube tabs. */
+  notWatchPage: "Open a YouTube video to see who owns its channel.",
+  /** Watch page, but the channel could not be read from the page yet. */
+  channelUnresolved:
+    "Couldn't read this video's channel yet. Give the page a moment to finish loading, then reopen this popup.",
+  /** The lookup failed (network/API error). */
+  lookupError: "Ownership information couldn't be loaded right now. Please try again later.",
 } as const;
 
 /**
