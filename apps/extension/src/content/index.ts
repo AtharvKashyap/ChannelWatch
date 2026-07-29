@@ -1,180 +1,57 @@
 /**
- * Content-script entry point. Pipeline: observe YouTube SPA navigation →
- * resolve the immutable `UC…` channel ID → ask the background SW for its
- * ownership record (`LOOKUP_CHANNEL`) → hold the result and notify subscribers.
+ * Minimal content script. Its ONLY job is to resolve the immutable `UC…`
+ * channel ID of the currently-playing watch-page video when the popup asks
+ * (`RESOLVE_CHANNEL`), and reply. It renders NOTHING into the page — no badge,
+ * no panel, no DOM mutation of any kind — and stores nothing (privacy,
+ * CLAUDE.md rule 5).
  *
- * The badge/panel UI (Task 5) subscribes via `onChannelResolved` (and can read
- * the most recent result synchronously via `getLastResolved`), so it can hook
- * in without any change to this file.
+ * Why a declared content script rather than `chrome.scripting`: resolving is
+ * done ON DEMAND against the live `document` at the moment the popup opens, so
+ * whatever video is currently playing is what we resolve — no SPA-navigation
+ * observer needed, and the resolver's own stale-`ytInitialData` guard handles a
+ * page whose inline scripts still describe a previous video. A declared script
+ * needs only the existing youtube host permission (no `scripting` permission),
+ * keeping the permission set minimal.
  *
- * Fail-silent (CLAUDE.md): every entry point is wrapped so a failure logs at
- * `console.debug` and never throws into the page. Only the channel ID +
- * extension version ever leave the page — enforced by the background SW.
+ * Fail-silent (CLAUDE.md): resolution never throws; a failure yields
+ * `channelId: null`, never an exception into the page.
  */
 import { resolveChannelId } from "./channel-resolver.js";
-import { startYouTubeObserver, type ObserverHandle } from "./youtube-observer.js";
-import { LOOKUP_CHANNEL, type LookupChannelResponse } from "../shared/messages.js";
+import { isResolveChannelRequest, type ResolveChannelResponse } from "../shared/messages.js";
 
-/** What subscribers receive: the resolved channel and its lookup outcome. */
-export interface ChannelResolved {
-  /**
-   * The resolved immutable channel ID, or `null` when the current page has no
-   * unambiguous channel (navigated away, or ambiguous) — Task 5 treats `null`
-   * as "clear any badge".
-   */
-  channelId: string | null;
-  /** The SW response, or `null` if there was no lookup / it could not complete. */
-  response: LookupChannelResponse | null;
-}
-
-type Subscriber = (resolved: ChannelResolved) => void;
-
-const subscribers = new Set<Subscriber>();
-let lastResolved: ChannelResolved | null = null;
-/**
- * The last channel ID we notified subscribers about (`null` = "nothing shown").
- * Used to suppress duplicate work: the body-level MutationObserver fires
- * onNavigate continuously, but we only send `LOOKUP_CHANNEL` / notify when the
- * resolved ID actually CHANGES — including genuine A→B changes and A→null
- * (clear) transitions.
- */
-let lastChannelId: string | null = null;
-
-/**
- * Monotonic sequence number, bumped once per resolution *dispatch* (before any
- * await). Used as a "latest-request-wins" guard: overlapping navigations can
- * have their `LOOKUP_CHANNEL` responses arrive out of order (an earlier, slow
- * lookup completing after a later, fast one). Each resolution captures the
- * post-increment value as its own `mySeq`; when its awaited lookup returns, it
- * only notifies (and never does, since notifying is the only side effect left
- * after the await) if `mySeq === resolveSeq` — i.e. no newer resolution has
- * been dispatched since. A stale completion is dropped silently: no notify,
- * no `lastChannelId` mutation (the newer, in-flight or already-completed
- * resolution owns that state).
- */
-let resolveSeq = 0;
-
-/**
- * Register a callback invoked whenever a channel is resolved and looked up.
- * Returns an unsubscribe function. (Task 5's renderer hooks in here.)
- */
-export function onChannelResolved(callback: Subscriber): () => void {
-  subscribers.add(callback);
-  return () => {
-    subscribers.delete(callback);
-  };
-}
-
-/** The most recent resolution, for late subscribers (e.g. a renderer mounted after resolve). */
-export function getLastResolved(): ChannelResolved | null {
-  return lastResolved;
-}
-
-function notify(resolved: ChannelResolved): void {
-  lastResolved = resolved;
-  for (const callback of subscribers) {
-    try {
-      callback(resolved);
-    } catch (err) {
-      console.debug("[channelwatch] onChannelResolved subscriber threw", err);
-    }
-  }
-}
-
-/**
- * Resolve the channel for `url` from `doc`, look it up via the background SW,
- * and notify subscribers. Never throws.
- */
-export async function resolveAndLookup(doc: Document, url: string): Promise<void> {
+/** Watch pages only (CLAUDE.md constraint): `/watch`, `/shorts/…`, `/live/…`. */
+function isWatchPage(url: string): boolean {
   try {
-    const channelId = resolveChannelId(doc, url);
-
-    // Nothing changed since the last *dispatched* resolution — no re-send,
-    // no re-notify. (Covers the continuous MutationObserver firings on a
-    // stable page, and null→null on non-channel pages.) Recording
-    // `lastChannelId` at dispatch time (below), rather than after the await,
-    // is what makes this dedup correct under overlapping navigations: if it
-    // were recorded on completion, two overlapping resolutions to the same id
-    // could both pass this check and both re-send.
-    if (channelId === lastChannelId) return;
-    lastChannelId = channelId;
-
-    // Sequence number captured synchronously at dispatch — before any await —
-    // so it's unambiguous which resolution is "latest" at any later point.
-    const mySeq = ++resolveSeq;
-
-    // Transitioned to "no channel" (navigated away / became ambiguous): tell
-    // subscribers to clear, without sending a lookup. No await occurs before
-    // this, so no other resolution can have interleaved — the staleness
-    // guard below isn't needed here.
-    if (channelId === null) {
-      notify({ channelId: null, response: null });
-      return;
-    }
-
-    let response: LookupChannelResponse | null = null;
-    try {
-      response = (await chrome.runtime.sendMessage({
-        type: LOOKUP_CHANNEL,
-        channelId,
-      })) as LookupChannelResponse;
-    } catch (err) {
-      // SW unreachable / message failed — surface a null response, never throw.
-      console.debug("[channelwatch] LOOKUP_CHANNEL message failed", err);
-      response = null;
-    }
-
-    // Latest-request-wins: if a newer resolution has been dispatched since
-    // this one started (mySeq !== resolveSeq), this completion is stale —
-    // drop it silently. Never update `lastChannelId` here (already correct,
-    // owned by whichever resolution dispatched last) and never notify (that
-    // would render a stale badge for a page we've since navigated away from).
-    if (mySeq !== resolveSeq) return;
-
-    notify({ channelId, response });
-  } catch (err) {
-    console.debug("[channelwatch] resolveAndLookup failed", err);
+    const path = new URL(url, "https://www.youtube.com").pathname;
+    return path === "/watch" || path.startsWith("/shorts/") || path.startsWith("/live/");
+  } catch {
+    return false;
   }
 }
 
-let observer: ObserverHandle | null = null;
-
-/** Start observing navigation and resolving. Idempotent — no duplicate observers. */
-export function bootstrap(): void {
-  if (observer) return;
-  observer = startYouTubeObserver({
-    onNavigate: () => {
-      void resolveAndLookup(document, document.URL);
-    },
-  });
+/**
+ * Resolve the current watch-page channel, reading the live document. Returns
+ * `null` on non-watch pages (channel pages included — the extension deliberately
+ * does nothing for them) and whenever resolution is ambiguous or unavailable.
+ */
+export function resolveCurrentChannel(doc: Document, url: string): string | null {
+  try {
+    if (!isWatchPage(url)) return null;
+    return resolveChannelId(doc, url);
+  } catch {
+    return null;
+  }
 }
 
-/** Stop the pipeline and reset resolution state (mainly for tests / hot-reload). */
-export function teardown(): void {
-  observer?.teardown();
-  observer = null;
-  lastChannelId = null;
-  lastResolved = null;
-  resolveSeq = 0;
-}
-
-// Auto-start only inside a real extension content-script context (where
-// `chrome.runtime.id` exists). Guarded so importing this module in unit tests
-// has no side effects. The UI controller (badge + panel) is wired here — it
-// subscribes to `onChannelResolved` before the observer starts resolving.
+// Register the message responder only inside a real content-script context.
+// Guarded so importing this module in unit tests has no side effects.
 if (typeof chrome !== "undefined" && chrome.runtime?.id) {
-  try {
-    // Imported lazily so unit tests that import the pipeline API don't pull the
-    // React panel bundle in.
-    void import("./ui-controller.js")
-      .then(({ mountUi }) => {
-        mountUi();
-        bootstrap();
-      })
-      .catch((err: unknown) => {
-        console.debug("[channelwatch] UI mount failed", err);
-      });
-  } catch (err) {
-    console.debug("[channelwatch] content bootstrap failed", err);
-  }
+  chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
+    if (!isResolveChannelRequest(message)) return undefined;
+    const response: ResolveChannelResponse = {
+      channelId: resolveCurrentChannel(document, document.URL),
+    };
+    sendResponse(response);
+    return undefined;
+  });
 }
