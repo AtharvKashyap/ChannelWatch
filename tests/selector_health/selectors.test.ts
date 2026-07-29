@@ -74,13 +74,6 @@ const EXPECTATIONS: Record<SelectorName, Partial<Record<FixtureKey, Expectation>
   // snippet until a fresh post-hydration snapshot is captured.
   watchOwnerLink: { watchPage: "zero", channelPage: "zero", hydratedWatchOwner: "match" },
   microdataAuthorUrl: { watchPage: "match", channelPage: "match" },
-  // `watchBadgeAnchor`'s broad `#video-owner` fallback already matches both
-  // real (pre-hydration) snapshots, and its most-specific selector matches
-  // the hydrated snippet too.
-  watchBadgeAnchor: { watchPage: "match", channelPage: "match", hydratedWatchOwner: "match" },
-  // `channel-page.html` is a pre-hydration shell with no header node at all
-  // (see its README); only the synthetic hydrated snippet can exercise this.
-  channelBadgeAnchor: { watchPage: "zero", channelPage: "zero", hydratedChannelHeader: "match" },
 };
 
 describe("selector health (apps/extension/src/content/selectors.ts)", () => {
