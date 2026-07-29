@@ -1,0 +1,302 @@
+# CHANNELWATCH research record — Johnny Harris
+#
+# DRAFT for human review. Nothing here is published without verification.
+# This is a DRAFT: the review block carries researched_by + last_reviewed_at
+# only; reviewed_by is intentionally NOT present (not yet human-reviewed).
+#
+# Profile: an individual-CREATOR-OWNED channel with a FORMER-EMPLOYER (Vox)
+# backstory — NOT a brand/ownership transition. Johnny Harris was a Vox video
+# producer (produced/hosted the "Borders" series) who left around 2020 to work
+# independently on his OWN eponymous YouTube channel. Vox is modeled as a FORMER
+# EMPLOYER (EMPLOYS ... ENDED), NOT as an owner of the channel — the channel has
+# always been his personal property. He separately CO-FOUNDED a travel-video
+# company, Bright Trip (2019), with his wife Iz Harris; Bright Trip is a distinct
+# company and does NOT own or operate this YouTube channel, so it carries only
+# FOUNDED_BY edges and does not touch the channel's ownership chain.
+#
+#   channel (Johnny Harris)
+#     └─ OWNS (ACTIVE) ─────────── Johnny Harris [individual creator]
+#     └─ FOUNDED_BY / HOSTED_BY ── Johnny Harris
+#   Johnny Harris ── EMPLOYS (ENDED ~2020, FORMER) ── Vox Media, Inc.
+#   Bright Trip, Inc. ── FOUNDED_BY ── Johnny Harris + Iz Harris  [separate co.]
+#
+# Classification is COMPUTED by the importer from ACTIVE edges only. The only
+# active owner of the channel is the individual creator, so this resolves to
+# CREATOR_OWNED (same structural shape as safiya-nygaard). The Vox EMPLOYS edge
+# is ENDED history and does not affect the served label; Bright Trip is not an
+# ownership edge on the channel and does not affect it either.
+
+channel:
+  # Canonical id read from the raw @johnnyharris channel-page HTML "externalId"
+  # field (curl of https://www.youtube.com/@johnnyharris ->
+  # "externalId":"UCmGSJVG3mCRXVOP4yZrU1Dw"). Cross-checked against YouTube's OWN
+  # feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCmGSJVG3mCRXVOP4yZrU1Dw
+  # returns <yt:channelId>UCmGSJVG3mCRXVOP4yZrU1Dw</yt:channelId> and <title>Johnny
+  # Harris</title>. The feed's channel-level <published> is 2011-06-08 (account-
+  # creation date; predates his post-Vox independent creator era — see notes).
+  youtube_channel_id: UCmGSJVG3mCRXVOP4yZrU1Dw
+  display_name: Johnny Harris
+  handle: "@johnnyharris"
+
+entities:
+  - slug: johnny_harris
+    canonical_name: Johnny Harris
+    entity_type: CREATOR
+    aliases:
+      - Johnny Harris
+  - slug: iz_harris
+    canonical_name: Iz Harris
+    entity_type: CREATOR
+    aliases:
+      - Iz Harris
+      - Isabel Harris
+  # Bright Trip — the travel-video course company Johnny co-founded (2019). This
+  # is a SEPARATE company; it does NOT own or operate this YouTube channel. Only
+  # FOUNDED_BY edges attach it here so it does not enter the channel's ownership
+  # chain (see notes).
+  - slug: bright_trip
+    canonical_name: Bright Trip, Inc.
+    entity_type: COMPANY
+    website: https://www.brighttrip.com
+    aliases:
+      - Bright Trip
+  # Vox entity reused VERBATIM from vox.yaml (same slug and fields) so the records
+  # share the entity in the whole-graph recompute. Harris's employer during his
+  # ~2017-2020 tenure was the original 2011-founded Vox Media, Inc.
+  - slug: vox_media_original
+    canonical_name: Vox Media, Inc. (2011-2026 entity)
+    entity_type: COMPANY
+    legal_name: Vox Media, Inc.
+    aliases:
+      - Vox Media
+
+relationships:
+  # ============================ CURRENT (ACTIVE) ============================
+  # 0: Johnny Harris owns the channel DIRECTLY (individual creator; no operating
+  # company owns this channel — Bright Trip is a separate company, see notes).
+  # control_level CONTROLLING; no percentage applies to a sole individual owner.
+  # effective_from 2011-06-08 = documented account-creation date per YouTube's own
+  # feed. His independent CREATOR career on it took off after he left Vox (~2020);
+  # reviewer may prefer that later pivot date (flagged). This active OWNS-channel
+  # edge is what yields CREATOR_OWNED.
+  - subject: johnny_harris
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2011-06-08
+    confidence: 0.8
+    status: ACTIVE
+  # 1: the channel is Johnny's own creation. effective_from 2011-06-08 (feed
+  # account-creation date).
+  - subject: channel
+    type: FOUNDED_BY
+    object: johnny_harris
+    effective_from: 2011-06-08
+    confidence: 0.8
+    status: ACTIVE
+  # 2: Johnny is the channel's principal on-camera host (ongoing uploads).
+  - subject: channel
+    type: HOSTED_BY
+    object: johnny_harris
+    confidence: 0.95
+    status: ACTIVE
+  # ===================== Vox EMPLOYMENT (temporal, FORMER) =====================
+  # 3: Johnny was a Vox video producer who produced/hosted the "Borders" series.
+  # This is the ONLY thing that transitioned from Vox — NOT any channel/brand
+  # ownership. Wikipedia firmly dates Borders to 2017-2019 (cancelled 2020); an
+  # interview-based source says "six years at Vox" (implying a ~2014 start). Start
+  # year not firmly pinned, so effective_from is OMITTED (flagged). effective_to
+  # 2020-01-01 is a YEAR-LEVEL placeholder ("left ~2020", exact date/month not
+  # documented; the commissioning brief suggested ~2021 — flagged for review).
+  - subject: vox_media_original
+    type: EMPLOYS
+    object: johnny_harris
+    effective_to: 2020-01-01
+    confidence: 0.6
+    status: ENDED
+  # ===================== BRIGHT TRIP (separate company) =====================
+  # 4: Johnny co-founded Bright Trip (a travel-video course company) in 2019.
+  # This is a SEPARATE company and is NOT the channel's owner/operator — only a
+  # FOUNDED_BY edge is placed, so it does not enter the channel's ownership chain.
+  # effective_from 2019-01-01 (year-level; "founded in 2019", exact date not
+  # documented — flagged; officially launched Jan 2020).
+  - subject: bright_trip
+    type: FOUNDED_BY
+    object: johnny_harris
+    effective_from: 2019-01-01
+    confidence: 0.85
+    status: ACTIVE
+  # 5: Iz Harris (Johnny's wife) is a co-founder of Bright Trip. Same year-level
+  # date caveat as rel 4.
+  - subject: bright_trip
+    type: FOUNDED_BY
+    object: iz_harris
+    effective_from: 2019-01-01
+    confidence: 0.7
+    status: ACTIVE
+
+sources:
+  - ref: youtube_channel_feed
+    url: https://www.youtube.com/channel/UCmGSJVG3mCRXVOP4yZrU1Dw
+    title: Johnny Harris — YouTube channel
+    publisher: Johnny Harris (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCmGSJVG3mCRXVOP4yZrU1Dw
+    excerpt: >-
+      The raw @johnnyharris channel-page HTML exposes "externalId":
+      "UCmGSJVG3mCRXVOP4yZrU1Dw" (og:title "Johnny Harris"), and YouTube's own
+      feed for that id carries <yt:channelId>UCmGSJVG3mCRXVOP4yZrU1Dw</yt:channelId>,
+      <title>Johnny Harris</title> and <name>Johnny Harris</name>, confirming the
+      canonical channel id and its ongoing uploads by the creator. The feed's
+      channel-level <published> is 2011-06-08 (account-creation date).
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: wikipedia_johnny_harris
+    url: https://en.wikipedia.org/wiki/Johnny_Harris_(journalist)
+    title: Johnny Harris (journalist)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      From 2017 to 2019, Harris produced and hosted Borders, a documentary short
+      film series for Vox that profiled sociopolitical issues in various border
+      regions worldwide. It was cancelled in 2020 due to budgeting considerations.
+      Harris's personal YouTube channel continues the explanatory style of his
+      previous work, covering topics such as international affairs, geography, and
+      history.
+    supports:
+      - relationship: 3
+  - ref: euruni_blog
+    url: https://www.euruni.edu/blog/johnny-harris-youtube-influencer-film-producer/
+    title: "Johnny Harris, YouTube Influencer, Film Producer and Founder of Bright Trip"
+    publisher: EU Business School
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      In addition to his six years at Vox, as well as his wildly successful
+      YouTube channel, Harris is also an entrepreneur. His revolutionary travel
+      company, Bright Trip, which was founded in 2019, survived the pandemic and
+      is already in collaboration with Lonely Planet. After officially launching
+      Bright Trip in January 2020, an inauspicious time for travel startups,
+      Harris was forced to re-think his strategies.
+    supports:
+      - relationship: 3
+      - relationship: 4
+  - ref: brighttrip_creators
+    url: https://www.brighttrip.com/creators/johnny-and-iz-harris
+    title: Johnny & Iz Harris | Bright Trip
+    publisher: Bright Trip
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Now, as co-founders of Bright Trip, their mission is to take what they've
+      learned and loved in traveling the world, and share that with others.
+    supports:
+      - relationship: 4
+      - relationship: 5
+
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: johnny_harris
+    confidence_factors:
+      sourceQuality: 0.9
+      directness: 0.85
+      entityMatch: 0.95
+      recencyFactor: 1.0
+      corroborationFactor: 0.7
+      contradictionPenalty: 1.0
+  - predicate: EMPLOYS
+    subject: vox_media_original
+    object: johnny_harris
+    effective_date: 2020-01-01
+    confidence_factors:
+      sourceQuality: 0.7
+      directness: 0.8
+      entityMatch: 0.9
+      recencyFactor: 0.4
+      corroborationFactor: 0.8
+      contradictionPenalty: 0.8
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted — not yet human-reviewed (DRAFT).
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT for human review — an individual-CREATOR-OWNED channel with a FORMER-
+    EMPLOYER (Vox) backstory (no brand/ownership transition). reviewed_by is
+    intentionally absent (not yet human-reviewed); last_reviewed_at holds the
+    draft authoring date (schema-required), NOT a completed review.
+
+    EXPECTED CLASSIFICATION: CREATOR_OWNED. The channel's sole active owner is the
+    individual creator Johnny Harris himself (rel 0, OWNS + CONTROLLING). There is
+    NO operating company, NO external funding, and NO PE/corporate owner anywhere
+    in the active chain, so the classifier's creator-owned rule fires directly.
+    Confidence ~0.8 (the direct-ownership edge). Structurally identical to the
+    safiya-nygaard record (creator owns the channel directly, with a former-
+    employer edge that is ENDED history and does not affect the served label).
+
+    CHANNEL ID: UCmGSJVG3mCRXVOP4yZrU1Dw, taken from the raw @johnnyharris page
+    HTML "externalId" and cross-checked against YouTube's own RSS feed (yt:channelId
+    + title + name all resolve to "Johnny Harris"). The feed's channel-level
+    <published> is 2011-06-08 (account creation) — years before his post-Vox
+    independent creator era; rels 0-1 anchor to that documented creation date, and
+    a reviewer may prefer to anchor his creator-ownership era to his ~2020 post-Vox
+    pivot instead. Either way there is no Vox-owner period to record.
+
+    VOX = FORMER EMPLOYER, NOT OWNER (rel 3, EMPLOYS ENDED). Harris produced/hosted
+    the "Borders" series for Vox (Wikipedia: "From 2017 to 2019 ... cancelled in
+    2020"). His personal YouTube channel was never a Vox property — it is his own
+    account (created 2011). The ONLY thing that ended at Vox was his EMPLOYMENT, so
+    NO former-Vox-owner edge is placed on the channel (mirrors the safiya/BuzzFeed
+    treatment). The Vox entity (slug vox_media_original) is reused VERBATIM from
+    vox.yaml (canonical_name "Vox Media, Inc. (2011-2026 entity)") for shared-entity
+    whole-graph recompute; his employer during his tenure was that original entity.
+
+    DATE PRECISION / JUDGMENT CALLS (Vox employment):
+    (1) START omitted — an interview-based source says "six years at Vox" (implying
+    a ~2014 start) but the exact start is not firmly pinned to a strong source, so
+    effective_from is OMITTED rather than asserted (same caution as vox.yaml).
+    (2) END effective_to 2020-01-01 is a YEAR-LEVEL placeholder: Wikipedia dates
+    Borders' cancellation to 2020 and the interview implies departure ~2020, but no
+    source gives an exact departure date/month. NOTE: the commissioning brief
+    suggested he left "~2021"; sources found here point to ~2020. FLAGGED as an
+    open item — a reviewer should pin the exact departure date and adjust if a
+    2021 date is confirmed. Confidence held low (0.6) to reflect this conflict.
+
+    BRIGHT TRIP = SEPARATE COMPANY, NOT THE CHANNEL'S OWNER (rels 4-5). Johnny
+    co-founded the travel-video course company Bright Trip in 2019 (EU Business
+    School blog: "founded in 2019 ... officially launching Bright Trip in January
+    2020") with his wife Iz Harris (brighttrip.com: "as co-founders of Bright
+    Trip"). Bright Trip is a DISTINCT company and is NOT documented as owning or
+    operating this YouTube channel, so only FOUNDED_BY edges attach it — it does
+    NOT enter the channel's ownership chain and does NOT affect the CREATOR_OWNED
+    label. Modeled deliberately this way to avoid conflating a separate business
+    venture with channel ownership. effective_from 2019-01-01 is a year-level
+    placeholder ("founded in 2019"; exact incorporation date not documented here).
+    Public aggregators reference a Bright Trip, LLC (D.C., Nov 2019) and Bright
+    Trip, Inc. (Delaware, Jan 2021); these entity-form details were NOT confirmed
+    to a T1/T2 primary source in this pass and are left for a reviewer to verify.
+
+    IZ HARRIS: modeled only as a Bright Trip co-founder (rel 5). She is Johnny's
+    wife and a filmmaker with her own separate YouTube channel; NO ownership or
+    host edge is asserted for her on THIS eponymous Johnny Harris channel, as none
+    is documented (mirrors the Tyler/Safiya treatment).
+
+    SOURCES: youtube_channel_feed (Tier 1, directly fetched/verified) and
+    brighttrip_creators (Tier 1, the creators' own company page) plus two Tier 2
+    secondary sources (wikipedia_johnny_harris, euruni_blog). No Tier 3/4 source
+    backs any edge. No PE/VC entity anywhere, so the §14.3 PE-label rule does not
+    fire.
+
+    ARCHIVING: no web.archive.org snapshot was captured this pass; a reviewer
+    should archive the euruni_blog and brighttrip_creators URLs (the euruni page
+    returned HTTP 403 to the markdown fetcher and was read via a browser user-agent
+    curl — reviewer should confirm the excerpt against a live/archived copy).
+
+    LEGAL-SAFE / NEUTRALITY: language describes ownership STRUCTURE only; no PE-
+    implying label, no claim of editorial interference or misconduct. His Vox
+    departure is stated as an employment fact, not guilt.

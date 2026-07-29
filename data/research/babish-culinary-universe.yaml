@@ -1,0 +1,319 @@
+# CHANNELWATCH research record — Babish Culinary Universe / Binging with Babish
+# (Andrew Rea)
+#
+# DRAFT FOR HUMAN REVIEW. Nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: an independent, CREATOR-OWNED flagship cooking channel founded and
+# hosted by Andrew Rea ("Babish") in 2006, that took ONE documented external
+# MINORITY investment (~$3M, announced September 2024) while Rea explicitly
+# RETAINED ownership and creative control. The central factual distinctions this
+# record encodes:
+#
+#   channel (Binging with Babish / "Babish Culinary Universe")
+#     ├─ FOUNDED_BY ──────── Andrew Rea (created the channel 2006-08-21)
+#     ├─ HOSTED_BY ───────── Andrew Rea (on-camera creator/narrator/editor)
+#     ├─ OWNS ←──────────── Andrew Rea (CONTROLLING; retains ownership + creative
+#     │                      control per his own on-record statements after the
+#     │                      2024 investment)
+#     └─ INVESTED_IN ←────── Made In Network (a ~$3M MINORITY strategic investment
+#                            into the Babish business/brand; NOT a controlling or
+#                            majority stake, NOT an acquisition, NOT a PE firm).
+#
+# Made In Network is a Nashville media/creator company — NOT a private-equity
+# firm — and its edge is a MINORITY INVESTED_IN, so it does NOT enter the
+# ownership chain the classifier traverses. The §14.3 PE-evidence gate is
+# therefore NOT triggered (no PRIVATE_EQUITY_FIRM node, no PORTFOLIO_COMPANY_OF
+# edge). Because the direct owner is a CREATOR and there is an active MINORITY
+# funding edge, the expected computed label is EXTERNALLY_FUNDED (see
+# review.notes). Legal-risk policy: investment is not proof of editorial control.
+
+channel:
+  # Canonical externalId extracted from the raw HTML of
+  # https://www.youtube.com/@bingingwithbabish (curl fetch, no JS execution).
+  # The page's own og:url is
+  # https://www.youtube.com/channel/UCJHA_jMfCvEnv-3kRjTCQXw and the page source
+  # contains exactly ONE "externalId":"UC..." value (this one), inside the
+  # channelMetadataRenderer whose vanityChannelUrl is @bingingwithbabish. Other
+  # UC ids visible on the page belong to featured/related channels only.
+  youtube_channel_id: UCJHA_jMfCvEnv-3kRjTCQXw
+  # NAMING: the live channel's current title (raw HTML pageHeaderRenderer /
+  # channelMetadataRenderer, and Wikipedia's lead) is "Binging with Babish";
+  # "Babish Culinary Universe" is the FORMER channel name and the umbrella brand
+  # the research brief used. display_name recorded as the current title; the
+  # brand name is carried as an alias-style note. See review.notes (CHANNEL NAME).
+  display_name: Binging with Babish
+  handle: "@bingingwithbabish"
+
+entities:
+  - slug: rea
+    # Founder, sole documented owner/controller, and the channel's on-camera
+    # creator (does production, editing and narration). Recorded CREATOR (not
+    # PERSON): he is himself the face/host, like Kevin Espiritu, not a
+    # behind-the-scenes owner.
+    canonical_name: Andrew Rea
+    entity_type: CREATOR
+    aliases:
+      - Babish
+      - Andrew Douglas Rea
+      - Binging with Babish
+      - Babish Culinary Universe
+
+  - slug: made_in_network
+    # The investor per the two most specific sources on the investment event
+    # (Tubefilter, whose report is literally about the "Made In Network"
+    # investment, and Forbes). Described as "a Nashville-based media company that
+    # works with around 30 creators across YouTube, TikTok, and Instagram"
+    # (Tubefilter). Founded 2013, Nashville TN. Typed COMPANY (neutral, literal
+    # to "media company"); MEDIA_NETWORK is a defensible more-specific
+    # alternative given the ~30-creator network — flagged for the reviewer. It is
+    # NOT a private-equity firm. NOTE the investor-identity conflict with Adweek
+    # (which names "the cookware brand Made In") — see review.notes.
+    canonical_name: Made In Network
+    entity_type: COMPANY
+    jurisdiction: US-TN
+    aliases:
+      - Made In Network, LLC
+
+relationships:
+  # 0: Andrew Rea owns/controls the channel. Recorded OWNS + CONTROLLING, no
+  # percentage. Rea created the channel and remains its owner-operator; after the
+  # 2024 outside investment he stated on the record that the investor "isn't
+  # going to creatively railroad us or try to steer the ship according to their
+  # vision" and (Adweek) that "Rea retains creative control" — i.e. a documented
+  # retention of ownership/control, not merely inferred from absence. No corporate
+  # filing or explicit "owns 100%" statement was located, so no percentage is
+  # asserted. This is the load-bearing edge for the classification. conf 0.8.
+  - subject: rea
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+
+  # 1: The channel was created by Andrew Rea as "Binging with Babish" on
+  # 2006-08-21 (Wikipedia, citing the channel's own history; regular episodes
+  # began February 2016). Personal founding edge — pre-dates any business
+  # structure by years.
+  - subject: channel
+    type: FOUNDED_BY
+    object: rea
+    effective_from: 2006-08-21
+    confidence: 0.9
+    status: ACTIVE
+
+  # 2: Made In Network made a ~$3M MINORITY strategic investment into the Babish
+  # business/brand, announced 2024-09-10 (Tubefilter; $3M figure per Forbes and
+  # Adweek). Recorded INVESTED_IN + MINORITY: multiple sources agree it is an
+  # "investment" to fund growth/content, Rea explicitly retained ownership and
+  # creative control, and NO source states a majority/controlling/percentage
+  # stake or an acquisition. The edge points at the CHANNEL as the flagship asset
+  # of Rea's business (identity inference — the documented target is the "Babish
+  # Culinary Universe" business, of which the channel is the flagship; cf.
+  # epic-gardening rel 0). MINORITY is an inference from the explicit retained-
+  # control statements plus the single-investment, founder-led context — flagged.
+  # effective_from is the announcement date used as an operative-date proxy.
+  # Made In Network is NOT a PE firm, so this is NOT a PE-implying edge.
+  - subject: made_in_network
+    type: INVESTED_IN
+    object: channel
+    control_level: MINORITY
+    effective_from: 2024-09-10
+    confidence: 0.8
+    status: ACTIVE
+
+  # 3: Andrew Rea is the channel's principal on-camera host/creator (does
+  # production, editing and narration). Distinct from the ownership/founding
+  # edges. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: rea
+    confidence: 0.95
+    status: ACTIVE
+
+sources:
+  - ref: tubefilter_2024
+    url: https://www.tubefilter.com/2024/09/10/babish-made-in-network-investment/
+    title: Babish enters next phase of culinary universe with multimillion-dollar investment
+    publisher: Tubefilter
+    published_at: 2024-09-10
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Babish Culinary Universe plans to "set a new standard in culinary
+      entertainment and storytelling in the digital media space" using cash from
+      a multimillion-dollar investment [...] Made In Network--a Nashville-based
+      media company that works with around 30 creators across YouTube, TikTok,
+      and Instagram [...] Exact financial details of the investment aren't being
+      disclosed.
+    supports:
+      - relationship: 2
+
+  - ref: forbes_2024
+    url: https://www.forbes.com/sites/jonyoushaei/2024/12/04/how-binging-with-babish-plans-to-expand-his-culinary-universe/
+    title: How Binging With Babish Plans To Expand His Culinary Universe
+    publisher: Forbes
+    published_at: 2024-12-04
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Made In Network, a longtime collaborator with Babish since 2018, saw the
+      potential to help the brand grow further and made the strategic decision to
+      back Babish financially with $3 million. [...] "this company that we're so
+      comfortable with, that we know isn't going to creatively railroad us or try
+      to steer the ship according to their vision, was really exciting."
+    supports:
+      - relationship: 0
+      - relationship: 2
+
+  - ref: wikipedia_bcu
+    url: https://en.wikipedia.org/wiki/Babish_Culinary_Universe
+    title: Babish Culinary Universe
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Binging with Babish, formerly Babish Culinary Universe, is a YouTube
+      cooking channel created by American cook and filmmaker Andrew Rea [...] The
+      YouTube channel was created by Rea as Binging with Babish on August 21,
+      2006.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 3
+
+  - ref: adweek_2026
+    # CONFLICTING SOURCE on investor identity — see review.notes. Corroborates the
+    # ~$3M figure, the minority/growth-funding nature, and Rea's retained creative
+    # control, but names the investor as "the cookware brand Made In" rather than
+    # "Made In Network." Also documents Vox Media podcast back-end support.
+    url: https://www.adweek.com/media/binging-with-babish-andrew-rea-meal-kits-podcast/
+    title: Binging With Babish Expands Into Meal Kits and Podcasting
+    publisher: Adweek
+    published_at: 2026-07-06
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      The cookware brand Made In invested $3 million in the business to fund
+      native content for the channel, Rea said. [...] Vox provides back-end
+      support while Rea retains creative control, he said.
+    supports:
+      - relationship: 0
+      - relationship: 2
+
+review:
+  researched_by: claude-research-agent-m1
+  last_reviewed_at: 2026-07-29 # research/authoring date; NOT a human review date.
+  notes: >-
+    DRAFT for human review — "independent creator-owned channel that took ONE
+    external MINORITY investment" case. Requires human verification before
+    publication. reviewed_by intentionally OMITTED (unverified draft; the schema
+    field is optional, not nullable — do NOT set it without human review).
+
+    CHANNEL ID. UCJHA_jMfCvEnv-3kRjTCQXw, taken from the sole "externalId" field
+    in the raw HTML of https://www.youtube.com/@bingingwithbabish (curl, no JS),
+    confirmed by the page's own og:url
+    (https://www.youtube.com/channel/UCJHA_jMfCvEnv-3kRjTCQXw) and the
+    channelMetadataRenderer whose vanityChannelUrl is @bingingwithbabish. NOTE:
+    the handles @babishculinaryuniverse / @BabishCulinaryUniverse both return 404;
+    the live handle is @bingingwithbabish.
+
+    CHANNEL NAME. The research brief and the umbrella brand call this "Babish
+    Culinary Universe," but the LIVE channel's current title (raw HTML
+    pageHeaderRenderer + channelMetadataRenderer, and Wikipedia's lead: "Binging
+    with Babish, formerly Babish Culinary Universe") is "Binging with Babish."
+    The channel was branded "Babish Culinary Universe" (~2021) and has since
+    reverted to "Binging with Babish." display_name recorded as the current live
+    title; "Babish Culinary Universe" and "Binging with Babish" are both carried
+    as aliases on the creator entity. Reviewer should confirm the current
+    display name against the live channel and decide the preferred display_name.
+
+    NO "BABISH MEDIA" LEGAL ENTITY FOUND. The brief referred to "Babish Media."
+    No fetched source documents a legal operating entity by that (or any) name for
+    Rea's business — sources treat "Babish Culinary Universe" as a brand/content
+    business synonymous with Rea's operation. Following the mkbhd.yaml precedent
+    (creator brand with no reliably-sourced legal entity), NO company node is
+    modeled; Rea is recorded as the direct owner of the channel and the investment
+    edge points at the channel as the business's flagship asset. If a reviewer
+    confirms a formal operating company (name/jurisdiction/founding date) via a
+    primary source, switch to a creator-controlled-company shape (rea CONTROLS or
+    CONTROLLING-OWNS the company; company OWNS the channel; Made In Network
+    INVESTED_IN the company) — see the classification note below for how that
+    changes the badge.
+
+    EXPECTED COMPUTED CLASSIFICATION = EXTERNALLY_FUNDED. Direct channel owner is
+    a CREATOR (Andrew Rea, OWNS + CONTROLLING, rel 0). There is an active MINORITY
+    INVESTED_IN edge into the channel (rel 2, Made In Network). Per
+    @channelwatch/graph classification Rule 4, a CREATOR/PERSON direct owner plus
+    an active control_level=MINORITY INVESTED_IN/FUNDS edge into the channel (or
+    that owner) computes EXTERNALLY_FUNDED (explanation code DIRECT_OWNER_CONFIRMED;
+    ultimate parent = Rea). No OWNERSHIP_CHANGED_RECENTLY warning (the 2024-09-10
+    investment is >12 months before the 2026-07-29 asOf and, being a funding edge,
+    is not part of the ownership chain the warning scans). Confirm the computed
+    label at import.
+
+    PE GATE — NOT TRIGGERED. There is NO PRIVATE_EQUITY_FIRM node and NO
+    PORTFOLIO_COMPANY_OF edge, so no PE-implying relationship exists and the §14.3
+    sourcing gate does not apply. Made In Network is a media/creator company
+    (COMPANY), not PE. FOR CONTEXT ONLY (deliberately NOT modeled): Made In
+    Network itself took a reported $50M investment/partnership from MEP Capital and
+    Cordillera Investment Partners in 2022. Those firms are TWO levels removed from
+    this channel and reachable only through a MINORITY investor's edge, so they do
+    not enter this channel's ownership chain and create no PE label here. A reviewer
+    should NOT add MEP/Cordillera edges to this record absent direct relevance.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) INVESTOR IDENTITY CONFLICT — the primary verification item. Tubefilter
+    (2024-09-10) and Forbes (2024-12-04) both name the ~$3M investor as "Made In
+    Network," a Nashville media company and Babish collaborator since 2018. A more
+    recent Adweek piece (2026-07-06, carrying a correction note) instead names "the
+    cookware brand Made In" (i.e. Made In Cookware, a separate DTC brand Babish has
+    a cookware collaboration with). The entity is modeled as "Made In Network"
+    because two independent Tier 2 sources — including the report specifically
+    about this investment — agree on it against Adweek's one. Reviewer should
+    reconcile against a primary source. NOTE: the label does NOT change either way
+    — both readings are a MINORITY, non-PE strategic investment into a
+    creator-owned channel → EXTERNALLY_FUNDED.
+    (2) rel 2 control_level = MINORITY is an INFERENCE (no percentage disclosed).
+    It is inferred from Rea's explicit on-record statements that the investor
+    would not "steer the ship"/"creatively railroad" him and that he "retains
+    creative control," plus the single-raise, founder-led context. This qualifier
+    is load-bearing for the badge: if a reviewer downgrades it to control_level
+    UNKNOWN, Rule 4 no longer fires and the label becomes CREATOR_OWNED instead of
+    EXTERNALLY_FUNDED. Do NOT upgrade to a controlling/majority stake without a
+    firm source (that would be neither documented nor consistent with the retained-
+    control statements).
+    (3) rel 0 (Rea OWNS channel, CONTROLLING, conf 0.8). Stronger than a bare
+    inference-from-absence: sources present MKBHD-style sole creator ownership AND
+    Rea affirmatively states he retains ownership/creative control post-investment.
+    No corporate filing or explicit percentage was located, so no ownership_
+    percentage is asserted. A reviewer wanting Tier 1 corroboration of sole
+    ownership should seek a US business filing / registered entity for his
+    operation.
+    (4) rel 2 target = channel is an IDENTITY INFERENCE. The documented investment
+    target is the "Babish Culinary Universe" business/brand; the channel is modeled
+    as its flagship asset (same reasoning as epic-gardening rel 0). If the reviewer
+    prefers to model the business as a distinct company node with Rea controlling
+    it, the investment would attach to that company and the computed label would be
+    CREATOR_OWNED (CREATOR_CONTROLLED_COMPANY) — with the external minority
+    investment surfaced only in the evidence panel, not the badge. entity_type for
+    Made In Network (COMPANY vs the more specific MEDIA_NETWORK) is a related minor
+    judgment call; it does not affect the label (minority investor, not in the
+    ownership chain).
+    (5) OTHER RELATIONSHIPS RULED OUT (per the brief's leads):
+    - VOX MEDIA: provides "back-end support" for Babish's podcast (In the Booth /
+      "In the Booth with Babish") while "Rea retains creative control" (Adweek).
+      This is podcast production support, NOT ownership/control of the YouTube
+      channel, so NO Vox edge is modeled. Flagged in case a reviewer finds a
+      broader Vox arrangement.
+    - FIRST WE FEAST / SPOTTER: no ownership or investment relationship to this
+      channel was found. First We Feast (Hot Ones) is a Complex/BuzzFeed-lineage
+      brand (BuzzFeed sold the Hot Ones studio for $82.5M) — only editorial
+      collaboration, no Babish ownership tie. "Spotter" appears only as a
+      tool/sponsor, not an ownership deal. No edges modeled.
+    (6) SOURCES / ARCHIVES. All four sources are Tier 2 (Tubefilter, Forbes,
+      Wikipedia, Adweek). No Tier 1 primary source (business registry filing or a
+      direct on-the-record ownership document) was captured. Excerpts are verbatim
+      from the fetched pages; archive_urls should be captured at review. The $3M
+      figure and the retained-control framing are consistent across Forbes and
+      Adweek; only the investor NAME conflicts (see (1)).

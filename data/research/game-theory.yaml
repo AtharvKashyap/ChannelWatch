@@ -1,0 +1,269 @@
+# CHANNELWATCH research record — The Game Theorists (Game Theory / MatPat)
+#
+# DRAFT FOR HUMAN REVIEW — nothing here is published without human verification
+# (Spec §12.7). Classification is COMPUTED by the importer, never asserted here.
+#
+# This is the FLAGSHIP channel of Theorist Media, the SIBLING of The Film
+# Theorists (data/research/the-film-theorists.yaml). The Theorist Media, Lunar X,
+# MatPat and Stephanie Patrick entities are REUSED VERBATIM from that record so
+# the ownership graph links across the shared parent. ACQUISITION case:
+#
+#   channel (The Game Theorists)
+#     └─ OWNS ───────────── Theorist Media  (production studio operating the
+#          │                                 channels; founded by Matthew &
+#          │                                 Stephanie Patrick)
+#          └─ OWNS (control) ─ Lunar X GmbH  (acquired majority of Theorist Media,
+#                                             announced 2022-12-20)
+#
+# NOTE (see review.notes): as with the sibling record, the "Lunar X is a GoDigital
+# Media Group company" premise could NOT be verified and GoDigital is NOT modeled.
+# Lunar X's acquisition of the MAJORITY of Theorist Media (announced 2022-12-20) is
+# the outside-investment/ownership event; no LATER equity change was found. The
+# 2024 signing with talent-management firm Night is a management relationship, NOT
+# an ownership change, and is not modeled as an ownership edge.
+
+channel:
+  # Canonical id verified against YouTube's OWN RSS feed:
+  # https://www.youtube.com/feeds/videos.xml?channel_id=UCo_IB5145EVNcf8hw1Kku7w
+  # returns <title>The Game Theorists</title>, matching <yt:channelId>, and
+  # <author><name>The Game Theorists</name>. Same UC id is the target of the
+  # canonical /channel/ URL (youtube.com/channel/UCo_IB5145EVNcf8hw1Kku7w).
+  youtube_channel_id: UCo_IB5145EVNcf8hw1Kku7w
+  display_name: The Game Theorists
+  handle: "@GameTheory"
+
+entities:
+  # REUSED VERBATIM from the-film-theorists.yaml (shared parent) — do not diverge.
+  - slug: theorist_media
+    canonical_name: Theorist Media
+    entity_type: COMPANY
+    aliases:
+      - Theorist
+      - Theorist Media Inc.
+  - slug: lunar_x
+    canonical_name: Lunar X
+    entity_type: COMPANY
+    legal_name: Lunar X GmbH
+    jurisdiction: DE
+    website: https://lunar-x.com
+    aliases:
+      - Lunar X GmbH
+      - LunarX
+  - slug: matpat
+    canonical_name: MatPat
+    entity_type: CREATOR
+    aliases:
+      - Matthew Patrick
+      - Matthew Robert Patrick
+      - Matthew Patthew
+  - slug: stephanie
+    canonical_name: Stephanie Patrick
+    entity_type: PERSON
+    aliases:
+      - Steph Patrick
+  # NEW entity for this record: Game Theory's post-MatPat on-camera host.
+  - slug: tom_robinson
+    canonical_name: Tom Robinson
+    entity_type: PERSON
+
+relationships:
+  # 0: Theorist Media operates/owns the flagship channel. The Game Theorists is the
+  # original channel of the production studio Theorist Media.
+  - subject: theorist_media
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.85
+    status: ACTIVE
+  # 1: Lunar X acquired the MAJORITY of Theorist Media (announced 2022-12-20);
+  # Lunar X is Theorist Media's controlling corporate parent. Percentage undisclosed.
+  - subject: lunar_x
+    type: OWNS
+    object: theorist_media
+    control_level: CONTROLLING
+    effective_from: "2022-12-20"
+    confidence: 0.85
+    status: ACTIVE
+  # 2: The Game Theorists was founded/created by MatPat (channel launched 2011).
+  - subject: channel
+    type: FOUNDED_BY
+    object: matpat
+    confidence: 0.85
+    status: ACTIVE
+  # 3: Theorist Media was founded by Matthew Patrick.
+  - subject: theorist_media
+    type: FOUNDED_BY
+    object: matpat
+    confidence: 0.85
+    status: ACTIVE
+  # 4: Theorist Media was co-founded by Stephanie Patrick.
+  - subject: theorist_media
+    type: FOUNDED_BY
+    object: stephanie
+    confidence: 0.75
+    status: ACTIVE
+  # 5: MatPat hosted Game Theory until his final episode as host (2024-03-09 per
+  # Tubefilter; see review.notes re: the exact last-upload date discrepancy).
+  - subject: channel
+    type: HOSTED_BY
+    object: matpat
+    effective_to: "2024-03-09"
+    confidence: 0.85
+    status: ENDED
+  # 6: Tom Robinson took over as host of Game Theory after MatPat stepped down.
+  - subject: channel
+    type: HOSTED_BY
+    object: tom_robinson
+    effective_from: "2024-03-09"
+    confidence: 0.8
+    status: ACTIVE
+  # 7: MatPat's continued involvement — after stepping down as host he remained a
+  # creative director leading programming/ideas across the Theory channels. LOW
+  # confidence: the "creative director" framing is general, not Game-Theory-specific.
+  - subject: channel
+    type: CREATIVE_CONTROL_BY
+    object: matpat
+    control_level: MANAGEMENT
+    effective_from: "2024-03-09"
+    confidence: 0.55
+    status: ACTIVE
+
+sources:
+  - ref: gt_video_2022
+    url: https://www.youtube.com/watch?v=dJfE5U6gn9g
+    title: "Game Theory: This is Not My Channel"
+    publisher: The Game Theorists
+    published_at: "2022-12-20"
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >
+      MatPat announces he and Stephanie sold the majority of their company,
+      Theorist Media (the studio behind The Game Theorists, The Film Theorists,
+      The Food Theorists, and GTLive), to Lunar X. On-screen: "Steph and I just
+      sold Theorist. We sold our business. This channel is no longer just my
+      channel." He and his wife remain as CEO and COO; the team stays intact.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+  - ref: tubefilter_2022
+    url: https://www.tubefilter.com/2022/12/20/theorist-media-acquired-by-lunar-x/
+    title: 'The Game Theorist gets acquired: "Steph and I just sold Theorist. We sold our business."'
+    publisher: Tubefilter
+    published_at: "2022-12-20"
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      MatPat and Stephanie Patrick's production studio Theorist Media — behind
+      the channels The Game Theorists, The Film Theorists, The Food Theorists,
+      and GTLive — was acquired by startup Lunar X. MatPat remains CEO and
+      frontman of the channels; Stephanie Patrick continues as COO; the existing
+      team remains fully intact. "The financial details of Theorist Media's
+      acquisition are not being disclosed."
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+  - ref: tubefilter_2024
+    url: https://www.tubefilter.com/2024/01/09/matpat-stepping-down-hosting-game-theory/
+    title: MatPat is stepping down as host of Theory videos
+    publisher: Tubefilter
+    published_at: "2024-01-09"
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >
+      MatPat is stepping down from hosting Game Theory, Film Theory, Food Theory,
+      and Style Theory, with his final episode March 9 (2024). Tom Robinson — who
+      joined Theorist in 2020 as a writer after cold-emailing the company — will
+      take over as host of Game Theory. "Theorist Media was sold to Lunar X in
+      late 2022." MatPat will remain "as a creative director, leading programming
+      and brainstorming ideas for upcoming episodes."
+    supports:
+      - relationship: 1
+      - relationship: 5
+      - relationship: 6
+      - relationship: 7
+  - ref: youtube_channel_feed
+    url: https://www.youtube.com/channel/UCo_IB5145EVNcf8hw1Kku7w
+    title: The Game Theorists — YouTube channel
+    publisher: The Game Theorists (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCo_IB5145EVNcf8hw1Kku7w
+    excerpt: >
+      YouTube's own RSS feed for channel UCo_IB5145EVNcf8hw1Kku7w carries
+      <title>The Game Theorists</title>, matching <yt:channelId>, and
+      <author><name>The Game Theorists</name>, confirming the canonical channel
+      id and current uploads under the Theorist Media / Game Theory brand.
+    supports:
+      - relationship: 0
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally omitted — not yet human-reviewed (schema rejects an
+  # explicit null; absence signals "unreviewed").
+  last_reviewed_at: 2026-07-29
+  notes: >
+    DRAFT — requires human review. FLAGSHIP channel of Theorist Media; SIBLING of
+    The Film Theorists (data/research/the-film-theorists.yaml). Theorist Media,
+    Lunar X, MatPat and Stephanie Patrick entities are REUSED VERBATIM from that
+    record (same slugs, canonical_names, aliases, legal_name/jurisdiction) so the
+    shared-parent ownership graph links. Tom Robinson is the only NEW entity.
+
+    OWNERSHIP / INVESTMENT VERIFICATION (per brief). The single ownership/outside-
+    investment event is Lunar X acquiring the MAJORITY of Theorist Media, announced
+    2022-12-20 (T1 MatPat video + T2 Tubefilter). MatPat sold the majority (not
+    necessarily 100%); the stake percentage and deal price are UNDISCLOSED, so no
+    ownership_percentage is asserted. No LATER equity/ownership change was found.
+    The 2024 signing with talent-management firm Night (Variety, 2024) is a
+    MANAGEMENT relationship, not an ownership transfer, and is deliberately NOT
+    modeled as an ownership edge. As in the sibling record, the "Lunar X is a
+    GoDigital Media Group company" premise is UNVERIFIED (Lunar X GmbH is described
+    as an independent, Berlin-based, VC-backed company founded 2021 by Lucas
+    Kollmann); GoDigital is OMITTED per precision-over-recall.
+
+    ROLE CHANGE (2024, NOT an ownership change). MatPat stepped down as on-camera
+    host (announced 2024-01-09; final host episode 2024-03-09 per Tubefilter). Tom
+    Robinson — with Theorist since 2020 (writer -> creative director) — became the
+    new Game Theory host (rel 6). This is a host/role change only; it does not
+    touch the Theorist Media <- Lunar X ownership chain.
+
+    DATE DISCREPANCY TO RESOLVE. rel 5/6 use 2024-03-09, the T2 Tubefilter
+    "final episode March 9" date, chosen as the best-sourced operative handover
+    date and for consistency with the sibling record. Fan wikis (unusable Tier 4)
+    variously cite Tom's first host episode ~March 16 and "MatPat's FINAL Theory"
+    ~March 21, 2024, reflecting an overlapping "final 10 theories" rollout. A
+    reviewer should confirm the exact last-MatPat-hosted / first-Tom-hosted upload
+    dates against primary uploads if a more precise operative date is needed.
+
+    CONFIDENCE. (0) Theorist Media OWNS channel: HIGH-ish; Game Theory is the
+    original Theorist Media channel (T1 + T2). Operating/holding legal entity for
+    the channel not pinned; control modeled CONTROLLING. (1) Lunar X OWNS Theorist
+    Media: HIGH (T1 + T2). (2-4) Founding edges: MatPat created Game Theory (2011);
+    MatPat & Stephanie founded/ran Theorist Media (he=CEO, she=COO post-sale). No
+    effective_from asserted on founding edges (exact channel-launch day not pinned;
+    year 2011 documented). (5) MatPat HOSTED_BY ended 2024-03-09. (6) Tom Robinson
+    new host from 2024-03-09 (T2, named specifically for Game Theory). (7) MatPat
+    continued CREATIVE_CONTROL_BY (MANAGEMENT), LOW confidence — the "creative
+    director" quote is framed across the Theory channels generally; reviewer may
+    drop or refine.
+
+    CHANNEL ID. UCo_IB5145EVNcf8hw1Kku7w verified against YouTube's OWN RSS feed
+    (feeds/videos.xml?channel_id=...), whose <title>, <yt:channelId> and
+    <author><name> all read "The Game Theorists". (WebFetch could not expose the
+    raw-HTML externalId directly; the authoritative feed was used as the
+    cross-check, matching the good-mythical-morning.yaml approach.)
+
+    SOURCES. T1: The Game Theorists video "This is Not My Channel" (2022-12-20,
+    DIRECT_CREATOR_CONFIRMATION) + YouTube RSS feed. T2: Tubefilter (2022-12-20 and
+    2024-01-09). No Tier 4 used. Variety article on the Night signing was paywalled
+    (307 -> tollbit / 402) and is a LEAD only, not cited. Excerpts are close
+    paraphrase/quote from fetched content and should be re-verified verbatim at
+    review. No PE-implying label asserted, so the §14.3 PE-label rule is not
+    triggered. Expected COMPUTED classification: an acquired/parent-owned structure
+    (corporate parent Lunar X via Theorist Media) — the importer derives the label;
+    it is not asserted here.

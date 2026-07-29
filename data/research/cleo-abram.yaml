@@ -1,0 +1,293 @@
+# CHANNELWATCH research record — Cleo Abram ("Huge If True")
+#
+# DRAFT for human review. Nothing here is published without verification.
+# Classification is COMPUTED by the importer, never asserted here.
+#
+# Profile: independent, creator-owned technology/science channel. Cleo Abram is
+# an ex-Vox video producer who left Vox in January 2022 to launch her own
+# YouTube channel (handle @CleoAbram, flagship series "Huge If True") and a
+# media company, HUGE. No external acquisition of, or equity investment IN, the
+# CHANNEL was found.
+#
+# TWO relationships a reviewer must NOT read as channel ownership:
+#   1. VOX is a FORMER EMPLOYER, not an owner. It is modelled as an EMPLOYS edge
+#      (vox EMPLOYS cleo, status ENDED) that points at the PERSON, not the
+#      channel — it places no owner above the channel and is over as of Jan 2022.
+#      The Vox entity is reused VERBATIM from vox.yaml (the 2011-2026 entity that
+#      employed her at the time).
+#   2. UTA (United Talent Agency) is TALENT REPRESENTATION (signed Dec 2025),
+#      modelled as REPRESENTS (uta REPRESENTS cleo, MANAGEMENT) pointing at the
+#      PERSON/brand — representation, not ownership or control of the channel.
+# Neither edge is in the channel's ownership chain. No Nebula affiliation was
+# found, so no Nebula entity is recorded (evidence-first). Expected computed
+# classification: CREATOR_OWNED.
+
+channel:
+  # Extracted from the sole "externalId" field in the raw HTML of
+  # https://www.youtube.com/@CleoAbram (curl fetch, no JS execution): the page
+  # source contains exactly one "externalId":"UC415bOPUcGSamy543abLmRA". The
+  # dominant canonicalBaseUrl is "/@CleoAbram" (82 occurrences) and the
+  # vanityChannelUrl is "http://www.youtube.com/@CleoAbram", confirming the id
+  # belongs to this handle. (@Vox and @Netflix also appear in the source as
+  # linked/related channels but are distinct handles.)
+  youtube_channel_id: UC415bOPUcGSamy543abLmRA
+  display_name: Cleo Abram
+  handle: "@CleoAbram"
+
+entities:
+  - slug: cleo
+    canonical_name: Cleo Abram
+    entity_type: CREATOR
+    aliases:
+      - Huge If True
+      - Cleo Constantine Abram
+
+  - slug: huge
+    # The media company Abram launched after leaving Vox (per The Hollywood
+    # Reporter: "Abram launched HUGE, a media company"). Umbrella for her content
+    # portfolio, including the "Huge If True" channel. Recorded COMPANY. No legal
+    # name, jurisdiction, or registry record located — see notes.
+    canonical_name: HUGE
+    entity_type: COMPANY
+    aliases:
+      - HUGE brand
+      - Huge
+
+  - slug: vox_media_original
+    # FORMER EMPLOYER. Reused VERBATIM (slug, canonical_name, entity_type,
+    # legal_name, aliases) from vox.yaml — the company founded in 2011 as Vox
+    # Media, Inc. that employed Abram until her Jan 2022 departure. NOT an owner
+    # of this channel.
+    canonical_name: Vox Media, Inc. (2011-2026 entity)
+    entity_type: COMPANY
+    legal_name: Vox Media, Inc.
+    aliases:
+      - Vox Media
+
+  - slug: uta
+    # United Talent Agency — Abram's talent agency as of Dec 2025. Talent
+    # representation, NOT ownership. Recorded COMPANY.
+    canonical_name: United Talent Agency
+    entity_type: COMPANY
+    aliases:
+      - UTA
+
+relationships:
+  # 0: Channel founded by Cleo Abram. Wikipedia: she "launched her own YouTube
+  # channel, Huge if True" in 2022; The Hollywood Reporter dates the founding of
+  # HUGE to 2022. effective_from is OMITTED: the brand/series launched January
+  # 2022 (day not documented), AND the underlying YouTube account's own About
+  # page reports "Joined Oct 31, 2011" — a decade-earlier account-creation date
+  # that predates the Huge If True brand and would misdate the founding if used.
+  # See notes.
+  - subject: channel
+    type: FOUNDED_BY
+    object: cleo
+    confidence: 0.85
+    status: ACTIVE
+
+  # 1: Cleo Abram owns/controls the channel. Recorded OWNS + CONTROLLING with
+  # ownership_percentage OMITTED. Load-bearing edge for the classification and
+  # partly an INFERENCE FROM DOCUMENTED ABSENCE: every source presents Huge If
+  # True as Abram's own independent channel and NONE reports any external owner,
+  # investor, or acquirer of the CHANNEL itself. No share register / corporate
+  # filing located, so no percentage asserted. Confidence 0.7. Flagged (notes).
+  - subject: cleo
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Cleo Abram is the channel's principal on-camera host/creator. Distinct
+  # from the ownership edge. Well documented and ongoing.
+  - subject: channel
+    type: HOSTED_BY
+    object: cleo
+    confidence: 0.9
+    status: ACTIVE
+
+  # 3: HUGE (Abram's media company) is the operating/umbrella entity for her
+  # content portfolio, which includes this channel. Recorded OPERATES +
+  # MANAGEMENT: an operational relationship, NOT a disclosed equity holding in
+  # the channel (no source states HUGE legally OWNS the channel). Because HUGE is
+  # creator-founded and creator-controlled (rel 4), this does not place an
+  # external owner above the channel. Confidence 0.55 (inference). Flagged.
+  - subject: huge
+    type: OPERATES
+    object: channel
+    control_level: MANAGEMENT
+    confidence: 0.55
+    status: ACTIVE
+
+  # 4: Cleo Abram founded HUGE. The Hollywood Reporter: "Abram launched HUGE, a
+  # media company" and refers to "founding HUGE in 2022". Year-only, so
+  # effective_from omitted. This is Abram's own company; it does NOT place any
+  # owner above the channel.
+  - subject: huge
+    type: FOUNDED_BY
+    object: cleo
+    confidence: 0.85
+    status: ACTIVE
+
+  # 5: FORMER EMPLOYER. Vox Media (the 2011-2026 entity) employed Abram as a
+  # video producer until Jan 2022 (Wikipedia: "She produced videos for Vox until
+  # 2022"). Recorded EMPLOYS (subject: vox) pointing at the PERSON — NOT the
+  # channel. status ENDED (employment is over). effective_to omitted: her exit is
+  # dated to January 2022 (month only; day not documented) — see notes. This edge
+  # is OUTSIDE the channel's ownership chain and does not affect classification.
+  - subject: vox_media_original
+    type: EMPLOYS
+    object: cleo
+    confidence: 0.85
+    status: ENDED
+
+  # 6: TALENT REPRESENTATION. United Talent Agency represents Abram / the HUGE
+  # brand as of a Dec 2025 signing (The Hollywood Reporter). Recorded REPRESENTS
+  # (subject: uta) + MANAGEMENT, pointing at the PERSON/brand — representation,
+  # NOT ownership or control of the channel. effective_from omitted (only the
+  # announcement date is documented; carried on the source's published_at). This
+  # edge is OUTSIDE the channel's ownership chain.
+  - subject: uta
+    type: REPRESENTS
+    object: cleo
+    control_level: MANAGEMENT
+    confidence: 0.8
+    status: ACTIVE
+
+sources:
+  - ref: youtube_channel_page
+    url: https://www.youtube.com/@CleoAbram/about
+    title: Cleo Abram — YouTube channel (About)
+    publisher: YouTube (channel self-page)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      Raw HTML (curl, no JS) of the channel page contains exactly one
+      "externalId":"UC415bOPUcGSamy543abLmRA"; the vanityChannelUrl is
+      "http://www.youtube.com/@CleoAbram" and 82 canonicalBaseUrl entries are
+      "/@CleoAbram". The About page reports
+      "joinedDateText":{"content":"Joined Oct 31, 2011"}.
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+  - ref: wikipedia_cleo_abram
+    url: https://en.wikipedia.org/wiki/Cleo_Abram
+    title: Cleo Abram
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      She produced videos for Vox until 2022, when she launched her own YouTube
+      channel, Huge if True, which covers emerging technologies. By June 2026,
+      her channel had more than 8.1 million subscribers.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 5
+
+  - ref: hollywoodreporter_uta_2025
+    url: https://www.hollywoodreporter.com/business/business-news/youtuber-cleo-abram-uta-1236442718/
+    title: YouTuber Cleo Abram Signs With UTA (Exclusive)
+    publisher: The Hollywood Reporter
+    published_at: 2025-12-04
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      After leaving Vox, Abram launched HUGE, a media company with a mission to
+      help people see better futures so they can build them. [...] UTA will work
+      with Abram to expand the HUGE brand across brand partnerships, content
+      development and syndication, while exploring opportunities for creating
+      original content, events and consumer products.
+    supports:
+      - relationship: 3
+      - relationship: 4
+      - relationship: 6
+
+review:
+  researched_by: claude-research-agent-m1
+  # reviewed_by intentionally OMITTED: this is an unverified DRAFT (the schema
+  # field is optional, not nullable). Do NOT set it without human review.
+  last_reviewed_at: 2026-07-29 # research/authoring date; NOT a human review date.
+  notes: >-
+    DRAFT for human review — "independent, creator-owned single-creator channel,
+    run by an ex-employee of a corporate media company" case. No external
+    acquisition or equity investment IN the channel was found; absence of a
+    documented investor is recorded as an absence, not as an affirmative
+    "verified independent" claim.
+
+    CHANNEL ID: UC415bOPUcGSamy543abLmRA, extracted from the sole "externalId"
+    field in the raw HTML of https://www.youtube.com/@CleoAbram (curl fetch, no
+    JS execution). Dominant canonicalBaseUrl "/@CleoAbram" (82 occurrences);
+    vanityChannelUrl "http://www.youtube.com/@CleoAbram". (@Vox and @Netflix also
+    appear in the source as related/linked channels but are distinct handles.)
+
+    EXPECTED COMPUTED CLASSIFICATION: CREATOR_OWNED (GREEN). The channel's only
+    owner/controller is the CREATOR herself (rel 1, cleo OWNS channel,
+    CONTROLLING). HUGE is Abram's OWN creator-founded, creator-controlled company
+    (rels 3-4) — even if a reviewer confirms HUGE legally owns the channel, the
+    shape is a creator-controlled company and still computes CREATOR_OWNED. No
+    company, network, or external investor sits ABOVE the channel. No
+    PRIVATE_EQUITY_FIRM entity and no PORTFOLIO_COMPANY_OF edge, so the §14.3
+    PE-label evidence gate does not apply.
+
+    VOX = FORMER EMPLOYER, NOT OWNER (the core finding a reviewer must not
+    conflate). Abram produced videos for Vox (she hosted the Vox Media Studios /
+    YouTube Originals series "Glad You Asked") until she left in January 2022 to
+    go independent. This is modelled as vox EMPLOYS cleo (rel 5, status ENDED) —
+    an edge that points at the PERSON, not the channel, and is over as of Jan
+    2022. It places NO owner above the channel and does not affect the
+    classification. The Vox entity (slug vox_media_original, canonical_name "Vox
+    Media, Inc. (2011-2026 entity)", legal_name, aliases) is reused VERBATIM from
+    vox.yaml — this is the 2011-2026 Vox Media entity that employed her at the
+    time; the 2026 Lupa Systems restructuring modelled in vox.yaml is irrelevant
+    to this (ended, pre-2026) employment edge.
+
+    UTA = TALENT REPRESENTATION, NOT OWNERSHIP. Abram signed with United Talent
+    Agency (announced by The Hollywood Reporter 2025-12-04) to represent her /
+    the HUGE brand across brand partnerships, content development, syndication,
+    events and consumer products. Modelled as uta REPRESENTS cleo (rel 6,
+    MANAGEMENT) — representation of the person/brand, NOT ownership or control of
+    the channel, and OUTSIDE the channel's ownership chain. Per legal-risk
+    policy: representation is not ownership and no conclusion is drawn about
+    editorial control.
+
+    JUDGMENT CALLS / ITEMS NEEDING HUMAN ATTENTION:
+    (1) OWNER EDGE (rel 1, cleo OWNS channel) rests on Abram being the sole
+    documented public creator/principal of Huge If True plus the absence of any
+    reported external owner. No source discloses a share register, so
+    control_level is CONTROLLING (documented sole-creator control) but no
+    ownership_percentage is asserted and confidence is held at 0.7. Reviewer
+    should confirm whether Abram holds the channel directly or via HUGE.
+    (2) HUGE — ENTITY DETAIL & CHANNEL LINK. HUGE is documented only through The
+    Hollywood Reporter's description ("a media company" Abram launched, umbrella
+    for her content portfolio). No legal name, jurisdiction, or corporate-registry
+    record was located; the HUGE -> channel edge is recorded as OPERATES
+    (MANAGEMENT, confidence 0.55), NOT OWNS, because no source states HUGE legally
+    owns the channel. A reviewer who confirms a registered operating entity and
+    its exact relationship to the channel should add a CORPORATE_REGISTRY_RECORD
+    (Tier 1) source and, if warranted, move HUGE -> channel to OWNS and add a
+    cleo -> HUGE ownership/control edge (which would still compute CREATOR_OWNED).
+    (3) FOUNDING DATE (rel 0). The Huge If True brand/series launched January 2022
+    (day not documented). The underlying YouTube account's own About page reports
+    "Joined Oct 31, 2011" — a decade-earlier account-creation date that predates
+    the brand (the same account-creation vs activity-start gap seen on other
+    records, but unusually wide here). effective_from is OMITTED rather than
+    assert either date as the channel-brand founding; reviewer to reconcile.
+    (4) VOX EMPLOYMENT DATES (rel 5). Her departure is dated to January 2022
+    (month only; day not documented) and her start date at Vox was not pinned to
+    a T1/T2 source in this pass, so both effective_from and effective_to are
+    omitted and status is ENDED. Reviewer may add precise dates.
+    (5) SOURCES. Two Tier 2 (ESTABLISHED_INDUSTRY_PUBLICATION: Wikipedia; The
+    Hollywood Reporter) and one Tier 1 (the channel's own YouTube About page,
+    mapped to DIRECT_CREATOR_CONFIRMATION as the closest "official page" type).
+    The Hollywood Reporter is the sole source for HUGE and the UTA signing. No
+    corporate-registry disclosure of ownership structure was located.
+    archive_urls should be captured at review.
+    (6) NEBULA. No documented Nebula (or other creator-platform) affiliation for
+    Abram was found in this pass, so — unlike wendover-productions.yaml /
+    real-engineering.yaml — NO Nebula entity or edge is recorded. If a reviewer
+    confirms one, reuse the shared `nebula` slug/canonical_name VERBATIM and model
+    it as an OUTBOUND platform edge (outside the channel ownership chain).

@@ -1,0 +1,329 @@
+# CHANNELWATCH research record — Tasty (BuzzFeed Tasty)
+#
+# DRAFT FOR HUMAN REVIEW — nothing here is published without human verification
+# (Spec §12.7). reviewed_by is intentionally UNSET (not yet reviewed).
+#
+# CORPORATE-OWNED BRAND CASE. Tasty is BuzzFeed's food media brand; the channel
+# is Tasty's YouTube presence, owned and operated by its corporate parent
+# BuzzFeed, Inc. This parallels the 5-Minute Crafts model (a channel that is a
+# house brand of a single for-profit corporate owner) rather than the Try Guys /
+# Watcher creator-owned models. BuzzFeed is a REAL corporate owner of THIS
+# channel (unlike the Try Guys channel, which BuzzFeed never owned). Expected
+# computed classification: CORPORATE_OWNED.
+#
+#   channel (Tasty)
+#     └─ OWNS ───────────── BuzzFeed (BuzzFeed, Inc.)
+#          ├─ FOUNDED_BY ─── Jonah Peretti (founder; no individual stake asserted)
+#          ├─ MANAGES ────── Jonah Peretti (CEO 2006–2026; now Pres., BuzzFeed AI) [ENDED]
+#          ├─ MANAGES ────── Byron Allen (Chairman & CEO from 2026-05-27)
+#          └─ PARTIALLY_OWNS  Allen Family Digital, LLC (majority stake, 2026-05-27)
+#                              └─ OWNS ── Byron Allen (family office)
+#
+# The BuzzFeed slug/fields are reused VERBATIM from try-guys.yaml / watcher.yaml
+# so the three records share the BuzzFeed entity in the whole-graph recompute
+# (genuine shared-entity link: Tasty IS a BuzzFeed brand).
+#
+# Classification is COMPUTED by the importer, never asserted here.
+
+channel:
+  # Canonical id read from the raw @buzzfeedtasty channel-page HTML "externalId"
+  # field (curl of https://www.youtube.com/@buzzfeedtasty -> "externalId":
+  # "UCJFp8uSYCjXOMnkUyb3CQ3Q"). Independently cross-checked against YouTube's OWN
+  # feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCJFp8uSYCjXOMnkUyb3CQ3Q
+  # returns <yt:channelId>UCJFp8uSYCjXOMnkUyb3CQ3Q</yt:channelId>, <title>Tasty
+  # </title> and <name>Tasty</name>; the feed's channel-level <published> is
+  # 2016-01-22 (the account-creation date).
+  youtube_channel_id: UCJFp8uSYCjXOMnkUyb3CQ3Q
+  display_name: Tasty
+  handle: "@buzzfeedtasty"
+
+entities:
+  # BuzzFeed entity reused VERBATIM from try-guys.yaml / watcher.yaml (same slug
+  # and fields) so the records share the entity in the whole-graph recompute.
+  - slug: buzzfeed
+    canonical_name: BuzzFeed
+    entity_type: COMPANY
+    legal_name: BuzzFeed, Inc.
+    website: https://www.buzzfeed.com
+    aliases:
+      - BuzzFeed, Inc.
+  - slug: jonah_peretti
+    canonical_name: Jonah Peretti
+    entity_type: PERSON
+    aliases:
+      - Jonah H. Peretti
+  # Byron Allen acquired a majority stake in BuzzFeed, Inc. via his family office
+  # in May 2026 and became Chairman & CEO. He is a media entrepreneur (Allen Media
+  # Group), NOT a private-equity/venture-capital principal, so no PE-label rule is
+  # triggered.
+  - slug: byron_allen
+    canonical_name: Byron Allen
+    entity_type: PERSON
+  # Byron Allen's family-office acquisition vehicle named in BuzzFeed's official
+  # announcement. An LLC family office, NOT a PE or VC firm -> the §14.3 PE-label
+  # evidence rule is NOT triggered.
+  - slug: allen_family_digital
+    canonical_name: Allen Family Digital, LLC
+    entity_type: COMPANY
+    legal_name: Allen Family Digital, LLC
+    aliases:
+      - Allen Family Digital
+
+relationships:
+  # 0: BuzzFeed owns/operates the Tasty channel. BuzzFeed's FY2024 Form 10-K (SEC,
+  # T1) lists Tasty among "BuzzFeed's iconic, globally-loved brands" and states
+  # "Tasty, first launched in 2015, pioneered the overhead video format." No
+  # ownership percentage is published; CONTROLLING is inferred from Tasty being a
+  # wholly-operated house brand of the company (not a stated percentage).
+  # effective_from 2016-01-22 = the channel account-creation date (YouTube feed);
+  # the Tasty brand itself launched in 2015 (see notes).
+  - subject: buzzfeed
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    effective_from: 2016-01-22
+    confidence: 0.9
+    status: ACTIVE
+  # 1: Jonah Peretti co-founded BuzzFeed, Inc. (2006). FOUNDED_BY only — NO
+  # individual ownership stake is asserted (his equity is not separately
+  # disclosed here), so this does NOT confer creator control over the channel.
+  # control_level intentionally omitted. Co-founder John S. Johnson is noted in
+  # prose but not modeled (see notes).
+  - subject: buzzfeed
+    type: FOUNDED_BY
+    object: jonah_peretti
+    effective_from: 2006-11-01
+    confidence: 0.85
+    status: ACTIVE
+  # 2: Allen Family Digital, LLC (Byron Allen's family office) acquired a majority
+  # stake in BuzzFeed, Inc., closing 2026-05-27. control_level CONTROLLING. The
+  # exact percentage is disclosed inconsistently across sources (BuzzFeed's own
+  # announcement: "approximately 51%"; The Hollywood Reporter: "52 percent"), so
+  # NO numeric ownership_percentage is asserted (documented as a majority only).
+  # This is a control change at the PARENT level; the channel's DIRECT owner
+  # remains BuzzFeed (rel 0), so the served classification is unaffected.
+  - subject: allen_family_digital
+    type: PARTIALLY_OWNS
+    object: buzzfeed
+    control_level: CONTROLLING
+    effective_from: 2026-05-27
+    confidence: 0.85
+    status: ACTIVE
+  # 3: Byron Allen controls Allen Family Digital, LLC (his family office / named
+  # acquisition vehicle). INFERRED from the "Byron Allen's family office"
+  # framing — that he controls his own family office is not stated in as many
+  # words (flagged); lower confidence.
+  - subject: byron_allen
+    type: OWNS
+    object: allen_family_digital
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  # 4: Byron Allen assumed the Chairman & CEO role at BuzzFeed on 2026-05-27. A
+  # MANAGEMENT/role edge, NOT a separate ownership assertion (his control comes via
+  # rels 2-3).
+  - subject: byron_allen
+    type: MANAGES
+    object: buzzfeed
+    control_level: MANAGEMENT
+    effective_from: 2026-05-27
+    confidence: 0.85
+    status: ACTIVE
+  # 5: Jonah Peretti was BuzzFeed's CEO from its 2006 founding until stepping down
+  # from the CEO role on 2026-05-27, when he transitioned to the newly created
+  # role of President of BuzzFeed AI. Modeled as a MANAGES (CEO) edge ENDED
+  # 2026-05-27. This is a ROLE change; his co-founder status (rel 1) is unaffected.
+  # His continuing President-of-BuzzFeed-AI role is noted in prose, not separately
+  # modeled, to avoid over-reach.
+  - subject: jonah_peretti
+    type: MANAGES
+    object: buzzfeed
+    control_level: MANAGEMENT
+    effective_from: 2006-11-01
+    effective_to: 2026-05-27
+    confidence: 0.8
+    status: ENDED
+
+sources:
+  - ref: youtube_channel_feed
+    url: https://www.youtube.com/channel/UCJFp8uSYCjXOMnkUyb3CQ3Q
+    title: Tasty — YouTube channel
+    publisher: Tasty (YouTube)
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCJFp8uSYCjXOMnkUyb3CQ3Q
+    excerpt: >-
+      The raw @buzzfeedtasty channel-page HTML exposes "externalId":
+      "UCJFp8uSYCjXOMnkUyb3CQ3Q", and YouTube's own feed for that id carries
+      <yt:channelId>UCJFp8uSYCjXOMnkUyb3CQ3Q</yt:channelId>, <title>Tasty</title>
+      and <name>Tasty</name>, confirming the canonical channel id. The feed's
+      channel-level <published> is 2016-01-22 (account-creation date).
+    supports:
+      - relationship: 0
+  - ref: buzzfeed_10k_2024
+    url: https://www.sec.gov/Archives/edgar/data/1828972/000182897225000073/bzfd-20241231.htm
+    title: BuzzFeed, Inc. — Form 10-K for fiscal year ended December 31, 2024
+    publisher: U.S. Securities and Exchange Commission (BuzzFeed, Inc. filing)
+    published_at: 2025-03-27
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: >-
+      "BuzzFeed's iconic, globally-loved brands include BuzzFeed, HuffPost, and
+      Tasty. [...] Tasty, first launched in 2015, pioneered the overhead video
+      format that is now ubiquitous across most major food brands, and is a
+      platform for food creators." The filing also reports that BuzzFeed sold
+      Complex Networks in February 2024 and sold First We Feast in December 2024.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - claim: 0
+  - ref: buzzfeed_press_allen_2026
+    url: https://www.buzzfeed.com/buzzfeedpress/buzzfeed-inc-completes-majority-stake-investment-by-byron
+    title: BuzzFeed, Inc. Completes Majority Stake Investment by Byron Allen's Family Office
+    publisher: BuzzFeed
+    published_at: 2026-05-27
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: >-
+      Allen Family Digital, LLC acquired approximately 51% of the Company's
+      outstanding shares — 40 million shares of BuzzFeed, Inc. common stock at a
+      price of $3.00 per share, representing a total transaction value of $120
+      million. Byron Allen has assumed the role of Chairman and Chief Executive
+      Officer, and Jonah Peretti has transitioned to his newly created role as
+      President of BuzzFeed AI. The transaction closed May 27, 2026.
+    supports:
+      - relationship: 2
+      - relationship: 3
+      - relationship: 4
+      - relationship: 5
+  - ref: hollywood_reporter_allen_2026
+    url: https://www.hollywoodreporter.com/business/business-news/byron-allen-to-buy-buzzfeed-in-120-million-deal-will-take-over-as-ceo-1236592782/
+    title: Byron Allen to Buy BuzzFeed In $120 Million Deal, Will Take Over As CEO
+    publisher: The Hollywood Reporter
+    published_at: 2026-05-11
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      "In a $120 million agreement, Allen will take a 52 percent majority stake in
+      the company as well as the CEO role from founder Jonah Peretti." Peretti is
+      transitioning to lead a new division focused on artificial-intelligence
+      development rather than continuing as chief executive.
+    supports:
+      - relationship: 2
+      - relationship: 4
+      - relationship: 5
+
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: buzzfeed
+    confidence_factors:
+      sourceQuality: 0.95
+      directness: 0.85
+      entityMatch: 0.95
+      recencyFactor: 0.85
+      corroborationFactor: 0.8
+      contradictionPenalty: 1.0
+
+review:
+  researched_by: claude-research-agent-m1
+  last_reviewed_at: 2026-07-29
+  notes: >
+    DRAFT — requires human review. Corporate-owned brand case: Tasty is
+    BuzzFeed's food brand and this channel is its YouTube presence.
+    reviewed_by intentionally UNSET (not yet human-reviewed); last_reviewed_at
+    holds the draft authoring date (schema-required), NOT a completed review.
+
+    EXPECTED CLASSIFICATION: CORPORATE_OWNED. The channel's sole active direct
+    owner is BuzzFeed (COMPANY, rel 0), a for-profit corporation, so the
+    classifier's direct-corporate-owner rule fires (explanation code
+    DIRECT_OWNER_CONFIRMED). This is NOT creator-owned: Jonah Peretti is modeled
+    only via FOUNDED_BY (rel 1) with NO individual ownership stake asserted, which
+    per the 5-Minute Crafts precedent does not confer creator control. Confidence
+    ~0.9 on the load-bearing ownership edge (rel 0), backed by a Tier 1 SEC 10-K
+    plus the Tier 1 YouTube feed.
+
+    CHANNEL ID: UCJFp8uSYCjXOMnkUyb3CQ3Q, taken from the raw @buzzfeedtasty page
+    HTML "externalId" and cross-checked against YouTube's own RSS feed
+    (yt:channelId + title + name all "Tasty"; channel-level <published>
+    2016-01-22, the account-creation date).
+
+    OWNERSHIP (rel 0). BuzzFeed operates Tasty as an in-house brand. Backed by
+    BuzzFeed's FY2024 Form 10-K (SEC, T1: "BuzzFeed's iconic, globally-loved
+    brands include BuzzFeed, HuffPost, and Tasty"; "Tasty, first launched in 2015,
+    pioneered the overhead video format") and the YouTube feed (T1, canonical id +
+    @buzzfeedtasty handle). No ownership percentage is published, so
+    ownership_percentage is omitted and CONTROLLING is an INFERENCE from the
+    house-brand relationship, not a stated figure — reviewer to confirm this
+    inference is acceptable. effective_from 2016-01-22 is the channel
+    account-creation date; the Tasty BRAND launched in 2015 (10-K), a ~year
+    earlier — the brand-launch vs channel-creation gap is flagged; a reviewer may
+    prefer 2015 for a brand-level edge.
+
+    BUZZFEED CORPORATE STATUS (context, documented). BuzzFeed, Inc. became a
+    public company via a SPAC merger with 890 5th Avenue Partners, Inc. that
+    completed 2021-12-03; the combined company began trading on Nasdaq under BZFD
+    on 2021-12-06 and simultaneously acquired Complex Networks for $300M. Its status
+    as an SEC-reporting public company is directly evidenced by the FY2024 10-K
+    cited here. 2024 RESTRUCTURING (per the same 10-K): BuzzFeed sold Complex
+    Networks (Feb 2024) and sold First We Feast — producer of Hot Ones — for a
+    reported $82.5M (Dec 2024), alongside layoffs. None of these divestitures
+    involved Tasty, which BuzzFeed retained. Recorded as neutral corporate context
+    only; the SPAC completion is noted in prose and anchored to the 10-K (public
+    filer) rather than given a separate source — a reviewer may add the Dec-2021
+    SPAC completion 8-K / press release (businesswire 20211203005602) as a T1
+    anchor if a standalone edge is desired.
+
+    2026 CONTROL CHANGE AT THE PARENT (rels 2-5). On 2026-05-27 Byron Allen's
+    family office, Allen Family Digital, LLC, completed acquisition of a MAJORITY
+    stake in BuzzFeed, Inc.; Allen became Chairman & CEO and Jonah Peretti moved to
+    a new role as President of BuzzFeed AI. This is a control change at the PARENT
+    company, one level ABOVE the channel — the channel's DIRECT owner remains
+    BuzzFeed (rel 0), so the served CORPORATE_OWNED classification is UNAFFECTED
+    (evidence-first: recorded because it is the current, well-documented ownership
+    fact for the parent, and enriches the ownership-history surface). PERCENTAGE
+    DISCREPANCY: BuzzFeed's own announcement states "approximately 51%"; The
+    Hollywood Reporter and Bloomberg report "52 percent" — because the figure
+    conflicts across sources, NO numeric ownership_percentage is asserted (modeled
+    as CONTROLLING majority only). rel 3 (Byron Allen controls his own family
+    office) is an INFERENCE from the "Byron Allen's family office" framing —
+    flagged, confidence 0.7. NOT A PE/VC CASE: Byron Allen is a media entrepreneur
+    (Allen Media Group) and Allen Family Digital, LLC is a family-office vehicle,
+    NOT a private-equity or venture-capital firm, so the §14.3 PE-label evidence
+    rule is NOT triggered and no PE-implying label is asserted. REVIEWER JUDGMENT:
+    if the classifier walks the ownership chain upward, the ultimate controller of
+    BuzzFeed is an individual (Byron Allen) via a family-office COMPANY — this is
+    still corporate ownership of the channel, neither creator-owned nor PE-backed.
+
+    FOUNDERS (rel 1). Jonah Peretti is universally documented as BuzzFeed's
+    founder (co-founded 2006; effective_from 2006-11-01 = the widely cited company
+    founding date). Modeled as FOUNDED_BY with NO ownership stake and NO
+    control_level — his individual equity is not separately disclosed here, and
+    FOUNDED_BY alone is not creator control (5-Minute Crafts precedent). Co-founder
+    John S. Johnson (and early chairman Kenneth Lerer) are named in some histories;
+    not modeled here to avoid asserting under-documented founder edges — a reviewer
+    may add them.
+
+    POST-ACQUISITION EVENTS (neutral context, not modeled). Reporting (Deadline,
+    Jul 2026) indicates BuzzFeed announced staff cuts of ~35% under Byron Allen.
+    This is an OPERATIONAL/personnel event, NOT an ownership change, so it is
+    noted in prose only and no edge is asserted for it (legal-safe: describes
+    structure, implies no misconduct).
+
+    SOURCE / VERIFICATION FLAGS.
+    (1) rel 0 primary anchor is the FY2024 10-K (T1) cross-checked with the live
+    YouTube feed (T1); the exact 10-K quote was captured via search summary of the
+    SEC EDGAR filing — a reviewer should re-verify the verbatim brand-list and
+    Tasty sentences against the filing text (a direct SEC fetch returned 403 during
+    research; the EDGAR htm URL is recorded).
+    (2) The Byron Allen announcement (buzzfeed_press_allen_2026, T1) was fetched
+    directly. The Hollywood Reporter corroboration (T2) was fetched directly; a
+    Variety article corroborates but is behind a paywall/redirect (not used as a
+    source). Bloomberg/Deadline/Variety further corroborate the deal.
+    (3) All backing sources are Tier 1-2; no Tier 3/4 source supports any edge.
+
+    LEGAL-SAFE / NEUTRALITY. Language describes ownership/operating structure only;
+    no claim of editorial interference or misconduct is made. No PE-implying label
+    is asserted anywhere, so the §14.3 PE-label evidence rule is not triggered.
+    Exact ownership percentages are undisclosed or inconsistent and are left
+    unstated rather than asserted.
