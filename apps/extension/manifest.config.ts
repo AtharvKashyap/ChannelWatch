@@ -8,10 +8,15 @@ import { defineManifest } from "@crxjs/vite-plugin";
 const API_ORIGIN = process.env.VITE_API_BASE_URL ?? "http://localhost:8787";
 
 /**
- * MV3 manifest (SPEC §18.7). Permissions are kept to the documented minimum:
- * `storage` (local cache + sync settings) plus host permissions for youtube.com
- * (content script matches) and the API origin (background fetches). NOTHING
- * else — no `tabs`, no `cookies`, no `identity`, no broad host access.
+ * MV3 manifest (SPEC §18.7). Permissions are kept to the documented minimum —
+ * in the popup-only redesign that means NO API permissions at all:
+ *   - no `storage`: the extension persists no user data (the lookup cache is an
+ *     in-memory Map in the service worker; there is no settings page);
+ *   - no `tabs`: `chrome.tabs.query`/`sendMessage`/`create` work under the
+ *     youtube host permission without it;
+ *   - no `scripting`, `cookies`, `identity`, or broad host access.
+ * Only two host-permission patterns: youtube.com (the minimal content script
+ * that resolves the channel id) and the API origin (background lookups).
  */
 export default defineManifest({
   manifest_version: 3,
@@ -19,7 +24,6 @@ export default defineManifest({
   version: "0.1.0",
   description:
     "Shows who owns, finances, or commercially influences a YouTube channel, with sourced evidence.",
-  permissions: ["storage"],
   host_permissions: ["https://www.youtube.com/*", `${API_ORIGIN}/*`],
   background: {
     service_worker: "src/background/index.ts",
@@ -32,7 +36,6 @@ export default defineManifest({
       run_at: "document_idle",
     },
   ],
-  options_page: "src/options/index.html",
   action: {
     default_title: "CHANNELWATCH",
     default_popup: "src/popup/index.html",

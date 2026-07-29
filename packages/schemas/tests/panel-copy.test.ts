@@ -129,8 +129,8 @@ describe("badgeAriaLabel", () => {
 });
 
 describe("popup copy constants", () => {
-  it("exposes the popup description and settings-button label", () => {
-    for (const key of ["title", "description", "openSettings"] as const) {
+  it("exposes non-empty string values for every popup state", () => {
+    for (const key of Object.keys(POPUP_COPY) as (keyof typeof POPUP_COPY)[]) {
       expect(typeof POPUP_COPY[key]).toBe("string");
       expect(POPUP_COPY[key].length).toBeGreaterThan(0);
     }

@@ -51,11 +51,17 @@ patch releases in testing, but for a bit-exact third-party verification, pin the
 2. **`pnpm-lock.yaml`** — as committed at that tag.
 3. **Toolchain** — pnpm `9.15.9`, the exact Node version, per the table above.
 4. **`VITE_API_BASE_URL`** — the production API origin (see next section). This
-   is baked into the manifest `host_permissions` **and** the extension's default
-   `apiBaseUrl` setting, so a different value produces a different (still
-   deterministic) bundle. Two people who set the same value get the same bytes;
-   an unset value silently changes the output.
-5. **`manifest.config.ts` `version`** — the release version string (see below).
+   is baked into the manifest `host_permissions` **and** the background service
+   worker's API base URL constant (`src/shared/config.ts`), so a different value
+   produces a different (still deterministic) bundle. Two people who set the same
+   value get the same bytes; an unset value silently changes the output.
+5. **`VITE_WEB_BASE_URL`** — the public site origin baked into `src/shared/
+   config.ts`, used only for the popup's "Report an error" link
+   (`/corrections?channel=UC…`). It does not affect `host_permissions` (the link
+   is a user-initiated navigation, not a fetch), but it is baked into the bundle,
+   so a different value changes the output. Default `http://localhost:3000`; set
+   the production site origin for a release build.
+6. **`manifest.config.ts` `version`** — the release version string (see below).
 
 Nothing else influences the output. There are no timestamps, absolute paths, or
 random IDs embedded in the unpacked bundle (verified by the byte-identical
@@ -99,8 +105,9 @@ From the repo root, on the pinned toolchain, at the release commit:
 corepack enable
 pnpm install --frozen-lockfile
 
-# 2. Bake the production API origin (REQUIRED — see above).
+# 2. Bake the production API origin (REQUIRED — see above) and site origin.
 export VITE_API_BASE_URL="https://api.channelwatch.example"
+export VITE_WEB_BASE_URL="https://www.channelwatch.example"
 
 # 3. Clean and build the MV3 bundle.
 rm -rf apps/extension/dist
@@ -112,9 +119,10 @@ pnpm --filter @channelwatch/extension build
 ## How a third party verifies the store bundle matches source
 
 1. Note the release **git tag**, the **exact Node version**, and the
-   **`VITE_API_BASE_URL`** value from the release notes.
+   **`VITE_API_BASE_URL`** / **`VITE_WEB_BASE_URL`** values from the release
+   notes.
 2. Check out the tag, then run the Build steps above with the same Node version
-   and the same `VITE_API_BASE_URL`.
+   and the same `VITE_API_BASE_URL` / `VITE_WEB_BASE_URL`.
 3. Download the published extension (the store `.crx`/ZIP, or the loaded
    extension's directory) and unpack it.
 4. Compare the **unpacked file hashes**, not the ZIP bytes:

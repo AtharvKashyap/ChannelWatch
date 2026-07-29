@@ -1,115 +1,64 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { installChromeMock } from "../mocks/chrome.js";
 import {
-  CACHE_LRU_CAP,
+  CACHE_MAX_ENTRIES,
   cacheSize,
-  flushPendingWrites,
+  clearCacheForTests,
   getCacheEntry,
-  resetRecencyStateForTests,
   setCacheEntry,
 } from "../../src/background/cache.js";
 import { researchedFixture } from "../fixtures.js";
 
 beforeEach(() => {
-  installChromeMock();
-  resetRecencyStateForTests();
+  clearCacheForTests();
 });
 
-describe("cache TTL expiry", () => {
-  it("returns a fresh entry", async () => {
+describe("in-memory session cache", () => {
+  it("returns a fresh entry", () => {
     const payload = researchedFixture();
-    await setCacheEntry("UC_fresh", { kind: "success", payload }, 60_000, 1_000);
+    setCacheEntry("UC_fresh", { kind: "success", payload }, 60_000, 1_000);
 
-    const entry = await getCacheEntry("UC_fresh", 1_500);
-    expect(entry).toBeDefined();
-    expect(entry?.data).toEqual({ kind: "success", payload });
+    const entry = getCacheEntry("UC_fresh", 1_500);
+    expect(entry).toEqual({ kind: "success", payload });
   });
 
-  it("treats an expired entry as a miss", async () => {
+  it("treats an expired entry as a miss and drops it", () => {
     const payload = researchedFixture();
-    await setCacheEntry("UC_stale", { kind: "success", payload }, 1_000, 1_000);
+    setCacheEntry("UC_stale", { kind: "success", payload }, 1_000, 1_000);
 
-    const entry = await getCacheEntry("UC_stale", 5_000);
-    expect(entry).toBeUndefined();
+    expect(getCacheEntry("UC_stale", 5_000)).toBeUndefined();
+    // The expired entry is removed on access.
+    expect(cacheSize()).toBe(0);
   });
 
-  it("returns undefined for a channel never cached", async () => {
-    expect(await getCacheEntry("UC_never")).toBeUndefined();
+  it("returns undefined for a channel never cached", () => {
+    expect(getCacheEntry("UC_never")).toBeUndefined();
   });
 
-  it("reflects the bumped lastAccessedAt on the entry returned from a hit", async () => {
-    const payload = researchedFixture();
-    await setCacheEntry("UC_touch", { kind: "success", payload }, 60_000, 1_000);
-
-    const entry = await getCacheEntry("UC_touch", 2_000);
-    expect(entry?.lastAccessedAt).toBe(2_000);
-  });
-
-  it("does NOT synchronously rewrite storage.local on a hit (batched recency writes)", async () => {
-    const payload = researchedFixture();
-    await setCacheEntry("UC_touch", { kind: "success", payload }, 60_000, 1_000);
-    const setCallsAfterWrite = (await installedLocalSetCallCount()) as number;
-
-    await getCacheEntry("UC_touch", 2_000);
-
-    // A hit must not itself call chrome.storage.local.set — the recency bump
-    // is deferred (see cache.ts flushPendingWrites doc).
-    expect(await installedLocalSetCallCount()).toBe(setCallsAfterWrite);
-
-    const storeBeforeFlush = (await installedLocalDump())["cw_channel_cache_v1"] as Record<
-      string,
-      { lastAccessedAt: number }
-    >;
-    expect(storeBeforeFlush["UC_touch"]?.lastAccessedAt).toBe(1_000);
-
-    await flushPendingWrites();
-    const storeAfterFlush = (await installedLocalDump())["cw_channel_cache_v1"] as Record<
-      string,
-      { lastAccessedAt: number }
-    >;
-    expect(storeAfterFlush["UC_touch"]?.lastAccessedAt).toBe(2_000);
+  it("caches error outcomes distinctly from success", () => {
+    setCacheEntry("UC_err", { kind: "error" }, 10_000, 1_000);
+    expect(getCacheEntry("UC_err", 2_000)).toEqual({ kind: "error" });
   });
 });
 
-describe("cache LRU cap", () => {
-  it("prunes to CACHE_LRU_CAP entries, evicting least-recently-accessed first", async () => {
+describe("cache memory cap", () => {
+  it("prunes to CACHE_MAX_ENTRIES, evicting least-recently-used first", () => {
     const payload = researchedFixture();
 
-    // Fill to the cap.
-    for (let i = 0; i < CACHE_LRU_CAP; i++) {
-      await setCacheEntry(`UC_${i}`, { kind: "success", payload }, 60_000, i);
+    // Fill exactly to the cap, oldest-first.
+    for (let i = 0; i < CACHE_MAX_ENTRIES; i++) {
+      setCacheEntry(`UC_${i}`, { kind: "success", payload }, 60_000, i);
     }
-    expect(await cacheSize()).toBe(CACHE_LRU_CAP);
+    expect(cacheSize()).toBe(CACHE_MAX_ENTRIES);
 
-    // Touch entry 0 so it is no longer the least-recently-accessed.
-    await getCacheEntry("UC_0", CACHE_LRU_CAP + 100);
+    // Touch UC_0 so it becomes most-recently-used (no longer the eviction victim).
+    expect(getCacheEntry("UC_0", CACHE_MAX_ENTRIES + 100)).toBeDefined();
 
-    // One more insert should push the store over the cap and trigger eviction
-    // of the least-recently-accessed entry, which is now UC_1 (accessed at
-    // time 1), not UC_0 (just touched at CACHE_LRU_CAP + 100).
-    await setCacheEntry("UC_new", { kind: "success", payload }, 60_000, CACHE_LRU_CAP + 200);
+    // One more insert pushes over the cap → the LRU victim is now UC_1, not UC_0.
+    setCacheEntry("UC_new", { kind: "success", payload }, 60_000, CACHE_MAX_ENTRIES + 200);
 
-    expect(await cacheSize()).toBe(CACHE_LRU_CAP);
-    expect(await getCacheEntry("UC_0", CACHE_LRU_CAP + 300)).toBeDefined();
-    expect(await getCacheEntry("UC_1", CACHE_LRU_CAP + 300)).toBeUndefined();
-    expect(await getCacheEntry("UC_new", CACHE_LRU_CAP + 300)).toBeDefined();
+    expect(cacheSize()).toBe(CACHE_MAX_ENTRIES);
+    expect(getCacheEntry("UC_0", CACHE_MAX_ENTRIES + 300)).toBeDefined();
+    expect(getCacheEntry("UC_1", CACHE_MAX_ENTRIES + 300)).toBeUndefined();
+    expect(getCacheEntry("UC_new", CACHE_MAX_ENTRIES + 300)).toBeDefined();
   });
 });
-
-// Helper to peek at the raw mocked storage without re-installing the mock.
-async function installedLocalDump(): Promise<Record<string, unknown>> {
-  const chromeGlobal = (
-    globalThis as { chrome: { storage: { local: { get: () => Promise<unknown> } } } }
-  ).chrome;
-  return (await chromeGlobal.storage.local.get()) as Record<string, unknown>;
-}
-
-// Helper: how many times chrome.storage.local.set has been called so far.
-async function installedLocalSetCallCount(): Promise<number> {
-  const chromeGlobal = (
-    globalThis as unknown as {
-      chrome: { storage: { local: { set: { mock: { calls: unknown[] } } } } };
-    }
-  ).chrome;
-  return chromeGlobal.storage.local.set.mock.calls.length;
-}
