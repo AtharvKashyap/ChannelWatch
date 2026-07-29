@@ -53,5 +53,4 @@ export function isLookupChannelRequest(message: unknown): message is LookupChann
 
 /** Response the background SW sends back for a `LOOKUP_CHANNEL` request. */
 export type LookupChannelResponse =
-  | { ok: true; payload: ChannelLookupPayload; cached: boolean }
-  | { ok: false; error: string };
+  { ok: true; payload: ChannelLookupPayload; cached: boolean } | { ok: false; error: string };

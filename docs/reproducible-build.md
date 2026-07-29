@@ -56,7 +56,7 @@ patch releases in testing, but for a bit-exact third-party verification, pin the
    produces a different (still deterministic) bundle. Two people who set the same
    value get the same bytes; an unset value silently changes the output.
 5. **`VITE_WEB_BASE_URL`** — the public site origin baked into `src/shared/
-   config.ts`, used only for the popup's "Report an error" link
+config.ts`, used only for the popup's "Report an error" link
    (`/corrections?channel=UC…`). It does not affect `host_permissions` (the link
    is a user-initiated navigation, not a fetch), but it is baked into the bundle,
    so a different value changes the output. Default `http://localhost:3000`; set

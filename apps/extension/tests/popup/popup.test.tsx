@@ -180,7 +180,9 @@ describe("Popup — ownership box", () => {
 
   it("invokes openCorrection with the channel id when the link is clicked", async () => {
     const openCorrection = vi.fn();
-    await mount(makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }), openCorrection }));
+    await mount(
+      makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }), openCorrection }),
+    );
     const link = container.querySelector("a.cw-popup__correction") as HTMLAnchorElement;
     act(() => {
       link.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));

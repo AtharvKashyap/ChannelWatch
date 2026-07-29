@@ -167,7 +167,11 @@ function Body({
     case "unresearched":
       return (
         <div className="cw-popup__box">
-          <p className="cw-popup__label" data-cw-color="NEUTRAL" style={{ background: BADGE_PALETTE.NEUTRAL }}>
+          <p
+            className="cw-popup__label"
+            data-cw-color="NEUTRAL"
+            style={{ background: BADGE_PALETTE.NEUTRAL }}
+          >
             {PANEL_COPY.unresearchedHeading}
           </p>
           <p className="cw-popup__summary">{UNRESEARCHED_SUMMARY}</p>
@@ -176,7 +180,11 @@ function Body({
       );
     case "researched":
       return (
-        <OwnershipBox payload={state.payload} channelId={state.channelId} openCorrection={openCorrection} />
+        <OwnershipBox
+          payload={state.payload}
+          channelId={state.channelId}
+          openCorrection={openCorrection}
+        />
       );
   }
 }
@@ -196,7 +204,11 @@ function OwnershipBox({
   return (
     <div className="cw-popup__box">
       <p className="cw-popup__channel">{payload.display_name}</p>
-      <p className="cw-popup__label" data-cw-color={color} style={{ background: BADGE_PALETTE[color] }}>
+      <p
+        className="cw-popup__label"
+        data-cw-color={color}
+        style={{ background: BADGE_PALETTE[color] }}
+      >
         {BADGE_LABELS[label]}
       </p>
       <p className="cw-popup__summary">{payload.classification.summary}</p>

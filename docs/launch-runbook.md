@@ -35,13 +35,15 @@ Config lives in this repo: `render.yaml` (API blueprint) and
 no traffic** and takes **~30–60 seconds to wake** on the next request. This is
 by design on the free plan and is **acceptable for CHANNELWATCH**:
 
-- The extension is **fail-silent** (CLAUDE.md, `youtube-observer`): if a lookup
-  is slow or errors, it shows **no badge** rather than breaking YouTube. The
-  first viewer after an idle period may see a blank badge for a few seconds
-  while the API wakes; a reload once it is warm shows the badge.
-- The background service worker **caches** results with TTLs (confirmed 7d,
-  unknown 24h, disputed 1h, API error 10m — `apps/extension/src/background/`),
-  so most lookups never hit the sleeping server at all.
+- The extension is **popup-only and fail-silent**: it never injects anything
+  into YouTube. If a lookup is slow or errors, the popup shows a "still
+  working / couldn't load" message rather than affecting the page. The first
+  lookup after an idle period may take ~30–60s while the API wakes; the popup
+  shows a cold-start message and the result appears once it is warm.
+- The background service worker keeps an **in-memory session cache** (a `Map`,
+  never `chrome.storage`), so repeat lookups in the same browser session are
+  instant and never hit the sleeping server. The cache is cleared when the
+  browser/worker restarts — the extension persists no data.
 - `healthCheckPath: /healthz` keeps Render from killing a healthy instance, but
   it does **not** stop the idle-sleep on free (nothing does, short of paid).
 
@@ -282,6 +284,9 @@ npx pnpm@9 install --frozen-lockfile
 # 2. Bake YOUR Render API origin (REQUIRED — an unset value bakes
 #    http://localhost:8787 and produces a BROKEN store bundle).
 export VITE_API_BASE_URL='https://channelwatch-api.onrender.com'   # your Step 3 URL
+#    Also bake your Vercel site origin so the popup's "Report an error" link
+#    opens the real corrections page (unset defaults to http://localhost:3000).
+export VITE_WEB_BASE_URL='https://channelwatch-web.vercel.app'     # your Step 4 URL
 
 # 3. Set a real release version in apps/extension/manifest.config.ts
 #    (e.g. 0.1.0) — commit it so the tag captures it.
@@ -310,10 +315,11 @@ notes so a third party can reproduce the build (`docs/reproducible-build.md`).
    **one-time $5** developer fee (the only unavoidable cost of this launch).
 2. **New item → upload** `channelwatch-0.1.0.zip` from Step 7.
 3. **Store listing** — paste from `docs/store-listing.md`: store name, category
-   (Productivity), short + long description, and the five screenshots (capture on
-   a real researched channel; do not fabricate a badge). Produce the promo tile
-   (440×280) and 128×128 icon marked `[HUMAN]` there.
-4. **Permission justifications** — paste the `storage` and the two host-permission
+   (Productivity), short + long description, and the five screenshots (capture the
+   popup open on a real researched channel's video; do not fabricate ownership).
+   Produce the promo tile (440×280) and 128×128 icon marked `[HUMAN]` there.
+4. **Permission justifications** — the popup-only build requests **no
+   `permissions` at all** (no `storage`); paste only the two host-permission
    justifications from `docs/store-listing.md`. Replace `<api-domain>` with your
    `channelwatch-api.onrender.com` origin — it must match the origin baked into
    the submitted bundle (Step 7 verification).
@@ -360,3 +366,4 @@ See `docs/launch-checklist.md` "Launch gate summary" for the full stop list.
 | `ABUSE_METRICS`            | `render.yaml`                          | `on`                                         |
 | `NEXT_PUBLIC_API_BASE_URL` | Vercel env var                         | your Render `…onrender.com` URL              |
 | `VITE_API_BASE_URL`        | your shell at extension build (Step 7) | your Render `…onrender.com` URL              |
+| `VITE_WEB_BASE_URL`        | your shell at extension build (Step 7) | your Vercel `…vercel.app` URL                |

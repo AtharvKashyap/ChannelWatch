@@ -39,7 +39,9 @@ describe("resolveCurrentChannel — watch pages only", () => {
   });
 
   it("never throws on malformed input", () => {
-    const doc = parse(`<html><body><script>var ytInitialPlayerResponse = {oops;</script></body></html>`);
+    const doc = parse(
+      `<html><body><script>var ytInitialPlayerResponse = {oops;</script></body></html>`,
+    );
     expect(resolveCurrentChannel(doc, "https://www.youtube.com/watch?v=x")).toBeNull();
   });
 });
