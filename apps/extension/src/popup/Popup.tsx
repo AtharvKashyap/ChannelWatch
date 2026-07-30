@@ -3,26 +3,29 @@
  * all page injection). On open it determines whether the active tab is a
  * YouTube WATCH page; if so it resolves the currently-playing video's channel
  * (via the minimal content script) and looks up its ownership record (via the
- * background SW), then renders the ownership DOSSIER.
+ * background SW), then renders the ownership record.
  *
- * The dossier answers "who's behind this channel?" as a provenance record:
- *   - a tinted VERDICT band (channel name + the reviewed classification stamp +
- *     summary), fronted by a colored left spine in the verdict color;
- *   - a vertical OWNERSHIP-LINEAGE RAIL — the ultimate owner at the top, each
- *     intermediate owner below it, and the channel pinned at the base — rendered
- *     from `ownership_chain` (which the API orders channel→up; we render
- *     base→top);
- *   - a compact monospace meta row (confidence · evidence · creator status);
- *   - the "over time" history, notes/warnings, last-reviewed line;
- *   - the standing editorial disclaimer, shown verbatim, and a "Report an error"
- *     LINK to the public correction form.
+ * The look is a PRINTED OWNERSHIP RECORD, not a dashboard card: a quiet masthead
+ * over a hairline, a serif (Newsreader) channel headline, the verdict as a plain
+ * sentence, and the ownership chain as a simple indented list. Ink on warm
+ * paper; the sole spot of color (the classification accent) is a whisper — a 2px
+ * underline under the channel name and the "Report an error" link. Layout:
+ *   - masthead ("CHANNELWATCH · ownership record") + a hairline;
+ *   - the channel name (serif, accent-underlined), the verdict SENTENCE, and the
+ *     fuller `classification.summary`;
+ *   - "Ownership" — the owner chain as an indented list (owner name + a small
+ *     mono meta line: mechanism · stake · since date), the ultimate owner flagged
+ *     inline with an em dash;
+ *   - "Over time" — the ownership history in the same list idiom (only if present);
+ *   - "Notes" — the §9.4 warning codes (only if present);
+ *   - one quiet mono line (confidence · evidence · creator status · last reviewed);
+ *   - a hairline, the standing editorial disclaimer, and the correction LINK.
  *
  * Every user-facing string comes from `@channelwatch/schemas` (CLAUDE.md rule
  * 2). The popup submits nothing and stores nothing (privacy, CLAUDE.md rule 5).
  */
 import { useEffect, useState } from "react";
 import {
-  BADGE_LABELS,
   CHAIN_COPY,
   CONFIDENCE_LABEL_TEXT,
   CREATOR_STATUS_TEXT,
@@ -32,6 +35,7 @@ import {
   PANEL_COPY,
   POPUP_COPY,
   UNRESEARCHED_SUMMARY,
+  VERDICT_SENTENCE,
   badgeAriaLabel,
   classificationToBadgeColor,
   evidenceCountText,
@@ -132,12 +136,23 @@ export function Popup({ deps }: { deps: PopupDeps }) {
   }, [deps]);
 
   return (
-    <main className="cw-dossier">
+    <main className="cw-doc" data-cw-color={docColor(state)}>
       <style>{POPUP_STYLE}</style>
-      <p className="cw-wordmark">{POPUP_COPY.title}</p>
+      <p className="cw-masthead">
+        {POPUP_COPY.title}
+        <span className="cw-masthead__dot" aria-hidden="true"> · </span>
+        {POPUP_COPY.recordType}
+      </p>
+      <hr className="cw-rule" />
       <Body state={state} openCorrection={deps.openCorrection} />
     </main>
   );
+}
+
+/** The verdict accent color for the whole record; NEUTRAL for the chrome states. */
+function docColor(state: ViewState): string {
+  if (state.kind === "researched") return classificationToBadgeColor(state.payload.classification.label);
+  return "NEUTRAL";
 }
 
 function Body({
@@ -166,17 +181,16 @@ function Body({
       );
     case "unresearched":
       return (
-        <section className="cw-card cw-card--enter" data-cw-color="NEUTRAL">
-          <div className="cw-verdict">
-            <p className="cw-verdict__stamp">{PANEL_COPY.unresearchedHeading}</p>
-          </div>
+        <>
+          <p className="cw-verdict">{PANEL_COPY.unresearchedHeading}</p>
           <p className="cw-summary">{UNRESEARCHED_SUMMARY}</p>
+          <hr className="cw-rule" />
           <p className="cw-disclaimer">{EDITORIAL_DISCLAIMER}</p>
-        </section>
+        </>
       );
     case "researched":
       return (
-        <OwnershipDossier
+        <OwnershipRecord
           payload={state.payload}
           channelId={state.channelId}
           openCorrection={openCorrection}
@@ -195,86 +209,106 @@ function operativeName(payload: ResearchedChannelLookup): string | null {
   return null;
 }
 
-/** One node in the vertical ownership-lineage rail (top→bottom, ultimate→channel). */
-interface RailNode {
+/** Short month names for humanizing ISO dates to "Mon YYYY". */
+const MONTHS = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+
+/**
+ * Reformat a stored date for display: an ISO `YYYY-MM-DD` (or `YYYY-MM`) becomes
+ * "Mon YYYY"; anything else (a bare year like "2018", or an unparseable string)
+ * is returned verbatim. Null/empty → null (callers substitute the reviewed
+ * `dateUndisclosed` copy where a date is expected). Never infers a date.
+ */
+function humanizeDate(raw: string | null | undefined): string | null {
+  if (raw == null || raw.trim() === "") return null;
+  const iso = raw.trim();
+  const m = /^(\d{4})-(\d{2})(?:-\d{2})?/.exec(iso);
+  if (m) {
+    const month = Number(m[2]);
+    if (month >= 1 && month <= 12) return `${MONTHS[month - 1]} ${m[1]}`;
+  }
+  return iso;
+}
+
+/** One owner row in the "Ownership" list (owner name + mono meta line). */
+interface OwnerRow {
   key: string;
   name: string;
-  /** Monospace meta line (mechanism · stake · date); null for the channel base + bare owners. */
   meta: string | null;
-  /** Active/dated hops take the verdict accent; undated ones are muted. */
-  active: boolean;
-  /** Small tag shown under the name ("ultimate owner" / "this channel"). */
-  tag: string | null;
-  /** The channel node pinned at the base carries the "▶" glyph. */
-  isChannel: boolean;
+  /** The top of the chain, flagged inline "— ultimate owner". */
+  ultimate: boolean;
 }
 
 /**
- * Build the rail top→bottom. `ownership_chain` is ordered channel→up, so the
- * reversed chain puts the ultimate owner first; the channel is pinned at the
- * base. When no chain is present we still surface any direct owner / ultimate
- * parent as bare (mechanism-free) nodes so no existing data is dropped.
+ * Build the owner list, channel→up (direct owner first, ultimate last). We use
+ * `ownership_chain` (already ordered channel-owner upward) when present and flag
+ * its top-most (last) node as the ultimate owner; otherwise we synthesize rows
+ * from `direct_owner` / `ultimate_parent` so no existing data is dropped.
  */
-function buildRail(payload: ResearchedChannelLookup): RailNode[] {
-  const nodes: RailNode[] = [];
+function buildOwners(payload: ResearchedChannelLookup): OwnerRow[] {
   const chain = payload.ownership_chain ?? [];
-
   if (chain.length > 0) {
-    const topDown = [...chain].reverse();
-    topDown.forEach((step, i) => {
-      nodes.push({
-        key: `chain-${step.name}-${i}`,
-        name: step.name,
-        meta: chainMetaText(step),
-        active: step.effective_from != null && step.effective_from !== "",
-        tag: i === 0 ? CHAIN_COPY.ultimateTag : null,
-        isChannel: false,
-      });
-    });
-  } else {
-    if (payload.ultimate_parent) {
-      nodes.push({
-        key: "parent",
-        name: payload.ultimate_parent.name,
-        meta: null,
-        active: false,
-        tag: CHAIN_COPY.ultimateTag,
-        isChannel: false,
-      });
-    }
-    if (payload.direct_owner && payload.direct_owner.name !== payload.ultimate_parent?.name) {
-      nodes.push({
-        key: "owner",
-        name: payload.direct_owner.name,
-        meta: null,
-        active: false,
-        tag: null,
-        isChannel: false,
-      });
-    }
+    return chain.map((step, i) => ({
+      key: `chain-${i}-${step.name}`,
+      name: step.name,
+      meta: ownerMetaText(step),
+      ultimate: i === chain.length - 1,
+    }));
   }
 
-  nodes.push({
-    key: "channel",
-    name: payload.display_name,
-    meta: null,
-    active: true,
-    tag: CHAIN_COPY.thisChannelTag,
-    isChannel: true,
-  });
-  return nodes;
+  const rows: OwnerRow[] = [];
+  if (payload.direct_owner) {
+    rows.push({
+      key: "direct",
+      name: payload.direct_owner.name,
+      meta: payload.direct_owner.mechanism ?? null,
+      ultimate: false,
+    });
+  }
+  if (payload.ultimate_parent && payload.ultimate_parent.name !== payload.direct_owner?.name) {
+    rows.push({
+      key: "ultimate",
+      name: payload.ultimate_parent.name,
+      meta: null,
+      ultimate: true,
+    });
+  } else if (rows.length > 0) {
+    // A single owner that is also the top of the (empty) chain reads as ultimate.
+    rows[rows.length - 1]!.ultimate = true;
+  }
+  return rows;
 }
 
-function chainMetaText(step: OwnershipChainStep): string {
+function ownerMetaText(step: OwnershipChainStep): string {
   const mechanism = ownershipMechanismText(step.relationship, step.control_level);
   const stake = ownershipStakeText(step.ownership_percentage);
-  const date = step.effective_from
-    ? `${CHAIN_COPY.effectiveFromPrefix} ${step.effective_from}`
-    : "";
+  const humanFrom = humanizeDate(step.effective_from);
+  const date = humanFrom ? `${CHAIN_COPY.effectiveFromPrefix} ${humanFrom}` : "";
   return [mechanism, stake, date].filter(Boolean).join(" · ");
 }
 
-function OwnershipDossier({
+/** The single-line "Over time" meta: [current ·] from–to (dates humanized). */
+function historyMetaText(entry: OwnershipHistoryEntry): string {
+  const marker = entry.is_current ? CHAIN_COPY.currentLabel : null;
+  return [marker, dateRangeText(entry)].filter(Boolean).join(" · ");
+}
+
+function dateRangeText(entry: OwnershipHistoryEntry): string {
+  if (entry.effective_from === null && entry.effective_to === null) {
+    return CHAIN_COPY.dateUndisclosed;
+  }
+  const from = humanizeDate(entry.effective_from) ?? CHAIN_COPY.dateUndisclosed;
+  const to = entry.effective_to
+    ? humanizeDate(entry.effective_to)
+    : entry.is_current
+      ? CHAIN_COPY.presentLabel
+      : null;
+  return to === null ? from : `${from}${CHAIN_COPY.dateRangeSeparator}${to}`;
+}
+
+function OwnershipRecord({
   payload,
   channelId,
   openCorrection,
@@ -284,81 +318,83 @@ function OwnershipDossier({
   openCorrection: (channelId: string) => void;
 }) {
   const label: ClassificationLabel = payload.classification.label;
-  const color = classificationToBadgeColor(label);
-  const rail = buildRail(payload);
+  const owners = buildOwners(payload);
+  const history = payload.ownership_history ?? [];
 
-  // Compact monospace meta facts: confidence · evidence · creator status.
-  const metaFacts = [
+  // One quiet mono line, per the printed-record layout: confidence · evidence ·
+  // creator status · last reviewed (date humanized to "Mon YYYY" for display).
+  const facts = [
     CONFIDENCE_LABEL_TEXT[payload.classification.confidence_label],
     evidenceCountText(payload.evidence_count),
     payload.creator_status ? CREATOR_STATUS_TEXT[payload.creator_status.status] : null,
+    lastReviewedText(humanizeDate(payload.last_reviewed_at)),
   ].filter((v): v is string => v != null);
 
   return (
-    <section className="cw-card cw-card--enter" data-cw-color={color}>
-      <div className="cw-verdict" aria-label={badgeAriaLabel(label, operativeName(payload))}>
-        <p className="cw-verdict__channel">{payload.display_name}</p>
-        <p className="cw-verdict__stamp">{BADGE_LABELS[label]}</p>
+    <article className="cw-record">
+      <header className="cw-head" aria-label={badgeAriaLabel(label, operativeName(payload))}>
+        <h1 className="cw-channel">
+          <span className="cw-channel__name">{payload.display_name}</span>
+        </h1>
+        <p className="cw-verdict">{VERDICT_SENTENCE[label]}</p>
         <p className="cw-summary">{payload.classification.summary}</p>
-      </div>
+      </header>
 
-      <section className="cw-block">
-        <p className="cw-eyebrow">{CHAIN_COPY.lineageHeading}</p>
-        <ol className="cw-rail">
-          {rail.map((node) => (
-            <li
-              key={node.key}
-              className="cw-rail__node"
-              data-cw-active={node.active ? "true" : "false"}
-              data-cw-channel={node.isChannel ? "true" : undefined}
-            >
-              <span className="cw-rail__dot" aria-hidden="true" />
-              <div className="cw-rail__body">
-                <p className="cw-rail__name">
-                  {node.isChannel && (
-                    <span className="cw-rail__glyph" aria-hidden="true">
-                      ▶{" "}
-                    </span>
+      {owners.length > 0 && (
+        <section className="cw-section">
+          <h2 className="cw-label">{PANEL_COPY.panelTitle}</h2>
+          <ul className="cw-list">
+            {owners.map((owner) => (
+              <li key={owner.key} className="cw-entry">
+                <p className="cw-entry__name">
+                  {owner.name}
+                  {owner.ultimate && (
+                    <span className="cw-entry__flag"> {"—"} {CHAIN_COPY.ultimateTag}</span>
                   )}
-                  {node.name}
                 </p>
-                {node.tag && <span className="cw-rail__tag">{node.tag}</span>}
-                {node.meta && <span className="cw-rail__meta">{node.meta}</span>}
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <p className="cw-meta">{metaFacts.join("  ·  ")}</p>
-
-      {payload.ownership_history && payload.ownership_history.length > 0 && (
-        <section className="cw-block">
-          <p className="cw-eyebrow">{CHAIN_COPY.historyHeading}</p>
-          <ol className="cw-history">
-            {payload.ownership_history.map((entry, i) => (
-              <HistoryPeriod key={`${entry.name}-${i}`} entry={entry} />
-            ))}
-          </ol>
-        </section>
-      )}
-
-      {payload.warnings.length > 0 && (
-        <section className="cw-block">
-          <p className="cw-eyebrow">{PANEL_COPY.warningsLabel}</p>
-          <ul className="cw-notes">
-            {payload.warnings.map((code) => (
-              <li key={code}>{EXPLANATION_TEXT[code]}</li>
+                {owner.meta && <p className="cw-entry__meta">{owner.meta}</p>}
+              </li>
             ))}
           </ul>
         </section>
       )}
 
-      <p className="cw-reviewed">{lastReviewedText(payload.last_reviewed_at)}</p>
-      <p className="cw-disclaimer">{EDITORIAL_DISCLAIMER}</p>
+      {history.length > 0 && (
+        <section className="cw-section">
+          <h2 className="cw-label">{CHAIN_COPY.overTimeHeading}</h2>
+          <ul className="cw-list">
+            {history.map((entry, i) => (
+              <li key={`${entry.name}-${i}`} className="cw-entry cw-history">
+                <span className="cw-entry__name">{entry.name}</span>
+                <span className="cw-entry__meta cw-entry__meta--inline">
+                  {" "}
+                  {"—"} {historyMetaText(entry)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
+      {payload.warnings.length > 0 && (
+        <section className="cw-section">
+          <h2 className="cw-label">{PANEL_COPY.warningsLabel}</h2>
+          <ul className="cw-list">
+            {payload.warnings.map((code) => (
+              <li key={code} className="cw-entry">
+                <p className="cw-note-item">{EXPLANATION_TEXT[code]}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <p className="cw-facts">{facts.join(" · ")}</p>
+
+      <hr className="cw-rule" />
+      <p className="cw-disclaimer">{EDITORIAL_DISCLAIMER}</p>
       <a
-        className="cw-correction"
+        className="cw-report"
         href={correctionUrl(channelId)}
         target="_blank"
         rel="noopener noreferrer"
@@ -368,246 +404,170 @@ function OwnershipDossier({
         }}
       >
         {CORRECTION_CTA}
+        <span className="cw-report__arrow" aria-hidden="true"> {"→"}</span>
       </a>
-    </section>
+    </article>
   );
-}
-
-function HistoryPeriod({ entry }: { entry: OwnershipHistoryEntry }) {
-  const mechanism = ownershipMechanismText(entry.relationship, entry.control_level);
-  const marker = entry.is_current ? CHAIN_COPY.currentLabel : CHAIN_COPY.previouslyPrefix;
-  return (
-    <li className="cw-history__period" data-cw-current={entry.is_current ? "true" : "false"}>
-      <span className="cw-history__name">{entry.name}</span>
-      <span className="cw-history__meta">
-        {marker} · {mechanism} · {dateRangeText(entry)}
-      </span>
-    </li>
-  );
-}
-
-function dateRangeText(entry: OwnershipHistoryEntry): string {
-  if (entry.effective_from === null && entry.effective_to === null) {
-    return CHAIN_COPY.dateUndisclosed;
-  }
-  const from = entry.effective_from ?? CHAIN_COPY.dateUndisclosed;
-  const to = entry.effective_to ?? (entry.is_current ? CHAIN_COPY.currentLabel : null);
-  return to === null ? from : `${from} ${CHAIN_COPY.dateRangeSeparator} ${to}`;
 }
 
 const POPUP_STYLE = `
-  .cw-dossier {
-    --cw-surface: #FBFBFA;
-    --cw-ink: #16181B;
-    --cw-muted: #5B5F66;
-    --cw-hairline: #E6E4DF;
-    --cw-accent: #5F6368;
+  @font-face {
+    font-family: "Newsreader";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/newsreader-400.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Newsreader";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("/fonts/newsreader-600.woff2") format("woff2");
+  }
+
+  .cw-doc {
+    --cw-paper: #FBFAF6;
+    --cw-ink: #1A1815;
+    --cw-muted: #6E685C;
+    --cw-hairline: #DAD4C6;
+    --cw-accent: #5F5A50;
     width: 360px;
-    padding: 14px 16px 16px;
+    padding: 16px 18px 18px;
     box-sizing: border-box;
-    font: 400 13px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font: 400 13px/1.55 "Newsreader", Georgia, "Times New Roman", serif;
     color: var(--cw-ink);
-    background: var(--cw-surface);
+    background: var(--cw-paper);
+    -webkit-font-smoothing: antialiased;
+    animation: cw-fade 120ms ease-out both;
   }
-  .cw-dossier * { box-sizing: border-box; }
+  .cw-doc * { box-sizing: border-box; }
 
-  .cw-mono {
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  @keyframes cw-fade { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .cw-doc { animation: none; }
   }
 
-  .cw-wordmark {
-    margin: 0 0 12px;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+  /* Classification accent — the ONLY color, used as a whisper. §9.2: PE = ORANGE;
+     RED reserved for DISPUTED. */
+  .cw-doc[data-cw-color="GREEN"]   { --cw-accent: #1E7E34; }
+  .cw-doc[data-cw-color="BLUE"]    { --cw-accent: #1565C0; }
+  .cw-doc[data-cw-color="PURPLE"]  { --cw-accent: #6A1B9A; }
+  .cw-doc[data-cw-color="ORANGE"]  { --cw-accent: #9A4B00; }
+  .cw-doc[data-cw-color="RED"]     { --cw-accent: #B3261E; }
+  .cw-doc[data-cw-color="NEUTRAL"] { --cw-accent: #5F5A50; }
+
+  /* Masthead: quiet, in the serif, over a single hairline. */
+  .cw-masthead {
+    margin: 0 0 9px;
+    font-size: 11.5px;
+    font-weight: 400;
     color: var(--cw-muted);
   }
+  .cw-masthead__dot { color: var(--cw-hairline); }
 
-  .cw-note { margin: 8px 0; color: var(--cw-ink); }
-
-  /* Verdict accent, per §9.2 badge color (foreground-safe both modes). */
-  .cw-card[data-cw-color="GREEN"]   { --cw-accent: #1E7E34; }
-  .cw-card[data-cw-color="BLUE"]    { --cw-accent: #1565C0; }
-  .cw-card[data-cw-color="PURPLE"]  { --cw-accent: #6A1B9A; }
-  .cw-card[data-cw-color="ORANGE"]  { --cw-accent: #A85400; }
-  .cw-card[data-cw-color="RED"]     { --cw-accent: #B71C1C; }
-  .cw-card[data-cw-color="NEUTRAL"] { --cw-accent: #5F6368; }
-
-  .cw-card { margin: 0; }
-
-  /* One restrained fade/slide-in on open (gated by prefers-reduced-motion). */
-  @keyframes cw-enter {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .cw-card--enter { animation: cw-enter 260ms ease-out both; }
-  @media (prefers-reduced-motion: reduce) {
-    .cw-card--enter { animation: none; }
-  }
-
-  /* Verdict band: tinted, with a colored left spine in the verdict color. */
-  .cw-verdict {
-    position: relative;
-    padding: 12px 12px 12px 16px;
-    border-radius: 8px;
-    background: color-mix(in srgb, var(--cw-accent) 12%, transparent);
-    overflow: hidden;
-  }
-  .cw-verdict::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 4px;
-    background: var(--cw-accent);
-  }
-  .cw-verdict__channel {
-    margin: 0 0 6px;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.25;
-  }
-  .cw-verdict__stamp {
+  .cw-rule {
+    height: 0;
     margin: 0;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--cw-accent);
+    border: 0;
+    border-top: 1px solid var(--cw-hairline);
+  }
+
+  .cw-note { margin: 12px 0 0; color: var(--cw-ink); }
+
+  /* Header: serif channel headline (accent underline), verdict sentence, summary. */
+  .cw-head { margin: 14px 0 0; }
+  .cw-channel { margin: 0; font-weight: 600; font-size: 22px; line-height: 1.15; }
+  .cw-channel__name {
+    display: inline;
+    border-bottom: 2px solid var(--cw-accent);
+    padding-bottom: 1px;
+  }
+  .cw-verdict {
+    margin: 10px 0 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.35;
   }
   .cw-summary {
-    margin: 8px 0 0;
-    font-size: 12.5px;
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--cw-muted);
+    line-height: 1.5;
+  }
+
+  /* Sections: a quiet serif label over an indented list. No eyebrows, no chips. */
+  .cw-section { margin: 16px 0 0; }
+  .cw-label {
+    margin: 0 0 5px;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--cw-ink);
   }
-  .cw-verdict .cw-summary { margin-top: 8px; }
+  .cw-list { list-style: none; margin: 0; padding: 0 0 0 14px; }
+  .cw-entry { margin: 0 0 7px; }
+  .cw-entry:last-child { margin-bottom: 0; }
+  .cw-entry__name { margin: 0; font-size: 14px; line-height: 1.35; }
+  .cw-entry__flag { color: var(--cw-muted); }
+  .cw-history { line-height: 1.4; }
 
-  .cw-block { margin: 16px 0 0; }
-  .cw-eyebrow {
-    margin: 0 0 8px;
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--cw-muted);
-  }
-
-  /* Ownership-lineage rail: a vertical spine with a node per hop. */
-  .cw-rail { list-style: none; margin: 0; padding: 0; }
-  .cw-rail__node {
-    position: relative;
-    padding: 0 0 14px 20px;
-  }
-  .cw-rail__node:last-child { padding-bottom: 0; }
-  /* The spine (left rule) connecting nodes; drawn behind the dots. */
-  .cw-rail__node::before {
-    content: "";
-    position: absolute;
-    left: 4px; top: 4px; bottom: 0;
-    width: 2px;
-    background: var(--cw-hairline);
-  }
-  .cw-rail__node:last-child::before { display: none; }
-  .cw-rail__node[data-cw-active="true"]::before { background: var(--cw-accent); }
-  .cw-rail__dot {
-    position: absolute;
-    left: 0; top: 3px;
-    width: 10px; height: 10px;
-    border-radius: 999px;
-    background: var(--cw-surface);
-    border: 2px solid var(--cw-hairline);
-  }
-  .cw-rail__node[data-cw-active="true"] > .cw-rail__dot { border-color: var(--cw-accent); }
-  .cw-rail__node[data-cw-channel="true"] > .cw-rail__dot { background: var(--cw-accent); border-color: var(--cw-accent); }
-  .cw-rail__body { display: block; }
-  .cw-rail__name { margin: 0; font-weight: 600; font-size: 13px; line-height: 1.3; }
-  .cw-rail__glyph { color: var(--cw-accent); font-size: 10px; }
-  .cw-rail__tag {
-    display: block;
-    margin-top: 1px;
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--cw-muted);
-  }
-  .cw-rail__meta {
-    display: block;
-    margin-top: 2px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Raw data tokens (dates, %, mechanisms): small, muted, monospace. */
+  .cw-entry__meta {
+    margin: 1px 0 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 11px;
     color: var(--cw-muted);
   }
+  .cw-entry__meta--inline { margin: 0; font-size: 11px; }
 
-  /* Compact monospace fact row. */
-  .cw-meta {
-    margin: 14px 0 0;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  .cw-note-item { margin: 0; font-size: 13px; color: var(--cw-ink); line-height: 1.45; }
+
+  /* The single quiet mono line of provenance facts. */
+  .cw-facts {
+    margin: 16px 0 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 11px;
     line-height: 1.6;
     color: var(--cw-muted);
   }
 
-  /* History periods. */
-  .cw-history { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-  .cw-history__period {
-    border: 1px solid var(--cw-hairline);
-    border-radius: 6px;
-    padding: 7px 10px;
-    display: grid;
-    gap: 2px;
-  }
-  .cw-history__period[data-cw-current="true"] { border-color: var(--cw-accent); }
-  .cw-history__name { font-weight: 600; font-size: 12.5px; }
-  .cw-history__meta {
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 11px;
-    color: var(--cw-muted);
-  }
+  .cw-record .cw-rule { margin-top: 16px; }
 
-  .cw-notes { margin: 0; padding-left: 16px; font-size: 12px; color: var(--cw-ink); }
-  .cw-notes li { margin: 0 0 3px; }
-
-  .cw-reviewed {
-    margin: 16px 0 0;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 10.5px;
-    color: var(--cw-muted);
-  }
   .cw-disclaimer {
-    margin: 6px 0 0;
-    font-size: 11px;
+    margin: 12px 0 0;
+    font-size: 12px;
     font-style: italic;
     color: var(--cw-muted);
+    line-height: 1.5;
   }
 
-  .cw-correction {
+  .cw-report {
     display: inline-block;
-    margin: 12px 0 0;
+    margin: 10px 0 0;
     color: var(--cw-accent);
-    font-weight: 600;
-    font-size: 12.5px;
+    font-size: 13px;
     text-decoration: none;
-    border-radius: 4px;
   }
-  .cw-correction:hover { text-decoration: underline; }
-  .cw-correction:focus-visible {
+  .cw-report:hover { text-decoration: underline; }
+  .cw-report:focus-visible {
     outline: 2px solid var(--cw-accent);
     outline-offset: 3px;
+    border-radius: 2px;
   }
 
   @media (prefers-color-scheme: dark) {
-    .cw-dossier {
-      --cw-surface: #17181B;
-      --cw-ink: #ECEDEE;
-      --cw-muted: #9AA0A6;
-      --cw-hairline: #2A2C30;
-      --cw-accent: #9AA0A6;
+    .cw-doc {
+      --cw-paper: #1B1A17;
+      --cw-ink: #ECE7DC;
+      --cw-muted: #A29B8C;
+      --cw-hairline: #38352E;
+      --cw-accent: #B0A99C;
     }
-    .cw-card[data-cw-color="GREEN"]   { --cw-accent: #4ADE80; }
-    .cw-card[data-cw-color="BLUE"]    { --cw-accent: #5AA2F0; }
-    .cw-card[data-cw-color="PURPLE"]  { --cw-accent: #C084E8; }
-    .cw-card[data-cw-color="ORANGE"]  { --cw-accent: #E0913A; }
-    .cw-card[data-cw-color="RED"]     { --cw-accent: #F16A6A; }
-    .cw-card[data-cw-color="NEUTRAL"] { --cw-accent: #9AA0A6; }
+    .cw-doc[data-cw-color="GREEN"]   { --cw-accent: #6BCB77; }
+    .cw-doc[data-cw-color="BLUE"]    { --cw-accent: #6FA8F0; }
+    .cw-doc[data-cw-color="PURPLE"]  { --cw-accent: #C48BE6; }
+    .cw-doc[data-cw-color="ORANGE"]  { --cw-accent: #E0954B; }
+    .cw-doc[data-cw-color="RED"]     { --cw-accent: #F0736B; }
+    .cw-doc[data-cw-color="NEUTRAL"] { --cw-accent: #B0A99C; }
   }
 `;

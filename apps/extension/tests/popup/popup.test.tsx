@@ -2,7 +2,6 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import {
-  BADGE_LABELS,
   CONFIDENCE_LABEL_TEXT,
   CREATOR_STATUS_TEXT,
   CORRECTION_CTA,
@@ -11,6 +10,7 @@ import {
   PANEL_COPY,
   POPUP_COPY,
   UNRESEARCHED_SUMMARY,
+  VERDICT_SENTENCE,
   badgeAriaLabel,
   evidenceCountText,
 } from "@channelwatch/schemas";
@@ -98,7 +98,7 @@ describe("Popup — resolution + lookup states", () => {
     expect(container.textContent).toContain(POPUP_COPY.lookupError);
   });
 
-  it("shows the not-researched box for an unresearched channel", async () => {
+  it("shows the not-researched record for an unresearched channel", async () => {
     await mount(
       makeDeps({
         lookup: async () => ({
@@ -120,12 +120,16 @@ describe("Popup — resolution + lookup states", () => {
   });
 });
 
-describe("Popup — wordmark eyebrow", () => {
-  it("shows the CHANNELWATCH wordmark on the loading state", async () => {
+describe("Popup — masthead", () => {
+  it("shows the CHANNELWATCH · ownership record masthead on the loading state", async () => {
     const d = deferred<LookupChannelResponse>();
     await mount(makeDeps({ lookup: () => d.promise, slowAfterMs: 10_000 }));
-    expect(container.querySelector(".cw-wordmark")?.textContent).toBe(POPUP_COPY.title);
+    const masthead = container.querySelector(".cw-masthead")?.textContent ?? "";
+    expect(masthead).toContain(POPUP_COPY.title);
+    expect(masthead).toContain(POPUP_COPY.recordType);
     expect(container.textContent).toContain(POPUP_COPY.loading);
+    // A single hairline rule under the masthead is the only structural device.
+    expect(container.querySelector(".cw-rule")).not.toBeNull();
     await act(async () => {
       d.resolve({ ok: false, error: "late" });
       await Promise.resolve();
@@ -133,7 +137,7 @@ describe("Popup — wordmark eyebrow", () => {
   });
 });
 
-describe("Popup — ownership dossier", () => {
+describe("Popup — ownership record", () => {
   const payload = researchedFixture({
     display_name: "Little Baby Bum",
     classification: {
@@ -147,6 +151,7 @@ describe("Popup — ownership dossier", () => {
     ultimate_parent: { id: "ent-blackstone", name: "Blackstone Inc.", type: "PRIVATE_EQUITY_FIRM" },
     creator_status: { status: "CORPORATE_BRAND", ownership_stake: "n/a" },
     evidence_count: 3,
+    last_reviewed_at: "2026-04-15",
     ownership_chain: [
       {
         name: "Moonbug Entertainment",
@@ -154,7 +159,7 @@ describe("Popup — ownership dossier", () => {
         relationship: "ACQUIRED",
         ownership_percentage: null,
         control_level: "CONTROLLING",
-        effective_from: "2018",
+        effective_from: "2023-04-01",
       },
     ],
     ownership_history: [
@@ -164,7 +169,7 @@ describe("Popup — ownership dossier", () => {
         relationship: "ACQUIRED",
         control_level: "CONTROLLING",
         ownership_percentage: null,
-        effective_from: "2018",
+        effective_from: "2021-01-01",
         effective_to: null,
         is_current: true,
       },
@@ -172,67 +177,64 @@ describe("Popup — ownership dossier", () => {
     warnings: ["OWNERSHIP_CHANGED_RECENTLY"],
   });
 
-  it("renders the verdict band: channel name, uppercase stamp, summary, and an aria-label", async () => {
+  it("renders the serif channel headline, verdict sentence, and summary with a naming aria-label", async () => {
     await mount(makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }) }));
 
-    const verdict = container.querySelector(".cw-verdict") as HTMLElement | null;
-    expect(verdict).not.toBeNull();
-    // Channel name + the reviewed verdict stamp live inside the verdict band.
-    expect(verdict!.querySelector(".cw-verdict__channel")?.textContent).toBe("Little Baby Bum");
-    expect(verdict!.querySelector(".cw-verdict__stamp")?.textContent).toBe(BADGE_LABELS.PE_BACKED);
-    expect(verdict!.textContent).toContain(payload.classification.summary);
+    const head = container.querySelector(".cw-head") as HTMLElement | null;
+    expect(head).not.toBeNull();
+    // Channel name is the headline (accent-underlined span inside the h1).
+    expect(head!.querySelector(".cw-channel__name")?.textContent).toBe("Little Baby Bum");
+    // The classification is a plain verdict SENTENCE, not a chip/stamp.
+    expect(head!.querySelector(".cw-verdict")?.textContent).toBe(VERDICT_SENTENCE.PE_BACKED);
+    expect(head!.textContent).toContain(payload.classification.summary);
     // The verdict is announced via the reviewed name-aware aria-label (names the PE firm).
-    expect(verdict!.getAttribute("aria-label")).toBe(
-      badgeAriaLabel("PE_BACKED", "Blackstone Inc."),
-    );
-    // Verdict color drives the card accent (PE = ORANGE, never RED).
-    expect(container.querySelector('.cw-card[data-cw-color="ORANGE"]')).not.toBeNull();
+    expect(head!.getAttribute("aria-label")).toBe(badgeAriaLabel("PE_BACKED", "Blackstone Inc."));
+    // PE = ORANGE drives the accent; never RED.
+    expect(container.querySelector('.cw-doc[data-cw-color="ORANGE"]')).not.toBeNull();
   });
 
-  it("renders the ownership-lineage rail: ultimate owner at top, channel pinned at the base", async () => {
+  it("renders the Ownership list: owner name, mono meta, ultimate owner flagged inline", async () => {
     await mount(makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }) }));
 
-    expect(container.textContent).toContain(CHAIN_COPY.lineageHeading);
-    const nodes = Array.from(container.querySelectorAll(".cw-rail__node"));
-    // Two nodes: the ultimate owner (from the chain) + the channel base node.
-    expect(nodes.length).toBe(2);
-
-    // Top node = the ultimate owner, tagged as such, with the mono mechanism meta.
-    const top = nodes[0]!;
-    expect(top.querySelector(".cw-rail__name")?.textContent).toContain("Moonbug Entertainment");
-    expect(top.querySelector(".cw-rail__tag")?.textContent).toBe(CHAIN_COPY.ultimateTag);
-    expect(top.querySelector(".cw-rail__meta")?.textContent).toContain("acquired");
-
-    // Base node = the channel itself, pinned last, glyphed and tagged "this channel".
-    const base = nodes[nodes.length - 1]!;
-    expect(base.getAttribute("data-cw-channel")).toBe("true");
-    expect(base.querySelector(".cw-rail__name")?.textContent).toContain("Little Baby Bum");
-    expect(base.querySelector(".cw-rail__name")?.textContent).toContain("▶");
-    expect(base.querySelector(".cw-rail__tag")?.textContent).toBe(CHAIN_COPY.thisChannelTag);
+    expect(container.textContent).toContain(PANEL_COPY.panelTitle);
+    const entries = Array.from(container.querySelectorAll(".cw-section .cw-entry"));
+    const owner = entries[0]!;
+    expect(owner.querySelector(".cw-entry__name")?.textContent).toContain("Moonbug Entertainment");
+    // The top of the chain is flagged inline "— ultimate owner".
+    expect(owner.querySelector(".cw-entry__flag")?.textContent).toContain(CHAIN_COPY.ultimateTag);
+    // Mono meta: mechanism + humanized "since Apr 2023".
+    const meta = owner.querySelector(".cw-entry__meta")?.textContent ?? "";
+    expect(meta).toContain("acquired");
+    expect(meta).toContain(`${CHAIN_COPY.effectiveFromPrefix} Apr 2023`);
   });
 
-  it("renders the compact mono meta row (confidence · evidence · creator status)", async () => {
-    await mount(makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }) }));
-    const meta = container.querySelector(".cw-meta")?.textContent ?? "";
-    expect(meta).toContain(CONFIDENCE_LABEL_TEXT.CONFIRMED);
-    expect(meta).toContain(evidenceCountText(3));
-    expect(meta).toContain(CREATOR_STATUS_TEXT.CORPORATE_BRAND);
-  });
-
-  it("renders the history section, disclaimer, and a correction link", async () => {
+  it("renders the Over time history with humanized ranges", async () => {
     await mount(makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }) }));
     const text = container.textContent ?? "";
+    expect(text).toContain(CHAIN_COPY.overTimeHeading);
+    // Current period rendered as "current · 2021–now" (open end → present label).
+    expect(text).toContain(CHAIN_COPY.currentLabel);
+    expect(text).toContain(`2021${CHAIN_COPY.dateRangeSeparator}${CHAIN_COPY.presentLabel}`);
+  });
 
-    // History ("over time") section heading + entry.
-    expect(text).toContain(CHAIN_COPY.historyHeading);
-    expect(container.querySelector(".cw-history__period")).not.toBeNull();
-    // Standing disclaimer, verbatim.
+  it("renders the quiet mono facts line (confidence · evidence · creator status · reviewed)", async () => {
+    await mount(makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }) }));
+    const facts = container.querySelector(".cw-facts")?.textContent ?? "";
+    expect(facts).toContain(CONFIDENCE_LABEL_TEXT.CONFIRMED);
+    expect(facts).toContain(evidenceCountText(3));
+    expect(facts).toContain(CREATOR_STATUS_TEXT.CORPORATE_BRAND);
+    // Last-reviewed date humanized to "Mon YYYY".
+    expect(facts).toContain("Apr 2026");
+  });
+
+  it("renders the disclaimer and an understated correction link", async () => {
+    await mount(makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }) }));
+    const text = container.textContent ?? "";
     expect(text).toContain(EDITORIAL_DISCLAIMER);
 
-    // Correction affordance is a link (not a form) to the public correction page.
-    const link = container.querySelector("a.cw-correction") as HTMLAnchorElement | null;
+    const link = container.querySelector("a.cw-report") as HTMLAnchorElement | null;
     expect(link).not.toBeNull();
-    expect(link!.textContent).toBe(CORRECTION_CTA);
+    expect(link!.textContent).toContain(CORRECTION_CTA);
     expect(link!.getAttribute("href")).toContain(`channel=${CHANNEL}`);
   });
 
@@ -241,7 +243,7 @@ describe("Popup — ownership dossier", () => {
     await mount(
       makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }), openCorrection }),
     );
-    const link = container.querySelector("a.cw-correction") as HTMLAnchorElement;
+    const link = container.querySelector("a.cw-report") as HTMLAnchorElement;
     act(() => {
       link.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
     });
