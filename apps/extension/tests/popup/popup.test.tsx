@@ -3,12 +3,16 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import {
   BADGE_LABELS,
+  CONFIDENCE_LABEL_TEXT,
+  CREATOR_STATUS_TEXT,
   CORRECTION_CTA,
   EDITORIAL_DISCLAIMER,
   CHAIN_COPY,
   PANEL_COPY,
   POPUP_COPY,
   UNRESEARCHED_SUMMARY,
+  badgeAriaLabel,
+  evidenceCountText,
 } from "@channelwatch/schemas";
 import { Popup, type PopupDeps } from "../../src/popup/Popup.js";
 import { researchedFixture } from "../fixtures.js";
@@ -116,7 +120,20 @@ describe("Popup — resolution + lookup states", () => {
   });
 });
 
-describe("Popup — ownership box", () => {
+describe("Popup — wordmark eyebrow", () => {
+  it("shows the CHANNELWATCH wordmark on the loading state", async () => {
+    const d = deferred<LookupChannelResponse>();
+    await mount(makeDeps({ lookup: () => d.promise, slowAfterMs: 10_000 }));
+    expect(container.querySelector(".cw-wordmark")?.textContent).toBe(POPUP_COPY.title);
+    expect(container.textContent).toContain(POPUP_COPY.loading);
+    await act(async () => {
+      d.resolve({ ok: false, error: "late" });
+      await Promise.resolve();
+    });
+  });
+});
+
+describe("Popup — ownership dossier", () => {
   const payload = researchedFixture({
     display_name: "Little Baby Bum",
     classification: {
@@ -155,24 +172,65 @@ describe("Popup — ownership box", () => {
     warnings: ["OWNERSHIP_CHANGED_RECENTLY"],
   });
 
-  it("renders label, summary, owners, chain, history, disclaimer, and a correction link", async () => {
+  it("renders the verdict band: channel name, uppercase stamp, summary, and an aria-label", async () => {
+    await mount(makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }) }));
+
+    const verdict = container.querySelector(".cw-verdict") as HTMLElement | null;
+    expect(verdict).not.toBeNull();
+    // Channel name + the reviewed verdict stamp live inside the verdict band.
+    expect(verdict!.querySelector(".cw-verdict__channel")?.textContent).toBe("Little Baby Bum");
+    expect(verdict!.querySelector(".cw-verdict__stamp")?.textContent).toBe(BADGE_LABELS.PE_BACKED);
+    expect(verdict!.textContent).toContain(payload.classification.summary);
+    // The verdict is announced via the reviewed name-aware aria-label (names the PE firm).
+    expect(verdict!.getAttribute("aria-label")).toBe(
+      badgeAriaLabel("PE_BACKED", "Blackstone Inc."),
+    );
+    // Verdict color drives the card accent (PE = ORANGE, never RED).
+    expect(container.querySelector('.cw-card[data-cw-color="ORANGE"]')).not.toBeNull();
+  });
+
+  it("renders the ownership-lineage rail: ultimate owner at top, channel pinned at the base", async () => {
+    await mount(makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }) }));
+
+    expect(container.textContent).toContain(CHAIN_COPY.lineageHeading);
+    const nodes = Array.from(container.querySelectorAll(".cw-rail__node"));
+    // Two nodes: the ultimate owner (from the chain) + the channel base node.
+    expect(nodes.length).toBe(2);
+
+    // Top node = the ultimate owner, tagged as such, with the mono mechanism meta.
+    const top = nodes[0]!;
+    expect(top.querySelector(".cw-rail__name")?.textContent).toContain("Moonbug Entertainment");
+    expect(top.querySelector(".cw-rail__tag")?.textContent).toBe(CHAIN_COPY.ultimateTag);
+    expect(top.querySelector(".cw-rail__meta")?.textContent).toContain("acquired");
+
+    // Base node = the channel itself, pinned last, glyphed and tagged "this channel".
+    const base = nodes[nodes.length - 1]!;
+    expect(base.getAttribute("data-cw-channel")).toBe("true");
+    expect(base.querySelector(".cw-rail__name")?.textContent).toContain("Little Baby Bum");
+    expect(base.querySelector(".cw-rail__name")?.textContent).toContain("▶");
+    expect(base.querySelector(".cw-rail__tag")?.textContent).toBe(CHAIN_COPY.thisChannelTag);
+  });
+
+  it("renders the compact mono meta row (confidence · evidence · creator status)", async () => {
+    await mount(makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }) }));
+    const meta = container.querySelector(".cw-meta")?.textContent ?? "";
+    expect(meta).toContain(CONFIDENCE_LABEL_TEXT.CONFIRMED);
+    expect(meta).toContain(evidenceCountText(3));
+    expect(meta).toContain(CREATOR_STATUS_TEXT.CORPORATE_BRAND);
+  });
+
+  it("renders the history section, disclaimer, and a correction link", async () => {
     await mount(makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }) }));
     const text = container.textContent ?? "";
 
-    expect(text).toContain("Little Baby Bum");
-    // Reviewed label from the copy module, never free text.
-    expect(text).toContain(BADGE_LABELS.PE_BACKED);
-    expect(text).toContain(payload.classification.summary);
-    expect(text).toContain("Moonbug Entertainment");
-    expect(text).toContain("Blackstone Inc.");
-    // Chain + history section headings (from CHAIN_COPY).
-    expect(text).toContain(CHAIN_COPY.heading);
+    // History ("over time") section heading + entry.
     expect(text).toContain(CHAIN_COPY.historyHeading);
+    expect(container.querySelector(".cw-history__period")).not.toBeNull();
     // Standing disclaimer, verbatim.
     expect(text).toContain(EDITORIAL_DISCLAIMER);
 
     // Correction affordance is a link (not a form) to the public correction page.
-    const link = container.querySelector("a.cw-popup__correction") as HTMLAnchorElement | null;
+    const link = container.querySelector("a.cw-correction") as HTMLAnchorElement | null;
     expect(link).not.toBeNull();
     expect(link!.textContent).toBe(CORRECTION_CTA);
     expect(link!.getAttribute("href")).toContain(`channel=${CHANNEL}`);
@@ -183,7 +241,7 @@ describe("Popup — ownership box", () => {
     await mount(
       makeDeps({ lookup: async () => ({ ok: true, cached: false, payload }), openCorrection }),
     );
-    const link = container.querySelector("a.cw-popup__correction") as HTMLAnchorElement;
+    const link = container.querySelector("a.cw-correction") as HTMLAnchorElement;
     act(() => {
       link.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
     });
