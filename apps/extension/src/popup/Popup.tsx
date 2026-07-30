@@ -268,7 +268,9 @@ function buildRail(payload: ResearchedChannelLookup): RailNode[] {
 function chainMetaText(step: OwnershipChainStep): string {
   const mechanism = ownershipMechanismText(step.relationship, step.control_level);
   const stake = ownershipStakeText(step.ownership_percentage);
-  const date = step.effective_from ? `${CHAIN_COPY.effectiveFromPrefix} ${step.effective_from}` : "";
+  const date = step.effective_from
+    ? `${CHAIN_COPY.effectiveFromPrefix} ${step.effective_from}`
+    : "";
   return [mechanism, stake, date].filter(Boolean).join(" · ");
 }
 
@@ -313,7 +315,11 @@ function OwnershipDossier({
               <span className="cw-rail__dot" aria-hidden="true" />
               <div className="cw-rail__body">
                 <p className="cw-rail__name">
-                  {node.isChannel && <span className="cw-rail__glyph" aria-hidden="true">▶ </span>}
+                  {node.isChannel && (
+                    <span className="cw-rail__glyph" aria-hidden="true">
+                      ▶{" "}
+                    </span>
+                  )}
                   {node.name}
                 </p>
                 {node.tag && <span className="cw-rail__tag">{node.tag}</span>}
