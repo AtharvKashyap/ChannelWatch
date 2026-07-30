@@ -5,9 +5,12 @@ export default defineConfig({
     include: ["tests/**/*.test.ts"],
     environment: "node",
     // Integration tests connect to Postgres and can take longer than the 5s
-    // default (migrate + seed + query). Pure unit tests are unaffected.
-    testTimeout: 30_000,
-    hookTimeout: 30_000,
+    // default. The DB-gated beforeAll hooks migrate + import the full research
+    // dataset (244+ records, a whole-graph recompute over ~250 channels), which
+    // runs ~20-30s and grows with the dataset — well past the 30s default in CI.
+    // Pure unit tests are unaffected (they finish in milliseconds).
+    testTimeout: 60_000,
+    hookTimeout: 120_000,
     // Run test FILES sequentially, not in parallel workers. The DB-gated
     // integration files (seed, research importer, endpoints) all write to the
     // SAME database; serializing them keeps each file's writes atomic w.r.t. the
