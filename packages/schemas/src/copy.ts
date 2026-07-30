@@ -29,6 +29,27 @@ export const BADGE_LABELS: Record<ClassificationLabel, string> = {
 };
 
 /**
+ * Short, plain-language verdict SENTENCE per classification label — the one-line
+ * "printed record" headline shown under the channel name in the M3 popup
+ * (distinct from the fuller `classification.summary`, which is rendered beneath
+ * it). Every branch is a neutral, structural statement of ownership form as
+ * public fact (§23.1 safer language): it names the STRUCTURE, never editorial
+ * control or misconduct. PE_BACKED reads as private-equity FINANCING, never as a
+ * red/"disputed" verdict — RED/DISPUTED is its own branch.
+ */
+export const VERDICT_SENTENCE: Record<ClassificationLabel, string> = {
+  INDEPENDENT: "Independently owned.",
+  CREATOR_OWNED: "Owned by its creator.",
+  EXTERNALLY_FUNDED: "Externally funded.",
+  CORPORATE_OWNED: "Corporately owned.",
+  NONPROFIT_OWNED: "Owned by a nonprofit organization.",
+  PE_BACKED: "Financed by private equity.",
+  OWNERSHIP_CHANGED: "Ownership recently changed.",
+  OWNERSHIP_UNCLEAR: "Ownership is unclear.",
+  DISPUTED: "Ownership is disputed.",
+};
+
+/**
  * The standing disclaimer shown alongside every classification. Kept verbatim:
  * classifications describe ownership structure only, never editorial conduct.
  */
@@ -354,6 +375,12 @@ export const CHAIN_COPY = {
   lineageHeading: "Ownership lineage",
   ultimateTag: "ultimate owner",
   thisChannelTag: "this channel",
+  // Printed-record popup (M3 dossier redesign). The record lists owners under a
+  // quiet "Ownership" label and prior owners under "Over time"; `presentLabel`
+  // closes an open-ended (still-current) period as a from–now range. Neutral,
+  // structural (§23.1) — a date word, not a claim.
+  overTimeHeading: "Over time",
+  presentLabel: "now",
 } as const;
 
 /**
@@ -367,6 +394,8 @@ export const CHAIN_COPY = {
  */
 export const POPUP_COPY = {
   title: "CHANNELWATCH",
+  /** Masthead qualifier — names the popup as a printed ownership record. */
+  recordType: "ownership record",
   description:
     "Shows who owns, finances, or operates the YouTube channel you're watching, with sourced, human-reviewed evidence.",
   /** Shown while the lookup is in flight. */
