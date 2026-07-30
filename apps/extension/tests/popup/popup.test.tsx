@@ -252,23 +252,31 @@ describe("Popup — ownership record", () => {
 });
 
 describe("Popup — cold-start slow state", () => {
-  it("shows the slow message while a lookup stays pending past the threshold", async () => {
-    const d = deferred<LookupChannelResponse>();
-    await mount(makeDeps({ lookup: () => d.promise, slowAfterMs: 10 }));
+  it("shows the slow message once a pending lookup passes the threshold", async () => {
+    // Fake timers so the slow-state transition is deterministic (no wall-clock
+    // race between the async load chain and the threshold timer, which flaked in CI).
+    vi.useFakeTimers();
+    try {
+      const d = deferred<LookupChannelResponse>();
+      await mount(makeDeps({ lookup: () => d.promise, slowAfterMs: 10 }));
 
-    // Still loading right after the resolve chain.
-    expect(container.textContent).toContain(POPUP_COPY.loading);
+      // Pending, before the threshold fires: the initial loading copy.
+      expect(container.textContent).toContain(POPUP_COPY.loading);
+      expect(container.textContent).not.toContain(POPUP_COPY.slowLoading);
 
-    // Let the slow timer fire.
-    await act(async () => {
-      await new Promise((r) => setTimeout(r, 25));
-    });
-    expect(container.textContent).toContain(POPUP_COPY.slowLoading);
+      // Advance past the threshold; the slow message replaces it.
+      await act(async () => {
+        vi.advanceTimersByTime(15);
+      });
+      expect(container.textContent).toContain(POPUP_COPY.slowLoading);
 
-    // Resolve to avoid a dangling promise.
-    await act(async () => {
-      d.resolve({ ok: false, error: "late" });
-      await Promise.resolve();
-    });
+      // Resolve to avoid a dangling promise.
+      await act(async () => {
+        d.resolve({ ok: false, error: "late" });
+        await Promise.resolve();
+      });
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });
