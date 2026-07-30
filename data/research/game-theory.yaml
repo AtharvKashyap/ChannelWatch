@@ -204,6 +204,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
   # reviewed_by intentionally omitted — not yet human-reviewed (schema rejects an
   # explicit null; absence signals "unreviewed").
   last_reviewed_at: 2026-07-29

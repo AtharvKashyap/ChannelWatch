@@ -1,0 +1,33 @@
+channel: { youtube_channel_id: UCLsooMJoIpl_7ux2jvdPB-Q, display_name: "Super Simple Songs - Kids Songs", handle: "@SuperSimpleSongs" }
+entities:
+  - { slug: skyship, canonical_name: Skyship Entertainment Company Inc., entity_type: COMPANY, legal_name: Skyship Entertainment Company Inc., jurisdiction: CA, website: "https://skyship.tv", aliases: [Skyship Entertainment, Skyship] }
+  - { slug: super_simple, canonical_name: Super Simple Songs, entity_type: BRAND, jurisdiction: CA, website: "https://supersimple.com" }
+relationships:
+  - { subject: skyship, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: super_simple, type: SUBSIDIARY_OF, object: skyship, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: skyship_brand
+    url: https://skyship.tv/original-content/super-simple-songs/
+    title: Super Simple Songs
+    publisher: Skyship Entertainment
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: One of the most popular channels on YouTube, Super Simple Songs has been bringing classic nursery rhymes and original songs with an educational focus to children around the world since 2006.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: legal_policy
+    url: https://supersimple.com/privacy-policy/
+    title: Privacy Policy for Skyship Entertainment Company
+    publisher: Skyship Entertainment Company Inc.
+    source_type: SHARED_LEGAL_DOCUMENTATION
+    tier: 3
+    excerpt: The word “Services” in this Privacy Policy means our websites (located at supersimple.com, skyship.tv and songpals.com) and our Super Simple mobile application.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_id
+    url: https://en.wikipedia.org/wiki/Super_Simple_Songs
+    title: Super Simple Songs
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Super Simple Songs is a Canadian YouTube channel; YouTube ID UCLsooMJoIpl_7ux2jvdPB-Q.
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Primary corporate and legal sources identify Skyship—not Moonbug—as the company behind Super Simple Songs. The backlog's Moonbug note appears erroneous and is not followed. Warner Music's global music partnership is distribution/publishing, not ownership. reviewed_by is absent." }

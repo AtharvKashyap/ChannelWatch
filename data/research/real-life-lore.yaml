@@ -1,0 +1,25 @@
+channel:
+  youtube_channel_id: UCP5tjEmvPItGyLhmjdwP7Ww
+  display_name: RealLifeLore
+  handle: "@RealLifeLore"
+entities:
+  - slug: real_life_lore_creator
+    canonical_name: RealLifeLore
+    entity_type: CREATOR
+    website: https://www.reallifelore.com
+relationships:
+  - { subject: real_life_lore_creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.6, status: ACTIVE }
+sources:
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCP5tjEmvPItGyLhmjdwP7Ww
+    title: RealLifeLore
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: RealLifeLore
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The channel brand is modeled as the creator rather than attaching an insufficiently sourced personal identity. No outside owner was found. reviewed_by is absent. The owner edge is eponymous and self-referential — it rested only on the channel's own bare YouTube page, which was tier-inflated as DIRECT_CREATOR_CONFIRMATION; it has been retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3). No encyclopedic (Wikipedia/Wikidata) article establishing a distinct owner was located. Inferred owner edge flagged for human corroboration; confidence lowered to 0.6.

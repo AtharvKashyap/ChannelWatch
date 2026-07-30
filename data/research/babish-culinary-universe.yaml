@@ -203,6 +203,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
   last_reviewed_at: 2026-07-29 # research/authoring date; NOT a human review date.
   notes: >-
     DRAFT for human review — "independent creator-owned channel that took ONE

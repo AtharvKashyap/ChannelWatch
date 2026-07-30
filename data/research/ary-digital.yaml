@@ -1,0 +1,48 @@
+channel:
+  youtube_channel_id: UC4JCksJF76g_MdzPVBJoC3Q
+  display_name: ARY Digital HD
+  handle: "@ARYDigitalasia"
+entities:
+  - slug: ary_digital_network
+    canonical_name: ARY Digital Network
+    entity_type: MEDIA_NETWORK
+    jurisdiction: PK
+    website: https://arydigitalnetwork.tv
+  - slug: ary_group
+    canonical_name: ARY Group
+    entity_type: COMPANY
+    jurisdiction: AE
+relationships:
+  - { subject: ary_digital_network, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: ary_digital_network, type: SUBSIDIARY_OF, object: ary_group, control_level: CONTROLLING, confidence: 0.8, status: ACTIVE }
+sources:
+  - ref: channel_confirmation
+    url: https://www.youtube.com/live/xJJ-jdb1FqQ
+    title: ARY DIGITAL LIVE
+    publisher: ARY Digital
+    published_at: 2025-05-01
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: ARY Digital Official YouTube Channel, For more video subscribe our channel and for suggestion please use the comment section.
+    supports: [{ relationship: 0 }]
+  - ref: group_linkage
+    url: https://www.wikidata.org/wiki/Q717759
+    title: ARY Digital
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: ARY Digital; owned by ARY Group; official website https://arydigital.tv/.
+    supports: [{ relationship: 1 }]
+  - ref: channel_id
+    url: https://influtrend.com/youtube/arydigitalasia
+    title: ARY Digital HD YouTube Overview
+    publisher: Influtrend
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Youtube channel id for @ARYDigitalasia is UC4JCksJF76g_MdzPVBJoC3Q.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The verified channel calls itself ARY Digital's official YouTube channel. Public structured data links ARY Digital to ARY Group, but the private group's legal structure is opaque, so that edge carries lower confidence and no percentage. reviewed_by is absent.

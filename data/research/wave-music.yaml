@@ -1,0 +1,34 @@
+channel:
+  youtube_channel_id: UC22nIfOTM7KLIQuFGMKzQbg
+  display_name: Wave Music
+  handle: "@WaveMusicIndia"
+entities:
+  - slug: wave_music
+    canonical_name: Wave Music
+    entity_type: COMPANY
+    jurisdiction: IN
+    website: http://www.bhojpuriwave.com
+relationships:
+  - { subject: wave_music, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
+sources:
+  - ref: channel_description
+    url: https://www.youtube.com/@WaveMusicIndia
+    title: Wave Music
+    publisher: Wave Music
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: This is the official YouTube channel of Wave Music, the leading bhojpuri music record label from India.
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://influtrend.com/youtube/wavemusicindia
+    title: Wave Music YouTube Overview
+    publisher: Influtrend
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Youtube channel id for @WaveMusicIndia is UC22nIfOTM7KLIQuFGMKzQbg.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The channel self-identifies as the official channel of the Wave Music record label, and a technical analytics page verifies the canonical ID. A reliable current legal name and higher ownership chain were not located, so the entity is conservatively recorded under its public brand name. reviewed_by is absent.

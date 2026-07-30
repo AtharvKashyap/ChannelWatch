@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCoQm-PeHC-cbJclKJYJ8LzA
+  display_name: Fede Vigevani
+  handle: "@fedevigevani"
+entities:
+  - slug: vigevani
+    canonical_name: Fede Vigevani
+    entity_type: CREATOR
+    legal_name: Federico Augusto Vigevani de Arce
+relationships:
+  - { subject: channel, type: FOUNDED_BY, object: vigevani, effective_from: 2009-06-17, confidence: 0.9, status: ACTIVE }
+  - { subject: vigevani, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - { subject: channel, type: HOSTED_BY, object: vigevani, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: socialcounts_fede
+    url: https://socialcounts.org/youtube-channel-analytics/UCoQm-PeHC-cbJclKJYJ8LzA
+    title: Fede Vigevani
+    publisher: SocialCounts
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Fede Vigevani; @fedevigevani; Joined June 17, 2009; channel UCoQm-PeHC-cbJclKJYJ8LzA.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: wikipedia_fede
+    url: https://en.wikipedia.org/wiki/Fede_Vigevani
+    title: Fede Vigevani
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Federico Augusto Vigevani de Arce, also known mononymously as Fede, is a Uruguayan YouTuber and musician.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. Canonical ID and date are linked to the handle. Ownership is moderate because Vigevani hosts the personal channel and no transfer was found; no percentage is stated. Dosogas was a former creator group, not a current owner. reviewed_by is absent.

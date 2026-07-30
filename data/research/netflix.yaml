@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCWOA1ZGywLbqmigxE4Qlvuw
+  display_name: Netflix
+  handle: "@Netflix"
+entities:
+  - slug: netflix
+    canonical_name: Netflix, Inc.
+    entity_type: COMPANY
+    legal_name: Netflix, Inc.
+    jurisdiction: US-DE
+    website: https://www.netflix.com
+relationships:
+  - { subject: netflix, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: netflix_about
+    url: https://about.netflix.com/en
+    title: About Netflix
+    publisher: Netflix, Inc.
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Netflix is one of the world's leading entertainment services.
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q907311
+    title: Netflix
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Netflix; official website https://www.netflix.com; YouTube channel ID UCWOA1ZGywLbqmigxE4Qlvuw; subject named as Netflix.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Netflix's official corporate page identifies the company and structured channel metadata verifies the canonical ID. Netflix is publicly listed and no higher controlling parent is asserted. reviewed_by is absent.

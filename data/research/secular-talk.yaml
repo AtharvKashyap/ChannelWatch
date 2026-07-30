@@ -1,0 +1,32 @@
+channel:
+  youtube_channel_id: UCldfgbzNILYZA4dmDt4Cd6A
+  display_name: Secular Talk
+  handle: "@SecularTalk"
+entities:
+  - slug: kyle
+    canonical_name: Kyle Kulinski
+    entity_type: CREATOR
+relationships:
+  - { subject: kyle, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UCldfgbzNILYZA4dmDt4Cd6A
+    title: Secular Talk
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Secular Talk (KyleKulinskiShow)
+    supports: [{ relationship: 0 }]
+  - ref: wikipedia
+    url: https://en.wikipedia.org/wiki/Kyle_Kulinski
+    title: Kyle Kulinski
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "Kyle Edward Kulinski is an American left-wing political commentator and media host. He is the host and producer of The Kyle Kulinski Show on his YouTube channel Secular Talk, co-host on the Kyle & Corin Podcast on the YouTube channel Corin's World, and co-host with his wife Krystal Ball on the progressive podcast Krystal Kyle & Friends."
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The channel publicly identifies itself as Kyle Kulinski's show. No separate holding company or outside owner was found. Named private individual requires a second distinct reviewer before launch. reviewed_by is absent. Ownership originally rested only on the channel's own bare YouTube page (typed DIRECT_CREATOR_CONFIRMATION) — that self-page has been retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the channel-to-Kyle-Kulinski link is now corroborated by Wikipedia (Tier 2), which states he "is the host and producer of The Kyle Kulinski Show on his YouTube channel Secular Talk." Inferred owner edge flagged for human corroboration; confidence lowered to 0.7.

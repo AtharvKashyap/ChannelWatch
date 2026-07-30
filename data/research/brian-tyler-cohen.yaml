@@ -1,0 +1,25 @@
+channel:
+  youtube_channel_id: UCQANb2YPwAtK-IQJrLaaUFw
+  display_name: Brian Tyler Cohen
+  handle: "@briantylercohen"
+entities:
+  - slug: brian
+    canonical_name: Brian Tyler Cohen
+    entity_type: CREATOR
+    website: https://www.briantylercohen.com
+relationships:
+  - { subject: brian, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: official_site
+    url: https://www.briantylercohen.com/
+    title: Brian Tyler Cohen
+    publisher: Brian Tyler Cohen
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Brian Tyler Cohen is one of the most viewed political commentators online. His show has become a destination for political figures, journalists, and even presidents.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The creator's official site links the YouTube presence and describes it as his show. No outside owner was found. Named private individual requires a second distinct reviewer before launch. reviewed_by is absent.

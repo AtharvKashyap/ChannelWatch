@@ -1,0 +1,44 @@
+channel:
+  youtube_channel_id: UCF1JIbMUs6uqoZEY1Haw0GQ
+  display_name: Shemaroo
+  handle: "@Shemaroo"
+entities:
+  - slug: shemaroo
+    canonical_name: Shemaroo Entertainment Limited
+    entity_type: COMPANY
+    legal_name: Shemaroo Entertainment Limited
+    jurisdiction: IN
+    website: https://www.shemarooent.com
+relationships:
+  - { subject: shemaroo, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: shemaroo_youtube
+    url: https://www.shemarooent.com/youtube
+    title: Shemaroo - YouTube
+    publisher: Shemaroo Entertainment Limited
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Shemaroo Entertainment Limited has been committed to adapting to ever-evolving consumer needs since 1962, offering a truly diverse range of content through broadcast channels and the OTT platform ShemarooMe, in addition to 50+ YouTube Channels.
+    supports: [{ relationship: 0 }]
+  - ref: annual_report
+    url: https://nsearchives.nseindia.com/annual_reports/AR_24815_SHEMAROO_2023_2024_05082024174151.pdf
+    title: Annual Report 2023-24
+    publisher: Shemaroo Entertainment Limited
+    published_at: 2024-08-05
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: Shemaroo operates more than 50 channels on YouTube and has a presence across all major digital platforms.
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q7494074
+    title: Shemaroo Entertainment
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Shemaroo Entertainment; official website https://shemarooent.com/; YouTube channel ID UCF1JIbMUs6uqoZEY1Haw0GQ.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The listed company's official YouTube portfolio page and annual report establish its operation of the channel network; structured metadata verifies the main channel ID. No higher parent is asserted for this publicly listed company. reviewed_by is absent.

@@ -1,0 +1,36 @@
+channel:
+  youtube_channel_id: UCWwqHwqLSrdWMgp5DZG5Dzg
+  display_name: Troom Troom
+  handle: "@TroomTroom"
+entities: []
+relationships: []
+sources:
+  - ref: wikipedia_troom
+    url: https://en.wikipedia.org/wiki/Troom_Troom
+    title: Troom Troom
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Not much else is known about Troom Troom's origins or ownership, although it is monetized.
+    supports: []
+  - ref: academic_channel_id
+    url: https://www.ssoar.info/ssoar/bitstream/handle/document/78198/ssoar-mediacomm-2021-4-matamoros-fernandez_et_al-Whats_Up_Next_Investigating_Algorithmic.pdf?sequence=2
+    title: "What's Up, Next? Investigating Algorithmic Recommendations on YouTube"
+    publisher: Social Communication
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Troom Troom.
+    supports: []
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT — OWNERSHIP UNCLEAR. Canonical channel ID
+    UCWwqHwqLSrdWMgp5DZG5Dzg is corroborated by published channel lists and the
+    @TroomTroom account. Reliable sources explicitly say ownership is unknown.
+    Leads connecting the brand to named Ukrainians, trademarks, UDMCREATORS LTD,
+    or TERUM LLC do not establish that any such person/entity owns this YouTube
+    account; they are therefore not modeled. Empty relationships are deliberate
+    and should compute OWNERSHIP_UNCLEAR. No private identity is inferred and
+    reviewed_by is absent.

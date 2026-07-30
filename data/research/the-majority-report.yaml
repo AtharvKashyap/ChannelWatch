@@ -1,0 +1,32 @@
+channel:
+  youtube_channel_id: UC-3jIAlnQmbbVMV6gR7K8aQ
+  display_name: The Majority Report w/ Sam Seder
+  handle: "@TheMajorityReport"
+entities:
+  - slug: sam
+    canonical_name: Sam Seder
+    entity_type: CREATOR
+relationships:
+  - { subject: sam, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+sources:
+  - ref: about
+    url: https://majority.fm/about
+    title: About
+    publisher: The Majority Report
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Sam Seder. The Host, Founder. Sam Seder is the host of the Majority Report.
+    supports: [{ relationship: 0 }]
+  - ref: channel
+    url: https://www.youtube.com/channel/UC-3jIAlnQmbbVMV6gR7K8aQ
+    title: The Majority Report w/ Sam Seder
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official Majority Report YouTube page identifies the canonical channel as UC-3jIAlnQmbbVMV6gR7K8aQ.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The official site identifies Seder as founder and host. A separate legal entity was not documented, so the creator is modeled directly. Named private individual requires a second distinct reviewer before launch. reviewed_by is absent.

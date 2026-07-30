@@ -1,0 +1,44 @@
+channel:
+  youtube_channel_id: UCFFbwnve3yF62-tVXkTyHqg
+  display_name: Zee Music Company
+  handle: "@zeemusiccompany"
+entities:
+  - slug: zmc
+    canonical_name: Zee Music Company
+    entity_type: BRAND
+    jurisdiction: IN
+  - slug: zeel
+    canonical_name: Zee Entertainment Enterprises Limited
+    entity_type: COMPANY
+    legal_name: Zee Entertainment Enterprises Limited
+    jurisdiction: IN
+    website: https://www.zee.com
+    aliases:
+      - ZEEL
+relationships:
+  - { subject: zmc, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: zmc, type: SUBSIDIARY_OF, object: zeel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: zee_annual_report_2017
+    url: https://www.zee.com/investor-relations/html-annual-report-2017/mda.html
+    title: ZEE Annual Report 2017
+    publisher: Zee Entertainment Enterprises Limited
+    published_at: 2017-07-01
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: The ZMC YouTube music channel has more than 6.7 million subscribers, making it the second most popular Indian YouTube channel in the music category.
+    supports: [{ relationship: 0 }]
+  - ref: zee_annual_report_2025
+    url: https://www.zee.com/investor-relations/annual-report-2025/pdf/ZEE%20AR%20FY25_20.08.25_Spread_Interactive_High%20Res.pdf
+    title: ZEE Entertainment Annual Report 2024-25
+    publisher: Zee Entertainment Enterprises Limited
+    published_at: 2025-08-20
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: Zee Music Company (ZMC), your company’s music publishing label business with more than ~164 million subscribers on YouTube in India.
+    supports: [{ relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. ZEEL's annual reports directly identify the ZMC YouTube channel and call ZMC the company's music-publishing-label business. ZMC is modeled as a brand rather than a separate legal subsidiary. No effective date is asserted because the sources establish the business launch period but not a separate channel-ownership handover date. reviewed_by is absent.

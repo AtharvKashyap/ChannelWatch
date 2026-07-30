@@ -1,0 +1,47 @@
+channel:
+  youtube_channel_id: UCoMdktPbSTixAyNGwb-UYkQ
+  display_name: Sky News
+  handle: "@SkyNews"
+entities:
+  - slug: sky_news
+    canonical_name: Sky News
+    entity_type: MEDIA_NETWORK
+    jurisdiction: GB
+    website: https://news.sky.com
+  - slug: sky_group
+    canonical_name: Sky Group Limited
+    entity_type: SUBSIDIARY
+    legal_name: Sky Group Limited
+    jurisdiction: GB
+    website: https://www.skygroup.sky
+  - slug: comcast
+    canonical_name: Comcast Corporation
+    entity_type: COMPANY
+    jurisdiction: US-PA
+    website: https://corporate.comcast.com
+relationships:
+  - { subject: sky_news, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: sky_news, type: SUBSIDIARY_OF, object: sky_group, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - { subject: sky_group, type: SUBSIDIARY_OF, object: comcast, control_level: CONTROLLING, ownership_percentage: 100, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: sky_about
+    url: https://www.skygroup.sky/about
+    title: About Sky
+    publisher: Sky Group
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Sky is owned by Comcast Corporation, a global media and technology company. We make award-winning original sport, entertainment and news.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q217228
+    title: Sky News
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Sky News; operator Sky UK; YouTube channel ID UCoMdktPbSTixAyNGwb-UYkQ; YouTube handle SkyNews.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Sky's current corporate page states that Comcast owns Sky and identifies news as a Sky operation. The 100% figure reflects Comcast's completed full acquisition; announced 2026 Comcast reorganizations are omitted until operative. reviewed_by is absent.

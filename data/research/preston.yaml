@@ -1,0 +1,65 @@
+# CHANNELWATCH research record — Preston
+channel:
+  youtube_channel_id: UC70Dib4MvFfT1tU6MqeyHpQ
+  display_name: Preston
+  handle: "@PrestonYT"
+entities:
+  - slug: arsement
+    canonical_name: Preston Arsement
+    entity_type: CREATOR
+    legal_name: Preston Blaine Arsement
+    aliases: [PrestonPlayz]
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: arsement
+    effective_from: 2012-07-04
+    confidence: 0.9
+    status: ACTIVE
+  - subject: arsement
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: arsement
+    confidence: 0.95
+    status: ACTIVE
+sources:
+  - ref: socialcounts_preston
+    url: https://socialcounts.org/youtube-channel-analytics/UC70Dib4MvFfT1tU6MqeyHpQ
+    title: Preston
+    publisher: SocialCounts
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      Preston; @prestonyt; Joined July 4, 2012; YouTube channel
+      UC70Dib4MvFfT1tU6MqeyHpQ.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: forbes_preston
+    url: https://www.forbes.com/profile/preston-arsement-prestonplayz/
+    title: Preston Arsement (PrestonPlayz)
+    publisher: Forbes
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Preston runs several YouTube channels, but the name of his most popular
+      one, PrestonPlayz, says all you really need to know about him.
+    supports:
+      - relationship: 1
+      - relationship: 2
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. The supplied @Preston handle is stale; the current main channel is
+    @PrestonYT, ID UC70Dib4MvFfT1tU6MqeyHpQ. OWNS is moderate confidence because
+    Forbes says Arsement runs his channels and no transfer was found, but no
+    legal percentage is stated. Night is management and Envy was an investment
+    by Arsement, not ownership of this channel. reviewed_by is absent.

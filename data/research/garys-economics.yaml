@@ -1,0 +1,9 @@
+channel: { youtube_channel_id: UC5Ghe5TBQGYIOANuiNW4hDQ, display_name: Garys Economics, handle: "@garyseconomics" }
+entities:
+  - { slug: garys_economics, canonical_name: Gary's Economics, entity_type: CREATOR, aliases: [Gary Stevenson] }
+relationships:
+  - { subject: garys_economics, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+sources:
+  - { ref: channel, url: "https://www.youtube.com/channel/UC5Ghe5TBQGYIOANuiNW4hDQ", title: Garys Economics, publisher: Gary's Economics, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Garys Economics", supports: [{ relationship: 0 }] }
+  - { ref: wikipedia, url: "https://en.wikipedia.org/wiki/Gary_Stevenson_(economist)", title: "Gary Stevenson (economist)", publisher: Wikipedia, source_type: ESTABLISHED_INDUSTRY_PUBLICATION, tier: 2, excerpt: "In 2020, he started the YouTube-channel GarysEconomics, where he campaigns against economic inequality and explains economic concepts to a wider audience.", supports: [{ relationship: 0 }] }
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Creator brand modeled directly; named-person association needs a second reviewer. The channel's own YouTube page is retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3 (confirms identity, not ownership); Wikipedia (Tier 2) independently corroborates that Gary Stevenson started the GarysEconomics channel. Inferred ownership flagged for corroboration; confidence lowered to 0.7. reviewed_by is absent." }

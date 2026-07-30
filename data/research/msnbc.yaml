@@ -1,0 +1,51 @@
+channel:
+  youtube_channel_id: UCaXkIU1QidjPwiAYu6GcHjg
+  display_name: MS NOW
+  handle: "@msnow"
+entities:
+  - slug: ms_now
+    canonical_name: MS NOW
+    entity_type: MEDIA_NETWORK
+    jurisdiction: US
+    website: https://www.ms.now
+    aliases: [MSNBC]
+  - slug: versant
+    canonical_name: Versant Media Group, Inc.
+    legal_name: Versant Media Group, Inc.
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://www.versantmedia.com
+    aliases: [VERSANT]
+relationships:
+  - { subject: ms_now, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: ms_now, type: SUBSIDIARY_OF, object: versant, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: official_channel
+    url: https://www.youtube.com/@msnow
+    title: MS NOW
+    publisher: MS NOW
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: The official MS NOW YouTube Channel. MS NOW is the go-to destination for domestic and international breaking news, and best-in-class opinion journalism.
+    supports: [{ relationship: 0 }]
+  - ref: versant_filing
+    url: https://cdn.versantmedia.com/versantmedia/2025-12/Project%20Spark%20-%20Form%2010%20A3_1.pdf
+    title: Versant Form 10 Registration Statement
+    publisher: Versant Media Group
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: MS NOW (formerly MSNBC) was the number one news brand on YouTube in 2024.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q137009482
+    title: MS NOW
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: MS NOW; YouTube channel ID UCaXkIU1QidjPwiAYu6GcHjg.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The backlog's MSNBC target is the same canonical channel, rebranded MS NOW in 2025 and now under Versant. The filename preserves the target slug while the channel fields reflect the current identity. reviewed_by is absent.

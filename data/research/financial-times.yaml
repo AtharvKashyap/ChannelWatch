@@ -1,0 +1,42 @@
+channel:
+  youtube_channel_id: UCoUxsWakJucWg46KW5RsvPw
+  display_name: Financial Times
+  handle: "@financialtimes"
+entities:
+  - slug: ft
+    canonical_name: The Financial Times Limited
+    entity_type: COMPANY
+    legal_name: The Financial Times Limited
+    jurisdiction: GB
+    website: https://www.ft.com
+  - slug: nikkei
+    canonical_name: Nikkei Inc.
+    entity_type: COMPANY
+    legal_name: Nikkei Inc.
+    jurisdiction: JP
+    website: https://www.nikkei.co.jp/nikkeiinfo/en/
+relationships:
+  - { subject: ft, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: ft, type: SUBSIDIARY_OF, object: nikkei, control_level: CONTROLLING, effective_from: 2015-11-30, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: pearson_filing
+    url: https://plc.pearson.com/sites/pearson-corp/files/2021-02/form-20-f-sec.PDF
+    title: Pearson plc Annual Report on Form 20-F
+    publisher: Pearson plc
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: On November 30, 2015, the Group completed the sale of The Financial Times to Nikkei Inc.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCoUxsWakJucWg46KW5RsvPw
+    title: Financial Times
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official Financial Times YouTube page identifies the canonical channel as UCoUxsWakJucWg46KW5RsvPw.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The operative acquisition-completion date comes from Pearson's filing. Nikkei's employee/shareholder structure is not extended without a direct current source. reviewed_by is absent.

@@ -1,0 +1,43 @@
+channel:
+  youtube_channel_id: UCz8QaiQxApLq8sLNcszYyJw
+  display_name: Firstpost
+  handle: "@Firstpost"
+entities:
+  - slug: network18
+    canonical_name: Network18 Media & Investments Limited
+    entity_type: COMPANY
+    legal_name: Network18 Media & Investments Limited
+    jurisdiction: IN
+    website: https://www.network18online.com
+  - slug: reliance
+    canonical_name: Reliance Industries Limited
+    entity_type: COMPANY
+    legal_name: Reliance Industries Limited
+    jurisdiction: IN
+    website: https://www.ril.com
+relationships:
+  - { subject: network18, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: reliance, type: CONTROLS, object: network18, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+sources:
+  - ref: terms
+    url: https://www.firstpost.com/terms-of-use/
+    title: Terms of Use
+    publisher: Firstpost
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: This User Agreement is a contract between you and Network18 Media & Investments Limited ("the Company/NW18"). This Site is owned and operated by the Company.
+    supports: [{ relationship: 0 }]
+  - ref: ownership_disclosure
+    url: https://www.firstpost.com/explainers/shein-app-reliance-india-2020-ban-13859231.html
+    title: Shein is back in India after 5 years, but why was it banned in 2020?
+    publisher: Firstpost
+    published_at: 2025-02-04
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Firstpost is part of the Network18 group. Network18 is controlled by Independent Media Trust, of which Reliance Industries is the sole beneficiary.
+    supports: [{ relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Reliance is modeled as controller, not direct owner, matching Firstpost's disclosure of the Independent Media Trust structure. The trust is not separately modeled without its current governing instrument. reviewed_by is absent.

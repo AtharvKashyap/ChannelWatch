@@ -1,0 +1,36 @@
+channel:
+  youtube_channel_id: UCPyFaUSmf_KPlzb4n85rXDg
+  display_name: RT
+  handle: "@RT"
+entities:
+  - slug: tv_novosti
+    canonical_name: ANO TV-Novosti
+    entity_type: NONPROFIT
+    legal_name: Autonomous Non-Profit Organization TV-Novosti
+    jurisdiction: RU
+    website: https://www.rt.com
+relationships:
+  - { subject: tv_novosti, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: rt_contact
+    url: https://www.rt.com/about-us/contact-info/
+    title: Contact info
+    publisher: RT
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Autonomous non-profit organization (ANO) “TV-Novosti”, Channel “RT TV”
+    supports: [{ relationship: 0 }]
+  - ref: doj
+    url: https://www.justice.gov/archives/opa/pr/production-company-registers-under-foreign-agent-registration-act-agent-russian-government
+    title: Production Company Registers Under the Foreign Agent Registration Act as Agent for the Russian Government Entity Responsible for Broadcasting RT
+    publisher: United States Department of Justice
+    published_at: 2017-11-13
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: ANO TV-Novosti, the Russian government entity responsible for the worldwide broadcasts of the RT Network (RT).
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The record identifies RT's legal operator. The DOJ's description of TV-Novosti as a Russian government entity is preserved in evidence, but no separate conventional equity edge to the Russian Federation is created for the autonomous nonprofit without a registry instrument. reviewed_by is absent.

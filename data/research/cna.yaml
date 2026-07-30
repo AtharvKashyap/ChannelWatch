@@ -1,0 +1,36 @@
+channel:
+  youtube_channel_id: UC83jt4dlz1Gjl58fzQrrKZg
+  display_name: CNA
+  handle: "@channelnewsasia"
+entities:
+  - slug: mediacorp
+    canonical_name: Mediacorp Pte. Ltd.
+    entity_type: COMPANY
+    legal_name: Mediacorp Pte. Ltd.
+    jurisdiction: SG
+    website: https://www.mediacorp.sg
+relationships:
+  - { subject: mediacorp, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: mediacorp_brands
+    url: https://www.mediacorp.sg/business/advertising/trade-news/building-singapore-s-1-premium-digital-network-key-milestones-13101574
+    title: Building Singapore's #1 Premium Digital Network
+    publisher: Mediacorp
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: The Mediacorp Digital Network now comprises 10 digital brands owned and operated by Mediacorp – CNA, CNA Lifestyle, CNA Luxury, TODAY, BERITA, Seithi, 8 World, meWATCH, meLISTEN and 8Days.
+    supports: [{ relationship: 0 }]
+  - ref: anniversary
+    url: https://www.mediacorp.sg/media-releases/cnas-25th-anniversary-mediacorps-news-network-announces-plans-scale-growth-regional-and-international-markets-186396
+    title: CNA’s 25th anniversary
+    publisher: Mediacorp
+    published_at: 2024-03-19
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: On YouTube, CNA has a combined four million subscribers and over 27 million views per month for its CNA and CNA Insider channels.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Mediacorp's own material directly identifies CNA as a brand it owns and operates. A Temasek parent edge is omitted until a direct current registry or portfolio source can be attached. reviewed_by is absent.

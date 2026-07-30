@@ -1,0 +1,33 @@
+channel:
+  youtube_channel_id: UCfdNM3NAhaBOXCafH7krzrA
+  display_name: The Infographics Show
+  handle: "@TheInfographicsShow"
+entities:
+  - slug: infographics_creator
+    canonical_name: The Infographics Show
+    entity_type: CREATOR
+    website: https://www.theinfographicsshow.com
+relationships:
+  - { subject: infographics_creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+sources:
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCfdNM3NAhaBOXCafH7krzrA
+    title: The Infographics Show
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The Infographics Show
+    supports: [{ relationship: 0 }]
+  - ref: wikipedia
+    url: https://en.wikipedia.org/wiki/The_Infographics_Show
+    title: The Infographics Show
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "From 2011 onwards, he produces videos for his United States–based YouTube channel The Infographics Show, where he discusses history and current events."
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The brand is modeled as the creator/operator. Channel ownership is INFERRED (creator owns their own channel); Wikipedia (Tier 2) corroborates that the founder produces videos for the channel. The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3 and confidence lowered to 0.65; flagged for corroboration. Search results did not establish a current outside corporate owner, so no speculative media-company edge is included. reviewed_by is absent.

@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UC7fWeaHhqgM4Ry-RMpM2YYw
+  display_name: TRT World
+  handle: "@trtworld"
+entities:
+  - slug: trt
+    canonical_name: Turkish Radio and Television Corporation
+    entity_type: NONPROFIT
+    legal_name: Türkiye Radyo Televizyon Kurumu
+    jurisdiction: TR
+    website: https://www.trt.net.tr
+relationships:
+  - { subject: trt, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: trt_world_launch
+    url: https://www.trtworld.com/article/13086696
+    title: Turkey enters the global media stage with TRT World
+    publisher: TRT World
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: It is a branch of the Turkish Radio Television Corporation, Turkey's publicly-funded broadcaster, which was founded in 1964.
+    supports: [{ relationship: 0 }]
+  - ref: trt_history
+    url: https://www.trt.net.tr/english/history
+    title: History
+    publisher: Turkish Radio and Television Corporation
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Founded in 1964, the Turkish Radio and Television Corporation (TRT) is the only public service media of Türkiye.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. TRT World is modeled as a branch of the public-service corporation. Public funding is not converted into an ordinary corporate ownership edge to the Turkish government. reviewed_by is absent.

@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCV4xOVpbcV8SdueDCOxLXtQ
+  display_name: Fernanfloo
+  handle: "@fernanfloo"
+entities:
+  - slug: flores
+    canonical_name: Fernanfloo
+    entity_type: CREATOR
+    legal_name: Luis Fernando Flores Alvarado
+relationships:
+  - { subject: channel, type: FOUNDED_BY, object: flores, effective_from: 2011-05-02, confidence: 0.9, status: ACTIVE }
+  - { subject: flores, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - { subject: channel, type: HOSTED_BY, object: flores, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: wikidata_fernanfloo
+    url: https://www.wikidata.org/wiki/Q61128082
+    title: Fernanfloo
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: YouTube channel ID UCV4xOVpbcV8SdueDCOxLXtQ; YouTube handle fernanfloo; start time 2 May 2011; stated in YouTube API.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: wikipedia_fernanfloo
+    url: https://en.wikipedia.org/wiki/Fernanfloo
+    title: Fernanfloo
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Luis Fernando Flores Alvarado, better known as Fernanfloo, is a Salvadoran YouTuber and streamer.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. API-linked ID and start date identify the channel. Ownership is moderate because Flores created and hosts it and no transfer was found, but no percentage is stated. BroadbandTV was an MCN affiliation, not demonstrated ownership. reviewed_by is absent.

@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCECJDeK0MNapZbpaOzxrUPA
+  display_name: Luisito Comunica
+  handle: "@LuisitoComunica"
+entities:
+  - slug: villar
+    canonical_name: Luisito Comunica
+    entity_type: CREATOR
+    legal_name: Luis Arturo Villar Sudek
+relationships:
+  - { subject: channel, type: FOUNDED_BY, object: villar, effective_from: 2012-04-15, confidence: 0.9, status: ACTIVE }
+  - { subject: villar, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - { subject: channel, type: HOSTED_BY, object: villar, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: wikidata_luisito
+    url: https://www.wikidata.org/wiki/Q62372907
+    title: Luisito Comunica
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: YouTube channel ID UCECJDeK0MNapZbpaOzxrUPA; YouTube handle luisitocomunica; start time 15 April 2012; stated in YouTube API.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: wikipedia_luisito
+    url: https://en.wikipedia.org/wiki/Luisito_Comunica
+    title: Luisito Comunica
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Luis Arturo Villar Sudek, known as Luisito Comunica, is a Mexican YouTuber, blogger and businessman.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. API-linked metadata verifies the requested channel. Ownership is moderate because Villar created and hosts it and no transfer was found, but no percentage is stated. His restaurant, telecom, apparel, and other investments are separate businesses, not channel owners. reviewed_by is absent.

@@ -1,0 +1,8 @@
+channel: { youtube_channel_id: UCkCGANrihzExmu9QiqZpPlQ, display_name: How Money Works, handle: "@HowMoneyWorks" }
+entities:
+  - { slug: how_money_works, canonical_name: How Money Works, entity_type: CREATOR }
+relationships:
+  - { subject: how_money_works, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+sources:
+  - { ref: channel, url: "https://www.youtube.com/channel/UCkCGANrihzExmu9QiqZpPlQ", title: How Money Works, publisher: How Money Works, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "How Money Works", supports: [{ relationship: 0 }] }
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Public creator brand modeled directly; pseudonymous operator is not identified. The only source is the channel's own YouTube page (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3), which confirms the channel identity but not who owns it; ownership is inferred from the self-titled brand and flagged for independent corroboration (confidence lowered to 0.65). No reliable independent source establishing ownership was found. reviewed_by is absent." }

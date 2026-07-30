@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCzuqE7-t13O4NIDYJfakrhw
+  display_name: Democracy Now!
+  handle: "@DemocracyNow"
+entities:
+  - slug: democracy_now_productions
+    canonical_name: Democracy Now! Productions, Inc.
+    entity_type: NONPROFIT
+    legal_name: Democracy Now Productions Inc.
+    jurisdiction: US-NY
+    website: https://www.democracynow.org
+relationships:
+  - { subject: democracy_now_productions, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: about
+    url: https://www.democracynow.org/about.html
+    title: About Democracy Now!
+    publisher: Democracy Now!
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Democracy Now! is a 501(c)3 non-profit news organization. We do not accept funding from advertising, underwriting or government agencies.
+    supports: [{ relationship: 0 }]
+  - ref: form_990
+    url: https://projects.propublica.org/nonprofits/organizations/10708733
+    title: Democracy Now Productions Inc
+    publisher: ProPublica Nonprofit Explorer
+    source_type: SHARED_LEGAL_DOCUMENTATION
+    tier: 3
+    excerpt: Democracy Now Productions Inc; tax-exempt organization filing annual returns with the Internal Revenue Service.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The nonprofit producer is modeled as the owner/operator. Audience donations and grants are revenue sources, not ownership edges. reviewed_by is absent.

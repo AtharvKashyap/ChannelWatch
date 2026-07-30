@@ -1,0 +1,36 @@
+channel:
+  youtube_channel_id: UCUMZ7gohGI9HcU9VNsr2FJQ
+  display_name: Bloomberg Originals
+  handle: "@business"
+entities:
+  - slug: bloomberg_lp
+    canonical_name: Bloomberg L.P.
+    entity_type: COMPANY
+    legal_name: Bloomberg L.P.
+    jurisdiction: US-DE
+    website: https://www.bloomberg.com/company/
+relationships:
+  - { subject: bloomberg_lp, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: youtube_distribution
+    url: https://www.bloombergmedia.com/press/bloomberg-media-and-youtube-tv-announce-first-ever-distribution-agreement-for-bloomberg-tv-and-bloomberg-originals-beginning-october-28/
+    title: Bloomberg Media and YouTube TV Announce First-Ever Distribution Agreement for Bloomberg TV and Bloomberg Originals
+    publisher: Bloomberg Media
+    published_at: 2025-10-27
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: Bloomberg Media is the consumer-facing media organization of Bloomberg L.P.
+    supports: [{ relationship: 0 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCUMZ7gohGI9HcU9VNsr2FJQ
+    title: Bloomberg Originals
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official Bloomberg Originals YouTube page identifies the canonical channel as UCUMZ7gohGI9HcU9VNsr2FJQ.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Bloomberg's official announcement places Bloomberg Originals within Bloomberg Media and identifies Bloomberg Media as Bloomberg L.P.'s consumer-facing media organization. The private partnership's individual equity holders are not modeled because no sufficiently direct current ownership source was found. reviewed_by is absent.

@@ -1,0 +1,23 @@
+channel: { youtube_channel_id: UCIveFvW-ARp_B_RckhweNJw, display_name: StevenCrowder, handle: "@StevenCrowder" }
+entities:
+  - { slug: louder_with_crowder, canonical_name: Louder with Crowder, entity_type: CREATOR, aliases: [Steven Crowder] }
+relationships:
+  - { subject: louder_with_crowder, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UCIveFvW-ARp_B_RckhweNJw
+    title: StevenCrowder
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: StevenCrowder
+    supports: [{ relationship: 0 }]
+  - ref: wikipedia
+    url: https://en.wikipedia.org/wiki/Steven_Crowder
+    title: Steven Crowder
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "He then began hosting Louder with Crowder, a daily political podcast and YouTube channel with commentary segments."
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Public creator brand modeled directly; no separate legal holding entity asserted. Ownership edge is INFERRED from eponymous-creator identity, not a direct ownership disclosure; downgraded to confidence 0.65 and flagged for corroboration. The self-referential YouTube about page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; an independent Wikipedia source (Tier 2) corroborates the Louder with Crowder YouTube channel. reviewed_by is absent." }

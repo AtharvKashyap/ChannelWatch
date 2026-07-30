@@ -1,0 +1,39 @@
+channel:
+  youtube_channel_id: UCffDXn7ycAzwL2LDlbyWOTw
+  display_name: Canal KondZilla
+  handle: "@KondZilla"
+entities:
+  - slug: kondzilla
+    canonical_name: KondZilla
+    entity_type: CREATOR
+    jurisdiction: BR
+  - slug: kondzilla_records
+    canonical_name: KondZilla Records
+    entity_type: COMPANY
+    jurisdiction: BR
+    website: https://kondzilla.com
+relationships:
+  - { subject: kondzilla, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - { subject: kondzilla, type: FOUNDED_BY, object: kondzilla_records, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: apple_profile
+    url: https://tv.apple.com/no/person/kondzilla/umc.cpc.3zmmrwspg7q7fedtdbk62yhhb
+    title: KondZilla
+    publisher: Apple TV
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: He is the founder of KondZilla Records, which is a music video production company and record label. He currently owns the largest YouTube channel in Brazil and Latin America.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel
+    url: https://www.youtube.com/@KondZilla
+    title: Canal KondZilla
+    publisher: KondZilla
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Canal KondZilla
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Reputable platform biography explicitly says KondZilla owns the channel and founded the associated label. The label is not separately asserted to own the channel. This single record covers both KondZilla backlog lines; “Canal KondZilla / labels of note” is not a second channel. reviewed_by is absent.

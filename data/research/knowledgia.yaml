@@ -1,0 +1,24 @@
+channel:
+  youtube_channel_id: UCuCuEKq1xuRA0dFQj1qg9-Q
+  display_name: Knowledgia
+  handle: "@Knowledgia"
+entities:
+  - slug: creator
+    canonical_name: Knowledgia
+    entity_type: CREATOR
+relationships:
+  - { subject: creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.6, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UCuCuEKq1xuRA0dFQj1qg9-Q
+    title: Knowledgia
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Knowledgia
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Public creator brand only; no documented outside owner was found. Ownership edge is INFERRED from brand<->channel identity (the channel is the eponymous Knowledgia brand) rather than a direct ownership disclosure; downgraded to confidence 0.60 and flagged for corroboration. The self-referential YouTube about page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3. No independent corroborating source was located (no Wikipedia article, no Wikidata item); the edge rests solely on the self-referential channel identity and needs corroboration at review. reviewed_by is absent.

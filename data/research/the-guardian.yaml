@@ -1,0 +1,48 @@
+channel:
+  youtube_channel_id: UCHpw8xwDNhU9gdohEcJu4aA
+  display_name: The Guardian
+  handle: "@guardian"
+entities:
+  - slug: gnm
+    canonical_name: Guardian News & Media Limited
+    entity_type: SUBSIDIARY
+    legal_name: Guardian News & Media Limited
+    jurisdiction: GB
+    website: https://www.theguardian.com
+  - slug: gmg
+    canonical_name: Guardian Media Group plc
+    entity_type: COMPANY
+    legal_name: Guardian Media Group plc
+    jurisdiction: GB
+    website: https://www.theguardian.com/gmg
+  - slug: scott_trust
+    canonical_name: The Scott Trust Limited
+    entity_type: TRUST
+    legal_name: The Scott Trust Limited
+    jurisdiction: GB
+relationships:
+  - { subject: gnm, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: gnm, type: SUBSIDIARY_OF, object: gmg, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: scott_trust, type: OWNS, object: gmg, control_level: CONTROLLING, ownership_percentage: 100, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: guardian_structure
+    url: https://www.theguardian.com/about
+    title: About Us
+    publisher: The Guardian
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: The Scott Trust is the sole shareholder of Guardian Media Group. Guardian Media Group is the owner of Guardian News & Media and publisher of the Guardian newspaper and website.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q19093418
+    title: The Guardian
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The Guardian; YouTube channel ID UCHpw8xwDNhU9gdohEcJu4aA.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The Guardian's own governance explanation supplies the full bottom-up chain from Guardian News & Media through Guardian Media Group to the Scott Trust, including sole-shareholder status. reviewed_by is absent.

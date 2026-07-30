@@ -1,0 +1,32 @@
+channel:
+  youtube_channel_id: UC95fKRwnEvd8RTX74Iz3TcA
+  display_name: The Gravel Institute
+  handle: "@GravelInstitute"
+entities:
+  - slug: gravel_institute
+    canonical_name: The Gravel Institute
+    entity_type: NONPROFIT
+relationships:
+  - { subject: gravel_institute, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.92, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UC95fKRwnEvd8RTX74Iz3TcA
+    title: The Gravel Institute
+    publisher: The Gravel Institute
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: The Gravel Institute
+    supports: [{ relationship: 0 }]
+  - ref: technical_id
+    url: https://socialcounts.org/youtube-live-subscriber-count/UC95fKRwnEvd8RTX74Iz3TcA
+    title: The Gravel Institute YouTube Live Subscriber Count
+    publisher: SocialCounts.org
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The Gravel Institute
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The institute's channel is inactive but remains publicly accessible; ACTIVE describes the current ownership edge, not upload activity. No later owner or transfer was found. reviewed_by is absent.

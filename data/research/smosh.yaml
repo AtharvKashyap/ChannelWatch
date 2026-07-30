@@ -143,12 +143,12 @@ sources:
     published_at: 2023-06-20
     source_type: ESTABLISHED_INDUSTRY_PUBLICATION
     tier: 2
-    excerpt: >
-      "Padilla and Hecox are buying majority ownership of Smosh from Rhett &
+    excerpt: >-
+      Padilla and Hecox are buying majority ownership of Smosh from Rhett &
       Link's Mythical, which acquired the brand after its former owner Defy
       Media collapsed in 2018. Financial details of the acquisition are not
       being publicized, but we do know Mythical will retain a minority stake
-      with Rhett & Link serving as advisors."
+      with Rhett & Link serving as advisors.
     supports:
       - relationship: 0
       - relationship: 1

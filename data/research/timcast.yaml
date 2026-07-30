@@ -1,0 +1,23 @@
+channel: { youtube_channel_id: UCG749Dj4V2fKa143f8sE60Q, display_name: Timcast, handle: "@Timcast" }
+entities:
+  - { slug: timcast, canonical_name: Timcast, entity_type: CREATOR, aliases: [Tim Pool] }
+relationships:
+  - { subject: timcast, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UCG749Dj4V2fKa143f8sE60Q
+    title: Timcast
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Timcast
+    supports: [{ relationship: 0 }]
+  - ref: wikipedia
+    url: https://en.wikipedia.org/wiki/Tim_Pool
+    title: Tim Pool
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "As of 2021, Pool operates six YouTube channels, two of which, Timcast and Tim Pool, feature daily political commentary"
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Creator brand modeled directly; no outside ownership is asserted. Channel ownership is INFERRED (creator operates their own channel); Wikipedia (Tier 2) corroborates that Tim Pool operates the Timcast channel. The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3 and confidence lowered to 0.65; flagged for corroboration. reviewed_by is absent." }

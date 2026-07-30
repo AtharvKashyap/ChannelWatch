@@ -1,0 +1,97 @@
+# CHANNELWATCH research record — LankyBox
+channel:
+  youtube_channel_id: UCSf0s2ogUVYpJPuzW1zpAOg
+  display_name: LankyBox
+  handle: "@LankyBox"
+entities:
+  - slug: kroma
+    canonical_name: Justin Kroma
+    entity_type: CREATOR
+  - slug: mcarthur
+    canonical_name: Adam McArthur
+    entity_type: CREATOR
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: kroma
+    confidence: 0.85
+    status: ACTIVE
+  - subject: channel
+    type: FOUNDED_BY
+    object: mcarthur
+    confidence: 0.85
+    status: ACTIVE
+  - subject: kroma
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.55
+    status: ACTIVE
+  - subject: mcarthur
+    type: PARTIALLY_OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.55
+    status: ACTIVE
+sources:
+  - ref: tubefilter_lankybox
+    url: https://www.tubefilter.com/2022/11/28/lankybox-kitchen-chuck-e-cheese/
+    title: LankyBox is getting the ghost kitchen treatment, à la Chuck E. Cheese
+    publisher: Tubefilter
+    published_at: 2022-11-28
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      LankyBox, run by duo Justin Kroma and Adam McArthur, is one of the largest
+      Roblox channels on YouTube.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+  - ref: lankybox_toy_announcement
+    url: https://www.prlog.org/12905442-youtubes-most-highly-viewed-comedy-gaming-duo-lankybox-announces-toy-partnership-with-bonkers-toys.pdf
+    title: YouTube's Most Highly Viewed Comedy Gaming Duo LankyBox Announces Toy Partnership with Bonkers Toys
+    publisher: Bonkers Toys
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: >-
+      "We can't wait to see the LankyBox toys on shelves and to get them in the
+      hands of our amazing viewers," say Justin and Adam, founders of LankyBox.
+    supports:
+      - relationship: 0
+      - relationship: 1
+  - ref: speakrj_lankybox
+    url: https://www.speakrj.com/audit/report/UCSf0s2ogUVYpJPuzW1zpAOg/youtube
+    title: LankyBox YouTube Channel Statistics
+    publisher: SPEAKRJ
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      LankyBox's YouTube Channel [...] UCSf0s2ogUVYpJPuzW1zpAOg [...] @lankybox.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+      - relationship: 3
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: >-
+    2026-07-30 triage fix (mis-typed press release / weak ownership support). The
+    Bonkers Toys announcement was hosted on PRLog (a free, self-serve press-release
+    wire with no editorial oversight) yet typed DIRECT_CREATOR_CONFIRMATION / Tier
+    1 and used to back all four edges; it only calls the pair "founders." Retyped
+    it to ARCHIVED_CORPORATE_PAGE / Tier 3 and limited it to the two FOUNDED_BY
+    edges. Added a Tier-2 industry source (Tubefilter, 2022-11-28: "LankyBox, run
+    by duo Justin Kroma and Adam McArthur, is one of the largest Roblox channels on
+    YouTube") to back all four edges. The two PARTIALLY_OWNS edges are kept as the
+    creator-controlled model (CONTROLLING, NO percentage / no equity split
+    asserted) but downgraded to confidence 0.55 to reflect that they are inferences
+    from founder-led, self-run brand presentation with no external owner found,
+    not a registry or equity disclosure. DRAFT and sensitive because named private
+    individuals are modeled. Night Media is representation, not ownership. Human
+    review should seek a registry or direct equity disclosure and may drop the
+    ownership edges to FOUNDED_BY-only if founder/operator status is judged
+    insufficient. reviewed_by is absent.

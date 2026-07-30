@@ -1,0 +1,40 @@
+channel:
+  youtube_channel_id: UCqnbDFdCpuN8CMEg0VuEBqA
+  display_name: The New York Times
+  handle: "@nytimes"
+entities:
+  - slug: nytco
+    canonical_name: The New York Times Company
+    entity_type: COMPANY
+    legal_name: The New York Times Company
+    jurisdiction: US-NY
+    website: https://www.nytco.com
+  - slug: family_trust
+    canonical_name: Ochs-Sulzberger Family Trust
+    entity_type: TRUST
+relationships:
+  - { subject: nytco, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: family_trust, type: CONTROLS, object: nytco, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: proxy
+    url: https://www.sec.gov/Archives/edgar/data/71691/000007169126000016/nyt-20260313.htm
+    title: The New York Times Company 2026 Proxy Statement
+    publisher: U.S. Securities and Exchange Commission
+    published_at: 2026-03-13
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: The dual-class capital structure of our Company is the cornerstone of our long-term strategy, and control of our Company and related properties has rested with the Ochs-Sulzberger family since 1896.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCqnbDFdCpuN8CMEg0VuEBqA
+    title: The New York Times
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official New York Times YouTube page identifies the canonical channel as UCqnbDFdCpuN8CMEg0VuEBqA.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The family trust is modeled as controlling rather than as a percentage owner because the proxy describes control through the dual-class structure. This sensitive named-family structure requires a second distinct human reviewer before launch. reviewed_by is absent.

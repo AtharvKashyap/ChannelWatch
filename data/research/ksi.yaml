@@ -1,0 +1,78 @@
+# CHANNELWATCH research record — KSI
+# DRAFT for human review. Nothing here is published without verification.
+
+channel:
+  youtube_channel_id: UCGmnsW623G1r-Chmo5RB4Yw
+  display_name: KSI
+  handle: "@ksi"
+
+entities:
+  - slug: olatunji
+    canonical_name: KSI
+    entity_type: CREATOR
+    legal_name: Olajide Olayinka Williams Olatunji
+    aliases:
+      - JJ Olatunji
+      - KSIOlajidebt
+
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: olatunji
+    confidence: 0.9
+    status: ACTIVE
+  - subject: olatunji
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: olatunji
+    confidence: 0.95
+    status: ACTIVE
+
+sources:
+  - ref: wikidata_ksi_channel
+    url: https://www.wikidata.org/wiki/Q76549379
+    title: KSI
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      YouTube channel ID UCGmnsW623G1r-Chmo5RB4Yw; YouTube handle ksi; stated
+      in YouTube API.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: fourfourtwo_ksi
+    url: https://www.fourfourtwo.com/team/like-subscribe-buy-a-football-club-fourfourtwo-meets-youtuber-ksi-ahead-of-his-first-full-season-as-dagenham-and-redbridge-co-owner
+    title: "I'm gonna take it to the Moon: KSI tells FourFourTwo how he plans to get his new club Dagenham & Redbridge into the Premier League"
+    publisher: FourFourTwo
+    published_at: 2026-07-23
+    source_type: NAMED_EXECUTIVE_INTERVIEW
+    tier: 2
+    excerpt: >-
+      "You can argue my YouTube career launched because of FIFA," he points out.
+      "That series on YouTube got more and more people watching me, subscribing
+      to me."
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. The requested @ksi channel is UCGmnsW623G1r-Chmo5RB4Yw, not KSI's
+    older music channel UCVtFOytbRpEvzLjvqGG5gxQ. KSI directly describes the
+    audience as subscribing to him and his series; API-linked identifiers
+    corroborate the account match. OWNS is moderate confidence because no
+    explicit legal percentage is available and no channel transfer was found.
+    Sidemen membership, Mams Taylor management, music-label arrangements, Prime
+    Hydration, and Misfits Boxing are not channel ownership and are excluded.
+    reviewed_by is intentionally absent.

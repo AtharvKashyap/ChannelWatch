@@ -1,0 +1,33 @@
+channel:
+  youtube_channel_id: UC3M7l8ved_rYQ45AVzS0RGA
+  display_name: The Jimmy Dore Show
+  handle: "@thejimmydoreshow"
+entities:
+  - slug: jimmy
+    canonical_name: Jimmy Dore
+    entity_type: CREATOR
+    website: https://jimmydore.com
+relationships:
+  - { subject: jimmy, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+sources:
+  - ref: official_show
+    url: https://jimmydore.com/show/
+    title: The Jimmy Dore Show
+    publisher: Jimmy Dore
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: The Jimmy Dore Show typically livestreams Monday and Wednesday and Friday.
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q112081549
+    title: The Jimmy Dore Show
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: YouTube channel ID UC3M7l8ved_rYQ45AVzS0RGA
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Jimmy Dore's official site presents the program and embeds its videos. No outside owner was found. Named private individual requires a second distinct reviewer before launch. reviewed_by is absent.

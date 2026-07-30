@@ -1,0 +1,47 @@
+channel:
+  youtube_channel_id: UCtoaZpBnrd0lhycxYJ4MNOQ
+  display_name: HasanAbi
+  handle: "@hasanabi"
+entities:
+  - slug: hasan_piker
+    canonical_name: Hasan Piker
+    entity_type: CREATOR
+    aliases:
+      - HasanAbi
+relationships:
+  - subject: hasan_piker
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UCtoaZpBnrd0lhycxYJ4MNOQ
+    title: HasanAbi
+    publisher: Hasan Piker
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: HasanAbi
+    supports: [{ relationship: 0 }]
+  - ref: official_site
+    url: https://hasanabi.com/
+    title: Hasanabi.com
+    publisher: Hasanabi.com
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: This domain is reserved for Hasan Piker
+    supports: [{ relationship: 0 }]
+  - ref: wikipedia
+    url: https://en.wikipedia.org/wiki/Hasan_Piker
+    title: Hasan Piker
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Hasan Doğan Piker (born July 25, 1991), often referred to mononymously as Hasan, or HasanAbi, is an American Twitch streamer, influencer, and left-wing political commentator.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The canonical channel and creator's official namesake site link the HasanAbi identity to Hasan Piker; no separate channel holding entity is publicly disclosed. The two self-referential pages are retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3 (they confirm the identity link, not ownership); Wikipedia (Tier 2) independently establishes that Hasan Piker is the person known as HasanAbi. Inferred ownership flagged for corroboration; confidence lowered to 0.7. Named-person record requires a second distinct human reviewer; reviewed_by is absent.

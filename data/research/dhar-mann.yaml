@@ -1,0 +1,106 @@
+# CHANNELWATCH research record — Dhar Mann Studios
+# DRAFT for human review. Nothing here is published without verification.
+
+channel:
+  youtube_channel_id: UC_hK9fOxyy_TM8FJGXIyG8Q
+  display_name: Dhar Mann Studios
+  handle: "@dharmann"
+
+entities:
+  - slug: studio
+    canonical_name: Dhar Mann Studios
+    entity_type: COMPANY
+    jurisdiction: US-CA # "production campus in Burbank" (TheWrap)
+    website: https://www.dharmann.com
+  - slug: mann
+    canonical_name: Dhar Mann
+    entity_type: CREATOR
+    legal_name: Dharminder Mann
+
+relationships:
+  - subject: studio
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.8
+    status: ACTIVE
+  - subject: studio
+    type: FOUNDED_BY
+    object: mann
+    confidence: 0.95
+    status: ACTIVE
+  - subject: studio
+    type: OPERATES
+    object: channel
+    control_level: MANAGEMENT
+    confidence: 0.95
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_dhar
+    url: https://en.wikipedia.org/wiki/Dhar_Mann
+    title: Dhar Mann
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      In 2018, Mann founded Dhar Mann Studios, a video production company that
+      produces films for social media platforms such as YouTube.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: thewrap_interview
+    url: https://www.thewrap.com/dhar-mann-studios-office-with-a-view-interview/
+    title: >-
+      Dhar Mann Studios Founder and CEO on Ambitions to Become Disney for the
+      YouTube Generation
+    publisher: TheWrap
+    published_at: 2025-07-01
+    source_type: NAMED_EXECUTIVE_INTERVIEW
+    tier: 2
+    excerpt: >-
+      Dhar Mann Studios Founder and CEO on Ambitions to Become Disney for the
+      YouTube Generation [...] Five new 25-minute episodes drop weekly [...] In
+      Dhar's world, they own the distribution.
+    supports:
+      - relationship: 1
+      - relationship: 2
+  - ref: wikidata_dhar_channel
+    url: https://www.wikidata.org/wiki/Q5269081
+    title: Dhar Mann
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      YouTube channel ID UC_hK9fOxyy_TM8FJGXIyG8Q; YouTube handle dharmann;
+      stated in YouTube API.
+    supports:
+      - relationship: 0
+      - relationship: 2
+
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: >-
+    2026-07-30 triage fix (thin/all-Tier-3, mis-typed sources). Removed two
+    problematic Tier-3 sources: (a) the Terms & Conditions excerpt, which only
+    proved the studio owns the website content and marks, not the YouTube channel,
+    and (b) the LinkedIn company page mistyped as ARCHIVED_CORPORATE_PAGE. Replaced
+    them with two Tier-2 sources: the Wikipedia article ("In 2018, Mann founded
+    Dhar Mann Studios, a video production company that produces films for social
+    media platforms such as YouTube") backing the founding, studio->channel
+    ownership, and operation edges; and a TheWrap founder/executive interview
+    (2025-07-01) backing the founding and operation edges. The record no longer
+    relies solely on Tier-3 sources; the studio->channel OWNS edge is held at
+    moderate confidence (0.8) since it rests on "produces for YouTube" plus the
+    Wikidata channel-ID linkage rather than an explicit channel-ownership
+    instrument. CREATOR->STUDIO OWNERSHIP: Mann is documented as founder, but the
+    studio now has a separate hired CEO (Sean Atkins, per TheWrap) and his present
+    equity is not disclosed, so NO Mann-owns/controls-studio edge is asserted -
+    only FOUNDED_BY. This keeps the computed label honest (founder-linked, not an
+    asserted creator-controlled equity claim). Studio71's production relationship,
+    Samsung/Fox output deals, and talent representation are not ownership and are
+    excluded. Human review should seek a registry or direct equity disclosure.
+    reviewed_by is absent.

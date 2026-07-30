@@ -1,0 +1,58 @@
+channel:
+  youtube_channel_id: UCknLrEdhRCp1aegoMqRaCZg
+  display_name: DW News
+  handle: "@dwnews"
+entities:
+  - slug: dw
+    canonical_name: Deutsche Welle
+    entity_type: NONPROFIT
+    jurisdiction: DE
+    website: https://www.dw.com
+    aliases: [DW]
+relationships:
+  - { subject: dw, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: wikipedia_dw
+    url: https://en.wikipedia.org/wiki/Deutsche_Welle
+    title: Deutsche Welle
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Deutsche Welle [...] is a German state-funded television network and public
+      service international broadcaster funded by the Federal Government of
+      Germany. [...] Deutsche Welle is funded from federal grants taken from the
+      federal tax revenue. [...] The work of DW is regulated by the Deutsche Welle
+      Act, stating that content is intended to be independent of German government
+      influence.
+    supports: [{ relationship: 0 }]
+  - ref: dw_strategy
+    url: https://static.dw.com/downloads/67043604/230713aufgabenplanung2022enbarrierefreifinal.pdf
+    title: DW Strategic Plan 2022–2025
+    publisher: Deutsche Welle
+    source_type: SHARED_LEGAL_DOCUMENTATION
+    tier: 3
+    excerpt: DW is Germany's international broadcaster and a public broadcaster.
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q39055013
+    title: DW News
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: DW News; owned by Deutsche Welle; YouTube channel ID UCknLrEdhRCp1aegoMqRaCZg; YouTube handle dwnews.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: >-
+    2026-07-30 triage fix (thin/all-Tier-3). Added a Tier-2 source (Wikipedia's
+    Deutsche Welle article) establishing DW's funding and status: a German
+    state-funded public-service international broadcaster funded by the Federal
+    Government of Germany from federal tax revenue, regulated by the Deutsche Welle
+    Act (which mandates editorial independence from government). The record no
+    longer rests solely on Tier-3 sources. Deutsche Welle is a German public-law
+    broadcaster rather than a conventional corporate subsidiary; this record
+    asserts channel ownership/operation by DW and does not collapse statutory
+    public funding into an ownership edge. reviewed_by is absent.

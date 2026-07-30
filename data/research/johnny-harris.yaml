@@ -140,8 +140,8 @@ sources:
     url: https://www.youtube.com/channel/UCmGSJVG3mCRXVOP4yZrU1Dw
     title: Johnny Harris — YouTube channel
     publisher: Johnny Harris (YouTube)
-    source_type: DIRECT_CREATOR_CONFIRMATION
-    tier: 1
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
     archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCmGSJVG3mCRXVOP4yZrU1Dw
     excerpt: >-
       The raw @johnnyharris channel-page HTML exposes "externalId":
@@ -168,6 +168,7 @@ sources:
       previous work, covering topics such as international affairs, geography, and
       history.
     supports:
+      - relationship: 0
       - relationship: 3
   - ref: euruni_blog
     url: https://www.euruni.edu/blog/johnny-harris-youtube-influencer-film-producer/
@@ -223,8 +224,9 @@ claims:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
   # reviewed_by intentionally omitted — not yet human-reviewed (DRAFT).
-  last_reviewed_at: 2026-07-29
+  last_reviewed_at: 2026-07-30
   notes: >-
     DRAFT for human review — an individual-CREATOR-OWNED channel with a FORMER-
     EMPLOYER (Vox) backstory (no brand/ownership transition). reviewed_by is
@@ -286,11 +288,18 @@ review:
     host edge is asserted for her on THIS eponymous Johnny Harris channel, as none
     is documented (mirrors the Tyler/Safiya treatment).
 
-    SOURCES: youtube_channel_feed (Tier 1, directly fetched/verified) and
-    brighttrip_creators (Tier 1, the creators' own company page) plus two Tier 2
-    secondary sources (wikipedia_johnny_harris, euruni_blog). No Tier 3/4 source
-    backs any edge. No PE/VC entity anywhere, so the §14.3 PE-label rule does not
-    fire.
+    SOURCES: youtube_channel_feed (retyped DIRECT_CREATOR_CONFIRMATION -> Tier 3
+    TECHNICAL_INFRASTRUCTURE_LINKAGE — it verifies the canonical channel ID and
+    ongoing uploads but is a self-referential ID link, not an ownership assertion)
+    and brighttrip_creators (Tier 1, the creators' own company page) plus two Tier 2
+    secondary sources (wikipedia_johnny_harris, euruni_blog). The OWNS-channel edge
+    (rel 0) is now also backed by the independent Tier 2 Wikipedia source, which
+    states "Harris's personal YouTube channel continues the explanatory style of his
+    previous work" — corroborating that the channel is his personal property rather
+    than resting only on the self-referential feed. Inferred/self-referential
+    ownership flagged for corroboration; the edge remains at confidence 0.8 given the
+    Wikipedia corroboration. No PE/VC entity anywhere, so the §14.3 PE-label rule does
+    not fire.
 
     ARCHIVING: no web.archive.org snapshot was captured this pass; a reviewer
     should archive the euruni_blog and brighttrip_creators URLs (the euruni page

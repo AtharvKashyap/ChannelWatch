@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCQZfFRohQ7UX-0CdXl-6pwQ
+  display_name: Kimberly Loaiza
+  handle: "@KimberlyLoaiza"
+entities:
+  - slug: loaiza
+    canonical_name: Kimberly Loaiza
+    entity_type: CREATOR
+    legal_name: Kimberly Guadalupe Loaiza Martínez
+relationships:
+  - { subject: channel, type: FOUNDED_BY, object: loaiza, effective_from: 2016-11-15, confidence: 0.9, status: ACTIVE }
+  - { subject: loaiza, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - { subject: channel, type: HOSTED_BY, object: loaiza, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: wikidata_kimberly
+    url: https://www.wikidata.org/wiki/Q108355168
+    title: Kimberly Loaiza
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: YouTube channel ID UCQZfFRohQ7UX-0CdXl-6pwQ; YouTube handle kimberlyloaiza; stated in YouTube API.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: wikipedia_kimberly
+    url: https://en.wikipedia.org/wiki/Kimberly_Loaiza
+    title: Kimberly Loaiza
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Kimberly Guadalupe Loaiza Martinez is a Mexican singer and YouTuber. In 2016, she started vlogging on YouTube with her first video on November 15, 2016.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. API metadata verifies the channel. Ownership is moderate because Loaiza created and hosts it and no transfer was found, but no percentage is stated. Warner Music Latina is a record label, not channel ownership. reviewed_by is absent.

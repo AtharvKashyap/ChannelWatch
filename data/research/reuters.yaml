@@ -1,0 +1,40 @@
+channel:
+  youtube_channel_id: UChqUTb7kYRX8-EiaN3XFrSQ
+  display_name: Reuters
+  handle: "@Reuters"
+entities:
+  - slug: reuters
+    canonical_name: Reuters News & Media
+    entity_type: SUBSIDIARY
+    website: https://www.reuters.com
+    aliases: [Reuters]
+  - slug: thomson_reuters
+    canonical_name: Thomson Reuters Corporation
+    entity_type: COMPANY
+    jurisdiction: CA
+    website: https://www.thomsonreuters.com
+relationships:
+  - { subject: reuters, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - { subject: reuters, type: SUBSIDIARY_OF, object: thomson_reuters, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: agency_material
+    url: https://www.thomsonreuters.com/content/dam/openweb/documents/pdf/reuters-news-agency/social-video.pdf
+    title: Reuters News Agency Social Video
+    publisher: Thomson Reuters
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Reuters News Agency. © Thomson Reuters.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q130879
+    title: Reuters
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Reuters; YouTube channel ID UChqUTb7kYRX8-EiaN3XFrSQ; YouTube handle Reuters.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Reuters News & Media is modeled beneath publicly listed Thomson Reuters. The official agency material carries Thomson Reuters copyright and branding; reviewer should replace it with a current subsidiary schedule if finer legal-entity precision is needed. reviewed_by is absent.

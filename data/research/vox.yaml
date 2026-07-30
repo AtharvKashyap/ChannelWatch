@@ -55,7 +55,10 @@ entities:
       - Lupa Systems
   - slug: nbcuniversal
     canonical_name: NBCUniversal Media, LLC
-    entity_type: COMPANY
+    entity_type: SUBSIDIARY
+    legal_name: NBCUniversal Media, LLC
+    jurisdiction: US-DE
+    website: https://www.nbcuniversal.com
     aliases:
       - NBCUniversal
       - Comcast NBCUniversal

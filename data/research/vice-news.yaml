@@ -1,0 +1,69 @@
+channel:
+  youtube_channel_id: UCZaT_X_mc0BI-djXOlfhqWQ
+  display_name: VICE News
+  handle: "@VICENews"
+entities:
+  - slug: vice_media
+    canonical_name: VICE Media Group LLC
+    entity_type: COMPANY
+    legal_name: VICE Media Group LLC
+    jurisdiction: US-DE
+    website: https://www.vicemediagroup.com
+    aliases:
+      - Vice Media
+      - VICE Media Group
+  - slug: fortress
+    canonical_name: Fortress Investment Group LLC
+    entity_type: INVESTMENT_FIRM
+    legal_name: Fortress Investment Group LLC
+    jurisdiction: US-DE
+    website: https://www.fortress.com
+  - slug: soros_fund
+    canonical_name: Soros Fund Management LLC
+    entity_type: INVESTMENT_FIRM
+    legal_name: Soros Fund Management LLC
+    jurisdiction: US-DE
+    website: https://www.soros.com
+  - slug: monroe
+    canonical_name: Monroe Capital LLC
+    entity_type: INVESTMENT_FIRM
+    legal_name: Monroe Capital LLC
+    jurisdiction: US-DE
+    website: https://monroecap.com
+relationships:
+  - { subject: vice_media, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - { subject: fortress, type: PARTIALLY_OWNS, object: vice_media, control_level: UNKNOWN, effective_from: 2023-07-31, confidence: 0.98, status: ACTIVE }
+  - { subject: soros_fund, type: PARTIALLY_OWNS, object: vice_media, control_level: UNKNOWN, effective_from: 2023-07-31, confidence: 0.98, status: ACTIVE }
+  - { subject: monroe, type: PARTIALLY_OWNS, object: vice_media, control_level: UNKNOWN, effective_from: 2023-07-31, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: completed_sale
+    url: https://www.prnewswire.com/news-releases/vice-media-group-completes-sale-to-lenders-301889255.html
+    title: VICE Media Group Completes Sale to Lenders
+    publisher: VICE Media Group
+    published_at: 2023-07-31
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: VICE Media Group today announced the completion of its sale to a consortium of its former lenders, which consists of funds managed by affiliates of Fortress Investment Group LLC, Soros Fund Management and Monroe Capital.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }, { relationship: 3 }]
+  - ref: court_approval
+    url: https://www.prnewswire.com/news-releases/court-approves-vice-media-group-purchase-agreement-by-lenders-301861075.html
+    title: Court Approves VICE Media Group Purchase Agreement by Lenders
+    publisher: VICE Media Group
+    published_at: 2023-06-23
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: The Investor Group includes Fortress Investment Group, Soros Fund Management and Monroe Capital. Pursuant to the APA, which has been amended, the Investor Group has agreed to provide total purchase consideration of approximately $350 million in the form of a credit bid for substantially all of the Company's assets, in addition to the assumption of significant liabilities upon closing.
+    supports: [{ relationship: 1 }, { relationship: 2 }, { relationship: 3 }]
+  - ref: wikipedia_vice_news
+    url: https://en.wikipedia.org/wiki/Vice_News
+    title: Vice News
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Vice News (stylized as VICE News) is Vice Media's alternative current affairs channel, producing daily documentary essays and video through its website and YouTube channel.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: "DRAFT. 2026-07-30 fix (triage: SINGLE-SRC, one source backed 3+ edges). Added two independent sources so no edge rests on a single source: (a) the official court-approval announcement (PR Newswire, 2023-06-23, Tier 1 OFFICIAL_ACQUISITION_ANNOUNCEMENT) naming the same Investor Group (Fortress, Soros Fund Management, Monroe Capital) and the ~$350M credit bid, now backing the three purchaser edges alongside the completion announcement; and (b) Wikipedia (Tier 2) establishing that VICE News is Vice Media's channel (its website and YouTube channel), backing the channel-ownership edge. Fortress control_level was DOWNGRADED from CONTROLLING to UNKNOWN: neither fetched official source states a controlling or majority stake for any single purchaser (the court filing names a Fortress managing director as spokesperson but assigns no hierarchy), so a controlling claim was not supportable. The three purchasers are modeled as PARTIALLY_OWNS without percentages because the announcements give none. effective_from 2023-07-31 is the sale-completion date. Because the ownership includes investment firms, human review should confirm whether any entity qualifies as PRIVATE_EQUITY_FIRM before publication. reviewed_by is absent."

@@ -1,0 +1,38 @@
+channel:
+  youtube_channel_id: UC3IZKseVpdzPSBaWxBxundA
+  display_name: HYBE LABELS
+  handle: "@HYBELABELS"
+entities:
+  - slug: hybe
+    canonical_name: HYBE Co., Ltd.
+    entity_type: COMPANY
+    legal_name: HYBE Co., Ltd.
+    jurisdiction: KR
+    website: https://hybecorp.com
+    aliases: [HYBE, Big Hit Entertainment]
+relationships:
+  - { subject: hybe, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: hybe, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: hybe_ir
+    url: https://www.hybecorp.com/attachment/download?originFileName=%5BHYBE%5D+IR+PPT_2021.1Q_Eng_vf.pdf
+    title: HYBE 2021 First Quarter Investor Relations Presentation
+    publisher: HYBE Co., Ltd.
+    published_at: 2021-05-04
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: "YouTube channels (4/6/21): HYBE Labels 53.2m, Bangtan TV 47.1m, SEVENTEEN 6.4m, TXT 6.3m, ENHYPEN 2.3m"
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: hybe_id
+    url: https://www.wikidata.org/wiki/Q16161254
+    title: HYBE
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: HYBE Labels; YouTube channel ID UC3IZKseVpdzPSBaWxBxundA; YouTube handle HYBELABELS.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. HYBE's investor presentation includes HYBE Labels among the company's YouTube channels and structured metadata verifies the channel key. The 2021 corporate rename is represented as an alias, not an ownership transfer. reviewed_by is absent.

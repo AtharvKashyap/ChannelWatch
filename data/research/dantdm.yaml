@@ -1,0 +1,75 @@
+# CHANNELWATCH research record — DanTDM
+# DRAFT for human review. Nothing here is published without verification.
+
+channel:
+  youtube_channel_id: UCS5Oz6CHmeoF7vSad0qqXfw
+  display_name: DanTDM
+  handle: "@DanTDM"
+
+entities:
+  - slug: middleton
+    canonical_name: DanTDM
+    entity_type: CREATOR
+    legal_name: Daniel Robert Middleton
+    aliases:
+      - Daniel Middleton
+      - TheDiamondMinecart
+
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: middleton
+    effective_from: 2012-07-14
+    confidence: 0.9
+    status: ACTIVE
+  - subject: middleton
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: middleton
+    confidence: 0.95
+    status: ACTIVE
+
+sources:
+  - ref: wikidata_dantdm_channel
+    url: https://www.wikidata.org/wiki/Q20707531
+    title: DanTDM
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      YouTube channel ID UCS5Oz6CHmeoF7vSad0qqXfw; YouTube handle dantdm;
+      start time 14 July 2012; stated in YouTube API.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: wikipedia_dantdm
+    url: https://en.wikipedia.org/wiki/DanTDM
+    title: DanTDM
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Daniel Robert Middleton, better known as DanTDM, is a British YouTuber,
+      gamer, and author known for his video game commentaries.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. Canonical ID UCS5Oz6CHmeoF7vSad0qqXfw is API-linked to @dantdm and
+    the full channel start date. FOUNDED_BY and HOSTED_BY are high confidence.
+    OWNS is moderate confidence because sources consistently present this as
+    Middleton's channel and no external owner or transfer was found, but no
+    legal percentage is stated. Publishing, touring, merchandise, sponsorship,
+    and platform agreements are not channel ownership. reviewed_by is absent.

@@ -1,0 +1,37 @@
+channel:
+  youtube_channel_id: UC4rlAVgAK0SGk-yTfe48Qpw
+  display_name: BRIGHT SIDE
+  handle: "@BRIGHTSIDEOFFICIAL"
+entities:
+  - slug: thesoul
+    canonical_name: TheSoul Group
+    entity_type: COMPANY
+    legal_name: ADME (CY) LTD
+    jurisdiction: CY
+    website: https://thesoul.group
+    aliases: [TheSoul Publishing, TheSoul Group, AdMe]
+relationships:
+  - { subject: thesoul, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - { subject: thesoul, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: brightside_about
+    url: https://brightside.me/about-us/
+    title: About Bright Side
+    publisher: Bright Side
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: Since 2017, we've grown from a single YouTube channel [...] We're part of TheSoul Group, one of the most-followed digital media companies in the world.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: wikipedia_brightside
+    url: https://en.wikipedia.org/wiki/Bright_Side_(YouTube_channel)
+    title: Bright Side (YouTube channel)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Bright Side is a Cypriot YouTube channel operated by media publisher TheSoul Group.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. TheSoul entity is reused verbatim from 5-minute-crafts.yaml. The corporate brand page expressly places Bright Side within TheSoul Group; ownership is high confidence though no percentage is stated. Handle differs from the stale target. reviewed_by is absent.

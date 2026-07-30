@@ -1,0 +1,43 @@
+channel:
+  youtube_channel_id: UCK7tptUDHh-RYDsdxO1-5QQ
+  display_name: The Wall Street Journal
+  handle: "@WSJ"
+entities:
+  - slug: dow_jones
+    canonical_name: Dow Jones & Company, Inc.
+    entity_type: COMPANY
+    legal_name: Dow Jones & Company, Inc.
+    jurisdiction: US-DE
+    website: https://www.dowjones.com
+  - slug: news_corp
+    canonical_name: News Corporation
+    entity_type: COMPANY
+    legal_name: News Corporation
+    jurisdiction: US-DE
+    website: https://newscorp.com
+relationships:
+  - { subject: dow_jones, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: dow_jones, type: SUBSIDIARY_OF, object: news_corp, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: news_corp_annual
+    url: https://newscorp.com/wp-content/uploads/2025/10/News-Corp-2025-Annual-Report.pdf
+    title: News Corp 2025 Annual Report
+    publisher: News Corp
+    published_at: 2025-10-01
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: News Corp is a global, diversified media and information services company focused on creating and distributing authoritative and engaging content and other products and services. The Company comprises businesses across a range of media, including Dow Jones, the publisher of The Wall Street Journal.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCK7tptUDHh-RYDsdxO1-5QQ
+    title: The Wall Street Journal
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official Wall Street Journal YouTube page identifies the canonical channel as UCK7tptUDHh-RYDsdxO1-5QQ.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The record stops at public parent News Corp. Any Murdoch-family voting-control edge requires precise current trust and filing analysis and is intentionally omitted pending human review. reviewed_by is absent.

@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UC52X5wxOL_s5yw0dQk7NtgA
+  display_name: Associated Press
+  handle: "@AP"
+entities:
+  - slug: ap
+    canonical_name: The Associated Press
+    entity_type: NONPROFIT
+    jurisdiction: US-NY
+    website: https://www.ap.org
+    aliases: [Associated Press, AP]
+relationships:
+  - { subject: ap, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: ap_about
+    url: https://www.ap.org/about/
+    title: About Us
+    publisher: The Associated Press
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: We were founded as an independent news cooperative, whose members are U.S. newspapers and broadcasters.
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q40469
+    title: Associated Press
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Associated Press; YouTube channel ID UC52X5wxOL_s5yw0dQk7NtgA.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. AP is a member-owned news cooperative, not a subsidiary of a commercial parent. The cooperative is therefore modeled as the ultimate channel owner. reviewed_by is absent.

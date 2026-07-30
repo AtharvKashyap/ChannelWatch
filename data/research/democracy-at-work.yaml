@@ -1,0 +1,34 @@
+channel:
+  youtube_channel_id: UCK-6FjMu9OI8i0Fo6bkW0VA
+  display_name: Democracy At Work
+  handle: "@democracyatwrk"
+entities:
+  - slug: democracy_at_work
+    canonical_name: Democracy at Work
+    legal_name: Democracy at Work, Inc.
+    entity_type: NONPROFIT
+    website: https://www.democracyatwork.info/
+relationships:
+  - { subject: democracy_at_work, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: channel_about
+    url: https://www.youtube.com/channel/UCK-6FjMu9OI8i0Fo6bkW0VA
+    title: Democracy At Work
+    publisher: Democracy at Work
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Democracy at Work is a non-profit 501(c)3 that produces media and live events.
+    supports: [{ relationship: 0 }]
+  - ref: official_about
+    url: https://www.democracyatwork.info/about_old
+    title: About
+    publisher: Democracy at Work
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Democracy at Work is a non-profit 501(c)3 that produces media and live events.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The nonprofit directly identifies itself as the media producer. Richard Wolff is publicly a founder, board member, contributor, and host, but those roles are not personal ownership. reviewed_by is absent.

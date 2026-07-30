@@ -1,0 +1,29 @@
+channel:
+  youtube_channel_id: UCOzMAa6IhV6uwYQATYG_2kg
+  display_name: Novara Media
+  handle: "@NovaraMedia"
+entities:
+  - slug: thousand_hands
+    canonical_name: Thousand Hands Ltd
+    legal_name: Thousand Hands Ltd
+    entity_type: COMPANY
+    jurisdiction: GB
+    website: https://novaramedia.com/
+    aliases:
+      - Novara Media
+relationships:
+  - { subject: thousand_hands, type: OWNS, object: channel, control_level: CONTROLLING, effective_from: 2019-02-01, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: official_about
+    url: https://novaramedia.com/about/
+    title: About
+    publisher: Novara Media
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Since 1 February 2019, Novara Media has been a trading name of Thousand Hands Ltd, a not-for-profit company limited by guarantee (registered in England and Wales No. 11245029)
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The operative date and legal entity come directly from Novara Media's disclosure. A company limited by guarantee has members rather than shareholders; no upstream owner is asserted. reviewed_by is absent.

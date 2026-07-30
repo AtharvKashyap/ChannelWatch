@@ -1,0 +1,32 @@
+channel:
+  youtube_channel_id: UCwnKziETDbHJtx78nIkfYug
+  display_name: CaspianReport
+  handle: "@CaspianReport"
+entities:
+  - slug: shirvan
+    canonical_name: Shirvan Neftchi
+    entity_type: CREATOR
+relationships:
+  - { subject: shirvan, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.94, status: ACTIVE }
+sources:
+  - ref: profile
+    url: https://www.meshnews.org/caspianreport/
+    title: Caspian Report
+    publisher: Mesh News Project
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Founded and narrated by Shirvan Neftchi, an Azerbaijani journalist based in Baku, the channel launched in 2010.
+    supports: [{ relationship: 0 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCwnKziETDbHJtx78nIkfYug
+    title: CaspianReport
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official CaspianReport YouTube page identifies the canonical channel as UCwnKziETDbHJtx78nIkfYug.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Public professional identity only; no private personal details are included. A source establishes Neftchi as founder and narrator, but a human should verify whether a separate legal holding entity exists. Named private individual requires a second distinct reviewer before launch. reviewed_by is absent.

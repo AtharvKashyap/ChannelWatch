@@ -1,0 +1,16 @@
+channel: { youtube_channel_id: UCFCEuCsyWP0YkP3CZ3Mr01Q, display_name: The Plain Bagel, handle: "@ThePlainBagel" }
+entities:
+  - { slug: plain_bagel, canonical_name: The Plain Bagel, entity_type: CREATOR }
+relationships:
+  - { subject: plain_bagel, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+sources:
+  - { ref: channel, url: "https://www.youtube.com/channel/UCFCEuCsyWP0YkP3CZ3Mr01Q", title: The Plain Bagel, publisher: YouTube, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "The Plain Bagel", supports: [{ relationship: 0 }] }
+  - ref: investment_executive
+    url: https://www.investmentexecutive.com/newspaper_/building-your-business-newspaper/how-advisors-can-stand-out-in-a-crowd-online/
+    title: How advisors can stand out in a crowd online
+    publisher: Investment Executive
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: "Richard Coffin calls himself The Plain Bagel. The portfolio manager and investment analyst at Watson Di Primio Steel Investment Management in Ottawa adopted the nickname when he launched his YouTube channel in 2017."
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Public creator brand modeled directly. Channel ownership is INFERRED (creator owns their own channel); Investment Executive (Tier 2) corroborates that Richard Coffin launched the channel. The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3 and confidence lowered to 0.65; flagged for corroboration. reviewed_by is absent." }

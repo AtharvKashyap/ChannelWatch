@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCYPvAwZP8pZhSMW8qs7cVCw
+  display_name: India Today
+  handle: "@IndiaToday"
+entities:
+  - slug: living_media
+    canonical_name: Living Media India Limited
+    entity_type: COMPANY
+    legal_name: Living Media India Limited
+    jurisdiction: IN
+    website: https://www.indiatodaygroup.com
+relationships:
+  - { subject: living_media, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+sources:
+  - ref: group_site
+    url: https://www.indiatodaygroup.com/
+    title: India Today Group
+    publisher: India Today Group
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: India Today English; India Today Global; India Today Malayalam. Copyright © Living Media India Limited.
+    supports: [{ relationship: 0 }]
+  - ref: group_about
+    url: https://www.indiatodaygroup.com/about-us.html
+    title: About India Today Group
+    publisher: India Today Group
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: The group has four leading 24-hour news channels including Aaj Tak and India Today TV, the nation's leading English News Channel.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Living Media is identified by the group's copyright and India Today TV is identified as a group channel. Individual or family shareholdings are omitted without a current direct filing. reviewed_by is absent.

@@ -1,0 +1,69 @@
+channel:
+  youtube_channel_id: UCIPPMRA040LQr5QPyJEbmXA
+  display_name: MrBeast Gaming
+  handle: "@MrBeastGaming"
+entities:
+  - slug: donaldson
+    canonical_name: Jimmy Donaldson
+    entity_type: CREATOR
+    legal_name: James Stephen Donaldson
+    aliases: [MrBeast]
+  - slug: beast_industries
+    canonical_name: Beast Industries
+    entity_type: COMPANY
+    aliases: [Beast Industries LLC]
+  - slug: alpha_wave
+    canonical_name: Alpha Wave Global
+    entity_type: INVESTMENT_FIRM
+    aliases: [Alpha Wave]
+relationships:
+  - { subject: donaldson, type: PARTIALLY_OWNS, object: beast_industries, control_level: CONTROLLING, confidence: 0.72, status: ACTIVE }
+  - { subject: alpha_wave, type: INVESTED_IN, object: beast_industries, control_level: MINORITY, effective_from: 2024-01-01, confidence: 0.7, status: ACTIVE }
+  - { subject: beast_industries, type: OPERATES, object: channel, control_level: UNKNOWN, confidence: 0.55, status: ACTIVE }
+  - { subject: channel, type: HOSTED_BY, object: donaldson, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: wikidata_mrbeast_gaming
+    url: https://www.wikidata.org/wiki/Q58432213
+    title: MrBeast
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: YouTube handle mrbeastgaming; YouTube channel ID UCIPPMRA040LQr5QPyJEbmXA; stated in YouTube API.
+    supports: [{ relationship: 2 }, { relationship: 3 }]
+  - ref: entrepreneur_ownership
+    url: https://www.entrepreneur.com/business-news/youtuber-mrbeast-admits-he-has-no-work-life-balance
+    title: "MrBeast Admits He Has No Work-Life Balance: 'I Live to Work'"
+    publisher: Entrepreneur
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: Donaldson owns a little over half of the $5 billion company, per Business Insider.
+    supports: [{ relationship: 0 }]
+  - ref: fortune_funding
+    url: https://fortune.com/2025/03/11/youtube-biggest-star-mrbeast-makes-more-money-chocolate-videos/
+    title: YouTube's biggest star MrBeast makes more money from chocolate than videos
+    publisher: Fortune
+    published_at: 2025-03-11
+    source_type: REPUTABLE_BUSINESS_PUBLICATION
+    tier: 2
+    excerpt: Last year, Alpha Wave, an investment firm with ties to the United Arab Emirates, led a $300 million Series C round that valued Beast Industries at about $5 billion.
+    supports: [{ relationship: 1 }]
+  - ref: mrbeast_channels
+    url: https://pt.wikipedia.org/wiki/MrBeast
+    title: MrBeast
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Além de "MrBeast", Donaldson administra os canais Beast Reacts, MrBeast Gaming, MrBeast 2 [...] e o canal de filantropia Beast Philanthropy.
+    supports: [{ relationship: 2 }, { relationship: 3 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. Shared entities and financing edges are reused verbatim from
+    mrbeast.yaml. API metadata verifies the gaming-channel ID. Reporting says
+    Donaldson administers MrBeast Gaming, but the precise channel-holding entity
+    is not disclosed; Beast Industries therefore OPERATES with UNKNOWN control
+    rather than OWNS. The Alpha Wave edge is minority investment, not control.
+    The year-only Series C date in the parent record is retained as its existing
+    full-date convention and needs reviewer scrutiny. reviewed_by is absent.

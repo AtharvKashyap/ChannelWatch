@@ -1,0 +1,30 @@
+channel:
+  youtube_channel_id: UCqECaJ8Gagnn7YCbPEzWH6g
+  display_name: Taylor Swift
+  handle: "@TaylorSwift"
+entities:
+  - { slug: creator, canonical_name: Taylor Swift, entity_type: CREATOR, jurisdiction: US }
+relationships:
+  - { subject: creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: official_channel
+    url: https://www.youtube.com/@TaylorSwift
+    title: Taylor Swift
+    publisher: Taylor Swift
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Taylor Swift
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q116779880
+    title: Taylor Swift
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Taylor Swift; Official Artist Channel; YouTube channel ID UCqECaJ8Gagnn7YCbPEzWH6g; YouTube handle TaylorSwift.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The creator's verified Official Artist Channel and channel metadata establish the match. Recording and distribution agreements are not modeled as ownership. reviewed_by is absent.

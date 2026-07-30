@@ -1,0 +1,32 @@
+channel:
+  youtube_channel_id: UCC3ehuUksTyQ7bbjGntmx3Q
+  display_name: Perun
+  handle: "@PerunAU"
+entities:
+  - slug: perun_creator
+    canonical_name: Perun
+    entity_type: CREATOR
+relationships:
+  - { subject: perun_creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.94, status: ACTIVE }
+sources:
+  - ref: patreon
+    url: https://www.patreon.com/PerunAU
+    title: Perun
+    publisher: Patreon
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Perun. Creating youtube videos on strategy, economics, and the defence.
+    supports: [{ relationship: 0 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCC3ehuUksTyQ7bbjGntmx3Q
+    title: Perun
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official Perun YouTube page identifies the canonical channel as UCC3ehuUksTyQ7bbjGntmx3Q.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The public pseudonymous creator identity is preserved. Patreon membership is revenue rather than ownership, and no outside owner was found. reviewed_by is absent.

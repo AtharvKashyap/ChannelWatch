@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCvh1at6xpV1ytYOAzxmqUsA
+  display_name: Jess No Limit
+  handle: "@JessNoLimit"
+entities:
+  - slug: justin
+    canonical_name: Jess No Limit
+    entity_type: CREATOR
+    legal_name: Tobias Justin
+relationships:
+  - { subject: channel, type: FOUNDED_BY, object: justin, effective_from: 2017-09-07, confidence: 0.9, status: ACTIVE }
+  - { subject: justin, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - { subject: channel, type: HOSTED_BY, object: justin, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: wikidata_jess
+    url: https://www.wikidata.org/wiki/Q97194647
+    title: Tobias Justin
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: YouTube channel ID UCvh1at6xpV1ytYOAzxmqUsA; subject named Jess No Limit; start time 7 September 2017; handle jessnolimit; stated in YouTube API.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: wikipedia_jess
+    url: https://en.wikipedia.org/wiki/Jess_No_Limit
+    title: Jess No Limit
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Jess No Limit is Justin's main YouTube channel with the most subscribers in Indonesia.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. API metadata verifies this main account. Ownership is moderate because sources call it Justin's main channel and no transfer was found; no percentage is stated. Esports and sponsorship relationships are excluded. reviewed_by is absent.

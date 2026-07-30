@@ -1,0 +1,110 @@
+# CHANNELWATCH research record — Zach King
+# DRAFT for human review. Nothing here is published without verification.
+
+channel:
+  youtube_channel_id: UCq8DICunczvLuJJq414110A
+  display_name: Zach King
+  handle: "@zachking"
+
+entities:
+  - slug: king
+    canonical_name: Zach King
+    entity_type: CREATOR
+    legal_name: Zachary Michael King
+    aliases:
+      - FinalCutKing
+
+  - slug: king_studio
+    canonical_name: King Studio LLC
+    entity_type: COMPANY
+    jurisdiction: US-CA
+    aliases:
+      - King Studio
+      - The Zach King Team
+
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: king
+    effective_from: 2013-10-14
+    confidence: 0.85
+    status: ACTIVE
+  - subject: king
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: king
+    confidence: 0.95
+    status: ACTIVE
+  - subject: king
+    type: OWNS
+    object: king_studio
+    control_level: CONTROLLING
+    confidence: 0.85
+    status: ACTIVE
+
+sources:
+  - ref: wikidata_zach_channel
+    url: https://www.wikidata.org/wiki/Q15734051
+    title: Zach King
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      YouTube channel ID UCq8DICunczvLuJJq414110A; YouTube handle zachking;
+      stated in YouTube API.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: subsub_zach_channel
+    url: https://open.subsub.io/channels/zachking/view
+    title: "Zach King — YouTube Channel Analytics: Subscribers, Views & Stats"
+    publisher: SubSub
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      Zach King is a YouTube channel [...] Created on
+      2013-10-14T00:00:00.000Z [...] Channel Description: I post short magical
+      videos!! I hope I added a little more magic to your day! - zach king
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: zachkingteam_about
+    url: https://www.zachkingteam.com/about
+    title: About Zach King
+    publisher: Zach King
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      His company, King Studio, has partnered with brands such as Disney, Apple,
+      Sony, Nike, Coca-Cola, and many others.
+    supports:
+      - relationship: 3
+
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: >-
+    DRAFT. 2026-07-30 fix (triage: THIN, all Tier-3). Added a Tier 1 source
+    (DIRECT_CREATOR_CONFIRMATION) from Zach King's own team site,
+    zachkingteam.com/about, which states "His company, King Studio, has partnered
+    with brands such as Disney, Apple, Sony, Nike, Coca-Cola, and many others" —
+    confirming King runs his own production company. Added entity king_studio
+    (King Studio LLC, COMPANY; legal-name form corroborated by Wikipedia's
+    reference to "his studio King Studio LLC") and a king OWNS king_studio edge
+    backed by that Tier 1 source. King Studio is NOT modeled as owning the channel
+    (no source states that); the channel remains directly creator-owned. Canonical
+    ID UCq8DICunczvLuJJq414110A is API-linked to @zachking; it must not be confused
+    with King's older FinalCutKing channel UCz1QsQ8muaV49t_7SqR4CLw. The full
+    creation date is corroborated by channel metadata. OWNS (channel) is moderate
+    confidence: the first-person channel description and sources identify King's
+    own channel, and no external owner or transfer was found, but no legal
+    ownership percentage is stated. Brand partnerships and production collaborators
+    are not modeled as owners. reviewed_by is intentionally absent.

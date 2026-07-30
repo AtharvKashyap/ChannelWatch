@@ -1,0 +1,45 @@
+channel:
+  youtube_channel_id: UCVG72F2Q5yCmLQfctNK6M2A
+  display_name: Zeteo
+  handle: "@zeteo"
+entities:
+  - slug: zeteo
+    canonical_name: Zeteo
+    entity_type: COMPANY
+    website: https://zeteo.com/
+  - slug: mehdi_hasan
+    canonical_name: Mehdi Hasan
+    entity_type: CREATOR
+relationships:
+  - { subject: zeteo, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+  - { subject: zeteo, type: FOUNDED_BY, object: mehdi_hasan, control_level: UNKNOWN, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: official_about
+    url: https://zeteo.com/about
+    title: About us
+    publisher: Zeteo
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Founded by award-winning journalist, best-selling author, and all-round troublemaker Mehdi Hasan, Zeteo is a new media organization
+    supports: [{ relationship: 1 }]
+  - ref: founder_launch
+    url: https://zeteo.com/p/a-new-media-company-is-here-and-ready
+    title: A New Media Company is Here - and Ready to Make Some Noise
+    publisher: Zeteo
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: I am now the founder and CEO of Zeteo
+    supports: [{ relationship: 1 }]
+  - ref: wikipedia
+    url: https://en.wikipedia.org/wiki/Zeteo
+    title: Zeteo
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "Zeteo (pronounced zə-TAY-oh; from Ancient Greek ζητέω meaning 'to seek, to inquire') is a media company and Substack newsletter founded by British-American journalist Mehdi Hasan on April 15, 2024."
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Zeteo is modeled as owner of its branded channel. Founder/CEO status does not by itself establish Hasan's equity, so no personal ownership edge or percentage is asserted. The self-referential about page substantively establishes the founding but not the specific channel-ownership edge, which is inferred from brand-channel identity and flagged for corroboration at confidence 0.65; independent corroboration (Wikipedia, Tier 2) establishes Zeteo is a media company founded by Mehdi Hasan. Named-person record requires a second human reviewer; reviewed_by is absent.

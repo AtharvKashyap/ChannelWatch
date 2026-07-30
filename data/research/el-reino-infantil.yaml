@@ -1,0 +1,26 @@
+channel: { youtube_channel_id: UCK1i2UviaXLUNrZlAFpw_jA, display_name: El Reino Infantil, handle: "@ElReinoInfantil" }
+entities:
+  - { slug: leader, canonical_name: Leader Music, entity_type: COMPANY, jurisdiction: AR, aliases: [Leader Entertainment] }
+  - { slug: reino, canonical_name: El Reino Infantil, entity_type: BRAND, jurisdiction: AR, website: "https://www.elreinoinfantil.com" }
+relationships:
+  - { subject: leader, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - { subject: reino, type: SUBSIDIARY_OF, object: leader, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: youtube_profile
+    url: https://blog.youtube/creator-and-artist-stories/creator-voices-el-reino-infantil/
+    title: El Reino Infantil hits an incredible new milestone
+    publisher: YouTube
+    published_at: 2022-05-24
+    source_type: NAMED_EXECUTIVE_INTERVIEW
+    tier: 2
+    excerpt: In 2011 we created our YouTube channel, El Reino Infantil, and at the same time we started the process of digital transformation in our company and we focused on the creation of videos.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: official_history
+    url: https://www.elreinoinfantil.com/nuestra-historia/
+    title: Nuestra Historia
+    publisher: El Reino Infantil
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Desde nuestra casa en Leader Music, Kuky soñó con un universo donde las canciones, los colores y los personajes entrañables se unieran.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Official brand history and a named interview place El Reino Infantil inside Leader Music and describe the company creating the channel. Founder status is not converted into an individual equity claim. reviewed_by is absent." }

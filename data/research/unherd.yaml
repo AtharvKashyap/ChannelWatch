@@ -1,0 +1,11 @@
+channel: { youtube_channel_id: UCMxiv15iK_MFayY_3fU9loQ, display_name: UnHerd, handle: "@UnHerd" }
+entities:
+  - { slug: unherd, canonical_name: UnHerd, entity_type: MEDIA_NETWORK, website: "https://unherd.com/" }
+  - { slug: paul_marshall, canonical_name: Paul Marshall, entity_type: PERSON }
+relationships:
+  - { subject: unherd, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+  - { subject: paul_marshall, type: FUNDS, object: unherd, control_level: UNKNOWN, confidence: 0.8, status: ACTIVE }
+sources:
+  - { ref: channel, url: "https://www.youtube.com/channel/UCMxiv15iK_MFayY_3fU9loQ", title: UnHerd, publisher: UnHerd, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "UnHerd", supports: [{ relationship: 0 }] }
+  - { ref: wikipedia, url: "https://en.wikipedia.org/wiki/UnHerd", title: UnHerd, publisher: Wikipedia, source_type: ESTABLISHED_INDUSTRY_PUBLICATION, tier: 2, excerpt: "UnHerd is a British news and opinion website founded in 2017 by conservative commentator Tim Montgomerie and hedge fund manager Paul Marshall. The website initially existed without a paywall, as it is funded by an endowment from Marshall.", supports: [{ relationship: 1 }] }
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Branded media entity modeled as operator of its own channel; the self-referential YouTube page is retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the channel-ownership edge is inferred from brand-channel identity, flagged for corroboration at confidence 0.65. Independent corroboration (Wikipedia, Tier 2) establishes UnHerd was co-founded by Tim Montgomerie and hedge fund manager Paul Marshall and is funded via an endowment from Marshall; this is recorded neutrally as a FUNDS edge. reviewed_by is absent." }

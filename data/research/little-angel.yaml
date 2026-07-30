@@ -1,0 +1,37 @@
+channel: { youtube_channel_id: UC-Gm4EN7nNNR3k67J8ywF4g, display_name: "Little Angel: Nursery Rhymes & Kids Songs", handle: "@LittleAngel" }
+entities:
+  - { slug: moonbug, canonical_name: Moonbug Entertainment, entity_type: COMPANY, legal_name: Moonbug Entertainment Limited, jurisdiction: GB, website: "https://www.moonbug.com", aliases: [Moonbug, "Moonbug Entertainment Ltd."] }
+  - { slug: candle, canonical_name: Candle Media, entity_type: COMPANY, website: "https://www.candlemedia.com", aliases: [Candle] }
+  - { slug: blackstone, canonical_name: Blackstone Inc., entity_type: PRIVATE_EQUITY_FIRM, legal_name: Blackstone Inc., jurisdiction: US-DE, website: "https://www.blackstone.com", aliases: [Blackstone, "The Blackstone Group"] }
+relationships:
+  - { subject: moonbug, type: OWNS, object: channel, control_level: CONTROLLING, effective_from: 2022-02-09, confidence: 0.95, status: ACTIVE }
+  - { subject: candle, type: OWNS, object: moonbug, control_level: CONTROLLING, effective_from: 2021-11-04, confidence: 0.9, status: ACTIVE }
+  - { subject: candle, type: PORTFOLIO_COMPANY_OF, object: blackstone, control_level: UNKNOWN, confidence: 0.75, status: ACTIVE }
+sources:
+  - ref: moonbug_acquisition
+    url: https://www.moonbug.com/news/moonbug-entertainment-acquires-little-angel-and-little-world-further-cementing-its-position-as-a-wo
+    title: Moonbug Entertainment acquires Little Angel and Little World
+    publisher: Moonbug Entertainment
+    published_at: 2022-02-09
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: Moonbug Entertainment Ltd. today announced the acquisition of Little Angel, one of the fastest-growing kids channels on YouTube.
+    supports: [{ relationship: 0 }]
+  - ref: blackstone_moonbug
+    url: https://www.blackstone.com/news/press/moonbug-entertainment-to-be-acquired-by-next-generation-media-company-backed-by-kevin-mayer-tom-staggs-and-blackstone/
+    title: Moonbug Entertainment to Be Acquired by Next Generation Media Company Backed by Kevin Mayer, Tom Staggs and Blackstone
+    publisher: Blackstone
+    published_at: 2021-11-04
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    archive_url: https://web.archive.org/web/20260525061900/https://www.blackstone.com/news/press/moonbug-entertainment-to-be-acquired-by-next-generation-media-company-backed-by-kevin-mayer-tom-staggs-and-blackstone/
+    excerpt: >
+      Moonbug Entertainment Ltd., the digital-first, global children's
+      entertainment company, today announced it has entered into a definitive
+      agreement to be acquired by the recently formed media company run by
+      leading entertainment executives Kevin Mayer and Tom Staggs and backed by
+      investment capital from Blackstone. [...] Founded in 2018, Moonbug has
+      rapidly built [...] popular shows such as CoComelon, Blippi, Little Baby
+      Bum, and many others.
+    supports: [{ relationship: 1 }, { relationship: 2 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT, SENSITIVE PE CHAIN. Moonbug's acquisition date is explicit. Candle's acquisition and Blackstone backing reuse the same entity fields and primary evidence as other Moonbug records. A second distinct human reviewer is required before publication. reviewed_by is absent." }

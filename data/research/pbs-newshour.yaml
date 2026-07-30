@@ -1,0 +1,50 @@
+channel:
+  youtube_channel_id: UC6ZFN9Tx6xh-skXCuRHCDpQ
+  display_name: PBS NewsHour
+  handle: "@PBSNewsHour"
+entities:
+  - slug: newshour
+    canonical_name: NewsHour Productions LLC
+    entity_type: NONPROFIT
+    legal_name: NewsHour Productions LLC
+    jurisdiction: US-DC
+    website: https://newshourproductions.org
+  - slug: weta
+    canonical_name: Greater Washington Educational Telecommunications Association, Inc.
+    entity_type: NONPROFIT
+    jurisdiction: US-DC
+    website: https://weta.org
+    aliases: [WETA]
+relationships:
+  - { subject: newshour, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: newshour, type: SUBSIDIARY_OF, object: weta, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: weta_transfer
+    url: https://www.pbs.org/newshour/press-releases/weta-macneillehrer-productions-announce-planned-transfer-pbs-newshour-weta
+    title: WETA and MacNeil/Lehrer Productions Announce Planned Transfer of PBS NewsHour to WETA
+    publisher: PBS NewsHour
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: The partners are planning to contribute their ownership of PBS NewsHour and other assets to NewsHour Productions LLC, a new wholly-owned non-profit subsidiary of WETA.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: youtube
+    url: https://www.pbs.org/newshour/nation/watch-pbs-newshour
+    title: How to Watch PBS NewsHour
+    publisher: PBS NewsHour
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: PBS NewsHour posts all our live broadcast, special and digital video content to our YouTube channel.
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q7118447
+    title: PBS NewsHour
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: PBS NewsHour; YouTube channel ID UC6ZFN9Tx6xh-skXCuRHCDpQ.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. PBS NewsHour is not modeled as owned by PBS itself. Its assets sit in NewsHour Productions LLC, a wholly owned nonprofit subsidiary of WETA, as the official transfer announcement states. reviewed_by is absent.

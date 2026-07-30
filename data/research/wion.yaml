@@ -1,0 +1,28 @@
+channel:
+  youtube_channel_id: UC_gUM8rL-Lrg6O3adPW9K1g
+  display_name: WION
+  handle: "@WION"
+entities:
+  - slug: zee_media
+    canonical_name: Zee Media Corporation Limited
+    entity_type: COMPANY
+    legal_name: Zee Media Corporation Limited
+    jurisdiction: IN
+    website: https://zeemedia.in
+relationships:
+  - { subject: zee_media, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: annual_report
+    url: https://admin.zeemedia.in/storage/Annual-Report-2024-25.pdf
+    title: Zee Media Corporation Limited Annual Report 2024-25
+    publisher: Zee Media Corporation Limited
+    published_at: 2025-09-04
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: Zee Media Corporation Limited (ZMCL) stands as a pioneer in India’s 24/7 news broadcasting landscape. India’s First Global News Channel - WION.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. WION is directly identified as a Zee Media channel in the company's annual report. Upstream promoter holdings are omitted pending exact current shareholding evidence. reviewed_by is absent.

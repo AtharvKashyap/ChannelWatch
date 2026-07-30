@@ -1,0 +1,103 @@
+channel:
+  youtube_channel_id: UCgrNz-aDmcr2uuto8_DL2jg
+  display_name: CGTN
+  handle: "@CGTN"
+entities:
+  - slug: cgtn
+    canonical_name: China Global Television Network
+    entity_type: MEDIA_NETWORK
+    jurisdiction: CN
+    website: https://www.cgtn.com
+  - slug: cctv
+    canonical_name: China Central Television
+    entity_type: MEDIA_NETWORK
+    jurisdiction: CN
+    website: https://www.cctv.com
+  - slug: cmg
+    canonical_name: China Media Group
+    entity_type: MEDIA_NETWORK
+    jurisdiction: CN
+    aliases: [Voice of China]
+  - slug: prc_state
+    # No government/state entity_type exists in the schema enum; UNKNOWN_ENTITY is
+    # used to signal "known entity, type not in taxonomy" (see review notes).
+    canonical_name: Government of the People's Republic of China
+    entity_type: UNKNOWN_ENTITY
+    jurisdiction: CN
+    aliases:
+      - State Council of the People's Republic of China
+      - Publicity Department of the Chinese Communist Party
+relationships:
+  # 0: CGTN operates/owns the YouTube channel (its own about page lists YouTube
+  # among its distribution platforms).
+  - { subject: cgtn, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  # 1: CGTN is the international division of CCTV (CCTV founded/integrated it).
+  - { subject: cgtn, type: SUBSIDIARY_OF, object: cctv, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  # 2: CCTV's institutional framework was folded into China Media Group in the
+  # March 2018 reorganization; CGTN/CCTV now operate as part of state-run CMG.
+  - { subject: cctv, type: SUBSIDIARY_OF, object: cmg, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  # 3: China Media Group is a state-owned public institution; the ultimate owner
+  # is the Chinese state. Funding/ownership is state, not private.
+  - { subject: prc_state, type: OWNS, object: cmg, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: cgtn_about
+    url: https://www.cgtn.com/about-us
+    title: About Us
+    publisher: China Global Television Network
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: CGTN Digital, which is accessible via CGTN.com, CGTN mobile applications, YouTube, Facebook, X, Weibo and other social media platforms.
+    supports: [{ relationship: 0 }]
+  - ref: partnership_about
+    url: https://partnership.cgtn.com/event/GlobalH5/public/detail_en_a.html
+    title: About Us
+    publisher: China Global Television Network
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: CCTV has integrated its resources and founded the China Global Television Network (CGTN). It owns six TV channels, one video agency, and a new media group.
+    supports: [{ relationship: 1 }]
+  - ref: cmg_structure
+    url: https://news.cgtn.com/news/3d3d414d776b444f7a457a6333566d54/index.html
+    title: CGTN's strategy for international communication
+    publisher: China Global Television Network
+    published_at: 2018-10-16
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: CGTN is thriving as part of China Media Group, a gigantic conglomerate combining the former China Central Television, China National Radio, and China Radio International.
+    supports: [{ relationship: 2 }]
+  - ref: wikipedia_cgtn
+    url: https://en.wikipedia.org/wiki/CGTN_(TV_channel)
+    title: CGTN (TV channel)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      It is one of several channels provided by China Global Television Network,
+      the international division of Chinese state broadcaster China Central
+      Television (CCTV) [...] Owner: China Media Group (Government of the People's
+      Republic of China) [...] under the control of the Central Propaganda
+      Department of the Chinese Communist Party.
+    supports:
+      - relationship: 1
+      - relationship: 3
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: >-
+    2026-07-30 triage fix (OWNS->MEDIA_NETWORK / precise ownership). Replaced the
+    prior flat "CCTV OWNS CGTN" + "CGTN SUBSIDIARY_OF CMG" pair (which implied two
+    conflicting parents) with a single honest state-media chain:
+    channel <- CGTN (international division / SUBSIDIARY_OF CCTV) <- CCTV
+    (SUBSIDIARY_OF China Media Group after the March 2018 reorganization) <- China
+    Media Group <- the Chinese state. CGTN is a division of CCTV, not a separately
+    owned company, so SUBSIDIARY_OF (not OWNS) is the accurate typing. Added an
+    explicit state-ownership edge: China Media Group is a state-owned ministry-level
+    public institution, so the ultimate owner is modeled as the Government of the
+    People's Republic of China (Wikipedia infobox: "Owner: China Media Group
+    (Government of the People's Republic of China)"). The schema has no
+    GOVERNMENT/STATE entity_type, so prc_state is typed UNKNOWN_ENTITY with a clear
+    canonical name and aliases (State Council / Publicity Department of the CCP);
+    reviewer may relabel if a better type is added. These edges describe funding
+    and organizational ownership only and assert nothing about particular editorial
+    decisions. reviewed_by is absent.

@@ -1,0 +1,32 @@
+channel:
+  youtube_channel_id: UCPdk3JuQGxOCMlZLLt4drhw
+  display_name: Binkov's Battlegrounds
+  handle: "@binkov"
+entities:
+  - slug: binkov_creator
+    canonical_name: Binkov's Battlegrounds
+    entity_type: CREATOR
+relationships:
+  - { subject: binkov_creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.93, status: ACTIVE }
+sources:
+  - ref: patreon
+    url: https://www.patreon.com/binkov/about
+    title: Binkov's Battlegrounds
+    publisher: Patreon
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Binkov's Battlegrounds. creating Youtube military themed infotainment videos
+    supports: [{ relationship: 0 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCPdk3JuQGxOCMlZLLt4drhw
+    title: Binkov's Battlegrounds
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official Binkov's Battlegrounds YouTube page identifies the canonical channel as UCPdk3JuQGxOCMlZLLt4drhw.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The public brand/pseudonym is modeled without attempting to expose the person behind it. No outside owner was found. reviewed_by is absent.

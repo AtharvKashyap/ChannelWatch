@@ -1,0 +1,51 @@
+channel:
+  youtube_channel_id: UC6-F5tO8uklgE9Zy8IvbdFw
+  display_name: Sony SAB
+  handle: "@SonySAB"
+entities:
+  - slug: spni
+    canonical_name: Culver Max Entertainment Private Limited
+    entity_type: SUBSIDIARY
+    legal_name: Culver Max Entertainment Private Limited
+    jurisdiction: IN
+    website: https://www.sonypicturesnetworks.com
+    aliases: [Sony Pictures Networks India, SPNI]
+  - slug: sony_group
+    canonical_name: Sony Group Corporation
+    entity_type: COMPANY
+    jurisdiction: JP
+    website: https://www.sony.com
+relationships:
+  - { subject: spni, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: spni, type: SUBSIDIARY_OF, object: sony_group, control_level: CONTROLLING, ownership_percentage: 100, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: sony_network
+    url: https://www.sonypicturesnetworks.com/overview
+    title: Overview
+    publisher: Sony Pictures Networks India
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: "SPNI comprises 28 Premium Channels in both SD and HD formats, including leading Hindi General Entertainment Television Channels - Sony Entertainment Television; Sony SAB and Sony PAL"
+    supports: [{ relationship: 0 }]
+  - ref: sony_parent
+    url: https://www.sony.com/en/SonyInfo/News/Press/202109/21-0922E/
+    title: Sony Pictures Networks India Signs Exclusive Non-Binding Term Sheet with Zee Entertainment
+    publisher: Sony Group Corporation
+    published_at: 2021-09-22
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: Sony Pictures Networks India (SPNI), is an indirect wholly owned subsidiary of Sony Group Corporation, Japan.
+    supports: [{ relationship: 1 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q7391664
+    title: Sony SAB
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Sony SAB; YouTube channel ID UC6-F5tO8uklgE9Zy8IvbdFw.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Sony's network overview places SAB in SPNI, and Sony Group explicitly calls SPNI an indirect wholly owned subsidiary. SPNI is now legally named Culver Max Entertainment Private Limited; its familiar former name is retained as an alias. reviewed_by is absent.

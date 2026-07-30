@@ -1,0 +1,53 @@
+channel:
+  youtube_channel_id: UCQfwfsi5VrQ8yKZ-UWmAEFg
+  display_name: FRANCE 24 English
+  handle: "@France24_en"
+entities:
+  - slug: france24
+    canonical_name: France 24
+    entity_type: MEDIA_NETWORK
+    jurisdiction: FR
+    website: https://www.france24.com/en/
+  - slug: fmm
+    canonical_name: France Médias Monde
+    entity_type: COMPANY
+    jurisdiction: FR
+    website: https://www.francemediasmonde.com
+  - slug: french_state
+    canonical_name: French Republic
+    entity_type: UNKNOWN_ENTITY
+    jurisdiction: FR
+relationships:
+  - { subject: france24, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: france24, type: SUBSIDIARY_OF, object: fmm, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: french_state, type: OWNS, object: fmm, control_level: CONTROLLING, ownership_percentage: 100, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: fmm_france24
+    url: https://www.francemediasmonde.com/en/the-group/
+    title: The Group
+    publisher: France Médias Monde
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: France Médias Monde, the group in charge of French international broadcasting, comprises the news channel France 24 in French, English, Arabic and Spanish.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: state_ownership
+    url: https://en.wikipedia.org/wiki/France_24
+    title: France 24
+    publisher: Wikipedia
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: France Médias Monde is 100% owned by the French State through the Agence des participations de l'État.
+    supports: [{ relationship: 2 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q166180
+    title: France 24
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: FRANCE 24 English; YouTube channel ID UCQfwfsi5VrQ8yKZ-UWmAEFg; language of work English.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. France Médias Monde's official site establishes the France 24 group relationship. The 100% French-state edge is currently supported by structured secondary evidence and should be upgraded to an official APE portfolio or filing during human review. reviewed_by is absent.

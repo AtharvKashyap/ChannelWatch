@@ -60,28 +60,15 @@ sources:
     tier: 1
     excerpt: >
       Dude Perfect, the leading family-friendly sports and entertainment
-      group, and Highmount Capital, a private investment firm focused on
-      early growth-stage and middle market investments in transformative
-      technology, media and growth-oriented platforms, today announced a
-      strategic partnership to fuel Dude Perfect's growth. The partnership
-      includes a 9-figure growth capital investment.
+      group, and Highmount Capital [...] today announced a strategic
+      partnership to fuel Dude Perfect's growth. The partnership includes a
+      9-figure growth capital investment. [...] Dude Perfect - composed of
+      Cody Jones, Garrett Hilbert, Tyler Toney, Cory Cotton, and Coby Cotton -
+      started with a trickshot video in 2009 [...]
     supports:
       - relationship: 0
-      - claim: 0
-
-  - ref: press_release_bg
-    url: https://www.prnewswire.com/news-releases/dude-perfect-and-highmount-capital-announce-partnership-inclusive-of-strategic-growth-capital-302111238.html
-    title: "Dude Perfect® and Highmount Capital® Announce Partnership Inclusive of Strategic Growth Capital"
-    publisher: PR Newswire (joint release by Dude Perfect and Highmount Capital)
-    published_at: 2024-04-09
-    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
-    tier: 1
-    excerpt: >
-      Dude Perfect - composed of Cody Jones, Garrett Hilbert, Tyler Toney,
-      Cory Cotton, and Coby Cotton - started with a trickshot video in 2009
-      and has since amassed a following of 100 million+.
-    supports:
       - relationship: 1
+      - claim: 0
       - claim: 1
 
   - ref: hollywood_reporter

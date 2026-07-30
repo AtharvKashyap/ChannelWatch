@@ -1,0 +1,18 @@
+channel: { youtube_channel_id: UCO0akufu9MOzyz3nvGIXAAw, display_name: Sky News Australia, handle: "@SkyNewsAustralia" }
+entities:
+  - { slug: australian_news_channel, canonical_name: Australian News Channel Pty Ltd, entity_type: COMPANY, jurisdiction: AU }
+  - { slug: news_corp_australia, canonical_name: News Corp Australia Pty Limited, entity_type: COMPANY, jurisdiction: AU }
+relationships:
+  - { subject: australian_news_channel, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: news_corp_australia, type: OWNS, object: australian_news_channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+sources:
+  - ref: regulator
+    url: https://www.acma.gov.au/sites/default/files/2026-05/News%20media%20in%20Australia_2025%20report_1.pdf
+    title: News media in Australia 2025 report
+    publisher: Australian Communications and Media Authority
+    published_at: 2026-05-01
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: Australian News Channel Pty Ltd as the owner of Sky News’ subscription TV
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. ACMA identifies Australian News Channel as the outlet owner and places it within News Corp Australia; ultimate global parent should be checked during human review. reviewed_by is absent." }

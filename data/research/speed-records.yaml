@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCOsyDsO5tIt-VZ1iwjdQmew
+  display_name: Speed Records
+  handle: "@speedrecords"
+entities:
+  - slug: speed_records
+    canonical_name: Speed Records
+    entity_type: COMPANY
+    jurisdiction: IN
+    website: https://speedrecords.in
+relationships:
+  - { subject: speed_records, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.8, status: ACTIVE }
+  - { subject: speed_records, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: speed_channel
+    url: https://www.youtube.com/@speedrecords
+    title: Speed Records
+    publisher: Speed Records
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Speed Records, the biggest Punjabi Music Record label in the world combining feet tapping tunes accompanied with vibrant voices as the identifier of Punjabi culture.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: speed_wikidata
+    url: https://www.wikidata.org/wiki/Q17145496
+    title: Speed Records
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Speed Records; Indian record label; YouTube channel ID UCOsyDsO5tIt-VZ1iwjdQmew; YouTube handle speedrecords.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. The official channel self-identifies as the Speed Records label, and structured YouTube metadata verifies the canonical ID. The similarly named UK company and its disclosed controller are not linked because available evidence does not establish that the UK entity owns this Indian label or channel. No higher owner is asserted. reviewed_by is absent.

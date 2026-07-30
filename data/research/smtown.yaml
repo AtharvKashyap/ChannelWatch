@@ -1,0 +1,37 @@
+channel:
+  youtube_channel_id: UCEf_Bc-KVd7onSeifS3py9g
+  display_name: SMTOWN
+  handle: "@SMTOWN"
+entities:
+  - slug: sm
+    canonical_name: SM Entertainment Co., Ltd.
+    entity_type: COMPANY
+    legal_name: SM Entertainment Co., Ltd.
+    jurisdiction: KR
+    website: https://www.smentertainment.com
+    aliases: [SM Entertainment]
+relationships:
+  - { subject: sm, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: sm, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: smtown_channel
+    url: https://www.youtube.com/user/SMtown
+    title: SMTOWN
+    publisher: SM Entertainment
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Welcome to SM Entertainment Official YouTube Channel! You can enjoy SM artist's latest videos on SMTOWN Official YouTube Channel.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: smtown_id
+    url: https://www.wikidata.org/wiki/Q485188
+    title: SM Town
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: SMTOWN; YouTube channel ID UCEf_Bc-KVd7onSeifS3py9g.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The verified channel explicitly identifies itself as SM Entertainment's official YouTube channel; the canonical ID is independently matched. SM's outside shareholders are not modeled as channel owners without evidence of direct control over this asset. reviewed_by is absent.

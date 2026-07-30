@@ -1,0 +1,51 @@
+channel:
+  youtube_channel_id: UCEcrRXW3oEYfUctetZTAWLw
+  display_name: WVFRM Podcast
+  handle: "@Waveform"
+entities:
+  - slug: marques
+    canonical_name: Marques Brownlee
+    entity_type: CREATOR
+    aliases:
+      - MKBHD
+      - Marques Keith Brownlee
+  - slug: vox_media
+    canonical_name: Vox Media, LLC
+    entity_type: MEDIA_NETWORK
+    legal_name: Vox Media, LLC
+    jurisdiction: US-DE
+    website: https://www.voxmedia.com
+relationships:
+  - { subject: marques, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
+  - { subject: channel, type: DISTRIBUTED_BY, object: vox_media, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: launch
+    url: https://www.youtube.com/watch?v=oZVLZDBLROs
+    title: "Introducing Waveform: The MKBHD Podcast!"
+    publisher: Marques Brownlee
+    published_at: 2019-08-13
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: "Introducing Waveform: The MKBHD Podcast! It's finally here!"
+    supports: [{ relationship: 0 }]
+  - ref: vox_network
+    url: https://podcasting.voxmedia.com/show/waveform-the-mkbhd-podcast
+    title: "Waveform: The MKBHD Podcast"
+    publisher: Vox Media Podcast Network
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: MKBHD and co-host Andrew Manganelli will keep you informed and entertained as they take a deep dive into the latest and greatest in tech.
+    supports: [{ relationship: 1 }]
+  - ref: channel_id
+    url: https://vidiq.com/youtube-stats/channel/UCEcrRXW3oEYfUctetZTAWLw/
+    title: WVFRM Podcast YouTube Stats
+    publisher: vidIQ
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: WVFRM Podcast; YouTube channel UCEcrRXW3oEYfUctetZTAWLw; started March 5, 2019.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: "DRAFT. This resolves the conditional Waveform target as a separate YouTube channel. Marques's own launch announcement establishes it as the MKBHD podcast. Vox is modeled only as distributor/network, not owner, because network inclusion does not itself prove ownership. The creator ownership edge is conservative and should receive human verification. reviewed_by is absent."

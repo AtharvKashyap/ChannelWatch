@@ -1,0 +1,33 @@
+channel:
+  youtube_channel_id: UC9r9HYFxEQOBXSopFS61ZWg
+  display_name: MeidasTouch
+  handle: "@MeidasTouch"
+entities:
+  - slug: mtn
+    canonical_name: MeidasTouch Network
+    entity_type: MEDIA_NETWORK
+    website: https://meidasnews.com
+relationships:
+  - { subject: mtn, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: about
+    url: https://meidasnews.com/page/about-us
+    title: About Us
+    publisher: MeidasTouch
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: MeidasTouch Network (MTN) was founded by three brothers Ben, Brett, and Jordy Meiselas. MeidasNews.com is the official website for MTN’s news division.
+    supports: [{ relationship: 0 }]
+  - ref: channel
+    url: https://www.youtube.com/channel/UC9r9HYFxEQOBXSopFS61ZWg
+    title: MeidasTouch
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official MeidasTouch YouTube page identifies the canonical channel as UC9r9HYFxEQOBXSopFS61ZWg.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The network is modeled as channel owner/operator. Founding by the three Meiselas brothers is documented, but individual equity splits are not, so no personal ownership edges are asserted. reviewed_by is absent.

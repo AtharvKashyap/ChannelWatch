@@ -1,0 +1,55 @@
+channel:
+  youtube_channel_id: UCpVm7bg6pXKo1Pr6k5kxG9A
+  display_name: National Geographic
+  handle: "@NatGeo"
+entities:
+  - slug: natgeo_partners
+    canonical_name: National Geographic Partners, LLC
+    entity_type: COMPANY
+    legal_name: National Geographic Partners, LLC
+    jurisdiction: US
+    website: https://www.nationalgeographic.com
+  - slug: disney
+    canonical_name: The Walt Disney Company
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://thewaltdisneycompany.com
+  - slug: natgeo_society
+    canonical_name: National Geographic Society
+    entity_type: NONPROFIT
+    jurisdiction: US-DC
+    website: https://www.nationalgeographic.org
+relationships:
+  - { subject: natgeo_partners, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - { subject: disney, type: PARTIALLY_OWNS, object: natgeo_partners, control_level: CONTROLLING, ownership_percentage: 73, confidence: 0.9, status: ACTIVE }
+  - { subject: natgeo_society, type: PARTIALLY_OWNS, object: natgeo_partners, control_level: MINORITY, ownership_percentage: 27, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: natgeo_company_info
+    url: https://www.nationalgeographic.com/tv/info
+    title: National Geographic Channel - About
+    publisher: National Geographic
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: A joint venture between The Walt Disney Company and the National Geographic Society, National Geographic Partners combines the global National Geographic television channels with National Geographic's media and consumer-oriented assets.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: wikipedia_natgeo_partners
+    url: https://en.wikipedia.org/wiki/National_Geographic_Partners
+    title: National Geographic Partners
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "The Walt Disney Company (which owns 73% of the company) and the namesake non-profit scientific organization National Geographic Society (which owns 27%). The company oversees all commercial activities related to the Society, including magazine publications and television channels."
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q1671869
+    title: National Geographic
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: National Geographic; YouTube channel ID UCpVm7bg6pXKo1Pr6k5kxG9A.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Wikipedia (Tier 2) corroborates that National Geographic Partners is 73% owned by The Walt Disney Company (CONTROLLING) and 27% by the National Geographic Society (MINORITY), and that the company oversees the television channels/media; percentages added from that source. The self-referential nationalgeographic.com company page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to ARCHIVED_CORPORATE_PAGE/Tier 3. That NatGeo Partners specifically owns the YouTube channel (vs. the broader TV/media assets) is INFERRED from the parent-company relationship plus the Wikidata channel-id linkage; confidence for that edge lowered to 0.7 and flagged for corroboration. reviewed_by is absent.

@@ -1,0 +1,23 @@
+channel: { youtube_channel_id: UCfaIu2jO-fppCQV_lchCRIQ, display_name: Charlie Kirk, handle: "@charliekirk" }
+entities:
+  - { slug: charlie_kirk_brand, canonical_name: Charlie Kirk, entity_type: CREATOR }
+relationships:
+  - { subject: charlie_kirk_brand, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.6, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UCfaIu2jO-fppCQV_lchCRIQ
+    title: Charlie Kirk
+    publisher: Charlie Kirk
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Charlie Kirk
+    supports: [{ relationship: 0 }]
+  - ref: wikipedia
+    url: https://en.wikipedia.org/wiki/Charlie_Kirk
+    title: Charlie Kirk
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "From October 2020 until his assassination, Kirk hosted The Charlie Kirk Show, a daily three-hour radio talk show, on Salem Media Group's 'The Answer' radio channel."
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. The public channel brand is modeled directly; current legal account control and any Turning Point USA relationship require human confirmation. The YouTube page only confirms the channel name (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE); Wikipedia corroborates the eponymous The Charlie Kirk Show but does not explicitly name a Kirk-operated YouTube channel, so ownership is eponymously inferred, set to reasoned inference (0.6) and flagged for corroboration. reviewed_by is absent." }

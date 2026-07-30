@@ -1,0 +1,33 @@
+channel:
+  youtube_channel_id: UCKRoXz3hHAu2XL_k3Ef4vJQ
+  display_name: Pod Save America
+  handle: "@PodSaveAmerica"
+entities:
+  - slug: crooked_media
+    canonical_name: Crooked Media
+    entity_type: MEDIA_NETWORK
+    website: https://crooked.com/
+relationships:
+  - { subject: crooked_media, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: official_show
+    url: https://www.crooked.com/podcast-series/pod-save-america/
+    title: Pod Save America
+    publisher: Crooked Media
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Pod Save America is a no-bullshit conversation about politics hosted by former Obama aides Jon Favreau, Jon Lovett, Dan Pfeiffer, and Tommy Vietor.
+    supports: [{ relationship: 0 }]
+  - ref: official_launch
+    url: https://crooked.com/articles/crooked-media-announces-new-site-pod-store-and-network-of-very-fine-people-on-both-sides/
+    title: Crooked Media Announces New Site, Pod, Store, and Network
+    publisher: Crooked Media
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: Pod Save America, our first show
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Crooked Media's own materials call Pod Save America its first show. Hosts/founders are not assigned equity because current ownership percentages are not publicly stated. reviewed_by is absent.

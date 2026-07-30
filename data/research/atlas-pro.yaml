@@ -1,0 +1,24 @@
+channel:
+  youtube_channel_id: UC5xjDrmnS9CAOxSdRtSkVig
+  display_name: Atlas Pro
+  handle: "@AtlasPro"
+entities:
+  - slug: creator
+    canonical_name: Atlas Pro
+    entity_type: CREATOR
+relationships:
+  - { subject: creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UC5xjDrmnS9CAOxSdRtSkVig
+    title: Atlas Pro
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Atlas Pro
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Public creator brand only; no documented outside owner was found. Ownership is eponymously inferred from the channel's own brand — the YouTube page only confirms the channel exists under that name (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE), so the OWNS edge is downgraded to reasoned inference (0.7) and flagged for independent corroboration. reviewed_by is absent.

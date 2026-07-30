@@ -1,0 +1,40 @@
+channel:
+  youtube_channel_id: UCe9JSDmyqNgA_l2BzGHq1Ug
+  display_name: HAR PAL GEO
+  handle: "@harpalgeoofficial"
+entities:
+  - slug: geo_network
+    canonical_name: Geo Television Network
+    entity_type: MEDIA_NETWORK
+    jurisdiction: PK
+    website: https://harpalgeo.tv
+  - slug: jang_group
+    canonical_name: Jang Media Group
+    entity_type: COMPANY
+    jurisdiction: PK
+relationships:
+  - { subject: geo_network, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - { subject: geo_network, type: SUBSIDIARY_OF, object: jang_group, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: youtube_profile
+    url: https://blog.youtube/creator-and-artist-stories/har-pal-geo-pakistani-entertainment-channel-youtube/
+    title: "Har Pal Geo: Pakistani entertainment channel goes global with YouTube"
+    publisher: YouTube
+    published_at: 2022-05-24
+    source_type: NAMED_EXECUTIVE_INTERVIEW
+    tier: 2
+    excerpt: Har Pal Geo is part of the Geo TV network that owns and operates multiple TV channels focused on news, entertainment, and sports. The network is owned by Jang Media Group.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_id
+    url: https://socialcounts.org/youtube-channel-analytics/UCe9JSDmyqNgA_l2BzGHq1Ug
+    title: HAR PAL GEO YouTube Channel Analytics
+    publisher: SocialCounts.org
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: HAR PAL GEO; @harpalgeoofficial; channel ID UCe9JSDmyqNgA_l2BzGHq1Ug.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: "DRAFT. YouTube's published interview with the channel team explicitly gives both ownership steps: Har Pal Geo belongs to Geo TV Network, which is owned by Jang Media Group. Technical metadata verifies the canonical ID. reviewed_by is absent."

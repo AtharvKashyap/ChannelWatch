@@ -1,0 +1,72 @@
+# CHANNELWATCH research record — Jake Paul
+# DRAFT for human review. Nothing here is published without verification.
+
+channel:
+  youtube_channel_id: UCcgVECVN4OKV6DH1jLkqmcA
+  display_name: Jake Paul
+  handle: "@jakepaul"
+
+entities:
+  - slug: paul
+    canonical_name: Jake Paul
+    entity_type: CREATOR
+    legal_name: Jake Joseph Paul
+
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: paul
+    confidence: 0.9
+    status: ACTIVE
+  - subject: paul
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: paul
+    confidence: 0.95
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_jake_paul
+    url: https://en.wikipedia.org/wiki/Jake_Paul
+    title: Jake Paul
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      He launched his YouTube channel, Jake Paul, in May 2014, and was ranked by
+      Forbes as one of the highest-paid YouTube creators of the 2010s and 2020s.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: wikidata_jake_channel
+    url: https://www.wikidata.org/wiki/Q42912540
+    title: Jake Paul
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      YouTube channel ID UCcgVECVN4OKV6DH1jLkqmcA; YouTube handle jakepaul;
+      stated in YouTube API.
+    supports:
+      - relationship: 0
+      - relationship: 1
+
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. Canonical ID UCcgVECVN4OKV6DH1jLkqmcA is linked to @jakepaul by
+    YouTube API-derived identifier data. The cited biography establishes that
+    Paul launched and hosts the channel. OWNS is moderate confidence because no
+    transfer or external channel owner was found, but no legal percentage is
+    stated; percentage and exact effective date are omitted. Team 10, Most
+    Valuable Promotions, Betr, boxing broadcasters, sponsors, and talent
+    representation are separate ventures/services, not evidence of channel
+    ownership. reviewed_by is intentionally absent.

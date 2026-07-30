@@ -1,0 +1,37 @@
+channel:
+  youtube_channel_id: UCNApqoVYJbYSrni4YsbXzyQ
+  display_name: Aditya Music
+  handle: "@adityamusic"
+entities:
+  - slug: aditya
+    canonical_name: Aditya Music India Private Limited
+    entity_type: COMPANY
+    legal_name: Aditya Music India Private Limited
+    jurisdiction: IN
+    website: https://adityamusicindia.in
+    aliases: [Aditya Music]
+relationships:
+  - { subject: aditya, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: aditya, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: aditya_about
+    url: https://adityamusicindia.in/about
+    title: About Us
+    publisher: Aditya Music India Private Limited
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Expanding its digital footprint, Aditya Music launched its YouTube channel on May 1, 2008.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: aditya_id
+    url: https://influtrend.com/youtube/adityamusic
+    title: Aditya Music YouTube Overview
+    publisher: InfluTrend
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Youtube channel id for @adityamusic is UCNApqoVYJbYSrni4YsbXzyQ.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The company's official about page says Aditya Music launched the channel, and technical metadata supplies the canonical ID. No higher owner or individual shareholder is asserted without current equity evidence. reviewed_by is absent.

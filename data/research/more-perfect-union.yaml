@@ -1,0 +1,33 @@
+channel:
+  youtube_channel_id: UCehBVAPy-bxmnbNARF-_tvA
+  display_name: More Perfect Union
+  handle: "@moreperfectunion"
+entities:
+  - slug: more_perfect_union
+    canonical_name: More Perfect Union
+    entity_type: NONPROFIT
+    website: https://perfectunion.us/
+relationships:
+  - { subject: more_perfect_union, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+sources:
+  - ref: official_about
+    url: https://perfectunion.us/about/
+    title: About
+    publisher: More Perfect Union
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: The mission of More Perfect Union, an Emmy award-winning advocacy journalism nonprofit, is built on a simple credo
+    supports: [{ relationship: 0 }]
+  - ref: official_links
+    url: https://linktr.ee/more_perfect_union
+    title: More Perfect Union
+    publisher: More Perfect Union
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Our YouTube channel
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Official organizational materials identify the nonprofit and link its YouTube channel. Donors are funding sources, not modeled as owners. reviewed_by is absent.

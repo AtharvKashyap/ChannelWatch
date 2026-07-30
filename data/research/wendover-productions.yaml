@@ -198,13 +198,25 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
   # reviewed_by intentionally OMITTED: this is an unverified DRAFT (the schema
   # field is optional, not nullable). Do NOT set it without human review.
-  last_reviewed_at: 2026-07-23 # research/authoring date; NOT a human review date.
+  last_reviewed_at: 2026-07-30 # research/authoring date; NOT a human review date.
   notes: >-
     DRAFT for human review — "independent, creator-owned single-creator channel,
     with the creator holding equity in a SEPARATE streaming platform" case.
     Requires human verification before publication.
+
+    2026-07-30 VERIFICATION (triage: OWNS->MEDIA_NETWORK edge, Nebula). Confirmed
+    the Nebula sub-graph is modelled correctly and needs NO structural change: the
+    only Nebula edge originating from this record's principals is rel 4 (denby
+    PARTIALLY_OWNS nebula, MINORITY) — an OUTBOUND stake from the creator INTO the
+    Nebula platform. There is NO edge with Nebula as subject over the channel;
+    Nebula never sits above the channel in the ownership chain. rels 5-6 (Standard
+    Broadcast OPERATES Nebula; CuriosityStream INVESTED_IN Nebula) also terminate
+    at Nebula and do not touch the channel. The channel's only owner/controller
+    remains the creator (rel 1, denby OWNS channel, CONTROLLING), so the record
+    still computes CREATOR_OWNED. Only last_reviewed_at and this note were changed.
 
     CHANNEL ID: UC9RM-iSvTu1uPJb8X5yp3EQ, extracted from the sole "externalId"
     field in the raw HTML of https://www.youtube.com/@Wendoverproductions (curl

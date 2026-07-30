@@ -1,0 +1,30 @@
+channel:
+  youtube_channel_id: UC9CoOnJkIBMdeijd9qYoT_g
+  display_name: Ariana Grande
+  handle: "@arianagrande"
+entities:
+  - { slug: creator, canonical_name: Ariana Grande, entity_type: CREATOR, jurisdiction: US }
+relationships:
+  - { subject: creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
+sources:
+  - ref: official_channel
+    url: https://www.youtube.com/@arianagrande
+    title: Ariana Grande
+    publisher: Ariana Grande
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Ariana Grande
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q20606290
+    title: Ariana Grande
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Ariana Grande; Official Artist Channel; YouTube channel ID UC9CoOnJkIBMdeijd9qYoT_g.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The verified Official Artist Channel is attributed to the creator; label and management deals are not ownership evidence. reviewed_by is absent.

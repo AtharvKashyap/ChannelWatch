@@ -1,0 +1,41 @@
+channel:
+  youtube_channel_id: UCOmHUn--16B90oW2L6FRR3A
+  display_name: BLACKPINK
+  handle: "@BLACKPINK"
+entities:
+  - slug: blackpink
+    canonical_name: BLACKPINK
+    entity_type: CREATOR
+    jurisdiction: KR
+  - slug: yg
+    canonical_name: YG Entertainment Inc.
+    entity_type: COMPANY
+    legal_name: YG Entertainment Inc.
+    jurisdiction: KR
+    website: https://www.ygfamily.com
+    aliases: [YG Entertainment]
+relationships:
+  - { subject: blackpink, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.8, status: ACTIVE }
+  - { subject: yg, type: MANAGES, object: channel, control_level: MANAGEMENT, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: youtube_milestone
+    url: https://blog.youtube/creator-and-artist-stories/blackpink-100-million-youtube-subscribers/
+    title: Blackpink becomes the first artist to reach 100M subscribers on YouTube
+    publisher: YouTube
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: BLACKPINK hits 100 million subscribers on YouTube, becoming the first Official Artist Channel on YouTube to achieve the milestone.
+    supports: [{ relationship: 0 }]
+  - ref: yg_membership
+    url: https://www.ygfamily.com/en/news/notice/4405
+    title: BLACKPINK YouTube Channel Membership Guide
+    publisher: YG Entertainment
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Once you join the YouTube [BLACKPINK] channel membership, you will have access to the LIVESTREAM CONCERT.
+    supports: [{ relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The Official Artist Channel is modeled as artist-owned while YG is modeled precisely as manager/operator, not owner. YG's official notice demonstrates its administration of the channel. The canonical ID was resolved from the official channel endpoint. reviewed_by is absent.

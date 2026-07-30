@@ -1,0 +1,63 @@
+channel:
+  youtube_channel_id: UCJ5v_MCY6GNUBTO8-D3XoAg
+  display_name: WWE
+  handle: "@WWE"
+entities:
+  - slug: wwe
+    canonical_name: World Wrestling Entertainment, LLC
+    entity_type: SUBSIDIARY
+    legal_name: World Wrestling Entertainment, LLC
+    jurisdiction: US-DE
+    website: https://www.wwe.com
+    aliases: [WWE]
+  - slug: tko
+    canonical_name: TKO Group Holdings, Inc.
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://tkogrp.com
+  - slug: endeavor
+    canonical_name: Endeavor Group Holdings, Inc.
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://www.endeavorco.com
+  - slug: silver_lake
+    canonical_name: Silver Lake
+    entity_type: PRIVATE_EQUITY_FIRM
+    jurisdiction: US
+    website: https://www.silverlake.com
+relationships:
+  - { subject: wwe, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: wwe, type: SUBSIDIARY_OF, object: tko, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: endeavor, type: CONTROLS, object: tko, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - { subject: endeavor, type: PORTFOLIO_COMPANY_OF, object: silver_lake, control_level: CONTROLLING, effective_from: 2025-03-24, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: wwe_privacy
+    url: https://www.wwe.com/page/privacy-policy
+    title: Privacy Policy
+    publisher: WWE
+    source_type: SHARED_LEGAL_DOCUMENTATION
+    tier: 3
+    excerpt: World Wrestling Entertainment, LLC and its affiliates (“WWE”) are part of TKO Group Holdings (“TKO Group” or “TKO”), which is part of Endeavor Group Holdings, Inc.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: silver_lake_close
+    url: https://www.silverlake.com/endeavor-announces-completion-of-acquisition-by-silver-lake/
+    title: Endeavor Announces Completion of Acquisition by Silver Lake
+    publisher: Silver Lake
+    published_at: 2025-03-24
+    source_type: INVESTOR_PORTFOLIO_LISTING
+    tier: 1
+    excerpt: Endeavor Group Holdings, Inc. today announced the completion of its acquisition by Silver Lake, the global leader in technology investing, in partnership with the Endeavor management team and additional investors. [...] The now privately held Endeavor Group Holdings, Inc. retains its controlling ownership stake in TKO Group Holdings, Inc.
+    supports: [{ relationship: 2 }, { relationship: 3 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q35339
+    title: WWE
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: WWE; YouTube channel ID UCJ5v_MCY6GNUBTO8-D3XoAg.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT; SENSITIVE PE CHAIN. WWE's legal policy gives the WWE-to-TKO-to-Endeavor chain. Silver Lake's official closing announcement establishes its acquisition of Endeavor and Endeavor's retained control of TKO, satisfying the Tier 1 PE evidence rule. A second distinct human reviewer is required before publication. reviewed_by is absent.

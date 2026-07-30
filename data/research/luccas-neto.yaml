@@ -1,0 +1,64 @@
+# CHANNELWATCH research record — LUCCAS NETO
+channel:
+  youtube_channel_id: UC_gV70G_Y51LTa3qhu8KiEA
+  display_name: LUCCAS NETO
+  handle: "@luccasneto"
+entities:
+  - slug: neto
+    canonical_name: Luccas Neto
+    entity_type: CREATOR
+    legal_name: Luccas Neto Ferreira
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: neto
+    confidence: 0.85
+    status: ACTIVE
+  - subject: neto
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.65
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: neto
+    confidence: 0.95
+    status: ACTIVE
+sources:
+  - ref: videoamigo_luccas
+    url: https://stats.videoamigo.com/channel-directory/UC_gV70G_Y51LTa3qhu8KiEA.amigo
+    title: LUCCAS NETO YouTube Stats
+    publisher: VideoAmigo
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      UC_gV70G_Y51LTa3qhu8KiEA YouTube channel image; LUCCAS NETO.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: wikipedia_luccas
+    url: https://en.wikipedia.org/wiki/Luccas_Neto
+    title: Luccas Neto
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Luccas Neto Ferreira [...] is a Brazilian actor and comedian. On 10
+      February 2017, he uploaded his first video.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. Canonical ID is linked to @luccasneto. The precise account-creation
+    date is not established by the cited sources, so effective_from is omitted.
+    OWNS is moderate-low because Neto is the named host and no transfer was
+    found, but Luccas Toon produces the current content and no legal disclosure
+    located clarifies whether the individual or company holds the account.
+    Reviewer should seek registry/direct confirmation. reviewed_by is absent.

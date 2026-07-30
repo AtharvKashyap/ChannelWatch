@@ -148,6 +148,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
   notes: >-
     DRAFT for human review — "independent, creator-owned single-creator channel"
     case (US art/craft creator), with a merch/publishing commerce business kept

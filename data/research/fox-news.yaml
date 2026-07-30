@@ -1,0 +1,40 @@
+channel:
+  youtube_channel_id: UCXIJgqnII2ZOINSWNOGFThA
+  display_name: Fox News
+  handle: "@FoxNews"
+entities:
+  - slug: fox_news_media
+    canonical_name: FOX News Media
+    entity_type: MEDIA_NETWORK
+    jurisdiction: US
+    website: https://www.foxnews.com
+  - slug: fox_corp
+    canonical_name: Fox Corporation
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://www.foxcorporation.com
+relationships:
+  - { subject: fox_news_media, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: fox_news_media, type: SUBSIDIARY_OF, object: fox_corp, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: fox_corporate
+    url: https://www.foxcorporation.com/businesses/fox-news/
+    title: FOX News Media
+    publisher: Fox Corporation
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: FOX News Media operates the FOX News Channel, FOX Business Network, FOX News Digital, FOX News Podcasts, FOX News Audio, FOX News Books, FOX Nation, FOX News International and FOX Weather.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q65438605
+    title: Fox News
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Fox News; YouTube channel ID UCXIJgqnII2ZOINSWNOGFThA; YouTube handle foxnews.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Fox Corporation's business page places the Fox News properties under FOX News Media. Fox Corporation is publicly listed; no personal ownership edge is asserted without a cited voting-control filing. reviewed_by is absent.

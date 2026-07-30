@@ -1,0 +1,34 @@
+channel:
+  youtube_channel_id: UCNye-wNBqNL5ZzHSJj3l8Bg
+  display_name: Al Jazeera English
+  handle: "@aljazeeraenglish"
+entities:
+  - slug: ajmn
+    canonical_name: Al Jazeera Media Network
+    entity_type: NONPROFIT
+    jurisdiction: QA
+    website: https://network.aljazeera.net
+relationships:
+  - { subject: ajmn, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: network_faq
+    url: https://network.aljazeera.net/en/more/faq
+    title: FAQ
+    publisher: Al Jazeera Media Network
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Al Jazeera English Channel – founded in November 2006. Al Jazeera Media Network is a Private Foundation for Public Benefit under Qatari law.
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q4296040
+    title: Al Jazeera English
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Al Jazeera English; YouTube channel ID UCNye-wNBqNL5ZzHSJj3l8Bg; YouTube handle aljazeeraenglish.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Al Jazeera Media Network is modeled according to its stated Qatari legal form as a private foundation for public benefit. The network disputes government ownership; no government ownership edge is asserted. Public funding should be modeled separately only with a source establishing the specific relationship. reviewed_by is absent.

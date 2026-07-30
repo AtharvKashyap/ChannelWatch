@@ -1,0 +1,37 @@
+channel:
+  youtube_channel_id: UCaO6TYtlC8U5ttz62hTrZgg
+  display_name: JYP Entertainment
+  handle: "@jypentertainment"
+entities:
+  - slug: jyp
+    canonical_name: JYP Entertainment Corporation
+    entity_type: COMPANY
+    legal_name: JYP Entertainment Corporation
+    jurisdiction: KR
+    website: https://www.jype.com
+    aliases: [JYP Entertainment]
+relationships:
+  - { subject: jyp, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - { subject: jyp, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: jyp_registry
+    url: https://recordlabelregistry.com/registry/jyp-entertainment
+    title: JYP Entertainment
+    publisher: Record Label Registry
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "YouTube https://youtube.com/@JYPEntertainment"
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: jyp_channel
+    url: https://www.youtube.com/@JYPEntertainment
+    title: JYP Entertainment
+    publisher: JYP Entertainment
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: JYP Entertainment
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The verified corporate identity and label registry connect the handle to JYP Entertainment. The canonical ID was resolved from the channel endpoint. No individual founder equity is asserted. reviewed_by is absent.

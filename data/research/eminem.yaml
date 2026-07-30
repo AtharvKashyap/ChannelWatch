@@ -1,0 +1,23 @@
+channel: { youtube_channel_id: UCfM3zsQsOnfWNUppiycmBuw, display_name: Eminem, handle: "@Eminem" }
+entities:
+  - { slug: creator, canonical_name: Eminem, entity_type: CREATOR, jurisdiction: US }
+relationships:
+  - { subject: creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
+sources:
+  - ref: official_channel
+    url: https://www.youtube.com/@Eminem
+    title: Eminem
+    publisher: Eminem
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Eminem
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q5608
+    title: Eminem
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: EminemMusic; Official Artist Channel; YouTube channel ID UCfM3zsQsOnfWNUppiycmBuw; YouTube handle eminem.
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. The verified Official Artist Channel is attributed to the creator; label and distribution arrangements are not ownership evidence. reviewed_by is absent." }

@@ -1,0 +1,63 @@
+# CHANNELWATCH research record — Unspeakable
+channel:
+  youtube_channel_id: UCwIWAbIeu0xI0ReKWOcw3eg
+  display_name: Unspeakable
+  handle: "@Unspeakable"
+entities:
+  - slug: milner
+    canonical_name: Unspeakable
+    entity_type: CREATOR
+    legal_name: Nathan J. Milner
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: milner
+    confidence: 0.9
+    status: ACTIVE
+  - subject: milner
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: milner
+    confidence: 0.95
+    status: ACTIVE
+sources:
+  - ref: wikipedia_unspeakable
+    url: https://en.wikipedia.org/wiki/Unspeakable_(YouTuber)
+    title: Unspeakable (YouTuber)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Nathan J. Milner [...] also known as Unspeakable, is an American
+      YouTuber. Milner created his YouTube channel in October 2012 and uploaded
+      his first video in November of that year.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: influtrend_unspeakable
+    url: https://influtrend.com/youtube/unspeakable
+    title: Unspeakable YouTube Overview
+    publisher: Influtrend
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      Youtube channel id for @Unspeakable is UCwIWAbIeu0xI0ReKWOcw3eg.
+    supports:
+      - relationship: 0
+      - relationship: 1
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. Canonical ID is directly linked to the supplied handle. Exact founding
+    date is omitted because sources establish only month/year. OWNS is moderate:
+    Milner created and hosts the channel and no external owner was found, but no
+    percentage is stated. Merchandise and media deals are excluded. reviewed_by
+    is absent.

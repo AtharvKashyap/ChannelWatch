@@ -1,0 +1,33 @@
+channel:
+  youtube_channel_id: UCPPfK7Nq_yQR84rn1wcTXBg
+  display_name: Anders Puck Nielsen
+  handle: "@AndersPuckNielsen"
+entities:
+  - slug: anders
+    canonical_name: Anders Puck Nielsen
+    entity_type: CREATOR
+    website: https://www.anderspucknielsen.dk
+relationships:
+  - { subject: anders, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: official_site
+    url: https://www.anderspucknielsen.dk/
+    title: Anders Puck Nielsen
+    publisher: Anders Puck Nielsen
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Følg Anders Puck Nielsens Youtube-kanal
+    supports: [{ relationship: 0 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCPPfK7Nq_yQR84rn1wcTXBg
+    title: Anders Puck Nielsen
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official Anders Puck Nielsen YouTube page identifies the canonical channel as UCPPfK7Nq_yQR84rn1wcTXBg.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. His professional site directly links his YouTube channel. Employment by the Royal Danish Defence College is not ownership and is excluded from the chain. Named private individual requires a second distinct reviewer before launch. reviewed_by is absent.

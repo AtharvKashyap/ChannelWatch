@@ -1,0 +1,23 @@
+channel: { youtube_channel_id: UCL_f53ZEJxp8TtlOkHwMV9Q, display_name: Jordan B Peterson, handle: "@JordanBPeterson" }
+entities:
+  - { slug: jordan_peterson, canonical_name: Jordan B. Peterson, entity_type: CREATOR }
+relationships:
+  - { subject: jordan_peterson, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UCL_f53ZEJxp8TtlOkHwMV9Q
+    title: Jordan B Peterson
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Jordan B Peterson
+    supports: [{ relationship: 0 }]
+  - ref: wikipedia
+    url: https://en.wikipedia.org/wiki/Jordan_Peterson
+    title: Jordan Peterson
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "In 2013, Peterson registered a YouTube channel named JordanPetersonVideos, and immediately began uploading recordings of lectures and interviews."
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Namesake creator channel modeled directly; platform or distribution arrangements are not ownership. Ownership edge is INFERRED from eponymous-creator identity, not a direct ownership disclosure; downgraded to confidence 0.65 and flagged for corroboration. The self-referential YouTube about page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; an independent Wikipedia source (Tier 2) corroborates his YouTube channel. NOTE: the Wikipedia excerpt names a 2013 channel 'JordanPetersonVideos'; reviewer should confirm this is the same (renamed) channel as @JordanBPeterson / UCL_f53ZEJxp8TtlOkHwMV9Q. Named-person record needs a second reviewer; reviewed_by is absent." }

@@ -1,0 +1,36 @@
+channel:
+  youtube_channel_id: UChLtXXpo4Ge1ReTEboVvTDg
+  display_name: Global News
+  handle: "@GlobalNews"
+entities:
+  - slug: corus
+    canonical_name: Corus Entertainment Inc.
+    entity_type: COMPANY
+    legal_name: Corus Entertainment Inc.
+    jurisdiction: CA
+    website: https://www.corusent.com
+relationships:
+  - { subject: corus, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: annual_report
+    url: https://assets.corusent.com/wp-content/uploads/2024/12/corus_ar2024_vf.pdf
+    title: Corus Entertainment Annual Report 2024
+    publisher: Corus Entertainment Inc.
+    published_at: 2024-12-01
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: Global News currently provides a variety of local and national news and information programming across Corus' television and digital platforms.
+    supports: [{ relationship: 0 }]
+  - ref: brand_page
+    url: https://www.corusent.com/advertising/brands/global-news/
+    title: Global News
+    publisher: Corus Entertainment
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Global News
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Corus is the current public-company owner. A pending recapitalization is not modeled until legally effective. reviewed_by is absent.

@@ -1,0 +1,37 @@
+channel:
+  youtube_channel_id: UCuFFtHWoLl5fauMMD5Ww2jA
+  display_name: CBC News
+  handle: "@CBCNews"
+entities:
+  - slug: cbc
+    canonical_name: Canadian Broadcasting Corporation
+    entity_type: NONPROFIT
+    legal_name: Canadian Broadcasting Corporation
+    jurisdiction: CA
+    website: https://cbc.radio-canada.ca
+    aliases:
+      - CBC/Radio-Canada
+relationships:
+  - { subject: cbc, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: corporate_site
+    url: https://cbc.radio-canada.ca/en/vision/mandate
+    title: Our mandate
+    publisher: CBC/Radio-Canada
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: CBC/Radio-Canada is Canada's national public broadcaster.
+    supports: [{ relationship: 0 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCuFFtHWoLl5fauMMD5Ww2jA
+    title: CBC News
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official CBC News YouTube page identifies the canonical channel as UCuFFtHWoLl5fauMMD5Ww2jA.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. CBC/Radio-Canada is modeled as a statutory public broadcaster rather than a conventional commercial subsidiary of the federal government. reviewed_by is absent.

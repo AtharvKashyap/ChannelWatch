@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCyzkxMLeZDcd_Qhzh6uMgbg
+  display_name: PoliticsJOE
+  handle: "@PoliticsJOE"
+entities:
+  - slug: joe_media_group
+    canonical_name: JOE Media Group
+    entity_type: MEDIA_NETWORK
+    aliases:
+      - Greencastle Media Group
+relationships:
+  - { subject: joe_media_group, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.94, status: ACTIVE }
+sources:
+  - ref: parliament
+    url: https://committees.parliament.uk/oralevidence/14722/pdf/
+    title: Communications and Digital Committee oral evidence
+    publisher: UK Parliament
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: PoliticsJOE, which is a very popular and very successful channel of ours, dealing with news, politics and culture
+    supports: [{ relationship: 0 }]
+  - ref: industry
+    url: https://digitalmedia.ie/2023/10/sponsor-announcement-joe-media-group/
+    title: Sponsor Announcement - Joe Media Group
+    publisher: Irish Digital Media Awards
+    published_at: 2023-10-01
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Formally known as Greencastle Media Group – JOE Media Group may have a new name, but still boasts the brands you know and love.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Parliamentary evidence directly describes PoliticsJOE as JOE Media's channel. The second source establishes the Greencastle alias. Individual upstream shareholders are omitted pending primary evidence. reviewed_by is absent.

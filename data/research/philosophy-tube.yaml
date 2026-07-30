@@ -1,0 +1,37 @@
+channel:
+  youtube_channel_id: UC2PA-AKmVpU6NKCGtZq_rKQ
+  display_name: Philosophy Tube
+  handle: "@PhilosophyTube"
+entities:
+  - slug: abigail_thorn
+    canonical_name: Abigail Thorn
+    entity_type: CREATOR
+relationships:
+  - subject: abigail_thorn
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.97
+    status: ACTIVE
+sources:
+  - ref: creator_statement
+    url: https://theabigailthorn.tumblr.com/post/805011468793806848/get-more-from-philosophy-tube-on-patreon
+    title: Get more from Philosophy Tube on Patreon
+    publisher: Abigail Thorn
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: I created Philosophy Tube
+    supports: [{ relationship: 0 }]
+  - ref: publisher_bio
+    url: https://www.bloomsbury.com/AU/author/abigail-thorn/
+    title: Abigail Thorn
+    publisher: Bloomsbury
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Abigail Thorn is a British YouTuber and actress best known for producing the YouTube channel Philosophy Tube.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Thorn directly states that she created Philosophy Tube, corroborated by her publisher biography identifying her as its producer. No separate holding company is publicly identified. Named-person record requires a second distinct human reviewer; reviewed_by is absent.

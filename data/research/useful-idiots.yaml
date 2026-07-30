@@ -1,0 +1,9 @@
+channel: { youtube_channel_id: UC-OKkVxTcgGo34pWUC9CIIw, display_name: Useful Idiots, handle: "@UsefulIdiotsPodcast" }
+entities:
+  - { slug: useful_idiots, canonical_name: Useful Idiots, legal_name: "Useful Idiots, LLC", entity_type: COMPANY, website: "https://www.usefulidiotspodcast.com/" }
+relationships:
+  - { subject: useful_idiots, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+sources:
+  - { ref: official, url: "https://www.usefulidiotspodcast.com/about", title: Why become a Useful Idiot?, publisher: Useful Idiots, source_type: DIRECT_CREATOR_CONFIRMATION, tier: 1, excerpt: "Useful Idiots is an informative and irreverent politics podcast.", supports: [{ relationship: 0 }] }
+  - { ref: listing, url: "https://podcasts.apple.com/us/podcast/useful-idiots-with-katie-halper-and-aaron-mat%C3%A9/id1476110521", title: Useful Idiots with Katie Halper and Aaron Maté, publisher: Apple Podcasts, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Useful Idiots, LLC", supports: [{ relationship: 0 }] }
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Current legal creator is identified in the podcast feed listing; prior Rolling Stone distribution is historical and not current ownership. reviewed_by is absent." }

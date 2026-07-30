@@ -1,0 +1,9 @@
+channel: { youtube_channel_id: UCASM0cgfkJxQ1ICmRilfHLw, display_name: Patrick Boyle, handle: "@PBoyle" }
+entities:
+  - { slug: patrick_boyle, canonical_name: Patrick Boyle, entity_type: CREATOR }
+relationships:
+  - { subject: patrick_boyle, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+sources:
+  - { ref: channel, url: "https://www.youtube.com/channel/UCASM0cgfkJxQ1ICmRilfHLw", title: Patrick Boyle, publisher: Patrick Boyle, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Patrick Boyle", supports: [{ relationship: 0 }] }
+  - { ref: wikidata, url: "https://www.wikidata.org/wiki/Q85792415", title: Patrick Boyle, publisher: Wikidata, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Patrick Boyle — British entrepreneur, fund manager, academic and author. YouTube channel ID (P2397): UCASM0cgfkJxQ1ICmRilfHLw.", supports: [{ relationship: 0 }] }
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Creator-owned channel: Wikidata (Q85792415) links channel UCASM0cgfkJxQ1ICmRilfHLw to Patrick Boyle (fund manager/academic/author). The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; ownership inferred from the eponymous creator brand, confidence lowered to 0.7 and flagged for corroboration. Named-person record needs a second reviewer; reviewed_by is absent." }

@@ -1,0 +1,36 @@
+channel:
+  youtube_channel_id: UC16niRr50-MSBwiO3YDb3RA
+  display_name: BBC News
+  handle: "@BBCNews"
+entities:
+  - slug: bbc
+    canonical_name: British Broadcasting Corporation
+    entity_type: NONPROFIT
+    legal_name: British Broadcasting Corporation
+    jurisdiction: GB
+    website: https://www.bbc.com
+    aliases: [BBC]
+relationships:
+  - { subject: bbc, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: bbc_about
+    url: https://www.bbc.com/aboutthebbc
+    title: About the BBC
+    publisher: BBC
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: The BBC is the world’s leading public service broadcaster.
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q1160945
+    title: BBC News
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: BBC News; YouTube channel ID UC16niRr50-MSBwiO3YDb3RA; YouTube handle BBCNews.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The BBC is modeled as the channel-owning public-service corporation. It operates under a Royal Charter and is not modeled as a conventional government-owned company. Structured metadata verifies the canonical channel ID. reviewed_by is absent.

@@ -1,0 +1,33 @@
+channel:
+  youtube_channel_id: UCEdvpU2pFRCVqU6yIPyTpMQ
+  display_name: Marshmello
+  handle: "@marshmello"
+entities:
+  - slug: marshmello
+    canonical_name: Marshmello
+    entity_type: CREATOR
+    jurisdiction: US
+relationships:
+  - { subject: marshmello, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
+sources:
+  - ref: marshmello_channel
+    url: https://www.youtube.com/@marshmello
+    title: Marshmello
+    publisher: Marshmello
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Marshmello
+    supports: [{ relationship: 0 }]
+  - ref: marshmello_id
+    url: https://www.wikidata.org/wiki/Q26334949
+    title: Marshmello
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Marshmello; YouTube channel ID UCEdvpU2pFRCVqU6yIPyTpMQ; YouTube handle marshmello.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The record stays at the publicly branded creator identity and does not add private-person details. The verified artist channel and structured metadata establish the channel match; no management or label deal is treated as ownership. reviewed_by is absent.

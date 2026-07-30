@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UC5c9VlYTSvBSCaoMu_GI6gQ
+  display_name: Total Gaming
+  handle: "@TotalGaming093"
+entities:
+  - slug: ajju
+    canonical_name: Ajju Bhai
+    entity_type: CREATOR
+    aliases: [Total Gaming]
+relationships:
+  - { subject: channel, type: FOUNDED_BY, object: ajju, confidence: 0.8, status: ACTIVE }
+  - { subject: ajju, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.6, status: ACTIVE }
+  - { subject: channel, type: HOSTED_BY, object: ajju, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: vidiq_total_gaming
+    url: https://vidiq.com/youtube-stats/channel/UC5c9VlYTSvBSCaoMu_GI6gQ/
+    title: Total Gaming YouTube Stats
+    publisher: vidIQ
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Total Gaming; channel UC5c9VlYTSvBSCaoMu_GI6gQ.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: freefire_total_gaming
+    url: https://freefirenation.com/creators/total-gaming/
+    title: Total Gaming
+    publisher: Free Fire Nation
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Total Gaming (Ajju Bhai) is one of India's top gaming YouTubers.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. The canonical ID is linked to the requested channel. Only the public creator name Ajju Bhai is recorded; competing reports about a legal name are not sufficiently reliable and are omitted for privacy. Ownership is moderate-low because no external owner was found but no direct legal ownership disclosure or percentage was located. reviewed_by is absent.

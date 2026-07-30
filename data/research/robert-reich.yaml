@@ -1,0 +1,40 @@
+channel:
+  youtube_channel_id: UCuDv5p8E-evaRSh542hDV5g
+  display_name: Robert Reich
+  handle: "@RBReich"
+entities:
+  - slug: robert_reich
+    canonical_name: Robert Reich
+    entity_type: CREATOR
+relationships:
+  - { subject: robert_reich, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UCuDv5p8E-evaRSh542hDV5g
+    title: Robert Reich
+    publisher: Robert Reich
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Robert Reich
+    supports: [{ relationship: 0 }]
+  - ref: official_bio
+    url: https://rbreich.com/about
+    title: About
+    publisher: Robert Reich
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: He is a columnist for The Guardian, a founding editor of the American Prospect magazine, and co-founder of Inequality Media to which he contributes posts and explainer videos
+    supports: [{ relationship: 0 }]
+  - ref: wikidata
+    url: https://www.wikidata.org/wiki/Q718828
+    title: Robert Reich (Q718828)
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: 'Wikidata item Q718828 (Robert Reich, "American political economist") records the property "YouTube channel ID" (P2397) with the value "UCuDv5p8E-evaRSh542hDV5g", linking the economist Robert Reich to this channel.'
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. This target is Reich's personal namesake channel, distinct from Inequality Media's separate YouTube channel. No separate holding entity for this channel is disclosed. Named-person record requires a second human reviewer; reviewed_by is absent. Ownership originally rested only on the channel's own bare YouTube page plus Reich's own bio (both typed DIRECT_CREATOR_CONFIRMATION); the YouTube self-page is retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the personal bio to ARCHIVED_CORPORATE_PAGE (Tier 3). The channel-to-Robert-Reich link is now independently corroborated by Wikidata (item Q718828, property P2397 = this channel ID). Inferred owner edge flagged for human corroboration; confidence lowered to 0.7.

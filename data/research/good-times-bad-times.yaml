@@ -1,0 +1,24 @@
+channel:
+  youtube_channel_id: UCzCKJ-jtNqDD2LQ3R9rhRUA
+  display_name: Good Times Bad Times
+  handle: "@GTBT"
+entities:
+  - slug: creator
+    canonical_name: Good Times Bad Times
+    entity_type: CREATOR
+relationships:
+  - { subject: creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UCzCKJ-jtNqDD2LQ3R9rhRUA
+    title: Good Times Bad Times
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Good Times Bad Times
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Public creator brand only; no documented outside owner was found. The only source is the channel's own YouTube page (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3), which confirms the channel identity but not who owns it; ownership is inferred from the self-titled brand and flagged for independent corroboration (confidence lowered to 0.65). The operator's own site (gt-bt.com) references Hubert Walas but yields no verbatim ownership statement to cite. reviewed_by is absent.

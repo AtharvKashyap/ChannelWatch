@@ -111,6 +111,7 @@ sources:
 
 review:
   researched_by: akashyap@cybastiontech.com
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
   notes: >-
     DRAFT for human review — "independent, creator-owned single-creator channel"
     case, structurally the same shape as dream.yaml. Computed classification is

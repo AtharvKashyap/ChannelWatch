@@ -1,0 +1,30 @@
+channel:
+  youtube_channel_id: UCNvsIonJdJ5E4EXMa65VYpA
+  display_name: ContraPoints
+  handle: "@ContraPoints"
+entities:
+  - slug: natalie_wynn
+    canonical_name: Natalie Wynn
+    entity_type: CREATOR
+    website: https://www.contrapoints.com/
+relationships:
+  - subject: natalie_wynn
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.97
+    status: ACTIVE
+sources:
+  - ref: official_site
+    url: https://www.contrapoints.com/home
+    title: ContraPoints
+    publisher: ContraPoints
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Natalie Wynn is a social commentator, entertainer, and video essayist with 1.7 million subscribers to her channel, ContraPoints.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Natalie Wynn's official site directly calls ContraPoints her channel. No separate holding company is publicly identified. Named-person record requires a second distinct human reviewer before launch; reviewed_by is absent.

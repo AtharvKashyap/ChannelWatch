@@ -1,0 +1,116 @@
+# CHANNELWATCH research record — Markiplier (Mark Fischbach)
+#
+# DRAFT for human review. Nothing here is published without verification.
+
+channel:
+  # Verified against the canonical ID-based channel URL returned for @markiplier.
+  youtube_channel_id: UC7_YxT-KID8kRbqZo7MyscQ
+  display_name: Markiplier
+  handle: "@markiplier"
+
+entities:
+  - slug: fischbach
+    canonical_name: Mark Fischbach
+    entity_type: CREATOR
+    legal_name: Mark Edward Fischbach
+    aliases:
+      - Markiplier
+
+relationships:
+  # 0: The current channel was created by Fischbach in 2012. Exact day omitted:
+  # the sources establish the year and describe a move to this channel in April,
+  # but do not establish a full operative date.
+  - subject: channel
+    type: FOUNDED_BY
+    object: fischbach
+    confidence: 0.9
+    status: ACTIVE
+
+  # 1: Current creator-ownership edge. No percentage is asserted because no
+  # source located states a legal percentage. The evidence consistently calls it
+  # Fischbach's channel and documents no transfer to an external owner.
+  - subject: fischbach
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+
+  # 2: Fischbach is the creator and on-camera host known as Markiplier.
+  - subject: channel
+    type: HOSTED_BY
+    object: fischbach
+    confidence: 0.95
+    status: ACTIVE
+
+sources:
+  - ref: wired_markiplier
+    url: https://www.wired.com/story/markiplier-is-not-done-with-youtube/
+    title: Markiplier Is Not Done With YouTube
+    publisher: WIRED
+    published_at: 2019-03-21
+    source_type: NAMED_EXECUTIVE_INTERVIEW
+    tier: 2
+    excerpt: >-
+      Gamer, vlogger, and comic Mark Edward Fischbach—aka Markiplier, one of
+      YouTube's most successful stars—reflects on his seven years on the
+      platform. [...] Fischbach has been on YouTube since 2012 [...] He's had
+      his channel banned by a rogue algorithm.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+  - ref: wikipedia_markiplier
+    url: https://en.wikipedia.org/wiki/Markiplier
+    title: Markiplier
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Fischbach had problems with his AdSense account which prevented him from
+      monetizing his videos, and he was forced to move to his current channel in
+      April, originally named "markiplierGAME", now named "Markiplier".
+    supports:
+      - relationship: 0
+      - relationship: 1
+
+claims:
+  - predicate: OWNED_BY
+    subject: channel
+    object: fischbach
+    confidence_factors:
+      sourceQuality: 0.75
+      directness: 0.7
+      entityMatch: 0.95
+      recencyFactor: 0.85
+      corroborationFactor: 0.9
+      contradictionPenalty: 1.0
+
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT for human review. RELATIONSHIPS: (0) FOUNDED_BY is high confidence:
+    WIRED identifies Mark Edward Fischbach as Markiplier and says he has been on
+    YouTube since 2012; the supporting biography explains that his current
+    channel was the replacement account originally called markiplierGAME. The
+    exact creation/transition day is not established by the cited evidence, so
+    effective_from is omitted. (1) OWNS is moderate confidence and is the main
+    reviewer judgment: the sources repeatedly characterize the account as
+    Fischbach's channel, and no acquisition or outside channel owner was found,
+    but neither source states a legal ownership percentage. No percentage or
+    effective date is therefore asserted. (2) HOSTED_BY is high confidence.
+
+    CHANNEL ID: UC7_YxT-KID8kRbqZo7MyscQ was verified as the ID-based URL for
+    the @markiplier channel and independently corroborated by multiple references
+    linking Markiplier to that exact channel ID.
+
+    NON-OWNERSHIP CONTEXT: Fischbach's talent-agency relationships, podcast
+    ventures, YouTube Originals, and the Cloak apparel company are not evidence
+    that those counterparties own this channel, so they are excluded from the
+    ownership chain. Earlier Maker Studios affiliation is likewise an MCN
+    relationship, not evidence of channel ownership. No external investment in
+    or acquisition of this channel was located. reviewed_by is intentionally
+    absent pending human verification.

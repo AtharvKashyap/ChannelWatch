@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCXazgXDIYyWH-yXLAkcrFxw
+  display_name: elrubiusOMG
+  handle: "@elrubiusOMG"
+entities:
+  - slug: doblas
+    canonical_name: El Rubius
+    entity_type: CREATOR
+    legal_name: Rubén Doblas Gundersen
+relationships:
+  - { subject: channel, type: FOUNDED_BY, object: doblas, effective_from: 2011-12-20, confidence: 0.9, status: ACTIVE }
+  - { subject: doblas, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - { subject: channel, type: HOSTED_BY, object: doblas, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: wikidata_elrubius
+    url: https://www.wikidata.org/wiki/Q20746902
+    title: El Rubius
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: YouTube channel ID UCXazgXDIYyWH-yXLAkcrFxw; subject named elrubiusOMG; start time 20 December 2011; handle elrubiusomg.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: wikipedia_elrubius
+    url: https://en.wikipedia.org/wiki/El_Rubius
+    title: El Rubius
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Rubén Doblas Gundersen, better known as elrubiusOMG or simply El Rubius, is a Spanish YouTuber whose channel primarily consists of gameplays and vlogs.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. This record distinguishes elrubiusOMG from the separate Rubius Z account. Ownership is moderate because Doblas created and hosts it and no transfer was found; no percentage is asserted. Talent, publishing, streaming, and brand deals are excluded. reviewed_by is absent.

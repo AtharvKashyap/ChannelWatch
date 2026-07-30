@@ -1,0 +1,59 @@
+channel:
+  youtube_channel_id: UCBnZ16ahKA2DZ_T5W0FPUXg
+  display_name: ChuChu TV Nursery Rhymes & Kids Songs
+  handle: "@ChuChuTV"
+entities:
+  - slug: chuchu
+    canonical_name: ChuChu TV Studios LLP
+    entity_type: COMPANY
+    legal_name: ChuChu TV Studios LLP
+    jurisdiction: IN
+    website: https://chuchutv.com
+    aliases: [ChuChuTV Studios]
+relationships:
+  - { subject: chuchu, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: official_site
+    url: https://chuchutv.com
+    title: ChuChu TV
+    publisher: ChuChu TV Studios LLP
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      This website, contents, logo, characters, videos, audios and assets are the
+      exclusive property of ChuChu TV Studios LLP. ©2013 - 2026 ChuChu TV Studios
+      LLP. All Rights Reserved.
+    supports: [{ relationship: 0 }]
+  - ref: property_confirmation
+    url: https://www.prnewswire.com/news-releases/youtube-pre-school-smash-hit-chuchu-tv-partners-with-dream-theatre-to-launch-global-consumer-products-business-300343702.html
+    title: YouTube Pre-school Smash Hit ChuChu TV partners with Dream Theatre
+    publisher: PR Newswire
+    published_at: 2016-10-18
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: The ChuChu TV YouTube Channel is the property of ChuChuTV Studios, a media & technology firm based in Chennai, India.
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q27999339
+    title: ChuChu TV
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: ChuChu TV Nursery Rhymes & Kids Songs; YouTube channel ID UCBnZ16ahKA2DZ_T5W0FPUXg; YouTube handle chuchutv.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: >-
+    2026-07-30 triage fix (mis-typed DIRECT_CREATOR_CONFIRMATION). The Tier-1
+    DIRECT_CREATOR_CONFIRMATION was a PR Newswire press release about a third-party
+    consumer-products partnership, not the creator's own channel/site. Retyped that
+    release to ARCHIVED_CORPORATE_PAGE (Tier 3, a corporate announcement) and added
+    the real first-party source: ChuChu TV Studios LLP's own website
+    (chuchutv.com), which states the site's contents, characters, videos and assets
+    are its exclusive property and lists the @ChuChuTV YouTube channel among its
+    official platforms. The OWNS edge is now anchored by a genuine
+    DIRECT_CREATOR_CONFIRMATION (Tier 1) plus the corporate release (Tier 3) and the
+    Wikidata channel-ID linkage (Tier 3). Founder roles are not converted into
+    personal equity claims. reviewed_by is absent.

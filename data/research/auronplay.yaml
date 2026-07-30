@@ -1,0 +1,35 @@
+channel:
+  youtube_channel_id: UCyQqzYXQBUWgBTn4pw_fFSQ
+  display_name: AuronPlay
+  handle: "@auronplay"
+entities:
+  - slug: genes
+    canonical_name: AuronPlay
+    entity_type: CREATOR
+    legal_name: Raúl Álvarez Genes
+relationships:
+  - { subject: channel, type: FOUNDED_BY, object: genes, effective_from: 2006-02-28, confidence: 0.85, status: ACTIVE }
+  - { subject: genes, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - { subject: channel, type: HOSTED_BY, object: genes, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: socialcounts_auron
+    url: https://socialcounts.org/youtube-channel-analytics/UCyQqzYXQBUWgBTn4pw_fFSQ
+    title: AuronPlay
+    publisher: SocialCounts
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: "AuronPlay; @auronplay; Joined February 28, 2006; channel UCyQqzYXQBUWgBTn4pw_fFSQ. Bienvenido a mi canal, soy AuronPlay."
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: wikipedia_auron
+    url: https://en.wikipedia.org/wiki/AuronPlay
+    title: AuronPlay
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Raúl Álvarez Genes, better known as AuronPlay, is a Spanish YouTuber and Twitch streamer.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. Canonical ID and full account date are linked to @auronplay. Ownership is moderate because the first-person description and biography identify Genes's channel and no transfer was found, but no percentage is stated. Twitch and representation arrangements are excluded. reviewed_by is absent.

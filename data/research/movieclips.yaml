@@ -1,0 +1,51 @@
+channel:
+  youtube_channel_id: UC3gNmTGu-TTbFPpfSs5kNkg
+  display_name: Rotten Tomatoes Movieclips
+  handle: "@MOVIECLIPS"
+entities:
+  - slug: fandango
+    canonical_name: Fandango Media, LLC
+    entity_type: COMPANY
+    legal_name: Fandango Media, LLC
+    jurisdiction: US-DE
+    website: https://www.fandango.com
+  - slug: versant
+    canonical_name: Versant Media Group, Inc.
+    legal_name: Versant Media Group, Inc.
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://www.versantmedia.com
+    aliases: [VERSANT]
+relationships:
+  - { subject: fandango, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - { subject: fandango, type: SUBSIDIARY_OF, object: versant, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: fandango_about
+    url: https://www.fandango.com/about-us
+    title: About Fandango
+    publisher: Fandango Media
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Fandango Media’s brand portfolio includes world-renowned movie review site, Rotten Tomatoes; YouTube’s #1 movie trailers and clips network, Rotten Tomatoes Movieclips.
+    supports: [{ relationship: 0 }]
+  - ref: fandango_ownership
+    url: https://www.fandango.com/info/corporate-ownership
+    title: Corporate Ownership
+    publisher: Fandango Media
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: VERSANT operates a portfolio of brands including Fandango and Rotten Tomatoes. Fandango affiliated companies include Movieclips and Rotten Tomatoes.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_id
+    url: https://socialcounts.org/youtube-channel-analytics/UC3gNmTGu-TTbFPpfSs5kNkg
+    title: Movieclips YouTube Channel Analytics
+    publisher: SocialCounts.org
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Rotten Tomatoes MOVIECLIPS; YouTube channel ID UC3gNmTGu-TTbFPpfSs5kNkg.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Fandango's official portfolio page identifies Rotten Tomatoes Movieclips, and its current corporate ownership page places Fandango under Versant following the 2026 separation. The minority co-owner of Fandango is omitted because the cited official page does not state its percentage. reviewed_by is absent.

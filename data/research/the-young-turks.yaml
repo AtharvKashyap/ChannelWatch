@@ -1,0 +1,29 @@
+channel:
+  youtube_channel_id: UC1yBKRuGpC1tSM73A0ZjYjQ
+  display_name: The Young Turks
+  handle: "@TheYoungTurks"
+entities:
+  - slug: tyt
+    canonical_name: TYT Network
+    entity_type: MEDIA_NETWORK
+    website: https://tyt.com
+  - slug: cenk
+    canonical_name: Cenk Uygur
+    entity_type: CREATOR
+relationships:
+  - { subject: tyt, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - { subject: cenk, type: PARTIALLY_OWNS, object: tyt, control_level: UNKNOWN, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: about
+    url: https://tyt.com/about
+    title: About TYT
+    publisher: TYT
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: The Young Turks is the flagship show of the TYT Network. The Young Turks is a privately-held company led by founder and CEO Cenk Uygur, who is also the largest shareholder.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: "DRAFT. 2026-07-30 verification (triage: OWNS->MEDIA_NETWORK edge): re-fetched tyt.com/about and confirmed the excerpt verbatim. Entity typing confirmed: TYT Network is correctly typed MEDIA_NETWORK; the about page states The Young Turks is 'the flagship show of the TYT Network' (supports tyt OWNS channel) and 'a privately-held company led by founder and CEO Cenk Uygur, who is also the largest shareholder' (supports cenk PARTIALLY_OWNS tyt). Because the page says 'flagship show' rather than verbatim 'owns', and names Cenk only as 'largest shareholder' (not a stated controlling/majority stake), confidences were calibrated down from 0.99/0.98 to 0.9/0.9 and cenk control_level kept UNKNOWN. Cenk Uygur is modeled as the largest shareholder without a percentage or controlling status because neither is stated. Earlier venture investors are omitted because current holdings were not verified. Named private individual requires a second distinct reviewer before launch. reviewed_by is absent."

@@ -1,0 +1,45 @@
+channel:
+  youtube_channel_id: UCcdwLMPsaU2ezNSJU1nFoBQ
+  display_name: Pinkfong Baby Shark - Kids' Songs & Stories
+  handle: "@Pinkfong"
+entities:
+  - slug: pinkfong_company
+    canonical_name: The Pinkfong Company, Inc.
+    entity_type: COMPANY
+    legal_name: The Pinkfong Company, Inc.
+    jurisdiction: KR
+    website: https://www.thepinkfongcompany.com
+  - { slug: pinkfong_brand, canonical_name: Pinkfong, entity_type: BRAND, jurisdiction: KR }
+relationships:
+  - { subject: pinkfong_company, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: pinkfong_brand, type: SUBSIDIARY_OF, object: pinkfong_company, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: company_business
+    url: https://www.thepinkfongcompany.com/en/business
+    title: Business
+    publisher: The Pinkfong Company, Inc.
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Pinkfong’s YouTube channel is the most influential channel for kids on digital, offering thousands of fan-favorite songs and stories.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: company_press
+    url: https://www.thepinkfongcompany.com/en/news/pr/86
+    title: Pinkfong Surpasses 100 Billion Views on YouTube
+    publisher: The Pinkfong Company, Inc.
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: The company won YouTube's 50 Million Award with Pinkfong's official English YouTube channel reaching 50 million subscribers.
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q55735607
+    title: Pinkfong
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Pinkfong; Korean children's entertainment brand; YouTube channel ID UCcdwLMPsaU2ezNSJU1nFoBQ.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The company directly identifies Pinkfong's official English YouTube channel as part of its business. The brand-to-company edge records the brand structure; no shareholder edge is asserted. reviewed_by is absent.

@@ -1,0 +1,38 @@
+channel:
+  youtube_channel_id: UCbTLwN10NoCU4WDzLf1JMOA
+  display_name: YRF
+  handle: "@yrf"
+entities:
+  - slug: yrf
+    canonical_name: Yash Raj Films Private Limited
+    entity_type: COMPANY
+    legal_name: Yash Raj Films Private Limited
+    jurisdiction: IN
+    website: https://www.yashrajfilms.com
+    aliases: [Yash Raj Films, YRF]
+relationships:
+  - { subject: yrf, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: yrf, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: yrf_milestone
+    url: https://www.yashrajfilms.com/news/detail/2016/07/08/yash-raj-films-%28yrf%29-youtube-channel-crosses-the-1-million-subscriber-landmark
+    title: Yash Raj Films’ (YRF) YouTube Channel crosses the 1 Million subscriber landmark
+    publisher: Yash Raj Films
+    published_at: 2016-07-08
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Yash Raj Films’ (YRF) YouTube Channel crosses the 1 Million subscriber landmark
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: yrf_id
+    url: https://www.wikidata.org/wiki/Q1696916
+    title: Yash Raj Films
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Yash Raj Films; YouTube channel ID UCbTLwN10NoCU4WDzLf1JMOA; YouTube handle yrf.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. YRF's own corporate announcement identifies the company channel and structured YouTube metadata verifies its canonical ID. Aditya Chopra's executive role is not conflated with personal ownership because a current shareholding source was not found. reviewed_by is absent.

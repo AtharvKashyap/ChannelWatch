@@ -1,0 +1,65 @@
+# CHANNELWATCH research record — VanossGaming
+channel:
+  youtube_channel_id: UCKqH_9mk1waLgBiL2vT5b9g
+  display_name: VanossGaming
+  handle: "@VanossGaming"
+entities:
+  - slug: fong
+    canonical_name: VanossGaming
+    entity_type: CREATOR
+    legal_name: Evan Fong
+    aliases: [Vanoss]
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: fong
+    effective_from: 2011-09-15
+    confidence: 0.9
+    status: ACTIVE
+  - subject: fong
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: fong
+    confidence: 0.95
+    status: ACTIVE
+sources:
+  - ref: wikidata_vanoss
+    url: https://www.wikidata.org/wiki/Q20710912
+    title: VanossGaming
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      YouTube channel ID UCKqH_9mk1waLgBiL2vT5b9g; YouTube handle
+      vanossgaming; start time 15 September 2011; stated in YouTube API.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: wikipedia_vanoss
+    url: https://en.wikipedia.org/wiki/VanossGaming
+    title: VanossGaming
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Evan Fong [...] known online as VanossGaming (or simply Vanoss), is a
+      Canadian YouTuber, musician, and comedian.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. The API-linked ID and full start date identify the requested channel.
+    Fong's ownership is moderate confidence because no external owner or transfer
+    was found but no legal percentage is public. Machinima was an MCN, not an
+    owner; music-label and production deals are excluded. reviewed_by is absent.

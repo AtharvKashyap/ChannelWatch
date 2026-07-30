@@ -1,0 +1,32 @@
+channel:
+  youtube_channel_id: UCvlj0IzjSnNoduQF0l3VGng
+  display_name: Some More News
+  handle: "@SMN"
+entities:
+  - slug: smn
+    canonical_name: Some More News
+    entity_type: CREATOR
+relationships:
+  - { subject: smn, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.94, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UCvlj0IzjSnNoduQF0l3VGng
+    title: Some More News
+    publisher: YouTube
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Some More News
+    supports: [{ relationship: 0 }]
+  - ref: technical_id
+    url: https://vidiq.com/youtube-stats/channel/UCvlj0IzjSnNoduQF0l3VGng/
+    title: Some More News YouTube Stats
+    publisher: vidIQ
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Some More News started their YouTube channel on March 6, 2018.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The show brand is modeled directly because public materials establish Cody Johnston as its on-camera creator but do not disclose a legal holding entity or ownership split. reviewed_by is absent.

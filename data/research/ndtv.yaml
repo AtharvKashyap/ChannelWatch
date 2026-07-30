@@ -1,0 +1,36 @@
+channel:
+  youtube_channel_id: UCZFMm1mMw0F81Z37aaEzTUA
+  display_name: NDTV
+  handle: "@NDTV"
+entities:
+  - slug: ndtv_ltd
+    canonical_name: New Delhi Television Limited
+    entity_type: COMPANY
+    legal_name: New Delhi Television Limited
+    jurisdiction: IN
+    website: https://www.ndtv.com
+relationships:
+  - { subject: ndtv_ltd, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: annual_report
+    url: https://www.ndtv.com/convergence/ndtv/corporatepage/images/NDTVAnnualReport2025-26.pdf
+    title: New Delhi Television Limited Annual Report 2025-26
+    publisher: New Delhi Television Limited
+    published_at: 2026-05-28
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: NEW DELHI TELEVISION LIMITED Annual Report 2025-26
+    supports: [{ relationship: 0 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCZFMm1mMw0F81Z37aaEzTUA
+    title: NDTV
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official NDTV YouTube page identifies the canonical channel as UCZFMm1mMw0F81Z37aaEzTUA.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. This conservative record identifies the listed operating company. The upstream Adani shareholding chain is left for a follow-up using the June 2026 shareholding filing rather than inferred from related-party disclosures. reviewed_by is absent.

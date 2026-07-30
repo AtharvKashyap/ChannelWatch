@@ -1,0 +1,35 @@
+channel: { youtube_channel_id: UCsTcErHg8oDvUnTzoqsYeNw, display_name: Unbox Therapy, handle: "@unboxtherapy" }
+entities:
+  - { slug: quickscope, canonical_name: Quickscope Media Inc., entity_type: COMPANY, legal_name: Quickscope Media Inc., jurisdiction: CA }
+  - { slug: brand, canonical_name: Unbox Therapy, entity_type: BRAND, jurisdiction: CA, website: "https://www.unboxtherapy.com" }
+  - { slug: lew, canonical_name: Lewis Hilsenteger, entity_type: CREATOR, legal_name: Lewis George Hilsenteger, aliases: [Lew Later, Unbox Therapy] }
+relationships:
+  - { subject: quickscope, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - { subject: brand, type: SUBSIDIARY_OF, object: quickscope, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: channel, type: FOUNDED_BY, object: lew, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: terms
+    url: https://www.unboxtherapy.com/terms
+    title: Terms of Use
+    publisher: Unbox Therapy
+    source_type: SHARED_LEGAL_DOCUMENTATION
+    tier: 3
+    excerpt: By using this web site, you consent and agree to these terms and conditions as posted by Unbox Therapy parent company Quickscope Media Inc.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q55105202
+    title: Unbox Therapy
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Unbox Therapy; YouTube channel ID UCsTcErHg8oDvUnTzoqsYeNw; YouTube handle unboxtherapy; official website unboxtherapy.com.
+    supports: [{ relationship: 0 }]
+  - ref: wikipedia_unbox_therapy
+    url: https://en.wikipedia.org/wiki/Unbox_Therapy
+    title: Unbox Therapy
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Hilsenteger and Jack McCann created the unboxing YouTube channel Unbox Therapy in December 2010.
+    supports: [{ relationship: 2 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. 2026-07-30 fix (triage: THIN, all Tier-3). Added a Tier 2 source (Wikipedia, ESTABLISHED_INDUSTRY_PUBLICATION) establishing that Lewis Hilsenteger co-created and runs the channel: 'Hilsenteger and Jack McCann created the unboxing YouTube channel Unbox Therapy in December 2010.' Added entity lew (Lewis Hilsenteger, CREATOR) and a channel FOUNDED_BY lew edge backed by that source. Jack McCann is named as co-founder in the source but his current involvement is not established, so only Hilsenteger (the public operator, per Wikipedia) is modeled; the founding is captured, not a specific equity split. Unbox Therapy's own legal terms (Tier 3) still explicitly identify Quickscope Media Inc. as its parent company, and the same official website is linked to the canonical channel; individual founder equity in Quickscope is not asserted (no source). reviewed_by is absent." }

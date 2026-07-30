@@ -1,0 +1,37 @@
+channel:
+  youtube_channel_id: UCSPEjw8F2nQDtmUKPFNF7_A
+  display_name: NHK WORLD-JAPAN
+  handle: "@NHKWORLDJAPAN"
+entities:
+  - slug: nhk
+    canonical_name: Japan Broadcasting Corporation
+    entity_type: NONPROFIT
+    legal_name: Nippon Hoso Kyokai
+    jurisdiction: JP
+    website: https://www.nhk.or.jp/corporateinfo/
+    aliases:
+      - NHK
+relationships:
+  - { subject: nhk, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: official_service
+    url: https://www3.nhk.or.jp/nhkworld/en/about/
+    title: About NHK WORLD-JAPAN
+    publisher: NHK
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: NHK WORLD-JAPAN is the international service of Japan's public media organization NHK.
+    supports: [{ relationship: 0 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCSPEjw8F2nQDtmUKPFNF7_A
+    title: NHK WORLD-JAPAN
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official NHK WORLD-JAPAN YouTube page identifies the canonical channel as UCSPEjw8F2nQDtmUKPFNF7_A.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. NHK is modeled as Japan's statutory public broadcaster, not as an ordinary government-owned company. The similarly named nhkworldjapan.com site is unrelated and was excluded. reviewed_by is absent.

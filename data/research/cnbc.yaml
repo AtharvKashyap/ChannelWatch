@@ -1,0 +1,42 @@
+channel:
+  youtube_channel_id: UCvJJ_dzjViJCoLf5uKUTwoA
+  display_name: CNBC
+  handle: "@CNBC"
+entities:
+  - slug: cnbc
+    canonical_name: CNBC
+    entity_type: MEDIA_NETWORK
+    website: https://www.cnbc.com
+  - slug: versant
+    canonical_name: Versant Media Group, Inc.
+    entity_type: COMPANY
+    legal_name: Versant Media Group, Inc.
+    jurisdiction: US-DE
+    website: https://www.versantmedia.com
+relationships:
+  - { subject: cnbc, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: cnbc, type: SUBSIDIARY_OF, object: versant, control_level: CONTROLLING, effective_from: 2026-01-02, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: versant_proxy
+    url: https://investors.versantmedia.com/static-files/3d99f148-d0e7-4a01-827b-d1cc4f7bd6bd
+    title: Versant Media Group, Inc. 2026 Proxy Statement
+    publisher: Versant Media Group, Inc.
+    published_at: 2026-04-23
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: We serve these markets primarily through a strong portfolio of brands comprised of television networks operating primarily in the United States, including MS NOW, CNBC, USA Network, Golf Channel, E!, SYFY and Oxygen.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: comcast_separation
+    url: https://www.sec.gov/Archives/edgar/data/1166691/000162828026004994/cmcsa-20251231.htm
+    title: Comcast Corporation 2025 Annual Report
+    publisher: U.S. Securities and Exchange Commission
+    published_at: 2026-01-30
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: On January 2, 2026, we completed the separation of Versant through a pro rata distribution of 100% of the outstanding shares of Versant to our shareholders.
+    supports: [{ relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The operative date is the completed Versant separation date in Comcast's filing. Versant is now an independent public company, so Comcast is not modeled as a current parent. reviewed_by is absent.

@@ -1,0 +1,74 @@
+# CHANNELWATCH research record — SSSniperWolf
+# DRAFT for human review. Nothing here is published without verification.
+
+channel:
+  youtube_channel_id: UCpB959t8iPrxQWj7G6n0ctQ
+  display_name: SSSniperWolf
+  handle: "@SSSniperWolf"
+
+entities:
+  - slug: shelesh
+    canonical_name: SSSniperWolf
+    entity_type: CREATOR
+    legal_name: Alia Shelesh
+    aliases:
+      - Lia Shelesh
+
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: shelesh
+    confidence: 0.9
+    status: ACTIVE
+  - subject: shelesh
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: shelesh
+    confidence: 0.95
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_sssniperwolf
+    url: https://en.wikipedia.org/wiki/SSSniperWolf
+    title: SSSniperWolf
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Alia "Lia" Shelesh [...] also known as her pseudonym SSSniperWolf, is an
+      American YouTuber. She started uploading YouTube videos in 2011 [...] and
+      started the "SSSniperWolf" YouTube channel in 2013.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: wikidata_sssniperwolf_channel
+    url: https://www.wikidata.org/wiki/Q79666137
+    title: SSSniperWolf
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      YouTube channel ID UCpB959t8iPrxQWj7G6n0ctQ; YouTube handle
+      sssniperwolf; stated in YouTube API.
+    supports:
+      - relationship: 0
+      - relationship: 1
+
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. Canonical ID and handle are API-linked. FOUNDED_BY and HOSTED_BY are
+    high confidence. OWNS is moderate confidence because public sources identify
+    Shelesh as creating and running her channel and no ownership transfer was
+    found, but no legal ownership percentage is stated. No percentage or exact
+    operative date is asserted. This record addresses ownership only and makes
+    no claims about content disputes or conduct. Platform enforcement and
+    sponsorship arrangements are not ownership. reviewed_by is absent.

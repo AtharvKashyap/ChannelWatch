@@ -1,0 +1,32 @@
+channel:
+  youtube_channel_id: UCJm2TgUqtK1_NLBrjNQ1P-w
+  display_name: Second Thought
+  handle: "@SecondThought"
+entities:
+  - slug: second_thought
+    canonical_name: Second Thought
+    entity_type: CREATOR
+relationships:
+  - { subject: second_thought, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.6, status: ACTIVE }
+sources:
+  - ref: patreon
+    url: https://www.patreon.com/secondthought/about
+    title: Second Thought
+    publisher: Second Thought
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Second Thought is an educational YouTube channel that's been putting out one video per week since early 2017.
+    supports: [{ relationship: 0 }]
+  - ref: channel
+    url: https://www.youtube.com/channel/UCJm2TgUqtK1_NLBrjNQ1P-w
+    title: Second Thought
+    publisher: Second Thought
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Second Thought
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The public creator brand is modeled directly because its first-person Patreon describes “my channel,” while the record intentionally avoids relying on third-party identification of the individual behind it. reviewed_by is absent. The owner edge is eponymous and self-referential. The bare YouTube channel page (previously tier-inflated as DIRECT_CREATOR_CONFIRMATION) has been retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3); the creator's own Patreon self-description is retained as DIRECT_CREATOR_CONFIRMATION. No independent Wikipedia/Wikidata source establishing a distinct owner was found (pseudonymous creator, no encyclopedic article). Inferred owner edge flagged for human corroboration; confidence lowered to 0.6.

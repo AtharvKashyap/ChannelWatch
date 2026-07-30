@@ -1,0 +1,42 @@
+channel:
+  youtube_channel_id: UC0p5jTq6Xx_DosDFxVXnWaQ
+  display_name: The Economist
+  handle: "@TheEconomist"
+entities:
+  - slug: economist_group
+    canonical_name: The Economist Group Limited
+    entity_type: COMPANY
+    legal_name: The Economist Newspaper Limited
+    jurisdiction: GB
+    website: https://www.economistgroup.com
+  - slug: exor
+    canonical_name: Exor N.V.
+    entity_type: INVESTMENT_FIRM
+    jurisdiction: NL
+    website: https://www.exor.com
+relationships:
+  - { subject: economist_group, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: exor, type: PARTIALLY_OWNS, object: economist_group, control_level: MINORITY, ownership_percentage: 43.4, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: annual_report
+    url: https://www.economistgroup.com/pdfs/reports/TEG_Annual_Report_2026.pdf
+    title: The Economist Group Annual Report and Accounts 2026
+    publisher: The Economist Group
+    published_at: 2026-06-01
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: The Economist Group annual report and accounts 2026. The largest shareholder is Exor, which holds all of the ordinary shares and an interest representing 43.4% of total share capital.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_id
+    url: https://www.junkipedia.org/channels/941216
+    title: The Economist
+    publisher: Junkipedia
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The Economist; YouTube channel https://www.youtube.com/channel/UC0p5jTq6Xx_DosDFxVXnWaQ.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Exor is modeled as a 43.4% minority shareholder, not as sole owner or controller, because The Economist's governance includes other shareholders and special editorial safeguards. reviewed_by is absent.

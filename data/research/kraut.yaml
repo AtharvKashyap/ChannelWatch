@@ -1,0 +1,32 @@
+channel:
+  youtube_channel_id: UCr_Q-bPpcw5fJ-Oow1BW1NQ
+  display_name: Kraut
+  handle: "@Kraut_the_Parrot"
+entities:
+  - slug: kraut_creator
+    canonical_name: Kraut
+    entity_type: CREATOR
+relationships:
+  - { subject: kraut_creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.92, status: ACTIVE }
+sources:
+  - ref: patreon
+    url: https://www.patreon.com/Kraut_and_Tea
+    title: Kraut
+    publisher: Patreon
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Kraut. Creating videos on history, culture and whatever I just read about.
+    supports: [{ relationship: 0 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCr_Q-bPpcw5fJ-Oow1BW1NQ
+    title: Kraut
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official Kraut YouTube page identifies the canonical channel as UCr_Q-bPpcw5fJ-Oow1BW1NQ.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The public creator identity is preserved and no attempt is made to identify a pseudonymous individual. Patreon support is revenue, not ownership. reviewed_by is absent.

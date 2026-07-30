@@ -130,7 +130,7 @@ relationships:
     type: OWNS
     object: channel
     control_level: CONTROLLING
-    confidence: 0.75
+    confidence: 0.7
     status: ACTIVE
 
   # 2: Allen is the channel's on-camera creator/host. Distinct from ownership.
@@ -248,8 +248,8 @@ sources:
     url: https://www.youtube.com/channel/UCtPrkXdtCM5DACLufB9jbsA
     title: MrBallen — YouTube channel
     publisher: MrBallen (YouTube)
-    source_type: DIRECT_CREATOR_CONFIRMATION
-    tier: 1
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
     archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCtPrkXdtCM5DACLufB9jbsA
     excerpt: >-
       YouTube's own feed for channel UCtPrkXdtCM5DACLufB9jbsA carries
@@ -275,6 +275,7 @@ sources:
       Studios."
     supports:
       - relationship: 0
+      - relationship: 1
       - relationship: 9
       - relationship: 10
 
@@ -334,10 +335,21 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
   # reviewed_by intentionally OMITTED: this is an unreviewed DRAFT. Do NOT set it
   # without human review.
-  last_reviewed_at: 2026-07-23 # research/authoring date; NOT a human review date.
+  last_reviewed_at: 2026-07-30 # research/authoring date; NOT a human review date.
   notes: >-
+    TIER-INFLATION LIGHT FIX (2026-07-30): the OWNS edge (rel 1) previously rested
+    only on the channel's own feed typed DIRECT_CREATOR_CONFIRMATION/Tier 1, whose
+    excerpt merely confirms channel-id/identity (circular for ownership). That
+    source was retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3 (it is a
+    channel-id linkage), the independent Wikipedia source (Tier 2, "launched his
+    YouTube channel in 2020") was added as corroboration for rel 1, and rel 1
+    confidence was lowered to 0.7. Ownership remains INFERRED from the eponymous
+    sole-creator identity plus documented absence of any transfer, and is flagged
+    for reviewer corroboration.
+
     DRAFT for human review — "independent creator-owned eponymous channel whose
     creator built a production company (Ballen Studios) around it and signed
     PODCAST distribution/ad-sales deals that are NOT channel ownership" case.

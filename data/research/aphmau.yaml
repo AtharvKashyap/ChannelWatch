@@ -40,6 +40,7 @@ entities:
     canonical_name: Catface
     entity_type: COMPANY
     jurisdiction: US-TX # "based in Austin, Texas" (Wikipedia); state of formation not verified
+    website: https://www.catface.com
     aliases:
       - CatFace
       - Catface Studios
@@ -129,10 +130,49 @@ sources:
       - relationship: 2
       - relationship: 3
 
+  - ref: catface_site
+    url: https://www.catface.com
+    title: Catface
+    publisher: Catface
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      CatFace is the creative company behind Aphmau, bringing the stories and
+      characters fans love to life.
+    supports:
+      - relationship: 1
+      - relationship: 2
+
+  - ref: tubefilter_night_aphmau
+    url: https://www.tubefilter.com/2021/06/24/night-media-signs-top-minecraft-youtuber-aphmau-exclusive/
+    title: Night Media Signs Top 'Minecraft' YouTuber Aphmau (Exclusive)
+    publisher: Tubefilter
+    published_at: 2021-06-24
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Creator management company Night Media has signed Aphmau, a veteran
+      Minecraft YouTuber whose channel brings more than 500 million views per
+      month, for exclusive representation. [...] Aphmau (aka Jess Bravura) [...]
+      Bravura has been putting out 20-minute uploads nearly every day since
+      launching her channel in 2012.
+    supports:
+      - relationship: 0
+      - relationship: 3
+
 review:
   researched_by: claude-research-agent-m1
-  last_reviewed_at: 2026-07-23
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
   notes: >-
+    2026-07-30 triage fix (single-source): the Wikipedia source previously backed
+    all four edges alone. Added two independent corroborators so no single source
+    is the sole backing for any edge — catface.com (the production company's own
+    site, "CatFace is the creative company behind Aphmau") independently backs the
+    Bravura->Catface OWNS and Catface->channel OPERATES edges, and a Tubefilter
+    exclusive (2021-06-24) independently backs the 2012 channel launch and the
+    Night Media representation edge. No edges, confidences, or dates changed.
+
     DRAFT for human review — "creator-owned channel operated through the creator's
     OWN production company, with an external talent-management/representation
     relationship (NOT ownership)" case; the direct parallel to ryans-world.yaml and

@@ -1,0 +1,9 @@
+channel: { youtube_channel_id: UC7oPkqeHTwuOZ5CZ-R9f-6w, display_name: TRIGGERnometry, handle: "@triggerpod" }
+entities:
+  - { slug: triggernometry, canonical_name: TRIGGERnometry, entity_type: CREATOR, aliases: [Konstantin Kisin, Francis Foster] }
+relationships:
+  - { subject: triggernometry, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+sources:
+  - { ref: channel, url: "https://www.youtube.com/channel/UC7oPkqeHTwuOZ5CZ-R9f-6w", title: TRIGGERnometry, publisher: TRIGGERnometry, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "TRIGGERnometry", supports: [{ relationship: 0 }] }
+  - { ref: wikipedia, url: "https://en.wikipedia.org/wiki/Triggernometry_(podcast)", title: "Triggernometry (podcast)", publisher: Wikipedia, source_type: ESTABLISHED_INDUSTRY_PUBLICATION, tier: 2, excerpt: "Since April 2018, Kisin has been co-presenter with Francis Foster of Triggernometry, a YouTube channel and podcast.", supports: [{ relationship: 0 }] }
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Public creator brand modeled directly; undisclosed legal entity or host equity is not inferred. The self-referential YouTube page is retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the channel-ownership edge is inferred from the brand-channel identity, flagged for corroboration at confidence 0.65; independent corroboration that Konstantin Kisin and Francis Foster present the Triggernometry channel/podcast is added from Wikipedia (Tier 2). reviewed_by is absent." }

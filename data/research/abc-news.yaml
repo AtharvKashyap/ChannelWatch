@@ -1,0 +1,48 @@
+channel:
+  youtube_channel_id: UCBi2mrWuNuyYy4gbM6fU18Q
+  display_name: ABC News
+  handle: "@ABCNews"
+entities:
+  - slug: abc_news
+    canonical_name: ABC News
+    entity_type: MEDIA_NETWORK
+    jurisdiction: US
+    website: https://abcnews.com
+  - slug: abc
+    canonical_name: American Broadcasting Companies, Inc.
+    entity_type: SUBSIDIARY
+    legal_name: American Broadcasting Companies, Inc.
+    jurisdiction: US-NY
+    website: https://abc.com
+  - slug: disney
+    canonical_name: The Walt Disney Company
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://thewaltdisneycompany.com
+relationships:
+  - { subject: abc_news, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: abc_news, type: SUBSIDIARY_OF, object: abc, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - { subject: abc, type: SUBSIDIARY_OF, object: disney, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: abc_press
+    url: https://www.dgepress.com/storage/uploads/40/B1/40B1F97C-33B7-7CD2-72C4-0BF851D6661A/press-release-10-1424875.pdf
+    title: ABC News Media Relations Press Release
+    publisher: Disney Entertainment Television
+    published_at: 2025-04-17
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: ABC News Media Relations. Copyright ©2025 Disney Enterprises, Inc.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q287171
+    title: ABC News
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: ABC News; YouTube channel ID UCBi2mrWuNuyYy4gbM6fU18Q.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Disney Entertainment Television's ABC News press material supplies the corporate linkage, while structured metadata verifies the U.S. ABC News channel ID. Local ABC affiliates are not implied to share this ownership. reviewed_by is absent.

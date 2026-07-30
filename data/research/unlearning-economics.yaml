@@ -1,0 +1,8 @@
+channel: { youtube_channel_id: UCpYsD7iSK3V98dgOVXySACA, display_name: Unlearning Economics, handle: "@UnlearningEconomics" }
+entities:
+  - { slug: unlearning_economics, canonical_name: Unlearning Economics, entity_type: CREATOR }
+relationships:
+  - { subject: unlearning_economics, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+sources:
+  - { ref: channel, url: "https://www.youtube.com/channel/UCpYsD7iSK3V98dgOVXySACA", title: Unlearning Economics, publisher: Unlearning Economics, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Unlearning Economics", supports: [{ relationship: 0 }] }
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Public creator brand modeled directly; the pseudonymous operator is not identified and no independent third-party profile (Wikipedia/Wikidata) exists to corroborate the channel-ownership edge. The self-referential YouTube page is retyped from DIRECT_CREATOR_CONFIRMATION (Tier 1) to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the inferred channel-ownership edge is downgraded to confidence 0.65, flagged for corroboration. reviewed_by is absent." }

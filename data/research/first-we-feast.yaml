@@ -77,7 +77,8 @@ entities:
     # affiliate leading the buyer consortium, not a PE fund. See review.notes.
     canonical_name: Soros Fund Management LLC
     entity_type: INVESTMENT_FIRM
-    jurisdiction: US
+    legal_name: Soros Fund Management LLC
+    jurisdiction: US-DE
     website: https://www.soros.com
     aliases:
       - Soros Fund Management

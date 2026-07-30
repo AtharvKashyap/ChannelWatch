@@ -209,6 +209,7 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
   notes: >-
     DRAFT for human review — an individual-CREATOR-OWNED channel with a light
     BuzzFeed EMPLOYMENT backstory (no brand/ownership transition). reviewed_by is

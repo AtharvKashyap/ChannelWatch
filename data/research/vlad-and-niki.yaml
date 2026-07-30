@@ -1,0 +1,30 @@
+channel:
+  youtube_channel_id: UCvlE5gTbOvjiolFlEm-c_Ow
+  display_name: Vlad and Niki
+  handle: "@VladandNiki"
+entities:
+  - { slug: brand, canonical_name: Vlad and Niki, entity_type: BRAND, jurisdiction: US }
+relationships:
+  - { subject: brand, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.8, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/@VladandNiki
+    title: Vlad and Niki
+    publisher: Vlad and Niki
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Vlad and Niki
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q104817019
+    title: Vlad and Nikita
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Vlad and Niki; YouTube channel ID UCvlE5gTbOvjiolFlEm-c_Ow; YouTube handle vladandniki.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: "DRAFT. Privacy-preserving brand-level model: no ownership is attributed to the featured minors, and no private family facts are recorded. The verified channel and API-derived identifier establish the channel match. A legal operating company remains an open question. reviewed_by is absent."

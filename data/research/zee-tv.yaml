@@ -1,0 +1,36 @@
+channel:
+  youtube_channel_id: UCppHT7SZKKvar4Oc9J4oljQ
+  display_name: Zee TV
+  handle: "@zeetv"
+entities:
+  - slug: zeel
+    canonical_name: Zee Entertainment Enterprises Limited
+    entity_type: COMPANY
+    legal_name: Zee Entertainment Enterprises Limited
+    jurisdiction: IN
+    website: https://www.zee.com
+    aliases: [ZEEL]
+relationships:
+  - { subject: zeel, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: zee_corporate
+    url: https://www.zee.com/
+    title: ZEE Entertainment Corporate Website
+    publisher: Zee Entertainment Enterprises Limited
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: From launching India’s first private satellite TV channel in 1992 to reaching 1.4 billion viewers, 'Z' continues to revolutionise entertainment across platforms worldwide.
+    supports: [{ relationship: 0 }]
+  - ref: zee_channel_id
+    url: https://www.wikidata.org/wiki/Q2044826
+    title: Zee TV
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Zee TV; owned by Zee Entertainment Enterprises; YouTube channel ID UCppHT7SZKKvar4Oc9J4oljQ; YouTube handle zeetv.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. ZEE's official corporate site ties the company to the television brand, while structured channel metadata supplies the canonical ID and explicit owner linkage. ZEEL is publicly listed, so no higher controlling parent is asserted. reviewed_by is absent.

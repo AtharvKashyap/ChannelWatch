@@ -1,0 +1,30 @@
+channel:
+  youtube_channel_id: UCSq3p5NKEtyp5Rjd4ctiEbg
+  display_name: Task & Purpose
+  handle: "@TaskandPurpose"
+entities:
+  - slug: task_purpose
+    canonical_name: Task & Purpose
+    entity_type: BRAND
+    website: https://taskandpurpose.com
+  - slug: recurrent
+    canonical_name: Recurrent Ventures Inc.
+    entity_type: COMPANY
+    website: https://recurrent.io
+relationships:
+  - { subject: task_purpose, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: task_purpose, type: SUBSIDIARY_OF, object: recurrent, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: about
+    url: https://taskandpurpose.com/about-task-purpose/
+    title: About Task & Purpose
+    publisher: Task & Purpose
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Task & Purpose is owned and operated by Recurrent Ventures.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The publication's own disclosure directly identifies Recurrent Ventures as owner/operator. Its editorial-independence statement is not translated into an ownership edge. reviewed_by is absent.

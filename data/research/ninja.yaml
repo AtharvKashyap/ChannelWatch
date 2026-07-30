@@ -1,0 +1,83 @@
+# CHANNELWATCH research record — Ninja
+# DRAFT for human review. Nothing here is published without verification.
+
+channel:
+  youtube_channel_id: UCAW-NpUFkMyCNrvRSSGIvDQ
+  display_name: Ninja
+  handle: "@Ninja"
+
+entities:
+  - slug: blevins
+    canonical_name: Ninja
+    entity_type: CREATOR
+    legal_name: Richard Tyler Blevins
+    aliases:
+      - Tyler Blevins
+
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: blevins
+    confidence: 0.85
+    status: ACTIVE
+  - subject: blevins
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: blevins
+    confidence: 0.95
+    status: ACTIVE
+
+sources:
+  - ref: wikidata_ninja_channel
+    url: https://www.wikidata.org/wiki/Q54888265
+    title: Ninja
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      YouTube channel ID UCAW-NpUFkMyCNrvRSSGIvDQ; YouTube handle ninja; stated
+      in YouTube API.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: wikipedia_ninja
+    url: https://en.wikipedia.org/wiki/Ninja_(gamer)
+    title: Ninja (gamer)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Richard Tyler Blevins, better known as Ninja, is an American online
+      streamer, YouTuber, and professional gamer. [...] Blevins became a streamer
+      in 2011. [...] In addition to a large number of subscribers on Twitch and
+      Mixer, Blevins has over 24 million subscribers on YouTube as of April 2021.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: >-
+    2026-07-30 triage fix (bare-identity excerpt / no ownership anchor). The
+    Wikipedia excerpt was a bare identity line that did not establish channel
+    founding or ownership. Expanded it (verbatim) to include that Blevins "became
+    a streamer in 2011" and that he "has over 24 million subscribers on YouTube as
+    of April 2021" - the possessive establishing the channel as his and his
+    operation of it. No strong source gives a day-precision YouTube channel
+    creation date (the "2011" and "Nov 10, 2011" figures come only from weak
+    aggregators), so FOUNDED_BY carries NO effective_from and OWNS stays at
+    moderate confidence (0.7) to reflect that it is an inference from sole
+    creator/host status with no external owner found, not a documented equity
+    instrument. Mixer, Twitch, esports teams, talent agents, sponsors, and
+    platform exclusivity contracts are service/employment/distribution
+    relationships rather than ownership of this YouTube channel. reviewed_by is
+    intentionally absent.

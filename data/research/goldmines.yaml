@@ -1,0 +1,36 @@
+channel:
+  youtube_channel_id: UCyoXW-Dse7fURq30EWl_CUA
+  display_name: Goldmines
+  handle: "@GoldminesTelefilms"
+entities:
+  - slug: goldmines
+    canonical_name: Goldmines Telefilms Private Limited
+    entity_type: COMPANY
+    legal_name: Goldmines Telefilms Private Limited
+    jurisdiction: IN
+    website: https://goldmines.co.in
+    aliases: [Goldmines Telefilms Pvt Ltd]
+relationships:
+  - { subject: goldmines, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: goldmines_about
+    url: https://goldmines.co.in/about-us.html
+    title: Who We Are?
+    publisher: Goldmines Telefilms
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Goldmines Telefilms was incorporated in 2000 and has redefined Indian entertainment. Goldmines also has its own Youtube Channel "GoldminesTelefilms".
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q110640014
+    title: Goldmines Telefilms Pvt Ltd
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Goldmines Telefilms Pvt Ltd; official website https://goldmines.co.in; YouTube channel ID UCyoXW-Dse7fURq30EWl_CUA; YouTube handle goldminestelefilms.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Goldmines' official company page explicitly identifies its own YouTube channel, and structured metadata verifies the canonical ID. The public page names Manish Shah as promoter-director and chairman but does not establish an ownership percentage, so no personal ownership edge is asserted. reviewed_by is absent.

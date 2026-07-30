@@ -1,0 +1,64 @@
+# CHANNELWATCH research record — whinderssonnunes
+channel:
+  youtube_channel_id: UC3KQ5GWANYF8lChqjZpXsQw
+  display_name: whinderssonnunes
+  handle: "@whindersson"
+entities:
+  - slug: nunes
+    canonical_name: Whindersson Nunes
+    entity_type: CREATOR
+    legal_name: Whindersson Nunes Batista
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: nunes
+    confidence: 0.9
+    status: ACTIVE
+  - subject: nunes
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: nunes
+    confidence: 0.95
+    status: ACTIVE
+sources:
+  - ref: famelifter_whindersson
+    url: https://famelifter.com/en/channel/youtube/%40whindersson/about
+    title: About whinderssonnunes
+    publisher: FameLifter
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      Channel name whinderssonnunes; custom URL @whindersson; channel ID
+      UC3KQ5GWANYF8lChqjZpXsQw; joined YouTube Jan 21, 2013.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: wikipedia_whindersson
+    url: https://en.wikipedia.org/wiki/Whindersson_Nunes
+    title: Whindersson Nunes
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Whindersson Nunes Batista [...] is a Brazilian YouTuber, comedian, actor,
+      musician and boxer. Nunes registered his YouTube channel in 2013.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. The supplied handle is stale; current @whindersson maps to the
+    canonical ID. OWNS is moderate because Nunes registered and hosts the channel
+    and no transfer was found, but no percentage is stated. Non Stop is linked
+    for publicity/shows and is not modeled as an owner. BMG is a music-label
+    relationship, not channel ownership. reviewed_by is absent.

@@ -1,0 +1,36 @@
+channel:
+  youtube_channel_id: UCq-Fj5jknLsUf-MWSy4_brA
+  display_name: T-Series
+  handle: "@tseries"
+entities:
+  - slug: scil
+    canonical_name: T-Series
+    entity_type: COMPANY
+    legal_name: Super Cassettes Industries Private Limited
+    jurisdiction: IN
+    website: https://www.tseries.com
+relationships:
+  - { subject: scil, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: scil, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: tseries_corporate
+    url: https://in.linkedin.com/company/super-cassettes-industries-limited
+    title: T-Series Super Cassettes Industries Pvt Limited
+    publisher: T-Series
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: "Find us on our Digital Media Platforms --> Watch us on YouTube: https://www.youtube.com/tseries"
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: wikipedia_tseries
+    url: https://en.wikipedia.org/wiki/T-Series_(company)
+    title: T-Series (company)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Super Cassettes Industries Private Limited, doing business as T-Series, is an Indian record label and film studio. The company's main T-Series channel on YouTube primarily shows music videos and film trailers.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. Corporate sources identify the @tseries channel as SCIL/T-Series's own digital platform. No separate percentage is stated. Bhushan Kumar is chairman and managing director, but current individual equity evidence is insufficient, so management is not conflated with personal ownership. reviewed_by is absent.

@@ -1,0 +1,40 @@
+channel:
+  youtube_channel_id: UCJrDMFOdv1I2k8n9oK_V21w
+  display_name: Tips Official
+  handle: "@tipsofficial"
+entities:
+  - slug: tips
+    canonical_name: Tips Music Limited
+    entity_type: COMPANY
+    legal_name: Tips Music Limited
+    jurisdiction: IN
+    website: https://www.tips.in
+    aliases:
+      - Tips Industries Limited
+      - Tips Music
+relationships:
+  - { subject: tips, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: tips, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+sources:
+  - ref: tips_channel_milestone
+    url: https://www.tips.in/blog/tips-official-celebrates-30-mn-subscribers
+    title: Tips Official celebrates 30 mn subscribers
+    publisher: Tips Music Limited
+    published_at: 2020-09-30
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Indian music and film production giant Tips surpasses another milestone of 30 million subscribers on their Tips Official YouTube channel.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: tips_home
+    url: https://wp-v1.tips.in/
+    title: Home - Tips Music Limited
+    publisher: Tips Music Limited
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: Tips Official Videos
+    supports: [{ relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Tips' official corporate site explicitly calls Tips Official its YouTube channel. The company renamed itself from Tips Industries Limited to Tips Music Limited; the former name is retained as an alias rather than modeled as a separate owner. No individual shareholder is modeled without current equity evidence. reviewed_by is absent.

@@ -1,0 +1,41 @@
+channel:
+  youtube_channel_id: UCupvZG-5ko_eiXAupbDfxWw
+  display_name: CNN
+  handle: "@CNN"
+entities:
+  - slug: cnn
+    canonical_name: Cable News Network
+    entity_type: MEDIA_NETWORK
+    jurisdiction: US
+    website: https://www.cnn.com
+    aliases: [CNN]
+  - slug: wbd
+    canonical_name: Warner Bros. Discovery, Inc.
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://www.wbd.com
+relationships:
+  - { subject: cnn, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: cnn, type: SUBSIDIARY_OF, object: wbd, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: cnn_help
+    url: https://help.cnn.com/
+    title: CNN Help Center
+    publisher: CNN
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: © 2026 Cable News Network. A Warner Bros. Discovery Company. All Rights Reserved.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q48340
+    title: CNN
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: CNN; YouTube channel ID UCupvZG-5ko_eiXAupbDfxWw; YouTube handle CNN.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. CNN's current help center explicitly identifies Cable News Network as a Warner Bros. Discovery company. Announced or pending WBD reorganizations are not modeled until operative. reviewed_by is absent.

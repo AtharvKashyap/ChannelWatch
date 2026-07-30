@@ -1,0 +1,23 @@
+channel: { youtube_channel_id: UCpYye8D5fFMUPf9nSfgd4bA, display_name: "BabyBus - Kids Songs and Cartoons", handle: "@BabyBusNurseryRhymes" }
+entities:
+  - { slug: babybus, canonical_name: BabyBus, entity_type: COMPANY, jurisdiction: CN, website: "https://www.babybus.com" }
+relationships:
+  - { subject: babybus, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: babybus_about
+    url: https://www.babybus.com/global/en/about
+    title: About Us
+    publisher: BabyBus
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: A full range of products for children enlightenment are tailored for playing (app), watching (nursery rhymes & video) and listening (stories).
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q98146400
+    title: BabyBus - Nursery Rhymes
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: BabyBus - Nursery Rhymes; YouTube channel ID UCpYye8D5fFMUPf9nSfgd4bA; official website babybus.com.
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. BabyBus's corporate page describes its nursery-rhyme and video products, and API-derived metadata links the flagship channel to the same official website. The precise legal entity name remains an open registry question. reviewed_by is absent." }

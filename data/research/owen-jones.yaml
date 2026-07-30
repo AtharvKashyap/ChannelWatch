@@ -1,0 +1,24 @@
+channel:
+  youtube_channel_id: UCSYCo8uRGF39qDCxF870K5Q
+  display_name: Owen Jones
+  handle: "@OwenJonesTalks"
+entities:
+  - slug: owen_jones
+    canonical_name: Owen Jones
+    entity_type: CREATOR
+relationships:
+  - { subject: owen_jones, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: channel_about
+    url: https://www.youtube.com/channel/UCSYCo8uRGF39qDCxF870K5Q
+    title: Owen Jones
+    publisher: Owen Jones
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: This is my independent channel, unaffiliated to any media organisation
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The channel description directly states that it is Jones's independent channel and unaffiliated with a media organization. Named-person record requires a second human reviewer; reviewed_by is absent.

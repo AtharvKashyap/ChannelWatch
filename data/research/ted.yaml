@@ -1,0 +1,33 @@
+channel: { youtube_channel_id: UCAuUUnT6oDeKwE6v1NGQxug, display_name: TED, handle: "@TED" }
+entities:
+  - { slug: ted_conferences, canonical_name: "TED Conferences, LLC", entity_type: COMPANY, legal_name: "TED Conferences, LLC", jurisdiction: US }
+  - { slug: ted_foundation, canonical_name: TED Foundation, entity_type: NONPROFIT, jurisdiction: US-NY, website: "https://www.ted.com" }
+relationships:
+  - { subject: ted_conferences, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: ted_conferences, type: SUBSIDIARY_OF, object: ted_foundation, control_level: CONTROLLING, effective_from: 2019-07-01, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: how_ted_works
+    url: https://www.ted.com/about/our-organization/how-ted-works
+    title: How TED works
+    publisher: TED
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: As of July 1, 2019, TED is owned by TED Foundation. TED moved TED Conferences LLC from the Sapling Foundation over to TED Foundation.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: policies
+    url: https://conferences.ted.com/policies
+    title: Policies
+    publisher: TED Conferences
+    source_type: SHARED_LEGAL_DOCUMENTATION
+    tier: 3
+    excerpt: TED is owned by the TED Foundation, a private 501(c)3 nonprofit foundation registered in the state of New York.
+    supports: [{ relationship: 1 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q189021
+    title: TED
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: TED; YouTube channel ID UCAuUUnT6oDeKwE6v1NGQxug; YouTube handle TED.
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. TED's official organization page gives the exact 2019 transfer date and current nonprofit parent. The operating LLC is modeled as channel owner beneath TED Foundation. reviewed_by is absent." }

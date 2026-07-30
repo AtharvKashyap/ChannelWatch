@@ -1,0 +1,23 @@
+channel: { youtube_channel_id: UCIHdDJ0tjn_3j-FS7s_X1kQ, display_name: Valuetainment, handle: "@VALUETAINMENT" }
+entities:
+  - { slug: valuetainment, canonical_name: Valuetainment, entity_type: COMPANY, aliases: [Patrick Bet-David] }
+relationships:
+  - { subject: valuetainment, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UCIHdDJ0tjn_3j-FS7s_X1kQ
+    title: Valuetainment
+    publisher: Valuetainment
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Valuetainment
+    supports: [{ relationship: 0 }]
+  - ref: wikipedia
+    url: https://en.wikipedia.org/wiki/Patrick_Bet-David
+    title: Patrick Bet-David
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "On November 9, 2012, Bet-David launched the Valuetainment YouTube channel, initially focused on entrepreneurship, business strategy, and personal development."
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Branded company modeled directly; founder identity does not establish an equity percentage. The self-referential YouTube page is retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the channel-ownership edge is inferred, flagged for corroboration at confidence 0.65; independent corroboration (Wikipedia, Tier 2) establishes that Patrick Bet-David launched the Valuetainment YouTube channel and is the founder of Valuetainment Media. reviewed_by is absent." }

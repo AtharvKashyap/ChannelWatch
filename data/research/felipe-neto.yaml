@@ -1,0 +1,65 @@
+# CHANNELWATCH research record — Felipe Neto
+channel:
+  youtube_channel_id: UCV306eHqgo0LvBf3Mh36AHg
+  display_name: Felipe Neto
+  handle: "@felipeneto"
+entities:
+  - slug: neto
+    canonical_name: Felipe Neto
+    entity_type: CREATOR
+    legal_name: Felipe Neto Rodrigues Vieira
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: neto
+    effective_from: 2006-05-16
+    confidence: 0.85
+    status: ACTIVE
+  - subject: neto
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: neto
+    confidence: 0.95
+    status: ACTIVE
+sources:
+  - ref: wikidata_felipe
+    url: https://www.wikidata.org/wiki/Q10281000
+    title: Felipe Neto
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      YouTube channel ID UCV306eHqgo0LvBf3Mh36AHg; YouTube handle felipeneto;
+      start time 16 May 2006; stated in YouTube API.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: wikipedia_felipe
+    url: https://en.wikipedia.org/wiki/Felipe_Neto
+    title: Felipe Neto
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      Felipe Neto Rodrigues Vieira [...] is a Brazilian YouTuber, businessman,
+      actor, comedian, writer and philanthropist.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. Canonical ID is API-linked to @felipeneto. OWNS is moderate because
+    the channel is consistently presented as Neto's and no transfer was found,
+    but no legal percentage is stated. Paramaker and Play9 are companies Neto
+    founded/co-founded; available evidence does not establish either as owner of
+    this personal channel, so they are excluded. reviewed_by is absent.

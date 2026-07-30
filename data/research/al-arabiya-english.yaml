@@ -1,0 +1,42 @@
+channel:
+  youtube_channel_id: UCIZJ9a6P_nxCFJTmL0gh_IQ
+  display_name: Al Arabiya English
+  handle: "@AlArabiyaEnglish"
+entities:
+  - slug: al_arabiya_holding
+    canonical_name: Al Arabiya News Holding Ltd.
+    entity_type: COMPANY
+    legal_name: Al Arabiya News Holding Ltd.
+    jurisdiction: AE
+  - slug: mbc_group
+    canonical_name: MBC Group Company
+    entity_type: COMPANY
+    legal_name: MBC Group Company
+    jurisdiction: SA
+    website: https://www.mbc.net
+relationships:
+  - { subject: al_arabiya_holding, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+  - { subject: al_arabiya_holding, type: SUBSIDIARY_OF, object: mbc_group, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+sources:
+  - ref: mbc_annual
+    url: https://mbc-lite-strapi-s3.s3.me-south-1.amazonaws.com/MBC_GROUP_Annual_Report_2024_English_96654a47af.pdf
+    title: MBC Group Annual Report 2024
+    publisher: MBC Group Company
+    published_at: 2025-04-30
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: Al Arabiya News Holding Ltd
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCIZJ9a6P_nxCFJTmL0gh_IQ
+    title: Al Arabiya English
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official Al Arabiya English YouTube page identifies the canonical channel as UCIZJ9a6P_nxCFJTmL0gh_IQ.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The operating entity appears in MBC Group's regulatory report. The current MBC shareholder chain is intentionally omitted until the exact percentage and operative transaction are verified from the 2025 report. reviewed_by is absent.

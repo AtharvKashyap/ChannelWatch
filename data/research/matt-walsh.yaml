@@ -1,0 +1,23 @@
+channel: { youtube_channel_id: UCO01ytfzgXYy4glnPJm4PPQ, display_name: Matt Walsh, handle: "@MattWalsh" }
+entities:
+  - { slug: daily_wire, canonical_name: The Daily Wire, legal_name: The Daily Wire, LLC, entity_type: MEDIA_NETWORK, website: "https://www.dailywire.com/" }
+relationships:
+  - { subject: daily_wire, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+sources:
+  - ref: official
+    url: https://get.dailywire.com/speakers/
+    title: Book Our Speakers
+    publisher: The Daily Wire
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: He is the host of The Matt Walsh Show
+    supports: [{ relationship: 0 }]
+  - ref: wikipedia
+    url: https://en.wikipedia.org/wiki/Matt_Walsh_(political_commentator)
+    title: Matt Walsh (political commentator)
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "He hosts the podcast The Matt Walsh Show and regularly appears on the American conservative website The Daily Wire. [...] He joined The Daily Wire in 2017, and began hosting The Matt Walsh Show in 2018."
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Daily Wire identifies Walsh as host of its show; the network is modeled as channel owner. Ownership edge is INFERRED (The Matt Walsh Show is a Daily Wire production carried on this channel) rather than a direct disclosure that The Daily Wire holds the channel vs. Walsh personally; downgraded to confidence 0.65 and flagged for corroboration. The self-referential Daily Wire company page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to ARCHIVED_CORPORATE_PAGE/Tier 3; an independent Wikipedia source (Tier 2) corroborates the Walsh<->Daily Wire relationship. reviewed_by is absent." }

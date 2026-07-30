@@ -1,0 +1,48 @@
+channel:
+  youtube_channel_id: UC56gTxNs4f9xZ7Pa2i5xNzg
+  display_name: Sony Music India
+  handle: "@SonyMusicIndia"
+entities:
+  - slug: sony_india_music
+    canonical_name: Sony Music Entertainment India
+    entity_type: SUBSIDIARY
+    legal_name: Sony Music Entertainment India Private Limited
+    jurisdiction: IN
+  - slug: sony_group
+    canonical_name: Sony Group Corporation
+    entity_type: COMPANY
+    jurisdiction: JP
+    website: https://www.sony.com
+relationships:
+  - { subject: sony_india_music, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - { subject: sony_india_music, type: SUBSIDIARY_OF, object: sony_group, control_level: CONTROLLING, confidence: 0.8, status: ACTIVE }
+sources:
+  - ref: sony_channel
+    url: https://www.youtube.com/sonymusicindia
+    title: Sony Music India
+    publisher: Sony Music India
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Welcome to Sony Music India's official YouTube channel, the ultimate destination for music enthusiasts and fans of the Indian music scene.
+    supports: [{ relationship: 0 }]
+  - ref: sony_privacy
+    url: https://www.sonymusicapac.com/privpolicy/in-privpolicy.htm
+    title: India Privacy Policy
+    publisher: Sony Music Entertainment
+    source_type: SHARED_LEGAL_DOCUMENTATION
+    tier: 3
+    excerpt: Sony Music Entertainment India Private Limited is a company registered in India.
+    supports: [{ relationship: 0 }]
+  - ref: wikidata_sony_india
+    url: https://www.wikidata.org/wiki/Q94665355
+    title: Sony Music India
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Sony Music India; owned by Sony Group; YouTube channel ID UC56gTxNs4f9xZ7Pa2i5xNzg; YouTube handle sonymusicindia.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. The official channel self-identifies as Sony Music India's. The legal entity is confirmed by Sony's privacy policy. The ultimate Sony Group edge is supported by structured secondary linkage; reviewer should seek a current Sony subsidiary filing for stronger primary corroboration. reviewed_by is absent.

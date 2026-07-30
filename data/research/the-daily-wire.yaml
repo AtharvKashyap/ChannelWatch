@@ -153,45 +153,12 @@ sources:
       co-founders.
     supports:
       - relationship: 0
+      - relationship: 1
       - relationship: 2
       - relationship: 3
       - relationship: 4
-
-  - ref: dw_about_operates
-    url: https://www.dailywire.com/about
-    title: About — The Daily Wire
-    publisher: The Daily Wire
-    source_type: DIRECT_CREATOR_CONFIRMATION
-    tier: 1
-    excerpt: >-
-      DailyWire+ is a subscription podcast and video-on-demand over-the-top
-      streaming service owned and operated by The Daily Wire, LLC.
-    supports:
-      - relationship: 1
-
-  - ref: dw_about_founders
-    url: https://www.dailywire.com/about
-    title: About — The Daily Wire
-    publisher: The Daily Wire
-    source_type: DIRECT_CREATOR_CONFIRMATION
-    tier: 1
-    excerpt: >-
-      Conceived by Ben Shapiro and Jeremy Boreing, The Daily Wire was meant to
-      be something unique
-    supports:
       - relationship: 5
       - relationship: 6
-
-  - ref: dw_about_founding
-    url: https://www.dailywire.com/about
-    title: About — The Daily Wire
-    publisher: The Daily Wire
-    source_type: DIRECT_CREATOR_CONFIRMATION
-    tier: 1
-    excerpt: >-
-      In partnership with Caleb Robinson, the team launched The Daily Wire in
-      2015 with an initial investment of $4.7M by Farris Wilks.
-    supports:
       - relationship: 7
       - relationship: 8
 

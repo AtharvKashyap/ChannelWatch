@@ -1,0 +1,74 @@
+# CHANNELWATCH research record — Logan Paul
+# DRAFT for human review. Nothing here is published without verification.
+
+channel:
+  youtube_channel_id: UCG8rbF3g2AMX70yOd8vqIZg
+  display_name: Logan Paul
+  handle: "@loganpaulvlogs"
+
+entities:
+  - slug: paul
+    canonical_name: Logan Paul
+    entity_type: CREATOR
+    legal_name: Logan Alexander Paul
+
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: paul
+    confidence: 0.9
+    status: ACTIVE
+  - subject: paul
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: paul
+    confidence: 0.95
+    status: ACTIVE
+
+sources:
+  - ref: wikipedia_logan_paul
+    url: https://en.wikipedia.org/wiki/Logan_Paul
+    title: Logan Paul
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: >-
+      He registered his first YouTube channel, TheOfficialLoganPaul, on October
+      18, 2013, where he started posting regularly following the closure of the
+      Vine app.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: wikidata_logan_channel
+    url: https://www.wikidata.org/wiki/Q24451685
+    title: Logan Paul
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      YouTube channel ID UCG8rbF3g2AMX70yOd8vqIZg; YouTube handle
+      loganpaulvlogs; stated in YouTube API.
+    supports:
+      - relationship: 0
+      - relationship: 1
+
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. The target's supplied @LoganPaul handle is stale; the YouTube
+    API-linked current handle is @loganpaulvlogs and the canonical channel ID is
+    UCG8rbF3g2AMX70yOd8vqIZg. FOUNDED_BY and HOSTED_BY are high confidence.
+    OWNS is moderate confidence: sources consistently describe this as Paul's
+    channel and no transfer or outside owner was located, but no legal ownership
+    percentage is stated, so no percentage or operative date is asserted.
+    Prime Hydration, WWE, podcast, talent, sponsorship, and distribution
+    relationships are not channel ownership and are excluded. reviewed_by is
+    intentionally absent.

@@ -1,0 +1,39 @@
+channel:
+  youtube_channel_id: UC0YvoAYGgdOfySQSLcxtu1w
+  display_name: Belle of the Ranch
+  handle: "@BelleoftheRanch"
+entities:
+  - slug: belle_of_the_ranch
+    canonical_name: Belle of the Ranch
+    entity_type: CREATOR
+    aliases:
+      - Beau of the Fifth Column
+relationships:
+  - subject: belle_of_the_ranch
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.9
+    status: ACTIVE
+sources:
+  - ref: channel
+    url: https://www.youtube.com/channel/UC0YvoAYGgdOfySQSLcxtu1w
+    title: Belle of the Ranch
+    publisher: YouTube
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Belle of the Ranch
+    supports: [{ relationship: 0 }]
+  - ref: podcast_listing
+    url: https://podcasts.apple.com/ca/podcast/belle-of-the-ranch/id1479080781
+    title: Belle of the Ranch
+    publisher: Apple Podcasts
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: "Creator: Belle of the Ranch"
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The target formerly called Beau of the Fifth Column now presents as Belle of the Ranch while retaining the same verified canonical channel ID. This record models the current public creator brand and does not identify the pseudonymous operators. Public evidence does not establish a legal holding entity or operative ownership-transfer date. reviewed_by is absent.

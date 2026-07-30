@@ -1,0 +1,64 @@
+# CHANNELWATCH research record — JuegaGerman
+channel:
+  youtube_channel_id: UCYiGq8XF7YQD00x7wAd62Zg
+  display_name: JuegaGerman
+  handle: "@JuegaGerman"
+entities:
+  - slug: garmendia
+    canonical_name: Germán Garmendia
+    entity_type: CREATOR
+    legal_name: Germán Alejandro Garmendia Aranis
+relationships:
+  - subject: channel
+    type: FOUNDED_BY
+    object: garmendia
+    effective_from: 2013-05-19
+    confidence: 0.9
+    status: ACTIVE
+  - subject: garmendia
+    type: OWNS
+    object: channel
+    control_level: CONTROLLING
+    confidence: 0.7
+    status: ACTIVE
+  - subject: channel
+    type: HOSTED_BY
+    object: garmendia
+    confidence: 0.95
+    status: ACTIVE
+sources:
+  - ref: wikidata_juegagerman
+    url: https://www.wikidata.org/wiki/Q18709763
+    title: Germán Garmendia
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: >-
+      YouTube channel ID UCYiGq8XF7YQD00x7wAd62Zg; YouTube handle
+      juegagerman; start time 19 May 2013; stated in YouTube API.
+    supports:
+      - relationship: 0
+      - relationship: 1
+      - relationship: 2
+  - ref: youtube_blog_german
+    url: https://blog.youtube/creator-and-artist-stories/german-garmendia-youtube-channeling/
+    title: Go behind the scenes with Germán Garmendia in YouTube's new Channeling series
+    publisher: YouTube
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: >-
+      In 2024, JuegaGerman became one of the first Hispanic channels to surpass
+      50 million subscribers [...] How Germán Garmendia racked up 23 billion
+      views on YouTube.
+    supports:
+      - relationship: 1
+      - relationship: 2
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: >-
+    DRAFT. API-linked metadata distinguishes JuegaGerman from HolaSoyGerman.
+    YouTube directly links Garmendia to the channel. OWNS is moderate because no
+    external owner or transfer was found, but no percentage is stated. Music,
+    publishing, and talent relationships are excluded. reviewed_by is absent.

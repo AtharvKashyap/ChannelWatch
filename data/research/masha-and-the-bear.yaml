@@ -1,0 +1,33 @@
+channel: { youtube_channel_id: UCu59yAFE8fM0sVNTipR4edw, display_name: Masha and The Bear, handle: "@mashabear" }
+entities:
+  - { slug: animaccord, canonical_name: Animaccord, entity_type: COMPANY, legal_name: Animaccord Ltd., jurisdiction: CY, website: "https://animaccord.com" }
+  - { slug: masha, canonical_name: Masha and the Bear, entity_type: BRAND }
+relationships:
+  - { subject: animaccord, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+  - { subject: masha, type: SUBSIDIARY_OF, object: animaccord, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: animaccord_about
+    url: https://animaccord.com/
+    title: Who We Are
+    publisher: Animaccord
+    source_type: ARCHIVED_CORPORATE_PAGE
+    tier: 3
+    excerpt: Thanks to its strong media presence, record-breaking YouTube performance, and a focused SoMe effort, Animaccord has brought its flagship series "Masha and the Bear" to over 150 countries.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel
+    url: https://www.youtube.com/@mashabear
+    title: Masha and The Bear
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Masha and The Bear
+    supports: [{ relationship: 0 }]
+  - ref: wikipedia
+    url: https://en.wikipedia.org/wiki/Masha_and_the_Bear
+    title: Masha and the Bear
+    publisher: Wikipedia
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: "Masha and the Bear [...] is a Russian preschool comedy animated television series created by Oleg Kuzovkov and produced by Animaccord Animation Studio, loosely based on the oral children's folk story of the same name."
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Animaccord identifies Masha and the Bear as its flagship series and operates the official channel. The company is modeled as the controlling owner; no individual creator equity is asserted. The channel-ownership edge (Animaccord OWNS channel) is INFERRED from the company operating the official channel for its flagship series rather than a direct ownership disclosure; downgraded to confidence 0.65 and flagged for corroboration. The two self-referential sources were retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1: the animaccord.com company page to ARCHIVED_CORPORATE_PAGE/Tier 3 and the bare YouTube channel page to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; an independent Wikipedia source (Tier 2) corroborates that Animaccord produces the series. reviewed_by is absent." }

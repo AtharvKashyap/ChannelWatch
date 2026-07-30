@@ -1,0 +1,25 @@
+channel: { youtube_channel_id: UC4NALVCmcmL5ntpV0thoH6w, display_name: "LooLoo Kids - Nursery Rhymes and Children's Songs", handle: "@LooLooKids" }
+entities:
+  - { slug: mora, canonical_name: MORA TV, entity_type: COMPANY, jurisdiction: RO, website: "https://moratv.ro" }
+  - { slug: brand, canonical_name: LooLoo Kids, entity_type: BRAND, jurisdiction: RO, website: "https://loolookids.com" }
+relationships:
+  - { subject: mora, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: brand, type: SUBSIDIARY_OF, object: mora, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: mora_about
+    url: https://moratv.ro/en/about
+    title: About MORA TV
+    publisher: MORA TV
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: MORA TV is the company behind some of the most beloved multimedia brands for children in Romania and around the world, including TraLaLa, LooLoo Kids, Zigaloo, Lea & Pop, Magic Fairytales, and Bebe Leo.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q112234619
+    title: LooLoo Kids
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: LooLoo Kids; YouTube channel ID UC4NALVCmcmL5ntpV0thoH6w; YouTube handle loolookids.
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. MORA TV directly identifies itself as the company behind LooLoo Kids and states it launched the English-language channel. No individual founder equity is asserted. reviewed_by is absent." }

@@ -1,0 +1,39 @@
+channel:
+  youtube_channel_id: UCHd62-u_v4DvJ8TCFtpi4GA
+  display_name: The Washington Post
+  handle: "@WashingtonPost"
+entities:
+  - slug: nash
+    canonical_name: Nash Holdings LLC
+    entity_type: COMPANY
+    legal_name: Nash Holdings LLC
+    jurisdiction: US-DE
+  - slug: bezos
+    canonical_name: Jeff Bezos
+    entity_type: PERSON
+relationships:
+  - { subject: nash, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - { subject: bezos, type: OWNS, object: nash, control_level: CONTROLLING, ownership_percentage: 100, confidence: 0.98, status: ACTIVE }
+sources:
+  - ref: post_sale
+    url: https://www.washingtonpost.com/news/wonk/wp/2013/08/06/jeff-bezos-is-buying-the-washington-post-heres-what-you-need-to-know-about-the-sale/
+    title: Jeff Bezos is buying The Washington Post. Here’s what you need to know about the sale.
+    publisher: The Washington Post
+    published_at: 2013-08-06
+    source_type: ESTABLISHED_INDUSTRY_PUBLICATION
+    tier: 2
+    excerpt: Nash Holdings LLC is buying The Washington Post. It is a company that belongs to Bezos and is separate from Amazon.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UCHd62-u_v4DvJ8TCFtpi4GA
+    title: The Washington Post
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official Washington Post YouTube page identifies the canonical channel as UCHd62-u_v4DvJ8TCFtpi4GA.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. The announcement date is not used as an operative ownership date. Jeff Bezos is a named private individual, so this record requires a second distinct human reviewer before launch. reviewed_by is absent.

@@ -1,0 +1,41 @@
+channel:
+  youtube_channel_id: UC0vn8ISa4LKMunLbzaXLnOQ
+  display_name: GB News
+  handle: "@GBNewsOnline"
+entities:
+  - slug: gb_news_ltd
+    canonical_name: GB News Limited
+    entity_type: COMPANY
+    legal_name: GB News Limited
+    jurisdiction: GB
+    website: https://www.gbnews.com
+  - slug: all_perspectives
+    canonical_name: All Perspectives Ltd
+    entity_type: COMPANY
+    legal_name: All Perspectives Ltd
+    jurisdiction: GB
+relationships:
+  - { subject: gb_news_ltd, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: gb_news_ltd, type: SUBSIDIARY_OF, object: all_perspectives, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: companies_house
+    url: https://find-and-update.company-information.service.gov.uk/company/12859339/filing-history
+    title: GB NEWS LIMITED filing history
+    publisher: UK Companies House
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: Change of details for All Perspectives Ltd as a person with significant control.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: channel_page
+    url: https://www.youtube.com/channel/UC0vn8ISa4LKMunLbzaXLnOQ
+    title: GB News
+    publisher: YouTube
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: The official GB News YouTube page identifies the canonical channel as UC0vn8ISa4LKMunLbzaXLnOQ.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. Companies House establishes All Perspectives as the person with significant control over GB News Limited. Individual investors are omitted until their current share classes and percentages are verified from filings. reviewed_by is absent.

@@ -1,0 +1,31 @@
+channel: { youtube_channel_id: UC56cowXhoqRWHeqfSJkIQaA, display_name: "Bounce Patrol - Kids Songs", handle: "@BouncePatrol" }
+entities:
+  - { slug: bounce, canonical_name: Bounce Patrol Pty. Ltd., entity_type: COMPANY, legal_name: Bounce Patrol Pty. Ltd., jurisdiction: AU-VIC, website: "https://bouncepatrol.com", aliases: [Bounce Patrol] }
+relationships:
+  - { subject: bounce, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+sources:
+  - ref: registry
+    url: https://abr.business.gov.au/ABN/View/18606077945
+    title: Current details for ABN 18 606 077 945
+    publisher: Australian Business Register
+    source_type: CORPORATE_REGISTRY_RECORD
+    tier: 1
+    excerpt: "Entity name: BOUNCE PATROL PTY. LTD. Business name: Bounce Patrol."
+    supports: [{ relationship: 0 }]
+  - ref: channel_id
+    url: https://socialcounts.org/youtube-channel-analytics/UC56cowXhoqRWHeqfSJkIQaA
+    title: Bounce Patrol - Kids Songs
+    publisher: SocialCounts
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Bounce Patrol - Kids Songs; @bouncepatrol; YouTube channel ID UC56cowXhoqRWHeqfSJkIQaA.
+    supports: [{ relationship: 0 }]
+  - ref: official_about
+    url: https://bouncepatrol.com/pages/about
+    title: About
+    publisher: Bounce Patrol
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: Created and directed by showrunner Shannon Jones, Bounce Patrol has grown to become the largest YouTube channel in Australia.
+    supports: [{ relationship: 0 }]
+review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. The Australian registry verifies the operating company and business name; official and technical sources connect the brand to the canonical channel. No personal equity split is asserted. reviewed_by is absent." }

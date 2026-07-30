@@ -1,0 +1,54 @@
+channel:
+  youtube_channel_id: UC_A7K2dXFsTMAciGmnNxy-Q
+  display_name: Saregama Music
+  handle: "@saregamamusic"
+entities:
+  - slug: saregama
+    canonical_name: Saregama India Limited
+    entity_type: COMPANY
+    legal_name: Saregama India Limited
+    jurisdiction: IN
+    website: https://www.saregama.com
+    aliases:
+      - Saregama
+  - slug: rpsg
+    canonical_name: RP-Sanjiv Goenka Group
+    entity_type: COMPANY
+    jurisdiction: IN
+    website: https://www.rpsg.in
+    aliases:
+      - RPSG Group
+relationships:
+  - { subject: saregama, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: saregama, type: SUBSIDIARY_OF, object: rpsg, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
+sources:
+  - ref: saregama_annual_report_2020
+    url: https://r.saregama.com/resources/pdf/investor/Saregama_AR_2019_20_Full_PDF.pdf
+    title: Saregama India Limited Annual Report 2019-20
+    publisher: Saregama India Limited
+    published_at: 2020-07-01
+    source_type: OFFICIAL_REGULATORY_FILING
+    tier: 1
+    excerpt: Saregama has 23 channels on YouTube with a cumulative subscriber base of over 29 Mn.
+    supports: [{ relationship: 0 }]
+  - ref: rpsg_saregama
+    url: https://www.rpsg.in/business/saregama
+    title: Saregama India Limited
+    publisher: RP-Sanjiv Goenka Group
+    source_type: INVESTOR_PORTFOLIO_LISTING
+    tier: 1
+    excerpt: Saregama is India's leading IP driven entertainment company. It has the largest music IP in India with 160k+ songs across 23+languages.
+    supports: [{ relationship: 1 }]
+  - ref: channel_id
+    url: https://socialcounts.org/youtube-channel-analytics/UC_A7K2dXFsTMAciGmnNxy-Q
+    title: Saregama Music - YouTube Channel Analytics
+    publisher: SocialCounts
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: "Saregama Music @saregamamusic • The proud history of Saregama (an RPSG group company) stretches back over a century to 1901."
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-29
+  notes: DRAFT. Saregama's annual report confirms that the company operates its YouTube channel portfolio, while the channel ID and handle are independently matched. RPSG's official business portfolio places Saregama in the group; no ownership percentage is asserted. reviewed_by is absent.

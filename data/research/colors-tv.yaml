@@ -1,0 +1,58 @@
+channel:
+  youtube_channel_id: UC55IWqFLDH1Xp7iu1_xknRA
+  display_name: Colors TV
+  handle: "@colorstv"
+entities:
+  - slug: jiostar
+    canonical_name: JioStar India Private Limited
+    entity_type: COMPANY
+    legal_name: JioStar India Private Limited
+    jurisdiction: IN
+    website: https://www.jiostar.com
+    aliases: [Star India Private Limited]
+  - slug: reliance
+    canonical_name: Reliance Industries Limited
+    legal_name: Reliance Industries Limited
+    entity_type: COMPANY
+    jurisdiction: IN
+    website: https://www.ril.com
+  - slug: disney
+    canonical_name: The Walt Disney Company
+    entity_type: COMPANY
+    jurisdiction: US-DE
+    website: https://thewaltdisneycompany.com
+relationships:
+  - { subject: jiostar, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - { subject: reliance, type: CONTROLS, object: jiostar, control_level: CONTROLLING, effective_from: 2024-11-14, confidence: 0.99, status: ACTIVE }
+  - { subject: disney, type: PARTIALLY_OWNS, object: jiostar, control_level: MINORITY, ownership_percentage: 36.84, effective_from: 2024-11-14, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: colors_brand
+    url: https://www.jiostar.com/consumer-products/brands/colors/
+    title: Colors
+    publisher: JioStar
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: COLORS is Viacom18's flagship brand in the entertainment space in India.
+    supports: [{ relationship: 0 }]
+  - ref: jiostar_transaction
+    url: https://www.jiostar.com/news/reliance-and-disney-announce-completion-of-transaction-to-form-joint-venture-to-bring-together-the-most-iconic-and-engaging-entertainment-brands-in-india/
+    title: Reliance and Disney Announce Completion of Transaction to Form Joint Venture
+    publisher: JioStar
+    published_at: 2024-11-14
+    source_type: OFFICIAL_ACQUISITION_ANNOUNCEMENT
+    tier: 1
+    excerpt: At the closing of the transactions noted above, the JV is controlled by RIL and owned 16.34% by RIL, 46.82% by Viacom18 and 36.84% by Disney. [...] The combination of ‘Star’ and ‘Colors’ on the television side and ‘JioCinema’ and ‘Hotstar’ on the digital front will provide extensive choice of content across entertainment and sports.
+    supports: [{ relationship: 0 }, { relationship: 1 }, { relationship: 2 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q5149132
+    title: Colors TV
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: Colors TV; YouTube channel ID UC55IWqFLDH1Xp7iu1_xknRA.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. JioStar's official brand and transaction materials connect Colors to the merged company, identify RIL control, and state Disney's 36.84% interest. The RIL control edge intentionally omits a percentage because RIL's control combines its direct interest with the Viacom18 allotment. reviewed_by is absent.

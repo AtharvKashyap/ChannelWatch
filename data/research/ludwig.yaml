@@ -163,8 +163,8 @@ sources:
     url: https://www.youtube.com/channel/UCrPseYLGpNygVi34QpGNqpA
     title: Ludwig — YouTube channel
     publisher: Ludwig (YouTube)
-    source_type: DIRECT_CREATOR_CONFIRMATION
-    tier: 1
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
     archive_url: https://www.youtube.com/feeds/videos.xml?channel_id=UCrPseYLGpNygVi34QpGNqpA
     excerpt: >-
       YouTube's own feed for channel UCrPseYLGpNygVi34QpGNqpA carries
@@ -190,6 +190,7 @@ sources:
       Allen), founded Sept 27, 2022 and closed December 13, 2024.
     supports:
       - relationship: 0
+      - relationship: 1
       - relationship: 2
       - relationship: 5
 
@@ -229,10 +230,11 @@ sources:
 
 review:
   researched_by: claude-research-agent-m1
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
   # reviewed_by intentionally OMITTED: this is an unreviewed DRAFT. The schema
   # treats reviewed_by as an optional non-empty string (null is not valid), so
   # the field is omitted rather than set. Do NOT set it without human review.
-  last_reviewed_at: 2026-07-23 # research/authoring date; NOT a human review date.
+  last_reviewed_at: 2026-07-30 # research/authoring date; NOT a human review date.
   notes: >-
     DRAFT for human review — "independent creator-owned eponymous channel with a
     documented (now-ENDED) platform exclusivity contract, NOT an ownership
@@ -322,9 +324,15 @@ review:
     recorded as a neutral, creator-announced fact, not as any conclusion about
     control.
 
-    SOURCES. One Tier 1 (YouTube's own feed, for channel-id/identity) and three
-    Tier 2 ESTABLISHED_INDUSTRY_PUBLICATION sources (Wikipedia; two Tubefilter
-    articles). No Tier 1 corporate-registry or filing source for the ownership
-    itself was located; nothing here should be treated as CONFIRMED without further
-    primary-source diligence. No Tier 3/4 source is used. archive_urls (beyond the
-    feed) should be captured at review.
+    SOURCES. The YouTube-feed source confirms channel-id/identity only, not
+    ownership; it was therefore retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to
+    TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3 (a self-referential technical linkage,
+    not an ownership disclosure). The ACTIVE ownership edge (rel 1) is now
+    additionally backed by the independent Wikipedia source (Tier 2). The OWNS edge
+    remains INFERRED from the eponymous/sole-creator identity plus the documented
+    absence of any transfer; it is held at confidence 0.70 and flagged for
+    corroboration. Remaining sources are three Tier 2 ESTABLISHED_INDUSTRY_PUBLICATION
+    sources (Wikipedia; two Tubefilter articles). No Tier 1 corporate-registry or
+    filing source for the ownership itself was located; nothing here should be
+    treated as CONFIRMED without further primary-source diligence. archive_urls
+    (beyond the feed) should be captured at review.

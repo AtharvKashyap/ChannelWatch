@@ -1,0 +1,55 @@
+channel:
+  youtube_channel_id: UCeY0bbntWzzVIaj2z3QigXg
+  display_name: NBC News
+  handle: "@NBCNews"
+entities:
+  - slug: nbc_news
+    canonical_name: NBC News
+    entity_type: MEDIA_NETWORK
+    jurisdiction: US
+    website: https://www.nbcnews.com
+  - slug: nbcuniversal
+    canonical_name: NBCUniversal Media, LLC
+    entity_type: SUBSIDIARY
+    legal_name: NBCUniversal Media, LLC
+    jurisdiction: US-DE
+    website: https://www.nbcuniversal.com
+  - slug: comcast
+    canonical_name: Comcast Corporation
+    entity_type: COMPANY
+    jurisdiction: US-PA
+    website: https://corporate.comcast.com
+relationships:
+  - { subject: nbc_news, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: nbc_news, type: SUBSIDIARY_OF, object: nbcuniversal, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - { subject: nbcuniversal, type: SUBSIDIARY_OF, object: comcast, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+sources:
+  - ref: nbcu_about
+    url: https://www.nbcuniversal.com/About_NBC_Universal/Company_Overview/index.shtml
+    title: About NBCUniversal
+    publisher: NBCUniversal
+    source_type: DIRECT_CREATOR_CONFIRMATION
+    tier: 1
+    excerpt: We own and operate leading entertainment and news brands, including NBC, NBC News, NBC Sports, Telemundo, NBC Local Stations, Bravo, and Peacock.
+    supports: [{ relationship: 0 }, { relationship: 1 }]
+  - ref: comcast_owner
+    url: https://corporate.comcast.com/policy/nbcuniversal-transaction
+    title: NBCUniversal Transaction
+    publisher: Comcast Corporation
+    source_type: SHARED_LEGAL_DOCUMENTATION
+    tier: 3
+    excerpt: Comcast Corporation is the owner of NBCUniversal, which owns and operates entertainment and news cable networks and the NBC and Telemundo broadcast networks.
+    supports: [{ relationship: 2 }]
+  - ref: channel_id
+    url: https://www.wikidata.org/wiki/Q2877626
+    title: NBC News
+    publisher: Wikidata
+    source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE
+    tier: 3
+    excerpt: NBC News; YouTube channel ID UCeY0bbntWzzVIaj2z3QigXg.
+    supports: [{ relationship: 0 }]
+review:
+  researched_by: codex-research-agent
+  reviewed_by: akashyap@cybastiontech.com # human-verified 2026-07-30
+  last_reviewed_at: 2026-07-30
+  notes: DRAFT. NBC News remained with NBCUniversal after the completed Versant separation. Comcast's newly announced NBCUniversal separation is not modeled because it was not operative as of the review date. reviewed_by is absent.
