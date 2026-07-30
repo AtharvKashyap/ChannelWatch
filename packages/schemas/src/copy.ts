@@ -345,6 +345,15 @@ export const CHAIN_COPY = {
   currentLabel: "current",
   dateRangeSeparator: "–",
   dateUndisclosed: "date not publicly disclosed",
+  // Ownership-lineage RAIL (M3 popup redesign). The rail renders the chain as a
+  // connected vertical provenance record: the ULTIMATE owner at the top, each
+  // intermediate owner below it, and the CHANNEL pinned at the base. These tags
+  // label the two endpoints; neutral and structural (§23.1) — the "ultimate
+  // owner" tag names the top of the chain as public fact, and "this channel"
+  // simply marks the base node as the channel being viewed.
+  lineageHeading: "Ownership lineage",
+  ultimateTag: "ultimate owner",
+  thisChannelTag: "this channel",
 } as const;
 
 /**
@@ -666,4 +675,60 @@ export const LEGAL_PAGE_COPY = {
   agentContact:
     "[NEEDS-HUMAN: designated agent name and contact — register with the US Copyright Office and replace this placeholder before launch]",
   navLegal: "Legal",
+} as const;
+
+/**
+ * The public privacy-policy page (`/privacy`, M3 Track F). The Chrome Web Store
+ * requires a public privacy-policy URL, and this page is that URL. It is a
+ * faithful structured rendering of the reviewed `PRIVACY.md` (itself adapted
+ * from Spec §22) — kept here so the page inlines no prose of its own (CLAUDE.md
+ * rule 2). Purely descriptive of data handling; asserts nothing about any
+ * channel (§23.1). Structured as sections + bullet lists so the page can render
+ * it without re-authoring the substance.
+ */
+export const PRIVACY_PAGE_COPY = {
+  heading: "Privacy Policy",
+  intro:
+    "CHANNELWATCH is built to give viewers context about who owns channels — not to watch the viewers. This policy is binding on the extension and backend. We reject surveillance of viewers and the collection of unnecessary browsing history.",
+  sendsHeading: "What the extension sends",
+  sendsIntro: "To look up a channel, the extension sends only:",
+  sends: ["YouTube channel ID", "Extension version", "Requested data version"],
+  sendsNote:
+    "That is the complete request payload for an ownership lookup. Channels are identified by their immutable YouTube channel ID, which is all the backend needs to match a record.",
+  neverHeading: "What we never collect",
+  neverIntro: "The extension does not collect:",
+  never: [
+    "Full browsing history.",
+    "Video watch duration.",
+    "Search queries.",
+    "Comments.",
+    "Google account identity.",
+    "Subscription list.",
+    "Personally identifying viewer information.",
+  ],
+  avoidsIntro: "And it avoids sending:",
+  avoids: [
+    "Video ID (unless strictly required for a lookup).",
+    "User identity.",
+    "Full page URL.",
+    "Referrer.",
+    "YouTube cookies.",
+  ],
+  storageNote:
+    "The extension stores no user data at all. It does not write to browser storage, and it keeps no history of the channels a user views. The only caching is an in-memory session cache in the background service worker that avoids re-fetching the same channel within a session; it is never persisted to disk and is gone when the service worker or browser restarts. Extension permissions are kept minimal — no storage permission, no full browsing history, no tabs permission, no scripting permission, no cookies, no identity permissions, and no access to unrelated sites. The only host access is youtube.com (to read the public channel ID on the watch page) and the fixed API origin.",
+  telemetryHeading: "Telemetry",
+  telemetryIntro:
+    "Telemetry is disabled by default and strictly opt-in. When enabled by the user, it must be aggregated, documented, easy to disable, and free of any channel-viewing history. Users can disable extension analytics at any time. Permitted telemetry, when opted in, is limited to:",
+  telemetry: [
+    "Extension version.",
+    "API latency.",
+    "Rendering failures.",
+    "Selector failures.",
+    "Anonymous crash data.",
+  ],
+  telemetryNote: "Telemetry never includes which channels or videos a user viewed.",
+  subjectsHeading: "Creator and subject data",
+  subjectsBody:
+    "Separately from viewer privacy, CHANNELWATCH never publishes home addresses, personal phone numbers, family information, private email addresses, confidential contracts, leaked personal documents, speculative personal wealth, or any information unrelated to ownership transparency.",
+  navPrivacy: "Privacy",
 } as const;

@@ -88,3 +88,31 @@ describe("LEGAL_PAGE_COPY", () => {
     expect(LEGAL_PAGE_COPY.agentContact.length).toBeGreaterThan(10);
   });
 });
+
+// PRIVACY_PAGE_COPY (M3 Track F) is the public /privacy page (the Chrome Web
+// Store's required privacy-policy URL) — user-facing prose on the same §23.1 bar.
+import { PRIVACY_PAGE_COPY } from "../src/copy.js";
+
+describe("PRIVACY_PAGE_COPY", () => {
+  const strings: string[] = [];
+  flatten(PRIVACY_PAGE_COPY, strings);
+
+  it("every string is non-empty", () => {
+    for (const s of strings) expect(s.trim().length).toBeGreaterThan(0);
+  });
+
+  it("no banned §23.1 phrasing", () => {
+    for (const s of strings) for (const b of banned) expect(s).not.toMatch(b);
+  });
+
+  it("faithfully carries the substance of PRIVACY.md", () => {
+    // The three request-payload fields the extension sends (Spec §22.2).
+    expect(PRIVACY_PAGE_COPY.sends).toHaveLength(3);
+    // The core promise: no persisted user data, telemetry strictly opt-in.
+    expect(PRIVACY_PAGE_COPY.storageNote).toMatch(/no user data/i);
+    expect(PRIVACY_PAGE_COPY.telemetryIntro).toMatch(/opt-in/i);
+    expect(PRIVACY_PAGE_COPY.telemetryNote).toMatch(/never includes/i);
+    // Non-empty nav label so the site can link the page.
+    expect(PRIVACY_PAGE_COPY.navPrivacy.length).toBeGreaterThan(0);
+  });
+});
