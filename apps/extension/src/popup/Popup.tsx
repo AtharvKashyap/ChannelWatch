@@ -140,7 +140,10 @@ export function Popup({ deps }: { deps: PopupDeps }) {
       <style>{POPUP_STYLE}</style>
       <p className="cw-masthead">
         {POPUP_COPY.title}
-        <span className="cw-masthead__dot" aria-hidden="true"> · </span>
+        <span className="cw-masthead__dot" aria-hidden="true">
+          {" "}
+          ·{" "}
+        </span>
         {POPUP_COPY.recordType}
       </p>
       <hr className="cw-rule" />
@@ -151,7 +154,8 @@ export function Popup({ deps }: { deps: PopupDeps }) {
 
 /** The verdict accent color for the whole record; NEUTRAL for the chrome states. */
 function docColor(state: ViewState): string {
-  if (state.kind === "researched") return classificationToBadgeColor(state.payload.classification.label);
+  if (state.kind === "researched")
+    return classificationToBadgeColor(state.payload.classification.label);
   return "NEUTRAL";
 }
 
@@ -210,10 +214,7 @@ function operativeName(payload: ResearchedChannelLookup): string | null {
 }
 
 /** Short month names for humanizing ISO dates to "Mon YYYY". */
-const MONTHS = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 /**
  * Reformat a stored date for display: an ISO `YYYY-MM-DD` (or `YYYY-MM`) becomes
@@ -349,7 +350,10 @@ function OwnershipRecord({
                 <p className="cw-entry__name">
                   {owner.name}
                   {owner.ultimate && (
-                    <span className="cw-entry__flag"> {"—"} {CHAIN_COPY.ultimateTag}</span>
+                    <span className="cw-entry__flag">
+                      {" "}
+                      {"—"} {CHAIN_COPY.ultimateTag}
+                    </span>
                   )}
                 </p>
                 {owner.meta && <p className="cw-entry__meta">{owner.meta}</p>}
@@ -404,7 +408,10 @@ function OwnershipRecord({
         }}
       >
         {CORRECTION_CTA}
-        <span className="cw-report__arrow" aria-hidden="true"> {"→"}</span>
+        <span className="cw-report__arrow" aria-hidden="true">
+          {" "}
+          {"→"}
+        </span>
       </a>
     </article>
   );
