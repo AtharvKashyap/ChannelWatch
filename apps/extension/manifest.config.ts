@@ -25,6 +25,12 @@ export default defineManifest({
   description:
     "Shows who owns, finances, or commercially influences a YouTube channel, with sourced evidence.",
   host_permissions: ["https://www.youtube.com/*", `${API_ORIGIN}/*`],
+  icons: {
+    "16": "icon-16.png",
+    "32": "icon-32.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png",
+  },
   background: {
     service_worker: "src/background/index.ts",
     type: "module",
@@ -39,5 +45,11 @@ export default defineManifest({
   action: {
     default_title: "CHANNELWATCH",
     default_popup: "src/popup/index.html",
+    default_icon: {
+      "16": "icon-16.png",
+      "32": "icon-32.png",
+      "48": "icon-48.png",
+      "128": "icon-128.png",
+    },
   },
 });

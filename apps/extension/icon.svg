@@ -1,0 +1,8 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- CHANNELWATCH mark: an eye (transparency / "who's behind it") whose pupil is
+       the YouTube play button. Source SVG; PNG icon sizes are rasterized from it. -->
+  <rect x="1.5" y="1.5" width="125" height="125" rx="27" fill="#FFFFFF" stroke="#E6E4DF" stroke-width="1.5"/>
+  <path d="M 15 64 Q 64 23 113 64 Q 64 105 15 64 Z" fill="none" stroke="#141414" stroke-width="9" stroke-linejoin="round"/>
+  <rect x="44" y="46" width="40" height="36" rx="10" fill="#FF0000"/>
+  <path d="M 58 55.5 L 58 72.5 L 77 64 Z" fill="#FFFFFF"/>
+</svg>
