@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { LEGAL_PAGE_COPY, POPUP_COPY, SITE_COPY } from "@channelwatch/schemas";
+import { LEGAL_PAGE_COPY, POPUP_COPY, PRIVACY_PAGE_COPY, SITE_COPY } from "@channelwatch/schemas";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -34,6 +34,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </Link>
             <Link className="cw-nav__link" href="/legal">
               {LEGAL_PAGE_COPY.navLegal}
+            </Link>
+            <Link className="cw-nav__link" href="/privacy">
+              {PRIVACY_PAGE_COPY.navPrivacy}
             </Link>
           </div>
         </nav>

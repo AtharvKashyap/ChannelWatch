@@ -3,13 +3,22 @@
  * all page injection). On open it determines whether the active tab is a
  * YouTube WATCH page; if so it resolves the currently-playing video's channel
  * (via the minimal content script) and looks up its ownership record (via the
- * background SW), then renders the ownership box. On the homepage / channel
- * pages / non-YouTube tabs it shows a friendly prompt.
+ * background SW), then renders the ownership DOSSIER.
+ *
+ * The dossier answers "who's behind this channel?" as a provenance record:
+ *   - a tinted VERDICT band (channel name + the reviewed classification stamp +
+ *     summary), fronted by a colored left spine in the verdict color;
+ *   - a vertical OWNERSHIP-LINEAGE RAIL — the ultimate owner at the top, each
+ *     intermediate owner below it, and the channel pinned at the base — rendered
+ *     from `ownership_chain` (which the API orders channel→up; we render
+ *     base→top);
+ *   - a compact monospace meta row (confidence · evidence · creator status);
+ *   - the "over time" history, notes/warnings, last-reviewed line;
+ *   - the standing editorial disclaimer, shown verbatim, and a "Report an error"
+ *     LINK to the public correction form.
  *
  * Every user-facing string comes from `@channelwatch/schemas` (CLAUDE.md rule
- * 2). The standing editorial disclaimer is shown verbatim. The "Report an
- * error" affordance is a LINK to the public correction form — the popup submits
- * nothing and stores nothing (privacy, CLAUDE.md rule 5).
+ * 2). The popup submits nothing and stores nothing (privacy, CLAUDE.md rule 5).
  */
 import { useEffect, useState } from "react";
 import {
@@ -23,28 +32,19 @@ import {
   PANEL_COPY,
   POPUP_COPY,
   UNRESEARCHED_SUMMARY,
+  badgeAriaLabel,
   classificationToBadgeColor,
   evidenceCountText,
   lastReviewedText,
   ownershipMechanismText,
   ownershipStakeText,
-  type BadgeColor,
+  type ClassificationLabel,
   type OwnershipChainStep,
   type OwnershipHistoryEntry,
   type ResearchedChannelLookup,
 } from "@channelwatch/schemas";
 import type { LookupChannelResponse } from "../shared/messages.js";
 import { correctionUrl } from "../shared/config.js";
-
-/** Accessible badge palette (mirrors the former panel's §9.2 colors). */
-const BADGE_PALETTE: Record<BadgeColor, string> = {
-  NEUTRAL: "#5f6368",
-  GREEN: "#1e7e34",
-  BLUE: "#1565c0",
-  PURPLE: "#6a1b9a",
-  ORANGE: "#a85400",
-  RED: "#b71c1c",
-};
 
 /** Watch pages only (CLAUDE.md constraint): `/watch`, `/shorts/…`, `/live/…`. */
 function isWatchUrl(url: string | null): boolean {
@@ -132,9 +132,9 @@ export function Popup({ deps }: { deps: PopupDeps }) {
   }, [deps]);
 
   return (
-    <main className="cw-popup">
+    <main className="cw-dossier">
       <style>{POPUP_STYLE}</style>
-      <h1 className="cw-popup__title">{POPUP_COPY.title}</h1>
+      <p className="cw-wordmark">{POPUP_COPY.title}</p>
       <Body state={state} openCorrection={deps.openCorrection} />
     </main>
   );
@@ -150,37 +150,33 @@ function Body({
   switch (state.kind) {
     case "loading":
       return (
-        <p role="status" className="cw-popup__msg">
+        <p role="status" className="cw-note">
           {state.slow ? POPUP_COPY.slowLoading : POPUP_COPY.loading}
         </p>
       );
     case "not_watch":
-      return <p className="cw-popup__msg">{POPUP_COPY.notWatchPage}</p>;
+      return <p className="cw-note">{POPUP_COPY.notWatchPage}</p>;
     case "unresolved":
-      return <p className="cw-popup__msg">{POPUP_COPY.channelUnresolved}</p>;
+      return <p className="cw-note">{POPUP_COPY.channelUnresolved}</p>;
     case "error":
       return (
-        <p role="alert" className="cw-popup__msg">
+        <p role="alert" className="cw-note">
           {POPUP_COPY.lookupError}
         </p>
       );
     case "unresearched":
       return (
-        <div className="cw-popup__box">
-          <p
-            className="cw-popup__label"
-            data-cw-color="NEUTRAL"
-            style={{ background: BADGE_PALETTE.NEUTRAL }}
-          >
-            {PANEL_COPY.unresearchedHeading}
-          </p>
-          <p className="cw-popup__summary">{UNRESEARCHED_SUMMARY}</p>
-          <p className="cw-popup__disclaimer">{EDITORIAL_DISCLAIMER}</p>
-        </div>
+        <section className="cw-card cw-card--enter" data-cw-color="NEUTRAL">
+          <div className="cw-verdict">
+            <p className="cw-verdict__stamp">{PANEL_COPY.unresearchedHeading}</p>
+          </div>
+          <p className="cw-summary">{UNRESEARCHED_SUMMARY}</p>
+          <p className="cw-disclaimer">{EDITORIAL_DISCLAIMER}</p>
+        </section>
       );
     case "researched":
       return (
-        <OwnershipBox
+        <OwnershipDossier
           payload={state.payload}
           channelId={state.channelId}
           openCorrection={openCorrection}
@@ -189,7 +185,94 @@ function Body({
   }
 }
 
-function OwnershipBox({
+/** The operative entity name a name-suffixed verdict announces (§9.1 naming). */
+function operativeName(payload: ResearchedChannelLookup): string | null {
+  const label = payload.classification.label;
+  if (label === "PE_BACKED") return payload.ultimate_parent?.name ?? null;
+  if (label === "CORPORATE_OWNED" || label === "NONPROFIT_OWNED") {
+    return payload.direct_owner?.name ?? null;
+  }
+  return null;
+}
+
+/** One node in the vertical ownership-lineage rail (top→bottom, ultimate→channel). */
+interface RailNode {
+  key: string;
+  name: string;
+  /** Monospace meta line (mechanism · stake · date); null for the channel base + bare owners. */
+  meta: string | null;
+  /** Active/dated hops take the verdict accent; undated ones are muted. */
+  active: boolean;
+  /** Small tag shown under the name ("ultimate owner" / "this channel"). */
+  tag: string | null;
+  /** The channel node pinned at the base carries the "▶" glyph. */
+  isChannel: boolean;
+}
+
+/**
+ * Build the rail top→bottom. `ownership_chain` is ordered channel→up, so the
+ * reversed chain puts the ultimate owner first; the channel is pinned at the
+ * base. When no chain is present we still surface any direct owner / ultimate
+ * parent as bare (mechanism-free) nodes so no existing data is dropped.
+ */
+function buildRail(payload: ResearchedChannelLookup): RailNode[] {
+  const nodes: RailNode[] = [];
+  const chain = payload.ownership_chain ?? [];
+
+  if (chain.length > 0) {
+    const topDown = [...chain].reverse();
+    topDown.forEach((step, i) => {
+      nodes.push({
+        key: `chain-${step.name}-${i}`,
+        name: step.name,
+        meta: chainMetaText(step),
+        active: step.effective_from != null && step.effective_from !== "",
+        tag: i === 0 ? CHAIN_COPY.ultimateTag : null,
+        isChannel: false,
+      });
+    });
+  } else {
+    if (payload.ultimate_parent) {
+      nodes.push({
+        key: "parent",
+        name: payload.ultimate_parent.name,
+        meta: null,
+        active: false,
+        tag: CHAIN_COPY.ultimateTag,
+        isChannel: false,
+      });
+    }
+    if (payload.direct_owner && payload.direct_owner.name !== payload.ultimate_parent?.name) {
+      nodes.push({
+        key: "owner",
+        name: payload.direct_owner.name,
+        meta: null,
+        active: false,
+        tag: null,
+        isChannel: false,
+      });
+    }
+  }
+
+  nodes.push({
+    key: "channel",
+    name: payload.display_name,
+    meta: null,
+    active: true,
+    tag: CHAIN_COPY.thisChannelTag,
+    isChannel: true,
+  });
+  return nodes;
+}
+
+function chainMetaText(step: OwnershipChainStep): string {
+  const mechanism = ownershipMechanismText(step.relationship, step.control_level);
+  const stake = ownershipStakeText(step.ownership_percentage);
+  const date = step.effective_from ? `${CHAIN_COPY.effectiveFromPrefix} ${step.effective_from}` : "";
+  return [mechanism, stake, date].filter(Boolean).join(" · ");
+}
+
+function OwnershipDossier({
   payload,
   channelId,
   openCorrection,
@@ -198,56 +281,55 @@ function OwnershipBox({
   channelId: string;
   openCorrection: (channelId: string) => void;
 }) {
-  const label = payload.classification.label;
+  const label: ClassificationLabel = payload.classification.label;
   const color = classificationToBadgeColor(label);
+  const rail = buildRail(payload);
+
+  // Compact monospace meta facts: confidence · evidence · creator status.
+  const metaFacts = [
+    CONFIDENCE_LABEL_TEXT[payload.classification.confidence_label],
+    evidenceCountText(payload.evidence_count),
+    payload.creator_status ? CREATOR_STATUS_TEXT[payload.creator_status.status] : null,
+  ].filter((v): v is string => v != null);
 
   return (
-    <div className="cw-popup__box">
-      <p className="cw-popup__channel">{payload.display_name}</p>
-      <p
-        className="cw-popup__label"
-        data-cw-color={color}
-        style={{ background: BADGE_PALETTE[color] }}
-      >
-        {BADGE_LABELS[label]}
-      </p>
-      <p className="cw-popup__summary">{payload.classification.summary}</p>
+    <section className="cw-card cw-card--enter" data-cw-color={color}>
+      <div className="cw-verdict" aria-label={badgeAriaLabel(label, operativeName(payload))}>
+        <p className="cw-verdict__channel">{payload.display_name}</p>
+        <p className="cw-verdict__stamp">{BADGE_LABELS[label]}</p>
+        <p className="cw-summary">{payload.classification.summary}</p>
+      </div>
 
-      <dl className="cw-popup__facts">
-        {payload.direct_owner && (
-          <Fact term={PANEL_COPY.directOwnerLabel} value={payload.direct_owner.name} />
-        )}
-        {payload.ultimate_parent && (
-          <Fact term={PANEL_COPY.ultimateParentLabel} value={payload.ultimate_parent.name} />
-        )}
-        {payload.creator_status && (
-          <Fact
-            term={PANEL_COPY.creatorStatusLabel}
-            value={CREATOR_STATUS_TEXT[payload.creator_status.status]}
-          />
-        )}
-        <Fact
-          term={PANEL_COPY.confidenceLabel}
-          value={CONFIDENCE_LABEL_TEXT[payload.classification.confidence_label]}
-        />
-        <Fact term={PANEL_COPY.evidenceLabel} value={evidenceCountText(payload.evidence_count)} />
-      </dl>
+      <section className="cw-block">
+        <p className="cw-eyebrow">{CHAIN_COPY.lineageHeading}</p>
+        <ol className="cw-rail">
+          {rail.map((node) => (
+            <li
+              key={node.key}
+              className="cw-rail__node"
+              data-cw-active={node.active ? "true" : "false"}
+              data-cw-channel={node.isChannel ? "true" : undefined}
+            >
+              <span className="cw-rail__dot" aria-hidden="true" />
+              <div className="cw-rail__body">
+                <p className="cw-rail__name">
+                  {node.isChannel && <span className="cw-rail__glyph" aria-hidden="true">▶ </span>}
+                  {node.name}
+                </p>
+                {node.tag && <span className="cw-rail__tag">{node.tag}</span>}
+                {node.meta && <span className="cw-rail__meta">{node.meta}</span>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
 
-      {payload.ownership_chain && payload.ownership_chain.length > 0 && (
-        <section className="cw-popup__section">
-          <h2>{CHAIN_COPY.heading}</h2>
-          <ol className="cw-popup__list">
-            {payload.ownership_chain.map((step, i) => (
-              <ChainHop key={`${step.name}-${i}`} step={step} />
-            ))}
-          </ol>
-        </section>
-      )}
+      <p className="cw-meta">{metaFacts.join("  ·  ")}</p>
 
       {payload.ownership_history && payload.ownership_history.length > 0 && (
-        <section className="cw-popup__section">
-          <h2>{CHAIN_COPY.historyHeading}</h2>
-          <ol className="cw-popup__list">
+        <section className="cw-block">
+          <p className="cw-eyebrow">{CHAIN_COPY.historyHeading}</p>
+          <ol className="cw-history">
             {payload.ownership_history.map((entry, i) => (
               <HistoryPeriod key={`${entry.name}-${i}`} entry={entry} />
             ))}
@@ -256,9 +338,9 @@ function OwnershipBox({
       )}
 
       {payload.warnings.length > 0 && (
-        <section className="cw-popup__section">
-          <h2>{PANEL_COPY.warningsLabel}</h2>
-          <ul className="cw-popup__notes">
+        <section className="cw-block">
+          <p className="cw-eyebrow">{PANEL_COPY.warningsLabel}</p>
+          <ul className="cw-notes">
             {payload.warnings.map((code) => (
               <li key={code}>{EXPLANATION_TEXT[code]}</li>
             ))}
@@ -266,11 +348,11 @@ function OwnershipBox({
         </section>
       )}
 
-      <p className="cw-popup__reviewed">{lastReviewedText(payload.last_reviewed_at)}</p>
-      <p className="cw-popup__disclaimer">{EDITORIAL_DISCLAIMER}</p>
+      <p className="cw-reviewed">{lastReviewedText(payload.last_reviewed_at)}</p>
+      <p className="cw-disclaimer">{EDITORIAL_DISCLAIMER}</p>
 
       <a
-        className="cw-popup__correction"
+        className="cw-correction"
         href={correctionUrl(channelId)}
         target="_blank"
         rel="noopener noreferrer"
@@ -281,21 +363,7 @@ function OwnershipBox({
       >
         {CORRECTION_CTA}
       </a>
-    </div>
-  );
-}
-
-function ChainHop({ step }: { step: OwnershipChainStep }) {
-  const mechanism = ownershipMechanismText(step.relationship, step.control_level);
-  const stake = ownershipStakeText(step.ownership_percentage);
-  return (
-    <li>
-      <span className="cw-popup__name">{step.name}</span>
-      <span className="cw-popup__meta">
-        {mechanism} · {stake}
-        {step.effective_from ? ` · ${CHAIN_COPY.effectiveFromPrefix} ${step.effective_from}` : ""}
-      </span>
-    </li>
+    </section>
   );
 }
 
@@ -303,9 +371,9 @@ function HistoryPeriod({ entry }: { entry: OwnershipHistoryEntry }) {
   const mechanism = ownershipMechanismText(entry.relationship, entry.control_level);
   const marker = entry.is_current ? CHAIN_COPY.currentLabel : CHAIN_COPY.previouslyPrefix;
   return (
-    <li>
-      <span className="cw-popup__name">{entry.name}</span>
-      <span className="cw-popup__meta">
+    <li className="cw-history__period" data-cw-current={entry.is_current ? "true" : "false"}>
+      <span className="cw-history__name">{entry.name}</span>
+      <span className="cw-history__meta">
         {marker} · {mechanism} · {dateRangeText(entry)}
       </span>
     </li>
@@ -321,49 +389,219 @@ function dateRangeText(entry: OwnershipHistoryEntry): string {
   return to === null ? from : `${from} ${CHAIN_COPY.dateRangeSeparator} ${to}`;
 }
 
-function Fact({ term, value }: { term: string; value: string }) {
-  return (
-    <div className="cw-fact">
-      <dt>{term}</dt>
-      <dd>{value}</dd>
-    </div>
-  );
-}
-
 const POPUP_STYLE = `
-  .cw-popup {
-    width: 320px;
-    padding: 14px 16px;
-    font: 400 13px/1.5 "Roboto", "Arial", sans-serif;
-    color: #0f0f0f;
-    background: #ffffff;
+  .cw-dossier {
+    --cw-surface: #FBFBFA;
+    --cw-ink: #16181B;
+    --cw-muted: #5B5F66;
+    --cw-hairline: #E6E4DF;
+    --cw-accent: #5F6368;
+    width: 360px;
+    padding: 14px 16px 16px;
     box-sizing: border-box;
+    font: 400 13px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--cw-ink);
+    background: var(--cw-surface);
   }
-  .cw-popup * { box-sizing: border-box; }
-  .cw-popup__title { margin: 0 0 8px; font-size: 14px; font-weight: 700; letter-spacing: 0.04em; }
-  .cw-popup__msg { margin: 8px 0; }
-  .cw-popup__channel { margin: 0 0 6px; font-weight: 600; font-size: 14px; }
-  .cw-popup__label {
-    display: inline-block; margin: 0 0 8px; padding: 3px 10px;
-    border-radius: 999px; color: #fff; font-weight: 600; font-size: 12px;
+  .cw-dossier * { box-sizing: border-box; }
+
+  .cw-mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   }
-  .cw-popup__summary { margin: 4px 0 12px; }
-  .cw-popup__facts { margin: 0 0 12px; display: grid; gap: 6px; }
-  .cw-fact dt { font-weight: 600; font-size: 11px; text-transform: uppercase; opacity: 0.7; }
-  .cw-fact dd { margin: 0; }
-  .cw-popup__section h2 { margin: 12px 0 6px; font-size: 13px; font-weight: 600; }
-  .cw-popup__list { margin: 0 0 12px; padding-left: 18px; display: grid; gap: 6px; }
-  .cw-popup__name { display: block; font-weight: 600; }
-  .cw-popup__meta { display: block; font-size: 11px; opacity: 0.8; }
-  .cw-popup__notes { margin: 0 0 12px; padding-left: 18px; }
-  .cw-popup__reviewed { font-size: 11px; opacity: 0.7; margin: 4px 0; }
-  .cw-popup__disclaimer { font-size: 11px; font-style: italic; opacity: 0.8; margin: 4px 0 10px; }
-  .cw-popup__correction {
-    display: inline-block; color: #065fd4; font-weight: 600; text-decoration: none;
+
+  .cw-wordmark {
+    margin: 0 0 12px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cw-muted);
   }
-  .cw-popup__correction:hover { text-decoration: underline; }
+
+  .cw-note { margin: 8px 0; color: var(--cw-ink); }
+
+  /* Verdict accent, per §9.2 badge color (foreground-safe both modes). */
+  .cw-card[data-cw-color="GREEN"]   { --cw-accent: #1E7E34; }
+  .cw-card[data-cw-color="BLUE"]    { --cw-accent: #1565C0; }
+  .cw-card[data-cw-color="PURPLE"]  { --cw-accent: #6A1B9A; }
+  .cw-card[data-cw-color="ORANGE"]  { --cw-accent: #A85400; }
+  .cw-card[data-cw-color="RED"]     { --cw-accent: #B71C1C; }
+  .cw-card[data-cw-color="NEUTRAL"] { --cw-accent: #5F6368; }
+
+  .cw-card { margin: 0; }
+
+  /* One restrained fade/slide-in on open (gated by prefers-reduced-motion). */
+  @keyframes cw-enter {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .cw-card--enter { animation: cw-enter 260ms ease-out both; }
+  @media (prefers-reduced-motion: reduce) {
+    .cw-card--enter { animation: none; }
+  }
+
+  /* Verdict band: tinted, with a colored left spine in the verdict color. */
+  .cw-verdict {
+    position: relative;
+    padding: 12px 12px 12px 16px;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--cw-accent) 12%, transparent);
+    overflow: hidden;
+  }
+  .cw-verdict::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--cw-accent);
+  }
+  .cw-verdict__channel {
+    margin: 0 0 6px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .cw-verdict__stamp {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cw-accent);
+  }
+  .cw-summary {
+    margin: 8px 0 0;
+    font-size: 12.5px;
+    color: var(--cw-ink);
+  }
+  .cw-verdict .cw-summary { margin-top: 8px; }
+
+  .cw-block { margin: 16px 0 0; }
+  .cw-eyebrow {
+    margin: 0 0 8px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cw-muted);
+  }
+
+  /* Ownership-lineage rail: a vertical spine with a node per hop. */
+  .cw-rail { list-style: none; margin: 0; padding: 0; }
+  .cw-rail__node {
+    position: relative;
+    padding: 0 0 14px 20px;
+  }
+  .cw-rail__node:last-child { padding-bottom: 0; }
+  /* The spine (left rule) connecting nodes; drawn behind the dots. */
+  .cw-rail__node::before {
+    content: "";
+    position: absolute;
+    left: 4px; top: 4px; bottom: 0;
+    width: 2px;
+    background: var(--cw-hairline);
+  }
+  .cw-rail__node:last-child::before { display: none; }
+  .cw-rail__node[data-cw-active="true"]::before { background: var(--cw-accent); }
+  .cw-rail__dot {
+    position: absolute;
+    left: 0; top: 3px;
+    width: 10px; height: 10px;
+    border-radius: 999px;
+    background: var(--cw-surface);
+    border: 2px solid var(--cw-hairline);
+  }
+  .cw-rail__node[data-cw-active="true"] > .cw-rail__dot { border-color: var(--cw-accent); }
+  .cw-rail__node[data-cw-channel="true"] > .cw-rail__dot { background: var(--cw-accent); border-color: var(--cw-accent); }
+  .cw-rail__body { display: block; }
+  .cw-rail__name { margin: 0; font-weight: 600; font-size: 13px; line-height: 1.3; }
+  .cw-rail__glyph { color: var(--cw-accent); font-size: 10px; }
+  .cw-rail__tag {
+    display: block;
+    margin-top: 1px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cw-muted);
+  }
+  .cw-rail__meta {
+    display: block;
+    margin-top: 2px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    color: var(--cw-muted);
+  }
+
+  /* Compact monospace fact row. */
+  .cw-meta {
+    margin: 14px 0 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--cw-muted);
+  }
+
+  /* History periods. */
+  .cw-history { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .cw-history__period {
+    border: 1px solid var(--cw-hairline);
+    border-radius: 6px;
+    padding: 7px 10px;
+    display: grid;
+    gap: 2px;
+  }
+  .cw-history__period[data-cw-current="true"] { border-color: var(--cw-accent); }
+  .cw-history__name { font-weight: 600; font-size: 12.5px; }
+  .cw-history__meta {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    color: var(--cw-muted);
+  }
+
+  .cw-notes { margin: 0; padding-left: 16px; font-size: 12px; color: var(--cw-ink); }
+  .cw-notes li { margin: 0 0 3px; }
+
+  .cw-reviewed {
+    margin: 16px 0 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 10.5px;
+    color: var(--cw-muted);
+  }
+  .cw-disclaimer {
+    margin: 6px 0 0;
+    font-size: 11px;
+    font-style: italic;
+    color: var(--cw-muted);
+  }
+
+  .cw-correction {
+    display: inline-block;
+    margin: 12px 0 0;
+    color: var(--cw-accent);
+    font-weight: 600;
+    font-size: 12.5px;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  .cw-correction:hover { text-decoration: underline; }
+  .cw-correction:focus-visible {
+    outline: 2px solid var(--cw-accent);
+    outline-offset: 3px;
+  }
+
   @media (prefers-color-scheme: dark) {
-    .cw-popup { background: #212121; color: #f1f1f1; }
-    .cw-popup__correction { color: #5a9bff; }
+    .cw-dossier {
+      --cw-surface: #17181B;
+      --cw-ink: #ECEDEE;
+      --cw-muted: #9AA0A6;
+      --cw-hairline: #2A2C30;
+      --cw-accent: #9AA0A6;
+    }
+    .cw-card[data-cw-color="GREEN"]   { --cw-accent: #4ADE80; }
+    .cw-card[data-cw-color="BLUE"]    { --cw-accent: #5AA2F0; }
+    .cw-card[data-cw-color="PURPLE"]  { --cw-accent: #C084E8; }
+    .cw-card[data-cw-color="ORANGE"]  { --cw-accent: #E0913A; }
+    .cw-card[data-cw-color="RED"]     { --cw-accent: #F16A6A; }
+    .cw-card[data-cw-color="NEUTRAL"] { --cw-accent: #9AA0A6; }
   }
 `;
