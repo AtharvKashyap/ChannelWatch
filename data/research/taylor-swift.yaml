@@ -5,7 +5,14 @@ channel:
 entities:
   - { slug: creator, canonical_name: Taylor Swift, entity_type: CREATOR, jurisdiction: US }
 relationships:
-  - { subject: creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - {
+      subject: creator,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_channel
     url: https://www.youtube.com/@TaylorSwift

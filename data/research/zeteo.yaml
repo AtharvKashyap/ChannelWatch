@@ -11,8 +11,22 @@ entities:
     canonical_name: Mehdi Hasan
     entity_type: CREATOR
 relationships:
-  - { subject: zeteo, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
-  - { subject: zeteo, type: FOUNDED_BY, object: mehdi_hasan, control_level: UNKNOWN, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: zeteo,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.65,
+      status: ACTIVE,
+    }
+  - {
+      subject: zeteo,
+      type: FOUNDED_BY,
+      object: mehdi_hasan,
+      control_level: UNKNOWN,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_about
     url: https://zeteo.com/about

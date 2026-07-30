@@ -8,8 +8,22 @@ entities:
     entity_type: CREATOR
     legal_name: Ajey Nagar
 relationships:
-  - { subject: channel, type: FOUNDED_BY, object: nagar, effective_from: 2014-10-30, confidence: 0.9, status: ACTIVE }
-  - { subject: nagar, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: channel,
+      type: FOUNDED_BY,
+      object: nagar,
+      effective_from: 2014-10-30,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
+  - {
+      subject: nagar,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
   - { subject: channel, type: HOSTED_BY, object: nagar, confidence: 0.95, status: ACTIVE }
 sources:
   - ref: wikidata_carry

@@ -15,8 +15,22 @@ entities:
     website: https://www.paramount.com
     aliases: [Paramount, Skydance Corporation]
 relationships:
-  - { subject: cbs_news, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: cbs_news, type: SUBSIDIARY_OF, object: paramount, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: cbs_news,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: cbs_news,
+      type: SUBSIDIARY_OF,
+      object: paramount,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: paramount_structure
     url: https://www.paramountpressexpress.com/brands-and-executives/

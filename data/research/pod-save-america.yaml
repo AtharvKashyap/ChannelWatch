@@ -8,7 +8,14 @@ entities:
     entity_type: MEDIA_NETWORK
     website: https://crooked.com/
 relationships:
-  - { subject: crooked_media, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: crooked_media,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_show
     url: https://www.crooked.com/podcast-series/pod-save-america/

@@ -11,8 +11,22 @@ entities:
     website: https://www.smentertainment.com
     aliases: [SM Entertainment]
 relationships:
-  - { subject: sm, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
-  - { subject: sm, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: sm,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
+  - {
+      subject: sm,
+      type: OPERATES,
+      object: channel,
+      control_level: MANAGEMENT,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: smtown_channel
     url: https://www.youtube.com/user/SMtown

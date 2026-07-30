@@ -11,8 +11,22 @@ entities:
     website: https://hybecorp.com
     aliases: [HYBE, Big Hit Entertainment]
 relationships:
-  - { subject: hybe, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
-  - { subject: hybe, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: hybe,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
+  - {
+      subject: hybe,
+      type: OPERATES,
+      object: channel,
+      control_level: MANAGEMENT,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: hybe_ir
     url: https://www.hybecorp.com/attachment/download?originFileName=%5BHYBE%5D+IR+PPT_2021.1Q_Eng_vf.pdf

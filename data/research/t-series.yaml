@@ -10,8 +10,22 @@ entities:
     jurisdiction: IN
     website: https://www.tseries.com
 relationships:
-  - { subject: scil, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
-  - { subject: scil, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: scil,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
+  - {
+      subject: scil,
+      type: OPERATES,
+      object: channel,
+      control_level: MANAGEMENT,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: tseries_corporate
     url: https://in.linkedin.com/company/super-cassettes-industries-limited

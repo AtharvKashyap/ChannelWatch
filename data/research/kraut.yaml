@@ -7,7 +7,14 @@ entities:
     canonical_name: Kraut
     entity_type: CREATOR
 relationships:
-  - { subject: kraut_creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.92, status: ACTIVE }
+  - {
+      subject: kraut_creator,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.92,
+      status: ACTIVE,
+    }
 sources:
   - ref: patreon
     url: https://www.patreon.com/Kraut_and_Tea

@@ -1,8 +1,26 @@
-channel: { youtube_channel_id: UCRx3mKNUdl8QE06nEug7p6Q, display_name: BillionSurpriseToys, handle: "@BillionSurpriseToys" }
+channel:
+  {
+    youtube_channel_id: UCRx3mKNUdl8QE06nEug7p6Q,
+    display_name: BillionSurpriseToys,
+    handle: "@BillionSurpriseToys",
+  }
 entities:
-  - { slug: bst, canonical_name: Billion Surprise Toys, entity_type: COMPANY, jurisdiction: US, website: "https://billionsurprisetoys.com" }
+  - {
+      slug: bst,
+      canonical_name: Billion Surprise Toys,
+      entity_type: COMPANY,
+      jurisdiction: US,
+      website: "https://billionsurprisetoys.com",
+    }
 relationships:
-  - { subject: bst, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - {
+      subject: bst,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
 sources:
   - ref: about
     url: https://billionsurprisetoys.com/page?type=aboutus
@@ -20,4 +38,10 @@ sources:
     tier: 3
     excerpt: BillionSurpriseToys; YouTube channel ID UCRx3mKNUdl8QE06nEug7p6Q; YouTube handle billionsurprisetoys.
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. The official site describes Billion Surprise Toys as a media company publishing its videos on its own YouTube channel. The exact registered legal name remains an open registry question. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. The official site describes Billion Surprise Toys as a media company publishing its videos on its own YouTube channel. The exact registered legal name remains an open registry question. reviewed_by is absent.",
+  }

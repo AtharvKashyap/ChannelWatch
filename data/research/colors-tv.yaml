@@ -22,9 +22,33 @@ entities:
     jurisdiction: US-DE
     website: https://thewaltdisneycompany.com
 relationships:
-  - { subject: jiostar, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
-  - { subject: reliance, type: CONTROLS, object: jiostar, control_level: CONTROLLING, effective_from: 2024-11-14, confidence: 0.99, status: ACTIVE }
-  - { subject: disney, type: PARTIALLY_OWNS, object: jiostar, control_level: MINORITY, ownership_percentage: 36.84, effective_from: 2024-11-14, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: jiostar,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
+  - {
+      subject: reliance,
+      type: CONTROLS,
+      object: jiostar,
+      control_level: CONTROLLING,
+      effective_from: 2024-11-14,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: disney,
+      type: PARTIALLY_OWNS,
+      object: jiostar,
+      control_level: MINORITY,
+      ownership_percentage: 36.84,
+      effective_from: 2024-11-14,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: colors_brand
     url: https://www.jiostar.com/consumer-products/brands/colors/

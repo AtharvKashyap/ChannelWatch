@@ -7,7 +7,14 @@ entities:
     canonical_name: The Gravel Institute
     entity_type: NONPROFIT
 relationships:
-  - { subject: gravel_institute, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.92, status: ACTIVE }
+  - {
+      subject: gravel_institute,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.92,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UC95fKRwnEvd8RTX74Iz3TcA

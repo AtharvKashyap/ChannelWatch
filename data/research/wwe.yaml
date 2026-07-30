@@ -26,10 +26,39 @@ entities:
     jurisdiction: US
     website: https://www.silverlake.com
 relationships:
-  - { subject: wwe, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: wwe, type: SUBSIDIARY_OF, object: tko, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: endeavor, type: CONTROLS, object: tko, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
-  - { subject: endeavor, type: PORTFOLIO_COMPANY_OF, object: silver_lake, control_level: CONTROLLING, effective_from: 2025-03-24, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: wwe,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: wwe,
+      type: SUBSIDIARY_OF,
+      object: tko,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: endeavor,
+      type: CONTROLS,
+      object: tko,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
+  - {
+      subject: endeavor,
+      type: PORTFOLIO_COMPANY_OF,
+      object: silver_lake,
+      control_level: CONTROLLING,
+      effective_from: 2025-03-24,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: wwe_privacy
     url: https://www.wwe.com/page/privacy-policy

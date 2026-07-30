@@ -1,8 +1,20 @@
 channel: { youtube_channel_id: UCZWlSUNDvCCS1hBiXV0zKcA, display_name: PragerU, handle: "@prageru" }
 entities:
-  - { slug: prageru, canonical_name: Prager University Foundation, entity_type: NONPROFIT, website: "https://www.prageru.com/" }
+  - {
+      slug: prageru,
+      canonical_name: Prager University Foundation,
+      entity_type: NONPROFIT,
+      website: "https://www.prageru.com/",
+    }
 relationships:
-  - { subject: prageru, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: prageru,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UCZWlSUNDvCCS1hBiXV0zKcA
@@ -20,4 +32,10 @@ sources:
     tier: 2
     excerpt: "The Prager University Foundation, known as PragerU, is an American 501(c)(3) nonprofit advocacy group and media organization that creates content promoting conservative and pro-capitalist viewpoints on various political, economic, and sociological topics."
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. The nonprofit's branded channel is modeled directly; reviewed_by is absent. Ownership originally rested only on the channel's own bare YouTube page (typed DIRECT_CREATOR_CONFIRMATION) — that self-page has been retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the owner link is now corroborated by Wikipedia (Tier 2), which identifies the Prager University Foundation as the PragerU media organization. Inferred owner edge flagged for human corroboration; confidence lowered to 0.7." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. The nonprofit's branded channel is modeled directly; reviewed_by is absent. Ownership originally rested only on the channel's own bare YouTube page (typed DIRECT_CREATOR_CONFIRMATION) — that self-page has been retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the owner link is now corroborated by Wikipedia (Tier 2), which identifies the Prager University Foundation as the PragerU media organization. Inferred owner edge flagged for human corroboration; confidence lowered to 0.7.",
+  }

@@ -7,7 +7,14 @@ entities:
     canonical_name: Binkov's Battlegrounds
     entity_type: CREATOR
 relationships:
-  - { subject: binkov_creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.93, status: ACTIVE }
+  - {
+      subject: binkov_creator,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.93,
+      status: ACTIVE,
+    }
 sources:
   - ref: patreon
     url: https://www.patreon.com/binkov/about

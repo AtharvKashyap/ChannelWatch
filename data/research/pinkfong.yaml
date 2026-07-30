@@ -11,8 +11,22 @@ entities:
     website: https://www.thepinkfongcompany.com
   - { slug: pinkfong_brand, canonical_name: Pinkfong, entity_type: BRAND, jurisdiction: KR }
 relationships:
-  - { subject: pinkfong_company, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
-  - { subject: pinkfong_brand, type: SUBSIDIARY_OF, object: pinkfong_company, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: pinkfong_company,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
+  - {
+      subject: pinkfong_brand,
+      type: SUBSIDIARY_OF,
+      object: pinkfong_company,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: company_business
     url: https://www.thepinkfongcompany.com/en/business

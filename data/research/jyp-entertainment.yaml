@@ -11,8 +11,22 @@ entities:
     website: https://www.jype.com
     aliases: [JYP Entertainment]
 relationships:
-  - { subject: jyp, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
-  - { subject: jyp, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: jyp,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
+  - {
+      subject: jyp,
+      type: OPERATES,
+      object: channel,
+      control_level: MANAGEMENT,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: jyp_registry
     url: https://recordlabelregistry.com/registry/jyp-entertainment

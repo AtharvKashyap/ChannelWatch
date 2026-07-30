@@ -13,8 +13,22 @@ entities:
     entity_type: COMPANY
     jurisdiction: AE
 relationships:
-  - { subject: ary_digital_network, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
-  - { subject: ary_digital_network, type: SUBSIDIARY_OF, object: ary_group, control_level: CONTROLLING, confidence: 0.8, status: ACTIVE }
+  - {
+      subject: ary_digital_network,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
+  - {
+      subject: ary_digital_network,
+      type: SUBSIDIARY_OF,
+      object: ary_group,
+      control_level: CONTROLLING,
+      confidence: 0.8,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel_confirmation
     url: https://www.youtube.com/live/xJJ-jdb1FqQ

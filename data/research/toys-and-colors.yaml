@@ -1,4 +1,9 @@
-channel: { youtube_channel_id: UCgFXm4TI8htWmCyJ6cVPG_A, display_name: Toys and Colors, handle: "@toysandcolors" }
+channel:
+  {
+    youtube_channel_id: UCgFXm4TI8htWmCyJ6cVPG_A,
+    display_name: Toys and Colors,
+    handle: "@toysandcolors",
+  }
 entities:
   - { slug: brand, canonical_name: Toys and Colors, entity_type: BRAND, jurisdiction: US }
   # Reused VERBATIM from data/research/ryans-world.yaml / kids-diana-show.yaml — same legal entity.
@@ -10,8 +15,22 @@ entities:
       - pocket.watch
       - Pocket.watch
 relationships:
-  - { subject: brand, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.8, status: ACTIVE }
-  - { subject: pocketwatch, type: REPRESENTS, object: brand, control_level: MANAGEMENT, confidence: 0.85, status: ACTIVE }
+  - {
+      subject: brand,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.8,
+      status: ACTIVE,
+    }
+  - {
+      subject: pocketwatch,
+      type: REPRESENTS,
+      object: brand,
+      control_level: MANAGEMENT,
+      confidence: 0.85,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/@toysandcolors
@@ -38,4 +57,10 @@ sources:
     tier: 3
     excerpt: Toys and Colors YouTube channel UCgFXm4TI8htWmCyJ6cVPG_A.
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. 2026-07-30 fix (triage: DIRECT_CREATOR_CONFIRMATION source that is representation/management, not creator ownership confirmation). The pocketwatch_portfolio source is a Bonkers Toys toy-line press release distributed via PR Newswire (published 2026-07-23), NOT the creator's own ownership statement, so it was retyped from DIRECT_CREATOR_CONFIRMATION (tier 1) to ARCHIVED_CORPORATE_PAGE (tier 3), publisher corrected to PR Newswire, and the excerpt trimmed to the verbatim portfolio-membership sentence. pocket.watch is modeled as representation/franchise management (REPRESENTS + MANAGEMENT), not channel ownership, mirroring ryans-world.yaml / kids-diana-show.yaml; the pocketwatch entity was aligned VERBATIM to those records (canonical_name PocketWatch, Inc.; website https://www.pocket.watch; aliases pocket.watch) so the graph links into one node, which also fixed an unquoted-comma YAML issue in the prior flow mapping. The 2021 source gives only year precision, so the relationship date is omitted pending a full operative date. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. 2026-07-30 fix (triage: DIRECT_CREATOR_CONFIRMATION source that is representation/management, not creator ownership confirmation). The pocketwatch_portfolio source is a Bonkers Toys toy-line press release distributed via PR Newswire (published 2026-07-23), NOT the creator's own ownership statement, so it was retyped from DIRECT_CREATOR_CONFIRMATION (tier 1) to ARCHIVED_CORPORATE_PAGE (tier 3), publisher corrected to PR Newswire, and the excerpt trimmed to the verbatim portfolio-membership sentence. pocket.watch is modeled as representation/franchise management (REPRESENTS + MANAGEMENT), not channel ownership, mirroring ryans-world.yaml / kids-diana-show.yaml; the pocketwatch entity was aligned VERBATIM to those records (canonical_name PocketWatch, Inc.; website https://www.pocket.watch; aliases pocket.watch) so the graph links into one node, which also fixed an unquoted-comma YAML issue in the prior flow mapping. The 2021 source gives only year precision, so the relationship date is omitted pending a full operative date. reviewed_by is absent.",
+  }

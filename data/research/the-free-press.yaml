@@ -1,10 +1,36 @@
-channel: { youtube_channel_id: UCSRRURbKlPf1HwPUhjmufTg, display_name: The Free Press, handle: "@TheFreePress" }
+channel:
+  {
+    youtube_channel_id: UCSRRURbKlPf1HwPUhjmufTg,
+    display_name: The Free Press,
+    handle: "@TheFreePress",
+  }
 entities:
-  - { slug: free_press, canonical_name: The Free Press, entity_type: MEDIA_NETWORK, website: "https://www.thefp.com/" }
+  - {
+      slug: free_press,
+      canonical_name: The Free Press,
+      entity_type: MEDIA_NETWORK,
+      website: "https://www.thefp.com/",
+    }
 relationships:
-  - { subject: free_press, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+  - {
+      subject: free_press,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.65,
+      status: ACTIVE,
+    }
 sources:
-  - { ref: channel, url: "https://www.youtube.com/channel/UCSRRURbKlPf1HwPUhjmufTg", title: The Free Press, publisher: YouTube, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "The Free Press", supports: [{ relationship: 0 }] }
+  - {
+      ref: channel,
+      url: "https://www.youtube.com/channel/UCSRRURbKlPf1HwPUhjmufTg",
+      title: The Free Press,
+      publisher: YouTube,
+      source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE,
+      tier: 3,
+      excerpt: "The Free Press",
+      supports: [{ relationship: 0 }],
+    }
   - ref: wikipedia
     url: https://en.wikipedia.org/wiki/The_Free_Press_(website)
     title: The Free Press
@@ -13,4 +39,10 @@ sources:
     tier: 2
     excerpt: "The Free Press (The FP), formerly Common Sense, is an American media company based in New York City. Founded by opinion writer Bari Weiss and her spouse Nellie Bowles... Since October 2025, it is an independent entity within CBS News, whose parent company Paramount Skydance acquired it in 2025 for $150 million."
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Ownership of the channel by The Free Press is INFERRED from the same-name brand + technical channel linkage, not a direct ownership disclosure; flagged for corroboration and confidence lowered to 0.65. The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; Wikipedia (Tier 2) corroborates the operating entity. Wikipedia confirms Paramount Skydance (CBS News) acquired The Free Press in Oct 2025 for $150M — a human should decide whether to add that upstream edge. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Ownership of the channel by The Free Press is INFERRED from the same-name brand + technical channel linkage, not a direct ownership disclosure; flagged for corroboration and confidence lowered to 0.65. The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; Wikipedia (Tier 2) corroborates the operating entity. Wikipedia confirms Paramount Skydance (CBS News) acquired The Free Press in Oct 2025 for $150M — a human should decide whether to add that upstream edge. reviewed_by is absent.",
+  }

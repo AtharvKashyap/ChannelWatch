@@ -1,10 +1,31 @@
-channel: { youtube_channel_id: UCFQMnBA3CS502aghlcr0_aw, display_name: Coffeezilla, handle: "@Coffeezilla" }
+channel:
+  {
+    youtube_channel_id: UCFQMnBA3CS502aghlcr0_aw,
+    display_name: Coffeezilla,
+    handle: "@Coffeezilla",
+  }
 entities:
   - { slug: coffeezilla, canonical_name: Coffeezilla, entity_type: CREATOR }
 relationships:
-  - { subject: coffeezilla, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: coffeezilla,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
 sources:
-  - { ref: channel, url: "https://www.youtube.com/channel/UCFQMnBA3CS502aghlcr0_aw", title: Coffeezilla, publisher: Coffeezilla, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Coffeezilla", supports: [{ relationship: 0 }] }
+  - {
+      ref: channel,
+      url: "https://www.youtube.com/channel/UCFQMnBA3CS502aghlcr0_aw",
+      title: Coffeezilla,
+      publisher: Coffeezilla,
+      source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE,
+      tier: 3,
+      excerpt: "Coffeezilla",
+      supports: [{ relationship: 0 }],
+    }
   - ref: wikipedia
     url: https://en.wikipedia.org/wiki/Coffeezilla
     title: Coffeezilla
@@ -13,4 +34,10 @@ sources:
     tier: 2
     excerpt: "Stephen Findeisen (born 1993 or 1994), better known as Coffeezilla, is an American YouTuber"
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Public creator brand modeled directly. The YouTube page only confirms the channel name (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE); Wikipedia corroborates Stephen Findeisen as the Coffeezilla YouTuber. Ownership is eponymously inferred, so the OWNS edge is set to reasoned inference (0.7) and flagged for corroboration. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Public creator brand modeled directly. The YouTube page only confirms the channel name (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE); Wikipedia corroborates Stephen Findeisen as the Coffeezilla YouTuber. Ownership is eponymously inferred, so the OWNS edge is set to reasoned inference (0.7) and flagged for corroboration. reviewed_by is absent.",
+  }

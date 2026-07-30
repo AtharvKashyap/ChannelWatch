@@ -7,7 +7,14 @@ entities:
     canonical_name: Perun
     entity_type: CREATOR
 relationships:
-  - { subject: perun_creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.94, status: ACTIVE }
+  - {
+      subject: perun_creator,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.94,
+      status: ACTIVE,
+    }
 sources:
   - ref: patreon
     url: https://www.patreon.com/PerunAU

@@ -9,7 +9,14 @@ entities:
     aliases: [Total Gaming]
 relationships:
   - { subject: channel, type: FOUNDED_BY, object: ajju, confidence: 0.8, status: ACTIVE }
-  - { subject: ajju, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.6, status: ACTIVE }
+  - {
+      subject: ajju,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.6,
+      status: ACTIVE,
+    }
   - { subject: channel, type: HOSTED_BY, object: ajju, confidence: 0.9, status: ACTIVE }
 sources:
   - ref: vidiq_total_gaming

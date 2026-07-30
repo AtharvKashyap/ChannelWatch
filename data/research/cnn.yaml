@@ -15,8 +15,22 @@ entities:
     jurisdiction: US-DE
     website: https://www.wbd.com
 relationships:
-  - { subject: cnn, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: cnn, type: SUBSIDIARY_OF, object: wbd, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: cnn,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: cnn,
+      type: SUBSIDIARY_OF,
+      object: wbd,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: cnn_help
     url: https://help.cnn.com/

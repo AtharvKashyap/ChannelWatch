@@ -10,7 +10,14 @@ entities:
     jurisdiction: SG
     website: https://www.mediacorp.sg
 relationships:
-  - { subject: mediacorp, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: mediacorp,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: mediacorp_brands
     url: https://www.mediacorp.sg/business/advertising/trade-news/building-singapore-s-1-premium-digital-network-key-milestones-13101574

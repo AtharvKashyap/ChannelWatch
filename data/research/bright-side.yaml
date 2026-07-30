@@ -11,8 +11,22 @@ entities:
     website: https://thesoul.group
     aliases: [TheSoul Publishing, TheSoul Group, AdMe]
 relationships:
-  - { subject: thesoul, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
-  - { subject: thesoul, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: thesoul,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
+  - {
+      subject: thesoul,
+      type: OPERATES,
+      object: channel,
+      control_level: MANAGEMENT,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: brightside_about
     url: https://brightside.me/about-us/

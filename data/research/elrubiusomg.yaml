@@ -8,8 +8,22 @@ entities:
     entity_type: CREATOR
     legal_name: Rubén Doblas Gundersen
 relationships:
-  - { subject: channel, type: FOUNDED_BY, object: doblas, effective_from: 2011-12-20, confidence: 0.9, status: ACTIVE }
-  - { subject: doblas, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: channel,
+      type: FOUNDED_BY,
+      object: doblas,
+      effective_from: 2011-12-20,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
+  - {
+      subject: doblas,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
   - { subject: channel, type: HOSTED_BY, object: doblas, confidence: 0.95, status: ACTIVE }
 sources:
   - ref: wikidata_elrubius

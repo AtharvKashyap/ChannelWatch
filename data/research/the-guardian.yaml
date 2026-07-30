@@ -21,9 +21,31 @@ entities:
     legal_name: The Scott Trust Limited
     jurisdiction: GB
 relationships:
-  - { subject: gnm, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: gnm, type: SUBSIDIARY_OF, object: gmg, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: scott_trust, type: OWNS, object: gmg, control_level: CONTROLLING, ownership_percentage: 100, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: gnm,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: gnm,
+      type: SUBSIDIARY_OF,
+      object: gmg,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: scott_trust,
+      type: OWNS,
+      object: gmg,
+      control_level: CONTROLLING,
+      ownership_percentage: 100,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: guardian_structure
     url: https://www.theguardian.com/about

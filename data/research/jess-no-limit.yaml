@@ -8,8 +8,22 @@ entities:
     entity_type: CREATOR
     legal_name: Tobias Justin
 relationships:
-  - { subject: channel, type: FOUNDED_BY, object: justin, effective_from: 2017-09-07, confidence: 0.9, status: ACTIVE }
-  - { subject: justin, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: channel,
+      type: FOUNDED_BY,
+      object: justin,
+      effective_from: 2017-09-07,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
+  - {
+      subject: justin,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
   - { subject: channel, type: HOSTED_BY, object: justin, confidence: 0.95, status: ACTIVE }
 sources:
   - ref: wikidata_jess

@@ -1,8 +1,20 @@
-channel: { youtube_channel_id: UCkY4fdKOFk3Kiq7g5LLKYLw, display_name: Candace Owens, handle: "@CandaceOwensPodcast" }
+channel:
+  {
+    youtube_channel_id: UCkY4fdKOFk3Kiq7g5LLKYLw,
+    display_name: Candace Owens,
+    handle: "@CandaceOwensPodcast",
+  }
 entities:
   - { slug: candace_owens, canonical_name: Candace Owens, entity_type: CREATOR }
 relationships:
-  - { subject: candace_owens, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: candace_owens,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UCkY4fdKOFk3Kiq7g5LLKYLw
@@ -20,4 +32,10 @@ sources:
     tier: 2
     excerpt: "Following her firing from The Daily Wire, Owens began a new YouTube channel, running it independently."
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Current namesake channel modeled as creator-owned; prior employment/distribution relationships are not ownership. The YouTube page only confirms the channel name (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE); Wikipedia corroborates that Owens runs an independent YouTube channel after leaving The Daily Wire. Ownership is eponymously inferred, so the OWNS edge is set to reasoned inference (0.7) and flagged for corroboration. Named-person record needs a second reviewer; reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Current namesake channel modeled as creator-owned; prior employment/distribution relationships are not ownership. The YouTube page only confirms the channel name (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE); Wikipedia corroborates that Owens runs an independent YouTube channel after leaving The Daily Wire. Ownership is eponymously inferred, so the OWNS edge is set to reasoned inference (0.7) and flagged for corroboration. Named-person record needs a second reviewer; reviewed_by is absent.",
+  }

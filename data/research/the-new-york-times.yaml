@@ -13,8 +13,22 @@ entities:
     canonical_name: Ochs-Sulzberger Family Trust
     entity_type: TRUST
 relationships:
-  - { subject: nytco, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: family_trust, type: CONTROLS, object: nytco, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: nytco,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: family_trust,
+      type: CONTROLS,
+      object: nytco,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: proxy
     url: https://www.sec.gov/Archives/edgar/data/71691/000007169126000016/nyt-20260313.htm

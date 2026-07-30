@@ -13,8 +13,22 @@ entities:
     entity_type: COMPANY
     jurisdiction: PK
 relationships:
-  - { subject: geo_network, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
-  - { subject: geo_network, type: SUBSIDIARY_OF, object: jang_group, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: geo_network,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
+  - {
+      subject: geo_network,
+      type: SUBSIDIARY_OF,
+      object: jang_group,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: youtube_profile
     url: https://blog.youtube/creator-and-artist-stories/har-pal-geo-pakistani-entertainment-channel-youtube/

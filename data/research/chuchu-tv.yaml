@@ -11,7 +11,14 @@ entities:
     website: https://chuchutv.com
     aliases: [ChuChuTV Studios]
 relationships:
-  - { subject: chuchu, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: chuchu,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_site
     url: https://chuchutv.com

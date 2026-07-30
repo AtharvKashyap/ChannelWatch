@@ -12,8 +12,22 @@ entities:
     entity_type: COMPANY
     website: https://recurrent.io
 relationships:
-  - { subject: task_purpose, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: task_purpose, type: SUBSIDIARY_OF, object: recurrent, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: task_purpose,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: task_purpose,
+      type: SUBSIDIARY_OF,
+      object: recurrent,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: about
     url: https://taskandpurpose.com/about-task-purpose/

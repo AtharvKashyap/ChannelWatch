@@ -1,10 +1,41 @@
-channel: { youtube_channel_id: UCK1i2UviaXLUNrZlAFpw_jA, display_name: El Reino Infantil, handle: "@ElReinoInfantil" }
+channel:
+  {
+    youtube_channel_id: UCK1i2UviaXLUNrZlAFpw_jA,
+    display_name: El Reino Infantil,
+    handle: "@ElReinoInfantil",
+  }
 entities:
-  - { slug: leader, canonical_name: Leader Music, entity_type: COMPANY, jurisdiction: AR, aliases: [Leader Entertainment] }
-  - { slug: reino, canonical_name: El Reino Infantil, entity_type: BRAND, jurisdiction: AR, website: "https://www.elreinoinfantil.com" }
+  - {
+      slug: leader,
+      canonical_name: Leader Music,
+      entity_type: COMPANY,
+      jurisdiction: AR,
+      aliases: [Leader Entertainment],
+    }
+  - {
+      slug: reino,
+      canonical_name: El Reino Infantil,
+      entity_type: BRAND,
+      jurisdiction: AR,
+      website: "https://www.elreinoinfantil.com",
+    }
 relationships:
-  - { subject: leader, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
-  - { subject: reino, type: SUBSIDIARY_OF, object: leader, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - {
+      subject: leader,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
+  - {
+      subject: reino,
+      type: SUBSIDIARY_OF,
+      object: leader,
+      control_level: CONTROLLING,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
 sources:
   - ref: youtube_profile
     url: https://blog.youtube/creator-and-artist-stories/creator-voices-el-reino-infantil/
@@ -23,4 +54,10 @@ sources:
     tier: 1
     excerpt: Desde nuestra casa en Leader Music, Kuky soñó con un universo donde las canciones, los colores y los personajes entrañables se unieran.
     supports: [{ relationship: 0 }, { relationship: 1 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Official brand history and a named interview place El Reino Infantil inside Leader Music and describe the company creating the channel. Founder status is not converted into an individual equity claim. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Official brand history and a named interview place El Reino Infantil inside Leader Music and describe the company creating the channel. Founder status is not converted into an individual equity claim. reviewed_by is absent.",
+  }

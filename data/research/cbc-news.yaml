@@ -12,7 +12,14 @@ entities:
     aliases:
       - CBC/Radio-Canada
 relationships:
-  - { subject: cbc, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: cbc,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: corporate_site
     url: https://cbc.radio-canada.ca/en/vision/mandate

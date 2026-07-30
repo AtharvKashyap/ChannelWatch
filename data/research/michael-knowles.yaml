@@ -1,8 +1,27 @@
-channel: { youtube_channel_id: UCr4kgAUTFkGIwlWSodg43QA, display_name: Michael Knowles, handle: "@MichaelKnowles" }
+channel:
+  {
+    youtube_channel_id: UCr4kgAUTFkGIwlWSodg43QA,
+    display_name: Michael Knowles,
+    handle: "@MichaelKnowles",
+  }
 entities:
-  - { slug: daily_wire, canonical_name: The Daily Wire, legal_name: The Daily Wire, LLC, entity_type: MEDIA_NETWORK, website: "https://www.dailywire.com/" }
+  - {
+      slug: daily_wire,
+      canonical_name: The Daily Wire,
+      legal_name: The Daily Wire,
+      LLC,
+      entity_type: MEDIA_NETWORK,
+      website: "https://www.dailywire.com/",
+    }
 relationships:
-  - { subject: daily_wire, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+  - {
+      subject: daily_wire,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.65,
+      status: ACTIVE,
+    }
 sources:
   - ref: official
     url: https://www.dailywire.com/author/michael-j-knowles
@@ -20,4 +39,10 @@ sources:
     tier: 2
     excerpt: "In addition to its written content, the site produces several podcasts, including: The Ben Shapiro Show, The Michael Knowles Show, The Matt Walsh Show, and The Andrew Klavan Show."
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. The Daily Wire produces The Michael Knowles Show and lists Knowles as a current personality (Wikipedia, Tier 2). The Daily Wire is modeled as channel owner, but ownership of the eponymous 'Michael Knowles' YouTube channel (vs. personal ownership by Knowles) is INFERRED, not directly documented; confidence lowered to 0.65 and flagged for corroboration. The self-referential dailywire.com author page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to ARCHIVED_CORPORATE_PAGE/Tier 3. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. The Daily Wire produces The Michael Knowles Show and lists Knowles as a current personality (Wikipedia, Tier 2). The Daily Wire is modeled as channel owner, but ownership of the eponymous 'Michael Knowles' YouTube channel (vs. personal ownership by Knowles) is INFERRED, not directly documented; confidence lowered to 0.65 and flagged for corroboration. The self-referential dailywire.com author page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to ARCHIVED_CORPORATE_PAGE/Tier 3. reviewed_by is absent.",
+  }

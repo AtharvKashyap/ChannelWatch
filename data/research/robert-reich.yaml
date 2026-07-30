@@ -7,7 +7,14 @@ entities:
     canonical_name: Robert Reich
     entity_type: CREATOR
 relationships:
-  - { subject: robert_reich, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: robert_reich,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UCuDv5p8E-evaRSh542hDV5g

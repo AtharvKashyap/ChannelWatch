@@ -1,9 +1,45 @@
-channel: { youtube_channel_id: UCCKpicnIwBP3VPxBAZWDeNA, display_name: Money & Macro, handle: "@MoneyMacro" }
+channel:
+  {
+    youtube_channel_id: UCCKpicnIwBP3VPxBAZWDeNA,
+    display_name: Money & Macro,
+    handle: "@MoneyMacro",
+  }
 entities:
   - { slug: money_macro, canonical_name: Money & Macro, entity_type: CREATOR }
 relationships:
-  - { subject: money_macro, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: money_macro,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
 sources:
-  - { ref: channel, url: "https://www.youtube.com/channel/UCCKpicnIwBP3VPxBAZWDeNA", title: Money & Macro, publisher: Money & Macro, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Money & Macro", supports: [{ relationship: 0 }] }
-  - { ref: wikidata, url: "https://www.wikidata.org/wiki/Q134717452", title: Joeri Anton Schasfoort, publisher: Wikidata, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Joeri Anton Schasfoort (Belgian economist and YouTuber). YouTube channel ID (P2397): UCCKpicnIwBP3VPxBAZWDeNA (MoneyMacro), started 22 January 2020. Owner of (P1830): Money & Macro Media. Alias: Money & Macro.", supports: [{ relationship: 0 }] }
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Creator-owned channel: Wikidata (Q134717452) links channel UCCKpicnIwBP3VPxBAZWDeNA to economist/YouTuber Joeri Schasfoort, who owns Money & Macro Media. The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; ownership inferred from the eponymous creator brand, confidence lowered to 0.7 and flagged for corroboration. reviewed_by is absent." }
+  - {
+      ref: channel,
+      url: "https://www.youtube.com/channel/UCCKpicnIwBP3VPxBAZWDeNA",
+      title: Money & Macro,
+      publisher: Money & Macro,
+      source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE,
+      tier: 3,
+      excerpt: "Money & Macro",
+      supports: [{ relationship: 0 }],
+    }
+  - {
+      ref: wikidata,
+      url: "https://www.wikidata.org/wiki/Q134717452",
+      title: Joeri Anton Schasfoort,
+      publisher: Wikidata,
+      source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE,
+      tier: 3,
+      excerpt: "Joeri Anton Schasfoort (Belgian economist and YouTuber). YouTube channel ID (P2397): UCCKpicnIwBP3VPxBAZWDeNA (MoneyMacro), started 22 January 2020. Owner of (P1830): Money & Macro Media. Alias: Money & Macro.",
+      supports: [{ relationship: 0 }],
+    }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Creator-owned channel: Wikidata (Q134717452) links channel UCCKpicnIwBP3VPxBAZWDeNA to economist/YouTuber Joeri Schasfoort, who owns Money & Macro Media. The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; ownership inferred from the eponymous creator brand, confidence lowered to 0.7 and flagged for corroboration. reviewed_by is absent.",
+  }

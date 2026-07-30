@@ -17,8 +17,22 @@ entities:
     website: https://www.versantmedia.com
     aliases: [VERSANT]
 relationships:
-  - { subject: ms_now, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: ms_now, type: SUBSIDIARY_OF, object: versant, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: ms_now,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: ms_now,
+      type: SUBSIDIARY_OF,
+      object: versant,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_channel
     url: https://www.youtube.com/@msnow

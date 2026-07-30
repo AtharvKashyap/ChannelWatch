@@ -15,8 +15,22 @@ entities:
     legal_name: All Perspectives Ltd
     jurisdiction: GB
 relationships:
-  - { subject: gb_news_ltd, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: gb_news_ltd, type: SUBSIDIARY_OF, object: all_perspectives, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: gb_news_ltd,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: gb_news_ltd,
+      type: SUBSIDIARY_OF,
+      object: all_perspectives,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: companies_house
     url: https://find-and-update.company-information.service.gov.uk/company/12859339/filing-history

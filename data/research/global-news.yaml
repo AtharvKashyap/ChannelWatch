@@ -10,7 +10,14 @@ entities:
     jurisdiction: CA
     website: https://www.corusent.com
 relationships:
-  - { subject: corus, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: corus,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: annual_report
     url: https://assets.corusent.com/wp-content/uploads/2024/12/corus_ar2024_vf.pdf

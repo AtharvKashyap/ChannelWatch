@@ -1,8 +1,25 @@
-channel: { youtube_channel_id: UCJdKr0Bgd_5saZYqLCa9mng, display_name: The Rubin Report, handle: "@RubinReport" }
+channel:
+  {
+    youtube_channel_id: UCJdKr0Bgd_5saZYqLCa9mng,
+    display_name: The Rubin Report,
+    handle: "@RubinReport",
+  }
 entities:
-  - { slug: rubin_report, canonical_name: The Rubin Report, entity_type: CREATOR, aliases: [Dave Rubin] }
+  - {
+      slug: rubin_report,
+      canonical_name: The Rubin Report,
+      entity_type: CREATOR,
+      aliases: [Dave Rubin],
+    }
 relationships:
-  - { subject: rubin_report, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: rubin_report,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UCJdKr0Bgd_5saZYqLCa9mng
@@ -20,4 +37,10 @@ sources:
     tier: 2
     excerpt: "The Rubin Report is a conservative political news talk show hosted by Dave Rubin, airing on BlazeTV and YouTube. In the show, Rubin interviews authors, activists, journalists, comedians, actors, and professors."
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Creator brand modeled directly; reviewed_by is absent. Ownership originally rested only on the channel's own bare YouTube page (typed DIRECT_CREATOR_CONFIRMATION) — that self-page has been retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the owner link is now corroborated by Wikipedia (Tier 2), which identifies The Rubin Report as a talk show hosted by Dave Rubin on YouTube. Inferred owner edge flagged for human corroboration; confidence lowered to 0.7." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Creator brand modeled directly; reviewed_by is absent. Ownership originally rested only on the channel's own bare YouTube page (typed DIRECT_CREATOR_CONFIRMATION) — that self-page has been retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the owner link is now corroborated by Wikipedia (Tier 2), which identifies The Rubin Report as a talk show hosted by Dave Rubin on YouTube. Inferred owner edge flagged for human corroboration; confidence lowered to 0.7.",
+  }

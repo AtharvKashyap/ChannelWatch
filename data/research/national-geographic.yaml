@@ -20,9 +20,32 @@ entities:
     jurisdiction: US-DC
     website: https://www.nationalgeographic.org
 relationships:
-  - { subject: natgeo_partners, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
-  - { subject: disney, type: PARTIALLY_OWNS, object: natgeo_partners, control_level: CONTROLLING, ownership_percentage: 73, confidence: 0.9, status: ACTIVE }
-  - { subject: natgeo_society, type: PARTIALLY_OWNS, object: natgeo_partners, control_level: MINORITY, ownership_percentage: 27, confidence: 0.9, status: ACTIVE }
+  - {
+      subject: natgeo_partners,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
+  - {
+      subject: disney,
+      type: PARTIALLY_OWNS,
+      object: natgeo_partners,
+      control_level: CONTROLLING,
+      ownership_percentage: 73,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
+  - {
+      subject: natgeo_society,
+      type: PARTIALLY_OWNS,
+      object: natgeo_partners,
+      control_level: MINORITY,
+      ownership_percentage: 27,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
 sources:
   - ref: natgeo_company_info
     url: https://www.nationalgeographic.com/tv/info

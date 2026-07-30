@@ -8,7 +8,14 @@ entities:
     entity_type: CREATOR
     website: https://www.theinfographicsshow.com
 relationships:
-  - { subject: infographics_creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+  - {
+      subject: infographics_creator,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.65,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel_page
     url: https://www.youtube.com/channel/UCfdNM3NAhaBOXCafH7krzrA

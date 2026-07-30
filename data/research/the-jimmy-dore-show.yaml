@@ -8,7 +8,14 @@ entities:
     entity_type: CREATOR
     website: https://jimmydore.com
 relationships:
-  - { subject: jimmy, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+  - {
+      subject: jimmy,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.97,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_show
     url: https://jimmydore.com/show/

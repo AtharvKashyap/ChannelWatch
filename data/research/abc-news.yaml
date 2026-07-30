@@ -20,9 +20,30 @@ entities:
     jurisdiction: US-DE
     website: https://thewaltdisneycompany.com
 relationships:
-  - { subject: abc_news, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: abc_news, type: SUBSIDIARY_OF, object: abc, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
-  - { subject: abc, type: SUBSIDIARY_OF, object: disney, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: abc_news,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: abc_news,
+      type: SUBSIDIARY_OF,
+      object: abc,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
+  - {
+      subject: abc,
+      type: SUBSIDIARY_OF,
+      object: disney,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: abc_press
     url: https://www.dgepress.com/storage/uploads/40/B1/40B1F97C-33B7-7CD2-72C4-0BF851D6661A/press-release-10-1424875.pdf

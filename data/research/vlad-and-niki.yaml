@@ -5,7 +5,14 @@ channel:
 entities:
   - { slug: brand, canonical_name: Vlad and Niki, entity_type: BRAND, jurisdiction: US }
 relationships:
-  - { subject: brand, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.8, status: ACTIVE }
+  - {
+      subject: brand,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.8,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/@VladandNiki

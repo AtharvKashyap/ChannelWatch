@@ -10,7 +10,14 @@ entities:
     jurisdiction: IN
     website: https://www.indiatodaygroup.com
 relationships:
-  - { subject: living_media, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+  - {
+      subject: living_media,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.97,
+      status: ACTIVE,
+    }
 sources:
   - ref: group_site
     url: https://www.indiatodaygroup.com/

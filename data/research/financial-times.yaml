@@ -16,8 +16,23 @@ entities:
     jurisdiction: JP
     website: https://www.nikkei.co.jp/nikkeiinfo/en/
 relationships:
-  - { subject: ft, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: ft, type: SUBSIDIARY_OF, object: nikkei, control_level: CONTROLLING, effective_from: 2015-11-30, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: ft,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: ft,
+      type: SUBSIDIARY_OF,
+      object: nikkei,
+      control_level: CONTROLLING,
+      effective_from: 2015-11-30,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: pearson_filing
     url: https://plc.pearson.com/sites/pearson-corp/files/2021-02/form-20-f-sec.PDF

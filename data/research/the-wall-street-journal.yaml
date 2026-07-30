@@ -16,8 +16,22 @@ entities:
     jurisdiction: US-DE
     website: https://newscorp.com
 relationships:
-  - { subject: dow_jones, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: dow_jones, type: SUBSIDIARY_OF, object: news_corp, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: dow_jones,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: dow_jones,
+      type: SUBSIDIARY_OF,
+      object: news_corp,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: news_corp_annual
     url: https://newscorp.com/wp-content/uploads/2025/10/News-Corp-2025-Annual-Report.pdf

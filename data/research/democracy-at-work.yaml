@@ -9,7 +9,14 @@ entities:
     entity_type: NONPROFIT
     website: https://www.democracyatwork.info/
 relationships:
-  - { subject: democracy_at_work, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: democracy_at_work,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel_about
     url: https://www.youtube.com/channel/UCK-6FjMu9OI8i0Fo6bkW0VA

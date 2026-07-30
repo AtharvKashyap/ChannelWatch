@@ -12,7 +12,14 @@ entities:
     aliases:
       - NHK
 relationships:
-  - { subject: nhk, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: nhk,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_service
     url: https://www3.nhk.or.jp/nhkworld/en/about/

@@ -17,8 +17,22 @@ entities:
     website: https://www.versantmedia.com
     aliases: [VERSANT]
 relationships:
-  - { subject: fandango, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
-  - { subject: fandango, type: SUBSIDIARY_OF, object: versant, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: fandango,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
+  - {
+      subject: fandango,
+      type: SUBSIDIARY_OF,
+      object: versant,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: fandango_about
     url: https://www.fandango.com/about-us

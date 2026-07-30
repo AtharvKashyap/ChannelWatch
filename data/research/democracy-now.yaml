@@ -10,7 +10,14 @@ entities:
     jurisdiction: US-NY
     website: https://www.democracynow.org
 relationships:
-  - { subject: democracy_now_productions, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: democracy_now_productions,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: about
     url: https://www.democracynow.org/about.html

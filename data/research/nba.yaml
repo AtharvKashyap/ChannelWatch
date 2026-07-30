@@ -10,7 +10,14 @@ entities:
     jurisdiction: US-NY
     website: https://www.nba.com
 relationships:
-  - { subject: nba, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: nba,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: nba_help
     url: https://support.watch.nba.com/hc/en-us/articles/23088420371735-Account-Linking-with-NBA-ID

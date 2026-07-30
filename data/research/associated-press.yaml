@@ -10,7 +10,14 @@ entities:
     website: https://www.ap.org
     aliases: [Associated Press, AP]
 relationships:
-  - { subject: ap, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: ap,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: ap_about
     url: https://www.ap.org/about/

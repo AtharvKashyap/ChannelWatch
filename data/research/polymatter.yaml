@@ -8,7 +8,14 @@ entities:
     entity_type: CREATOR
     website: https://www.polymatter.yt
 relationships:
-  - { subject: polymatter_creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.6, status: ACTIVE }
+  - {
+      subject: polymatter_creator,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.6,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel_page
     url: https://www.youtube.com/channel/UCgNg3vwj3xt7QOrcIDaHdFg

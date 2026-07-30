@@ -12,7 +12,15 @@ entities:
     aliases:
       - Novara Media
 relationships:
-  - { subject: thousand_hands, type: OWNS, object: channel, control_level: CONTROLLING, effective_from: 2019-02-01, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: thousand_hands,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      effective_from: 2019-02-01,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_about
     url: https://novaramedia.com/about/

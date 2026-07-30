@@ -1,8 +1,16 @@
-channel: { youtube_channel_id: UCmBA_wu8xGg1OfOkfW13Q0Q, display_name: Bad Bunny, handle: "@BadBunny" }
+channel:
+  { youtube_channel_id: UCmBA_wu8xGg1OfOkfW13Q0Q, display_name: Bad Bunny, handle: "@BadBunny" }
 entities:
   - { slug: creator, canonical_name: Bad Bunny, entity_type: CREATOR, jurisdiction: PR }
 relationships:
-  - { subject: creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
+  - {
+      subject: creator,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.85,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_channel
     url: https://www.youtube.com/@BadBunny
@@ -20,4 +28,10 @@ sources:
     tier: 3
     excerpt: Bad Bunny; verified YouTube channel ID UCmBA_wu8xGg1OfOkfW13Q0Q.
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. The verified artist channel is attributed to the creator; label and management deals are not ownership evidence. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. The verified artist channel is attributed to the creator; label and management deals are not ownership evidence. reviewed_by is absent.",
+  }

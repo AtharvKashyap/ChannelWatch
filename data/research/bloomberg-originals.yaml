@@ -10,7 +10,14 @@ entities:
     jurisdiction: US-DE
     website: https://www.bloomberg.com/company/
 relationships:
-  - { subject: bloomberg_lp, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: bloomberg_lp,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: youtube_distribution
     url: https://www.bloombergmedia.com/press/bloomberg-media-and-youtube-tv-announce-first-ever-distribution-agreement-for-bloomberg-tv-and-bloomberg-originals-beginning-october-28/

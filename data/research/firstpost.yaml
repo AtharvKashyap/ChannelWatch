@@ -16,8 +16,22 @@ entities:
     jurisdiction: IN
     website: https://www.ril.com
 relationships:
-  - { subject: network18, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: reliance, type: CONTROLS, object: network18, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+  - {
+      subject: network18,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: reliance,
+      type: CONTROLS,
+      object: network18,
+      control_level: CONTROLLING,
+      confidence: 0.97,
+      status: ACTIVE,
+    }
 sources:
   - ref: terms
     url: https://www.firstpost.com/terms-of-use/

@@ -11,8 +11,22 @@ entities:
     canonical_name: Cenk Uygur
     entity_type: CREATOR
 relationships:
-  - { subject: tyt, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
-  - { subject: cenk, type: PARTIALLY_OWNS, object: tyt, control_level: UNKNOWN, confidence: 0.9, status: ACTIVE }
+  - {
+      subject: tyt,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
+  - {
+      subject: cenk,
+      type: PARTIALLY_OWNS,
+      object: tyt,
+      control_level: UNKNOWN,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
 sources:
   - ref: about
     url: https://tyt.com/about

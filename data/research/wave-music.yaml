@@ -9,7 +9,14 @@ entities:
     jurisdiction: IN
     website: http://www.bhojpuriwave.com
 relationships:
-  - { subject: wave_music, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
+  - {
+      subject: wave_music,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.85,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel_description
     url: https://www.youtube.com/@WaveMusicIndia

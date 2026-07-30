@@ -30,15 +30,43 @@ entities:
 relationships:
   # 0: CGTN operates/owns the YouTube channel (its own about page lists YouTube
   # among its distribution platforms).
-  - { subject: cgtn, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: cgtn,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
   # 1: CGTN is the international division of CCTV (CCTV founded/integrated it).
-  - { subject: cgtn, type: SUBSIDIARY_OF, object: cctv, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - {
+      subject: cgtn,
+      type: SUBSIDIARY_OF,
+      object: cctv,
+      control_level: CONTROLLING,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
   # 2: CCTV's institutional framework was folded into China Media Group in the
   # March 2018 reorganization; CGTN/CCTV now operate as part of state-run CMG.
-  - { subject: cctv, type: SUBSIDIARY_OF, object: cmg, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
+  - {
+      subject: cctv,
+      type: SUBSIDIARY_OF,
+      object: cmg,
+      control_level: CONTROLLING,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
   # 3: China Media Group is a state-owned public institution; the ultimate owner
   # is the Chinese state. Funding/ownership is state, not private.
-  - { subject: prc_state, type: OWNS, object: cmg, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: prc_state,
+      type: OWNS,
+      object: cmg,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: cgtn_about
     url: https://www.cgtn.com/about-us

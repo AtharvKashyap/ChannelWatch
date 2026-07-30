@@ -7,7 +7,14 @@ entities:
     canonical_name: Sam Seder
     entity_type: CREATOR
 relationships:
-  - { subject: sam, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+  - {
+      subject: sam,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.97,
+      status: ACTIVE,
+    }
 sources:
   - ref: about
     url: https://majority.fm/about

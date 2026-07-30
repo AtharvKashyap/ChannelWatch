@@ -7,7 +7,14 @@ entities:
     canonical_name: David Pakman
     entity_type: CREATOR
 relationships:
-  - { subject: david, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.96, status: ACTIVE }
+  - {
+      subject: david,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.96,
+      status: ACTIVE,
+    }
 sources:
   - ref: about
     url: https://davidpakman.com/about/

@@ -10,7 +10,14 @@ entities:
     jurisdiction: US-DE
     website: https://www.netflix.com
 relationships:
-  - { subject: netflix, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: netflix,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: netflix_about
     url: https://about.netflix.com/en

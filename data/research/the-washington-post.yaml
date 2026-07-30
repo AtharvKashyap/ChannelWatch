@@ -12,8 +12,23 @@ entities:
     canonical_name: Jeff Bezos
     entity_type: PERSON
 relationships:
-  - { subject: nash, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
-  - { subject: bezos, type: OWNS, object: nash, control_level: CONTROLLING, ownership_percentage: 100, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: nash,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
+  - {
+      subject: bezos,
+      type: OWNS,
+      object: nash,
+      control_level: CONTROLLING,
+      ownership_percentage: 100,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: post_sale
     url: https://www.washingtonpost.com/news/wonk/wp/2013/08/06/jeff-bezos-is-buying-the-washington-post-heres-what-you-need-to-know-about-the-sale/

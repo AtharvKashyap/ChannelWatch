@@ -1,9 +1,45 @@
-channel: { youtube_channel_id: UCNXvxXpDJXp-mZu3pFMzYHQ, display_name: Our Changing Climate, handle: "@OurChangingClimate" }
+channel:
+  {
+    youtube_channel_id: UCNXvxXpDJXp-mZu3pFMzYHQ,
+    display_name: Our Changing Climate,
+    handle: "@OurChangingClimate",
+  }
 entities:
   - { slug: our_changing_climate, canonical_name: Our Changing Climate, entity_type: CREATOR }
 relationships:
-  - { subject: our_changing_climate, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: our_changing_climate,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
 sources:
-  - { ref: channel, url: "https://www.youtube.com/channel/UCNXvxXpDJXp-mZu3pFMzYHQ", title: Our Changing Climate, publisher: Our Changing Climate, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Our Changing Climate", supports: [{ relationship: 0 }] }
-  - { ref: ncse_profile, url: "https://ncse.ngo/looking-youtube-break-down-barriers", title: "Looking to YouTube to break down barriers", publisher: National Center for Science Education, source_type: ESTABLISHED_INDUSTRY_PUBLICATION, tier: 2, excerpt: "Charlie Kilman created and runs the YouTube channel Our Changing Climate, which produces video essays on topics at the intersection of climate change and social issues.", supports: [{ relationship: 0 }] }
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Creator-owned channel: National Center for Science Education (Tier 2) states Charlie Kilman created and runs Our Changing Climate. The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; ownership inferred from the eponymous creator brand, confidence lowered to 0.7 and flagged for corroboration. reviewed_by is absent." }
+  - {
+      ref: channel,
+      url: "https://www.youtube.com/channel/UCNXvxXpDJXp-mZu3pFMzYHQ",
+      title: Our Changing Climate,
+      publisher: Our Changing Climate,
+      source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE,
+      tier: 3,
+      excerpt: "Our Changing Climate",
+      supports: [{ relationship: 0 }],
+    }
+  - {
+      ref: ncse_profile,
+      url: "https://ncse.ngo/looking-youtube-break-down-barriers",
+      title: "Looking to YouTube to break down barriers",
+      publisher: National Center for Science Education,
+      source_type: ESTABLISHED_INDUSTRY_PUBLICATION,
+      tier: 2,
+      excerpt: "Charlie Kilman created and runs the YouTube channel Our Changing Climate, which produces video essays on topics at the intersection of climate change and social issues.",
+      supports: [{ relationship: 0 }],
+    }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Creator-owned channel: National Center for Science Education (Tier 2) states Charlie Kilman created and runs Our Changing Climate. The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; ownership inferred from the eponymous creator brand, confidence lowered to 0.7 and flagged for corroboration. reviewed_by is absent.",
+  }

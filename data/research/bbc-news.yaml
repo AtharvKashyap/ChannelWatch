@@ -11,7 +11,14 @@ entities:
     website: https://www.bbc.com
     aliases: [BBC]
 relationships:
-  - { subject: bbc, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: bbc,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: bbc_about
     url: https://www.bbc.com/aboutthebbc

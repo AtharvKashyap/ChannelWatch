@@ -16,8 +16,22 @@ entities:
     aliases:
       - ZEEL
 relationships:
-  - { subject: zmc, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
-  - { subject: zmc, type: SUBSIDIARY_OF, object: zeel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: zmc,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
+  - {
+      subject: zmc,
+      type: SUBSIDIARY_OF,
+      object: zeel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: zee_annual_report_2017
     url: https://www.zee.com/investor-relations/html-annual-report-2017/mda.html

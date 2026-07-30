@@ -8,7 +8,14 @@ entities:
     entity_type: NONPROFIT
     website: https://perfectunion.us/
 relationships:
-  - { subject: more_perfect_union, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+  - {
+      subject: more_perfect_union,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.97,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_about
     url: https://perfectunion.us/about/

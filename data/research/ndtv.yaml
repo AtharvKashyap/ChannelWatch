@@ -10,7 +10,14 @@ entities:
     jurisdiction: IN
     website: https://www.ndtv.com
 relationships:
-  - { subject: ndtv_ltd, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: ndtv_ltd,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: annual_report
     url: https://www.ndtv.com/convergence/ndtv/corporatepage/images/NDTVAnnualReport2025-26.pdf

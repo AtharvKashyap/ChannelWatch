@@ -1,8 +1,21 @@
-channel: { youtube_channel_id: UC0uVZd8N7FfIZnPu0y7o95A, display_name: ReasonTV, handle: "@ReasonTV" }
+channel:
+  { youtube_channel_id: UC0uVZd8N7FfIZnPu0y7o95A, display_name: ReasonTV, handle: "@ReasonTV" }
 entities:
-  - { slug: reason_foundation, canonical_name: Reason Foundation, entity_type: NONPROFIT, website: "https://reason.org/" }
+  - {
+      slug: reason_foundation,
+      canonical_name: Reason Foundation,
+      entity_type: NONPROFIT,
+      website: "https://reason.org/",
+    }
 relationships:
-  - { subject: reason_foundation, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: reason_foundation,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UC0uVZd8N7FfIZnPu0y7o95A
@@ -20,4 +33,10 @@ sources:
     tier: 2
     excerpt: "Reason TV is a YouTube channel affiliated with Reason magazine that produces short-form documentaries and video editorials. Reason is an American libertarian monthly magazine published by the Reason Foundation."
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Reason Foundation's media brand is modeled as owner; reviewed_by is absent. Ownership originally rested only on the channel's own bare YouTube page (typed DIRECT_CREATOR_CONFIRMATION) — that self-page has been retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the owner link is now corroborated by Wikipedia (Tier 2): Reason TV is the video arm of Reason magazine, which is published by the Reason Foundation. Inferred owner edge flagged for human corroboration; confidence lowered to 0.7." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Reason Foundation's media brand is modeled as owner; reviewed_by is absent. Ownership originally rested only on the channel's own bare YouTube page (typed DIRECT_CREATOR_CONFIRMATION) — that self-page has been retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE (Tier 3) and the owner link is now corroborated by Wikipedia (Tier 2): Reason TV is the video arm of Reason magazine, which is published by the Reason Foundation. Inferred owner edge flagged for human corroboration; confidence lowered to 0.7.",
+  }

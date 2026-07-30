@@ -1,10 +1,27 @@
-channel: { youtube_channel_id: UCoJTOwZxbvq8Al8Qat2zgTA, display_name: Kim Iversen, handle: "@KimIversen" }
+channel:
+  { youtube_channel_id: UCoJTOwZxbvq8Al8Qat2zgTA, display_name: Kim Iversen, handle: "@KimIversen" }
 entities:
   - { slug: kim_iversen, canonical_name: Kim Iversen, entity_type: CREATOR }
 relationships:
-  - { subject: kim_iversen, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+  - {
+      subject: kim_iversen,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.65,
+      status: ACTIVE,
+    }
 sources:
-  - { ref: channel, url: "https://www.youtube.com/channel/UCoJTOwZxbvq8Al8Qat2zgTA", title: Kim Iversen, publisher: YouTube, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Kim Iversen", supports: [{ relationship: 0 }] }
+  - {
+      ref: channel,
+      url: "https://www.youtube.com/channel/UCoJTOwZxbvq8Al8Qat2zgTA",
+      title: Kim Iversen,
+      publisher: YouTube,
+      source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE,
+      tier: 3,
+      excerpt: "Kim Iversen",
+      supports: [{ relationship: 0 }],
+    }
   - ref: wikidata
     url: https://www.wikidata.org/wiki/Q6408835
     title: Kim Iversen (Q6408835)
@@ -13,4 +30,10 @@ sources:
     tier: 2
     excerpt: 'Kim Iversen (Q6408835), "American radio hostess and journalist," carries the statement YouTube channel ID (P2397): UCoJTOwZxbvq8Al8Qat2zgTA, linking the person to this channel.'
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Namesake creator channel modeled directly. No Wikipedia article exists (deleted). Ownership edge is INFERRED from eponymous-creator identity rather than a direct ownership disclosure; downgraded to confidence 0.65 and flagged for corroboration. The self-referential YouTube about page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; an independent Wikidata item (Tier 2) whose YouTube channel ID property (P2397) exactly matches UCoJTOwZxbvq8Al8Qat2zgTA corroborates the channel<->person link. Named-person record needs a second reviewer; reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Namesake creator channel modeled directly. No Wikipedia article exists (deleted). Ownership edge is INFERRED from eponymous-creator identity rather than a direct ownership disclosure; downgraded to confidence 0.65 and flagged for corroboration. The self-referential YouTube about page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; an independent Wikidata item (Tier 2) whose YouTube channel ID property (P2397) exactly matches UCoJTOwZxbvq8Al8Qat2zgTA corroborates the channel<->person link. Named-person record needs a second reviewer; reviewed_by is absent.",
+  }

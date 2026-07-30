@@ -15,8 +15,22 @@ entities:
     website: https://www.ygfamily.com
     aliases: [YG Entertainment]
 relationships:
-  - { subject: blackpink, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.8, status: ACTIVE }
-  - { subject: yg, type: MANAGES, object: channel, control_level: MANAGEMENT, confidence: 0.9, status: ACTIVE }
+  - {
+      subject: blackpink,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.8,
+      status: ACTIVE,
+    }
+  - {
+      subject: yg,
+      type: MANAGES,
+      object: channel,
+      control_level: MANAGEMENT,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
 sources:
   - ref: youtube_milestone
     url: https://blog.youtube/creator-and-artist-stories/blackpink-100-million-youtube-subscribers/

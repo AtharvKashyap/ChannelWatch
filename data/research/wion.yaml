@@ -10,7 +10,14 @@ entities:
     jurisdiction: IN
     website: https://zeemedia.in
 relationships:
-  - { subject: zee_media, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: zee_media,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: annual_report
     url: https://admin.zeemedia.in/storage/Annual-Report-2024-25.pdf

@@ -14,8 +14,22 @@ entities:
     jurisdiction: CA
     website: https://www.thomsonreuters.com
 relationships:
-  - { subject: reuters, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
-  - { subject: reuters, type: SUBSIDIARY_OF, object: thomson_reuters, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: reuters,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
+  - {
+      subject: reuters,
+      type: SUBSIDIARY_OF,
+      object: thomson_reuters,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: agency_material
     url: https://www.thomsonreuters.com/content/dam/openweb/documents/pdf/reuters-news-agency/social-video.pdf

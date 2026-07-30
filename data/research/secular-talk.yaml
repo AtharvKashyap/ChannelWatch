@@ -7,7 +7,14 @@ entities:
     canonical_name: Kyle Kulinski
     entity_type: CREATOR
 relationships:
-  - { subject: kyle, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: kyle,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UCldfgbzNILYZA4dmDt4Cd6A

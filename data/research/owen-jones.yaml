@@ -7,7 +7,14 @@ entities:
     canonical_name: Owen Jones
     entity_type: CREATOR
 relationships:
-  - { subject: owen_jones, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: owen_jones,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel_about
     url: https://www.youtube.com/channel/UCSYCo8uRGF39qDCxF870K5Q

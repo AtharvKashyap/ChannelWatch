@@ -7,7 +7,14 @@ entities:
     canonical_name: KJ Vids
     entity_type: CREATOR
 relationships:
-  - { subject: kj_vids_creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.6, status: ACTIVE }
+  - {
+      subject: kj_vids_creator,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.6,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel_page
     url: https://www.youtube.com/channel/UCMTWgHA5aFI7xiduja1zeGA

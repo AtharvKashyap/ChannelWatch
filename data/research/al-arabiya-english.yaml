@@ -15,8 +15,22 @@ entities:
     jurisdiction: SA
     website: https://www.mbc.net
 relationships:
-  - { subject: al_arabiya_holding, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
-  - { subject: al_arabiya_holding, type: SUBSIDIARY_OF, object: mbc_group, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+  - {
+      subject: al_arabiya_holding,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.97,
+      status: ACTIVE,
+    }
+  - {
+      subject: al_arabiya_holding,
+      type: SUBSIDIARY_OF,
+      object: mbc_group,
+      control_level: CONTROLLING,
+      confidence: 0.97,
+      status: ACTIVE,
+    }
 sources:
   - ref: mbc_annual
     url: https://mbc-lite-strapi-s3.s3.me-south-1.amazonaws.com/MBC_GROUP_Annual_Report_2024_English_96654a47af.pdf

@@ -8,7 +8,14 @@ entities:
     entity_type: MEDIA_NETWORK
     website: https://meidasnews.com
 relationships:
-  - { subject: mtn, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: mtn,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: about
     url: https://meidasnews.com/page/about-us

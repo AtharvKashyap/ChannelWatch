@@ -16,8 +16,22 @@ entities:
     jurisdiction: US-DE
     website: https://www.voxmedia.com
 relationships:
-  - { subject: marques, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
-  - { subject: channel, type: DISTRIBUTED_BY, object: vox_media, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: marques,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.85,
+      status: ACTIVE,
+    }
+  - {
+      subject: channel,
+      type: DISTRIBUTED_BY,
+      object: vox_media,
+      control_level: MANAGEMENT,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: launch
     url: https://www.youtube.com/watch?v=oZVLZDBLROs

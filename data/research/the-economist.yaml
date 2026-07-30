@@ -15,8 +15,23 @@ entities:
     jurisdiction: NL
     website: https://www.exor.com
 relationships:
-  - { subject: economist_group, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: exor, type: PARTIALLY_OWNS, object: economist_group, control_level: MINORITY, ownership_percentage: 43.4, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: economist_group,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: exor,
+      type: PARTIALLY_OWNS,
+      object: economist_group,
+      control_level: MINORITY,
+      ownership_percentage: 43.4,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: annual_report
     url: https://www.economistgroup.com/pdfs/reports/TEG_Annual_Report_2026.pdf

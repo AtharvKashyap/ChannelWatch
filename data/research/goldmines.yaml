@@ -11,7 +11,14 @@ entities:
     website: https://goldmines.co.in
     aliases: [Goldmines Telefilms Pvt Ltd]
 relationships:
-  - { subject: goldmines, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: goldmines,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: goldmines_about
     url: https://goldmines.co.in/about-us.html

@@ -11,7 +11,14 @@ entities:
     website: https://www.zee.com
     aliases: [ZEEL]
 relationships:
-  - { subject: zeel, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: zeel,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: zee_corporate
     url: https://www.zee.com/

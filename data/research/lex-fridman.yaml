@@ -1,10 +1,27 @@
-channel: { youtube_channel_id: UCSHZKyawb77ixDdsGog4iWA, display_name: Lex Fridman, handle: "@lexfridman" }
+channel:
+  { youtube_channel_id: UCSHZKyawb77ixDdsGog4iWA, display_name: Lex Fridman, handle: "@lexfridman" }
 entities:
   - { slug: lex_fridman, canonical_name: Lex Fridman, entity_type: CREATOR }
 relationships:
-  - { subject: lex_fridman, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+  - {
+      subject: lex_fridman,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.65,
+      status: ACTIVE,
+    }
 sources:
-  - { ref: channel, url: "https://www.youtube.com/channel/UCSHZKyawb77ixDdsGog4iWA", title: Lex Fridman, publisher: YouTube, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Lex Fridman", supports: [{ relationship: 0 }] }
+  - {
+      ref: channel,
+      url: "https://www.youtube.com/channel/UCSHZKyawb77ixDdsGog4iWA",
+      title: Lex Fridman,
+      publisher: YouTube,
+      source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE,
+      tier: 3,
+      excerpt: "Lex Fridman",
+      supports: [{ relationship: 0 }],
+    }
   - ref: wikipedia
     url: https://en.wikipedia.org/wiki/Lex_Fridman
     title: Lex Fridman
@@ -13,4 +30,10 @@ sources:
     tier: 2
     excerpt: "Since 2018, he has hosted the Lex Fridman Podcast, where he interviews notable figures from various fields such as science, technology, sports, the arts, and politics."
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Namesake creator channel modeled directly. Ownership edge is INFERRED from eponymous-creator identity (host of the Lex Fridman Podcast published on this channel), not a direct ownership disclosure; downgraded to confidence 0.65 and flagged for corroboration. The self-referential YouTube about page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; an independent Wikipedia source (Tier 2) corroborates the edge. Named-person record needs a second reviewer; reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Namesake creator channel modeled directly. Ownership edge is INFERRED from eponymous-creator identity (host of the Lex Fridman Podcast published on this channel), not a direct ownership disclosure; downgraded to confidence 0.65 and flagged for corroboration. The self-referential YouTube about page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3; an independent Wikipedia source (Tier 2) corroborates the edge. Named-person record needs a second reviewer; reviewed_by is absent.",
+  }

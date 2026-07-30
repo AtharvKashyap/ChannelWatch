@@ -7,7 +7,14 @@ entities:
     canonical_name: Second Thought
     entity_type: CREATOR
 relationships:
-  - { subject: second_thought, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.6, status: ACTIVE }
+  - {
+      subject: second_thought,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.6,
+      status: ACTIVE,
+    }
 sources:
   - ref: patreon
     url: https://www.patreon.com/secondthought/about

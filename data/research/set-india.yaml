@@ -16,8 +16,23 @@ entities:
     jurisdiction: JP
     website: https://www.sony.com
 relationships:
-  - { subject: spni, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
-  - { subject: spni, type: SUBSIDIARY_OF, object: sony_group, control_level: CONTROLLING, ownership_percentage: 100, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: spni,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
+  - {
+      subject: spni,
+      type: SUBSIDIARY_OF,
+      object: sony_group,
+      control_level: CONTROLLING,
+      ownership_percentage: 100,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: sony_network
     url: https://www.sonypicturesnetworks.com/overview

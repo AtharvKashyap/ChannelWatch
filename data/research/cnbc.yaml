@@ -14,8 +14,23 @@ entities:
     jurisdiction: US-DE
     website: https://www.versantmedia.com
 relationships:
-  - { subject: cnbc, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: cnbc, type: SUBSIDIARY_OF, object: versant, control_level: CONTROLLING, effective_from: 2026-01-02, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: cnbc,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: cnbc,
+      type: SUBSIDIARY_OF,
+      object: versant,
+      control_level: CONTROLLING,
+      effective_from: 2026-01-02,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: versant_proxy
     url: https://investors.versantmedia.com/static-files/3d99f148-d0e7-4a01-827b-d1cc4f7bd6bd

@@ -1,10 +1,39 @@
-channel: { youtube_channel_id: UCzWwWbbKHg4aodl0S35R6XA, display_name: Hoover Institution, handle: "@HooverInstitution" }
+channel:
+  {
+    youtube_channel_id: UCzWwWbbKHg4aodl0S35R6XA,
+    display_name: Hoover Institution,
+    handle: "@HooverInstitution",
+  }
 entities:
-  - { slug: hoover, canonical_name: Hoover Institution, entity_type: NONPROFIT, website: "https://www.hoover.org/" }
-  - { slug: stanford, canonical_name: Stanford University, entity_type: NONPROFIT, website: "https://www.stanford.edu/" }
+  - {
+      slug: hoover,
+      canonical_name: Hoover Institution,
+      entity_type: NONPROFIT,
+      website: "https://www.hoover.org/",
+    }
+  - {
+      slug: stanford,
+      canonical_name: Stanford University,
+      entity_type: NONPROFIT,
+      website: "https://www.stanford.edu/",
+    }
 relationships:
-  - { subject: hoover, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
-  - { subject: hoover, type: SUBSIDIARY_OF, object: stanford, control_level: CONTROLLING, confidence: 0.97, status: ACTIVE }
+  - {
+      subject: hoover,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
+  - {
+      subject: hoover,
+      type: SUBSIDIARY_OF,
+      object: stanford,
+      control_level: CONTROLLING,
+      confidence: 0.97,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UCzWwWbbKHg4aodl0S35R6XA
@@ -30,4 +59,10 @@ sources:
     tier: 2
     excerpt: While the institution is officially a unit of Stanford University, it maintains an independent board of overseers and relies on its own income and donations.
     supports: [{ relationship: 1 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Hoover owns its branded channel and is modeled as a unit of Stanford University. The channel's own YouTube page is retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3 (confirms identity, not ownership) and the hoover.org about page to ARCHIVED_CORPORATE_PAGE/Tier 3; Wikipedia (Tier 2) independently corroborates the Stanford relationship. Channel-ownership edge is inferred from the branded institutional channel and flagged for corroboration; its confidence lowered to 0.7. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Hoover owns its branded channel and is modeled as a unit of Stanford University. The channel's own YouTube page is retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3 (confirms identity, not ownership) and the hoover.org about page to ARCHIVED_CORPORATE_PAGE/Tier 3; Wikipedia (Tier 2) independently corroborates the Stanford relationship. Channel-ownership edge is inferred from the branded institutional channel and flagged for corroboration; its confidence lowered to 0.7. reviewed_by is absent.",
+  }

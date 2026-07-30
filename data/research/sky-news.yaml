@@ -20,9 +20,31 @@ entities:
     jurisdiction: US-PA
     website: https://corporate.comcast.com
 relationships:
-  - { subject: sky_news, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: sky_news, type: SUBSIDIARY_OF, object: sky_group, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
-  - { subject: sky_group, type: SUBSIDIARY_OF, object: comcast, control_level: CONTROLLING, ownership_percentage: 100, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: sky_news,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: sky_news,
+      type: SUBSIDIARY_OF,
+      object: sky_group,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
+  - {
+      subject: sky_group,
+      type: SUBSIDIARY_OF,
+      object: comcast,
+      control_level: CONTROLLING,
+      ownership_percentage: 100,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: sky_about
     url: https://www.skygroup.sky/about

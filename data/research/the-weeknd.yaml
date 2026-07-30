@@ -1,8 +1,16 @@
-channel: { youtube_channel_id: UC0WP5P-ufpRfjbNrmOWwLBQ, display_name: The Weeknd, handle: "@theweeknd" }
+channel:
+  { youtube_channel_id: UC0WP5P-ufpRfjbNrmOWwLBQ, display_name: The Weeknd, handle: "@theweeknd" }
 entities:
   - { slug: creator, canonical_name: The Weeknd, entity_type: CREATOR, jurisdiction: CA }
 relationships:
-  - { subject: creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
+  - {
+      subject: creator,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.85,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_channel
     url: https://www.youtube.com/@TheWeeknd
@@ -20,4 +28,10 @@ sources:
     tier: 3
     excerpt: The Weeknd; YouTube channel ID UC0WP5P-ufpRfjbNrmOWwLBQ; YouTube handle TheWeeknd.
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. The verified artist channel is attributed to the creator. Label and distribution arrangements are not modeled as ownership. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. The verified artist channel is attributed to the creator. Label and distribution arrangements are not modeled as ownership. reviewed_by is absent.",
+  }

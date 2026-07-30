@@ -1,12 +1,62 @@
-channel: { youtube_channel_id: UC-Gm4EN7nNNR3k67J8ywF4g, display_name: "Little Angel: Nursery Rhymes & Kids Songs", handle: "@LittleAngel" }
+channel:
+  {
+    youtube_channel_id: UC-Gm4EN7nNNR3k67J8ywF4g,
+    display_name: "Little Angel: Nursery Rhymes & Kids Songs",
+    handle: "@LittleAngel",
+  }
 entities:
-  - { slug: moonbug, canonical_name: Moonbug Entertainment, entity_type: COMPANY, legal_name: Moonbug Entertainment Limited, jurisdiction: GB, website: "https://www.moonbug.com", aliases: [Moonbug, "Moonbug Entertainment Ltd."] }
-  - { slug: candle, canonical_name: Candle Media, entity_type: COMPANY, website: "https://www.candlemedia.com", aliases: [Candle] }
-  - { slug: blackstone, canonical_name: Blackstone Inc., entity_type: PRIVATE_EQUITY_FIRM, legal_name: Blackstone Inc., jurisdiction: US-DE, website: "https://www.blackstone.com", aliases: [Blackstone, "The Blackstone Group"] }
+  - {
+      slug: moonbug,
+      canonical_name: Moonbug Entertainment,
+      entity_type: COMPANY,
+      legal_name: Moonbug Entertainment Limited,
+      jurisdiction: GB,
+      website: "https://www.moonbug.com",
+      aliases: [Moonbug, "Moonbug Entertainment Ltd."],
+    }
+  - {
+      slug: candle,
+      canonical_name: Candle Media,
+      entity_type: COMPANY,
+      website: "https://www.candlemedia.com",
+      aliases: [Candle],
+    }
+  - {
+      slug: blackstone,
+      canonical_name: Blackstone Inc.,
+      entity_type: PRIVATE_EQUITY_FIRM,
+      legal_name: Blackstone Inc.,
+      jurisdiction: US-DE,
+      website: "https://www.blackstone.com",
+      aliases: [Blackstone, "The Blackstone Group"],
+    }
 relationships:
-  - { subject: moonbug, type: OWNS, object: channel, control_level: CONTROLLING, effective_from: 2022-02-09, confidence: 0.95, status: ACTIVE }
-  - { subject: candle, type: OWNS, object: moonbug, control_level: CONTROLLING, effective_from: 2021-11-04, confidence: 0.9, status: ACTIVE }
-  - { subject: candle, type: PORTFOLIO_COMPANY_OF, object: blackstone, control_level: UNKNOWN, confidence: 0.75, status: ACTIVE }
+  - {
+      subject: moonbug,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      effective_from: 2022-02-09,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
+  - {
+      subject: candle,
+      type: OWNS,
+      object: moonbug,
+      control_level: CONTROLLING,
+      effective_from: 2021-11-04,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
+  - {
+      subject: candle,
+      type: PORTFOLIO_COMPANY_OF,
+      object: blackstone,
+      control_level: UNKNOWN,
+      confidence: 0.75,
+      status: ACTIVE,
+    }
 sources:
   - ref: moonbug_acquisition
     url: https://www.moonbug.com/news/moonbug-entertainment-acquires-little-angel-and-little-world-further-cementing-its-position-as-a-wo
@@ -34,4 +84,10 @@ sources:
       rapidly built [...] popular shows such as CoComelon, Blippi, Little Baby
       Bum, and many others.
     supports: [{ relationship: 1 }, { relationship: 2 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT, SENSITIVE PE CHAIN. Moonbug's acquisition date is explicit. Candle's acquisition and Blackstone backing reuse the same entity fields and primary evidence as other Moonbug records. A second distinct human reviewer is required before publication. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT, SENSITIVE PE CHAIN. Moonbug's acquisition date is explicit. Candle's acquisition and Blackstone backing reuse the same entity fields and primary evidence as other Moonbug records. A second distinct human reviewer is required before publication. reviewed_by is absent.",
+  }

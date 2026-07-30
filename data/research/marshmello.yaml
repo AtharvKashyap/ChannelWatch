@@ -8,7 +8,14 @@ entities:
     entity_type: CREATOR
     jurisdiction: US
 relationships:
-  - { subject: marshmello, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
+  - {
+      subject: marshmello,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.85,
+      status: ACTIVE,
+    }
 sources:
   - ref: marshmello_channel
     url: https://www.youtube.com/@marshmello

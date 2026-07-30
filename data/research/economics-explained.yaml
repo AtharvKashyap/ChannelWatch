@@ -1,8 +1,35 @@
-channel: { youtube_channel_id: UCZ4AMrDcNrfy3X6nsU8-rPg, display_name: Economics Explained, handle: "@EconomicsExplained" }
+channel:
+  {
+    youtube_channel_id: UCZ4AMrDcNrfy3X6nsU8-rPg,
+    display_name: Economics Explained,
+    handle: "@EconomicsExplained",
+  }
 entities:
   - { slug: economics_explained, canonical_name: Economics Explained, entity_type: CREATOR }
 relationships:
-  - { subject: economics_explained, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+  - {
+      subject: economics_explained,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.65,
+      status: ACTIVE,
+    }
 sources:
-  - { ref: channel, url: "https://www.youtube.com/channel/UCZ4AMrDcNrfy3X6nsU8-rPg", title: Economics Explained, publisher: Economics Explained, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "Economics Explained", supports: [{ relationship: 0 }] }
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Public creator brand modeled directly; no separate legal holding entity is disclosed. The only source is the channel's own YouTube page (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3), which confirms the channel identity but not who owns it; ownership is inferred from the self-titled brand and flagged for independent corroboration (confidence lowered to 0.65). No reliable independent source naming the operator was found. reviewed_by is absent." }
+  - {
+      ref: channel,
+      url: "https://www.youtube.com/channel/UCZ4AMrDcNrfy3X6nsU8-rPg",
+      title: Economics Explained,
+      publisher: Economics Explained,
+      source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE,
+      tier: 3,
+      excerpt: "Economics Explained",
+      supports: [{ relationship: 0 }],
+    }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Public creator brand modeled directly; no separate legal holding entity is disclosed. The only source is the channel's own YouTube page (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3), which confirms the channel identity but not who owns it; ownership is inferred from the self-titled brand and flagged for independent corroboration (confidence lowered to 0.65). No reliable independent source naming the operator was found. reviewed_by is absent.",
+  }

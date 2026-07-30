@@ -7,7 +7,14 @@ entities:
     canonical_name: Good Times Bad Times
     entity_type: CREATOR
 relationships:
-  - { subject: creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
+  - {
+      subject: creator,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.65,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UCzCKJ-jtNqDD2LQ3R9rhRUA

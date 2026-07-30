@@ -10,7 +10,14 @@ entities:
     website: https://www.dw.com
     aliases: [DW]
 relationships:
-  - { subject: dw, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: dw,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: wikipedia_dw
     url: https://en.wikipedia.org/wiki/Deutsche_Welle

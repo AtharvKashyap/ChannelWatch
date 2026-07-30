@@ -7,7 +7,14 @@ entities:
     canonical_name: Knowledgia
     entity_type: CREATOR
 relationships:
-  - { subject: creator, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.6, status: ACTIVE }
+  - {
+      subject: creator,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.6,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UCuCuEKq1xuRA0dFQj1qg9-Q

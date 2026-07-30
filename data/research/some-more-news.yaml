@@ -7,7 +7,14 @@ entities:
     canonical_name: Some More News
     entity_type: CREATOR
 relationships:
-  - { subject: smn, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.94, status: ACTIVE }
+  - {
+      subject: smn,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.94,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UCvlj0IzjSnNoduQF0l3VGng

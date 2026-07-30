@@ -20,9 +20,30 @@ entities:
     jurisdiction: US-PA
     website: https://corporate.comcast.com
 relationships:
-  - { subject: nbc_news, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: nbc_news, type: SUBSIDIARY_OF, object: nbcuniversal, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: nbcuniversal, type: SUBSIDIARY_OF, object: comcast, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: nbc_news,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: nbc_news,
+      type: SUBSIDIARY_OF,
+      object: nbcuniversal,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: nbcuniversal,
+      type: SUBSIDIARY_OF,
+      object: comcast,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: nbcu_about
     url: https://www.nbcuniversal.com/About_NBC_Universal/Company_Overview/index.shtml

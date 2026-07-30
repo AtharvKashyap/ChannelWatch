@@ -9,7 +9,14 @@ entities:
     jurisdiction: QA
     website: https://network.aljazeera.net
 relationships:
-  - { subject: ajmn, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: ajmn,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: network_faq
     url: https://network.aljazeera.net/en/more/faq

@@ -14,8 +14,22 @@ entities:
     jurisdiction: JP
     website: https://www.sony.com
 relationships:
-  - { subject: sony_india_music, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.9, status: ACTIVE }
-  - { subject: sony_india_music, type: SUBSIDIARY_OF, object: sony_group, control_level: CONTROLLING, confidence: 0.8, status: ACTIVE }
+  - {
+      subject: sony_india_music,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.9,
+      status: ACTIVE,
+    }
+  - {
+      subject: sony_india_music,
+      type: SUBSIDIARY_OF,
+      object: sony_group,
+      control_level: CONTROLLING,
+      confidence: 0.8,
+      status: ACTIVE,
+    }
 sources:
   - ref: sony_channel
     url: https://www.youtube.com/sonymusicindia

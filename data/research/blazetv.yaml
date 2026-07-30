@@ -1,8 +1,20 @@
 channel: { youtube_channel_id: UCKgJEs_v0JB-6jWb8lIy9Xw, display_name: BlazeTV, handle: "@BlazeTV" }
 entities:
-  - { slug: blaze_media, canonical_name: Blaze Media, entity_type: MEDIA_NETWORK, website: "https://www.blazemedia.com/" }
+  - {
+      slug: blaze_media,
+      canonical_name: Blaze Media,
+      entity_type: MEDIA_NETWORK,
+      website: "https://www.blazemedia.com/",
+    }
 relationships:
-  - { subject: blaze_media, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.7, status: ACTIVE }
+  - {
+      subject: blaze_media,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/channel/UCKgJEs_v0JB-6jWb8lIy9Xw
@@ -20,4 +32,10 @@ sources:
     tier: 2
     excerpt: "Blaze Media is an American conservative media company owned by Mercury Radio Arts, a multimedia production company owned by conservative radio talk host Glenn Beck. On December 3, 2018, TheBlaze Inc. television arm merged with CRTV LLC, combining resources, personalities, personnel, subscribers, and programming. The merged entity, named Blaze Media, retained TheBlaze's channel slot and incorporated two of CRTV's programs into the channel's schedule."
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Blaze Media's branded BlazeTV channel is modeled directly. The YouTube page only confirms the channel name (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE); Wikipedia corroborates Blaze Media as the media company operating the Blaze/BlazeTV streaming service. Ownership is institutionally inferred, so the OWNS edge is set to reasoned inference (0.7) and flagged for corroboration. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Blaze Media's branded BlazeTV channel is modeled directly. The YouTube page only confirms the channel name (retyped to TECHNICAL_INFRASTRUCTURE_LINKAGE); Wikipedia corroborates Blaze Media as the media company operating the Blaze/BlazeTV streaming service. Ownership is institutionally inferred, so the OWNS edge is set to reasoned inference (0.7) and flagged for corroboration. reviewed_by is absent.",
+  }

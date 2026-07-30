@@ -19,8 +19,22 @@ entities:
     aliases:
       - RPSG Group
 relationships:
-  - { subject: saregama, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
-  - { subject: saregama, type: SUBSIDIARY_OF, object: rpsg, control_level: CONTROLLING, confidence: 0.85, status: ACTIVE }
+  - {
+      subject: saregama,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
+  - {
+      subject: saregama,
+      type: SUBSIDIARY_OF,
+      object: rpsg,
+      control_level: CONTROLLING,
+      confidence: 0.85,
+      status: ACTIVE,
+    }
 sources:
   - ref: saregama_annual_report_2020
     url: https://r.saregama.com/resources/pdf/investor/Saregama_AR_2019_20_Full_PDF.pdf

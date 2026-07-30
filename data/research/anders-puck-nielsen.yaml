@@ -8,7 +8,14 @@ entities:
     entity_type: CREATOR
     website: https://www.anderspucknielsen.dk
 relationships:
-  - { subject: anders, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: anders,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_site
     url: https://www.anderspucknielsen.dk/

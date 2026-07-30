@@ -10,7 +10,14 @@ entities:
     jurisdiction: TR
     website: https://www.trt.net.tr
 relationships:
-  - { subject: trt, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: trt,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: trt_world_launch
     url: https://www.trtworld.com/article/13086696

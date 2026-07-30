@@ -7,7 +7,14 @@ entities:
     canonical_name: Shirvan Neftchi
     entity_type: CREATOR
 relationships:
-  - { subject: shirvan, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.94, status: ACTIVE }
+  - {
+      subject: shirvan,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.94,
+      status: ACTIVE,
+    }
 sources:
   - ref: profile
     url: https://www.meshnews.org/caspianreport/

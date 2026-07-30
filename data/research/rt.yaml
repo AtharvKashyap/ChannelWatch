@@ -10,7 +10,14 @@ entities:
     jurisdiction: RU
     website: https://www.rt.com
 relationships:
-  - { subject: tv_novosti, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: tv_novosti,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: rt_contact
     url: https://www.rt.com/about-us/contact-info/

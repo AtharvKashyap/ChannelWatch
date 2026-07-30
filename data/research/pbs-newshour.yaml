@@ -16,8 +16,22 @@ entities:
     website: https://weta.org
     aliases: [WETA]
 relationships:
-  - { subject: newshour, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
-  - { subject: newshour, type: SUBSIDIARY_OF, object: weta, control_level: CONTROLLING, confidence: 0.99, status: ACTIVE }
+  - {
+      subject: newshour,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
+  - {
+      subject: newshour,
+      type: SUBSIDIARY_OF,
+      object: weta,
+      control_level: CONTROLLING,
+      confidence: 0.99,
+      status: ACTIVE,
+    }
 sources:
   - ref: weta_transfer
     url: https://www.pbs.org/newshour/press-releases/weta-macneillehrer-productions-announce-planned-transfer-pbs-newshour-weta

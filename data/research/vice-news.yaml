@@ -31,10 +31,41 @@ entities:
     jurisdiction: US-DE
     website: https://monroecap.com
 relationships:
-  - { subject: vice_media, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
-  - { subject: fortress, type: PARTIALLY_OWNS, object: vice_media, control_level: UNKNOWN, effective_from: 2023-07-31, confidence: 0.98, status: ACTIVE }
-  - { subject: soros_fund, type: PARTIALLY_OWNS, object: vice_media, control_level: UNKNOWN, effective_from: 2023-07-31, confidence: 0.98, status: ACTIVE }
-  - { subject: monroe, type: PARTIALLY_OWNS, object: vice_media, control_level: UNKNOWN, effective_from: 2023-07-31, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: vice_media,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
+  - {
+      subject: fortress,
+      type: PARTIALLY_OWNS,
+      object: vice_media,
+      control_level: UNKNOWN,
+      effective_from: 2023-07-31,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
+  - {
+      subject: soros_fund,
+      type: PARTIALLY_OWNS,
+      object: vice_media,
+      control_level: UNKNOWN,
+      effective_from: 2023-07-31,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
+  - {
+      subject: monroe,
+      type: PARTIALLY_OWNS,
+      object: vice_media,
+      control_level: UNKNOWN,
+      effective_from: 2023-07-31,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: completed_sale
     url: https://www.prnewswire.com/news-releases/vice-media-group-completes-sale-to-lenders-301889255.html

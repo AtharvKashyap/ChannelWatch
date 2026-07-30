@@ -9,7 +9,14 @@ entities:
     aliases:
       - Greencastle Media Group
 relationships:
-  - { subject: joe_media_group, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.94, status: ACTIVE }
+  - {
+      subject: joe_media_group,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.94,
+      status: ACTIVE,
+    }
 sources:
   - ref: parliament
     url: https://committees.parliament.uk/oralevidence/14722/pdf/

@@ -1,13 +1,57 @@
-channel: { youtube_channel_id: UCPWXiRWZ29zrxPFIQT7eHSA, display_name: The Hill, handle: "@thehill" }
+channel:
+  { youtube_channel_id: UCPWXiRWZ29zrxPFIQT7eHSA, display_name: The Hill, handle: "@thehill" }
 entities:
-  - { slug: the_hill, canonical_name: The Hill, entity_type: MEDIA_NETWORK, website: "https://thehill.com/" }
-  - { slug: nexstar, canonical_name: Nexstar Media Group, Inc., entity_type: COMPANY, website: "https://www.nexstar.tv/" }
+  - {
+      slug: the_hill,
+      canonical_name: The Hill,
+      entity_type: MEDIA_NETWORK,
+      website: "https://thehill.com/",
+    }
+  - {
+      slug: nexstar,
+      canonical_name: Nexstar Media Group,
+      Inc.,
+      entity_type: COMPANY,
+      website: "https://www.nexstar.tv/",
+    }
 relationships:
-  - { subject: the_hill, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
-  - { subject: the_hill, type: SUBSIDIARY_OF, object: nexstar, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: the_hill,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.65,
+      status: ACTIVE,
+    }
+  - {
+      subject: the_hill,
+      type: SUBSIDIARY_OF,
+      object: nexstar,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
-  - { ref: channel, url: "https://www.youtube.com/channel/UCPWXiRWZ29zrxPFIQT7eHSA", title: The Hill, publisher: YouTube, source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE, tier: 3, excerpt: "The Hill", supports: [{ relationship: 0 }] }
-  - { ref: parent, url: "https://www.nexstar.tv/the-hill/", title: The Hill, publisher: Nexstar Media Group, source_type: INVESTOR_PORTFOLIO_LISTING, tier: 1, excerpt: "The Hill is a properties of Nexstar Media Group, Inc.", supports: [{ relationship: 1 }] }
+  - {
+      ref: channel,
+      url: "https://www.youtube.com/channel/UCPWXiRWZ29zrxPFIQT7eHSA",
+      title: The Hill,
+      publisher: YouTube,
+      source_type: TECHNICAL_INFRASTRUCTURE_LINKAGE,
+      tier: 3,
+      excerpt: "The Hill",
+      supports: [{ relationship: 0 }],
+    }
+  - {
+      ref: parent,
+      url: "https://www.nexstar.tv/the-hill/",
+      title: The Hill,
+      publisher: Nexstar Media Group,
+      source_type: INVESTOR_PORTFOLIO_LISTING,
+      tier: 1,
+      excerpt: "The Hill is a properties of Nexstar Media Group, Inc.",
+      supports: [{ relationship: 1 }],
+    }
   - ref: wikipedia
     url: https://en.wikipedia.org/wiki/The_Hill_(newspaper)
     title: The Hill (newspaper)
@@ -16,4 +60,10 @@ sources:
     tier: 2
     excerpt: "In 2021, The Hill was acquired by Nexstar Media Group for $130 million."
     supports: [{ relationship: 0 }, { relationship: 1 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Nexstar's portfolio listing and Wikipedia (Tier 2) confirm Nexstar's 2021 acquisition of The Hill for $130M. The channel-ownership edge (rel 0) is INFERRED from same-name brand + technical channel linkage, not a direct ownership disclosure; flagged for corroboration and confidence lowered to 0.65. The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Nexstar's portfolio listing and Wikipedia (Tier 2) confirm Nexstar's 2021 acquisition of The Hill for $130M. The channel-ownership edge (rel 0) is INFERRED from same-name brand + technical channel linkage, not a direct ownership disclosure; flagged for corroboration and confidence lowered to 0.65. The self-referential YouTube page was retyped from DIRECT_CREATOR_CONFIRMATION/Tier 1 to TECHNICAL_INFRASTRUCTURE_LINKAGE/Tier 3. reviewed_by is absent.",
+  }

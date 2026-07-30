@@ -11,8 +11,22 @@ entities:
     website: https://www.yashrajfilms.com
     aliases: [Yash Raj Films, YRF]
 relationships:
-  - { subject: yrf, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.95, status: ACTIVE }
-  - { subject: yrf, type: OPERATES, object: channel, control_level: MANAGEMENT, confidence: 0.95, status: ACTIVE }
+  - {
+      subject: yrf,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
+  - {
+      subject: yrf,
+      type: OPERATES,
+      object: channel,
+      control_level: MANAGEMENT,
+      confidence: 0.95,
+      status: ACTIVE,
+    }
 sources:
   - ref: yrf_milestone
     url: https://www.yashrajfilms.com/news/detail/2016/07/08/yash-raj-films-%28yrf%29-youtube-channel-crosses-the-1-million-subscriber-landmark

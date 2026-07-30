@@ -11,8 +11,22 @@ entities:
     canonical_name: Peter Zeihan
     entity_type: CREATOR
 relationships:
-  - { subject: zeihan_firm, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.65, status: ACTIVE }
-  - { subject: peter, type: OWNS, object: zeihan_firm, control_level: CONTROLLING, confidence: 0.94, status: ACTIVE }
+  - {
+      subject: zeihan_firm,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.65,
+      status: ACTIVE,
+    }
+  - {
+      subject: peter,
+      type: OWNS,
+      object: zeihan_firm,
+      control_level: CONTROLLING,
+      confidence: 0.94,
+      status: ACTIVE,
+    }
 sources:
   - ref: official_bio
     url: https://zeihan.com/meet-peter-zeihan/

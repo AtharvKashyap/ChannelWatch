@@ -17,9 +17,31 @@ entities:
     entity_type: INVESTMENT_FIRM
     aliases: [Alpha Wave]
 relationships:
-  - { subject: donaldson, type: PARTIALLY_OWNS, object: beast_industries, control_level: CONTROLLING, confidence: 0.72, status: ACTIVE }
-  - { subject: alpha_wave, type: INVESTED_IN, object: beast_industries, control_level: MINORITY, effective_from: 2024-01-01, confidence: 0.7, status: ACTIVE }
-  - { subject: beast_industries, type: OPERATES, object: channel, control_level: UNKNOWN, confidence: 0.55, status: ACTIVE }
+  - {
+      subject: donaldson,
+      type: PARTIALLY_OWNS,
+      object: beast_industries,
+      control_level: CONTROLLING,
+      confidence: 0.72,
+      status: ACTIVE,
+    }
+  - {
+      subject: alpha_wave,
+      type: INVESTED_IN,
+      object: beast_industries,
+      control_level: MINORITY,
+      effective_from: 2024-01-01,
+      confidence: 0.7,
+      status: ACTIVE,
+    }
+  - {
+      subject: beast_industries,
+      type: OPERATES,
+      object: channel,
+      control_level: UNKNOWN,
+      confidence: 0.55,
+      status: ACTIVE,
+    }
   - { subject: channel, type: HOSTED_BY, object: donaldson, confidence: 0.9, status: ACTIVE }
 sources:
   - ref: wikidata_mrbeast_gaming

@@ -10,7 +10,14 @@ entities:
     jurisdiction: IN
     website: https://www.shemarooent.com
 relationships:
-  - { subject: shemaroo, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.98, status: ACTIVE }
+  - {
+      subject: shemaroo,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.98,
+      status: ACTIVE,
+    }
 sources:
   - ref: shemaroo_youtube
     url: https://www.shemarooent.com/youtube

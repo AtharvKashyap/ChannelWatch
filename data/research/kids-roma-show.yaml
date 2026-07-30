@@ -1,8 +1,20 @@
-channel: { youtube_channel_id: UCx790OVgpTC1UVBQIqu3gnQ, display_name: "★ Kids Roma Show", handle: "@KidsRomaShow" }
+channel:
+  {
+    youtube_channel_id: UCx790OVgpTC1UVBQIqu3gnQ,
+    display_name: "★ Kids Roma Show",
+    handle: "@KidsRomaShow",
+  }
 entities:
   - { slug: brand, canonical_name: Kids Roma Show, entity_type: BRAND, jurisdiction: US }
 relationships:
-  - { subject: brand, type: OWNS, object: channel, control_level: CONTROLLING, confidence: 0.8, status: ACTIVE }
+  - {
+      subject: brand,
+      type: OWNS,
+      object: channel,
+      control_level: CONTROLLING,
+      confidence: 0.8,
+      status: ACTIVE,
+    }
 sources:
   - ref: channel
     url: https://www.youtube.com/@KidsRomaShow
@@ -20,4 +32,10 @@ sources:
     tier: 3
     excerpt: Kids Roma Show; YouTube channel ID UCx790OVgpTC1UVBQIqu3gnQ.
     supports: [{ relationship: 0 }]
-review: { researched_by: codex-research-agent, reviewed_by: akashyap@cybastiontech.com, last_reviewed_at: 2026-07-30, notes: "DRAFT. Privacy-preserving brand-level model; no ownership is attributed to the featured minor. A legal holding entity was not established from reliable public sources. The broader family’s pocket.watch distribution relationship is not automatically treated as ownership of this channel. reviewed_by is absent." }
+review:
+  {
+    researched_by: codex-research-agent,
+    reviewed_by: akashyap@cybastiontech.com,
+    last_reviewed_at: 2026-07-30,
+    notes: "DRAFT. Privacy-preserving brand-level model; no ownership is attributed to the featured minor. A legal holding entity was not established from reliable public sources. The broader family’s pocket.watch distribution relationship is not automatically treated as ownership of this channel. reviewed_by is absent.",
+  }
