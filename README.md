@@ -2,11 +2,7 @@
 
 ### Know who's _really_ behind the channel. 🔍
 
-You're watching a cozy "independent" creator. Are they? Or is the channel majority-owned by a private-equity roll-up three companies deep? **CHANNELWATCH** answers that — with sources, dates, and a paper trail — right where you watch.
-
 It's an open, evidence-first map of who **owns, finances, and operates** YouTube channels: a browser extension that surfaces the answer in a click, a public research site, and a human-reviewed data platform behind both.
-
-> **The one rule that shapes everything:** we describe _ownership structure_ as public fact — never editorial influence, never wrongdoing. Acquisition is not guilt. Investment is not proof of control. When the evidence is thin, the honest answer is **"unknown."**
 
 ---
 
@@ -56,11 +52,11 @@ Want the public site too? `npx pnpm@9 --filter @channelwatch/web dev` → http:/
 
 ```
    research (YAML)          import + validate         graph engine            surfaces
- ┌──────────────────┐     ┌──────────────────┐     ┌────────────────┐     ┌──────────────┐
+ ┌──────────────────┐     ┌──────────────────-┐     ┌────────────────┐     ┌──────────────┐
  │ data/research/   │ ──► │ schema + evidence │ ──► │ compute owner  │ ──► │ extension    │
  │ <channel>.yaml   │     │ rules enforced;   │     │ chain + label  │     │ site         │
  │ (sources, edges) │     │ human review gate │     │ (never stored  │     │ /review      │
- └──────────────────┘     └──────────────────┘     │  as raw truth) │     └──────────────┘
+ └──────────────────┘     └──────────────────┘      │  as raw truth) │     └──────────────┘
                                                     └────────────────┘
 ```
 
@@ -94,12 +90,6 @@ The dataset grows one well-sourced channel at a time, and that's the most valuab
 - 📁 [`data/research/README.md`](./data/research/README.md) — the authoring + review workflow.
 
 TL;DR: copy [`data/research/_TEMPLATE.yaml`](./data/research/_TEMPLATE.yaml) → `data/research/<channel>.yaml`, fill it with sourced ownership edges, run `npx pnpm@9 import:research` to validate, open a PR. The importer computes the label; a human reviewer publishes it.
-
----
-
-## Deploy it (for $5)
-
-CHANNELWATCH runs on entirely free infrastructure — **Neon** (Postgres) + **Render** (API) + **Vercel** (web) — the only cost being the one-time $5 Chrome Web Store fee. The `render.yaml` and `apps/web/vercel.json` blueprints are committed and ready.
 
 ---
 
