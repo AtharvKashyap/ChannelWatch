@@ -38,7 +38,7 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
-    "@hono/node-server": "1.14.4",
+    "@hono/node-server": "2.0.12",
     "@types/node": "^20.17.9",
     "drizzle-kit": "0.31.5",
     "tsx": "4.23.1",
