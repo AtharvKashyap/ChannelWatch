@@ -93,6 +93,21 @@ describe("Popup — resolution + lookup states", () => {
     expect(container.textContent).toContain(POPUP_COPY.channelUnresolved);
   });
 
+  it("does not hang when injected resolution rejects — shows a clear error state", async () => {
+    // The real `resolveChannel` catches `executeScript` rejections and returns
+    // null, but a dep that rejects outright must still resolve to a terminal,
+    // non-spinner state (never the infinite loading the bug produced).
+    await mount(
+      makeDeps({
+        resolveChannel: async () => {
+          throw new Error("executeScript failed: cannot access chrome:// URL");
+        },
+      }),
+    );
+    expect(container.textContent).not.toContain(POPUP_COPY.loading);
+    expect(container.textContent).toContain(POPUP_COPY.lookupError);
+  });
+
   it("shows the error message when the lookup fails", async () => {
     await mount(makeDeps({ lookup: async () => ({ ok: false, error: "boom" }) }));
     expect(container.textContent).toContain(POPUP_COPY.lookupError);
