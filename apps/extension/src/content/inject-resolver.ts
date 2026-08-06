@@ -211,7 +211,12 @@ export function resolveChannelIdInPage(
 
   try {
     if (!isWatchPage(url)) return null;
-    return reconcile([fromPlayerResponse, fromWatchInitialData, fromOwnerLink, fromMicrodataAuthor]);
+    return reconcile([
+      fromPlayerResponse,
+      fromWatchInitialData,
+      fromOwnerLink,
+      fromMicrodataAuthor,
+    ]);
   } catch {
     return null;
   }
