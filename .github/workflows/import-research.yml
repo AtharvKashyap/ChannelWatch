@@ -1,0 +1,53 @@
+name: Import research → production
+
+# Keeps the live database in sync with data/research/*.yaml.
+# Runs automatically when reviewed records change on main, or on demand.
+# The importer is idempotent, so an unchanged dataset is a no-op.
+#
+# SETUP (once): add a repo secret NEON_DATABASE_URL = your Neon *direct*
+# (non-pooler) connection string with ?sslmode=require. The importer uses
+# Postgres advisory locks, so it needs the direct connection, not the pooler.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/research/**"
+  workflow_dispatch: {}
+
+env:
+  TURBO_TELEMETRY_DISABLED: "1"
+  DO_NOT_TRACK: "1"
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guard — require the DB secret
+        env:
+          NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
+        run: |
+          if [ -z "$NEON_DATABASE_URL" ]; then
+            echo "::error::NEON_DATABASE_URL secret is not set. Add it in Settings ▸ Secrets ▸ Actions before this can run."
+            exit 1
+          fi
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Apply migrations + import the dataset
+        env:
+          DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
+        run: |
+          pnpm db:migrate
+          pnpm import:research
