@@ -1,33 +1,13 @@
 import type { ChannelLookupPayload } from "@channelwatch/schemas";
 
 /**
- * Message the POPUP sends to the minimal content script to resolve the channel
- * of the currently-playing watch-page video. The content script reads the live
- * page (`document` + `document.URL`) on demand and replies — it renders NOTHING
- * into the page and stores nothing (privacy, CLAUDE.md rule 5).
+ * Channel resolution is NO LONGER a page message. The popup resolves the current
+ * watch-page channel by injecting a one-shot reader (`resolveChannelIdInPage`)
+ * into the active tab via `chrome.scripting.executeScript` when it opens — see
+ * `src/content/inject-resolver.ts` and `src/popup/main.tsx`. There is no
+ * persistent content script and therefore no popup↔page message type here; the
+ * only runtime message left is `LOOKUP_CHANNEL` (popup ↔ background SW) below.
  */
-export const RESOLVE_CHANNEL = "RESOLVE_CHANNEL" as const;
-
-export interface ResolveChannelRequest {
-  type: typeof RESOLVE_CHANNEL;
-}
-
-export function isResolveChannelRequest(message: unknown): message is ResolveChannelRequest {
-  return (
-    typeof message === "object" &&
-    message !== null &&
-    (message as { type?: unknown }).type === RESOLVE_CHANNEL
-  );
-}
-
-/**
- * Content-script reply: the resolved immutable `UC…` channel id, or `null` when
- * the page is not a watch page or the channel could not be determined
- * unambiguously (never a guess — CLAUDE.md #8).
- */
-export interface ResolveChannelResponse {
-  channelId: string | null;
-}
 
 /** Message type sent from the popup to the background SW to look up a channel. */
 export const LOOKUP_CHANNEL = "LOOKUP_CHANNEL" as const;

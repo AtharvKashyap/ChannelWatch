@@ -4,26 +4,37 @@ CHANNELWATCH browser extension (Manifest V3, React + Vite). Shows viewers who
 owns, finances, or commercially influences the YouTube channel they're
 watching — see the repo root `README.md` for the project as a whole.
 
-## The UI is the toolbar popup — nothing is injected into YouTube
+## The UI is the toolbar popup — nothing persistent is injected into YouTube
 
-The extension injects **nothing** into YouTube pages: no badges, no panels, no
-DOM mutation anywhere. The **toolbar popup is the only UI**. Open a YouTube
-**watch** page (`/watch`, `/shorts/…`, `/live/…`) and click the CHANNELWATCH
-toolbar icon: the popup reads the currently-playing video's channel and shows
-its ownership box (label, ownership chain, "Ownership over time", evidence
-count, the standing editorial disclaimer, and a "Report an error" link). On the
+There is **no persistent content script**: the extension has no ongoing presence
+on YouTube pages, renders no badges or panels, and mutates no DOM. The **toolbar
+popup is the only UI**. Open a YouTube **watch** page (`/watch`, `/shorts/…`,
+`/live/…`) and click the CHANNELWATCH toolbar icon: the popup injects a
+**one-shot reader** into the active tab (via `chrome.scripting.executeScript`)
+that reads the currently-playing video's channel ID and returns it — that
+injected code runs **only at that moment, only on click**, reads nothing but the
+channel ID, renders nothing, and stores nothing. The popup then shows the
+ownership box (label, ownership chain, "Ownership over time", evidence count,
+the standing editorial disclaimer, and a "Report an error" link). On the
 homepage, channel pages, or non-YouTube tabs it shows a friendly prompt to open
 a video.
 
+Because the reader is injected on demand rather than declared as an always-on
+content script, it works on **any** tab with **no reload** — including tabs that
+were already open before the extension was installed or reloaded.
+
 ## Layout
 
-- `src/content/index.ts` — the **minimal content script**. Its only job is to
-  resolve the immutable `UC…` channel ID of the current watch-page video on
-  demand (when the popup sends `RESOLVE_CHANNEL`) using `channel-resolver.ts`,
-  and reply. It renders nothing and stores nothing. `channel-resolver.ts`
-  extracts the ID from `ytInitialData`/`ytInitialPlayerResponse` and the owner
-  anchor; `selectors.ts` centralizes every YouTube DOM selector it reads (see
-  "Selector health" below).
+- `src/content/inject-resolver.ts` — the **one-shot injected resolver**
+  (`resolveChannelIdInPage`). The popup serializes this dependency-free function
+  into the active watch tab with `chrome.scripting.executeScript` and reads back
+  the immutable `UC…` channel ID (or null). It renders nothing and stores
+  nothing. It is fully self-contained (all helpers and DOM selectors inlined),
+  because `executeScript` carries only the function's own source across into the
+  page — no module imports. `channel-resolver.ts` (+ its `selectors.ts`) is the
+  reusable/reference resolver `resolveChannelId(doc, url)`, kept for the
+  channel-resolver unit tests and the repo-root selector-health suite (see
+  "Selector health" below); the injected function ports its watch-page logic.
 - `src/background/` — MV3 service worker: `api-client.ts` (fetches lookups from
   `services/api`), `cache.ts` (an **in-memory session `Map`** keyed by channel
   ID — never persisted, no `chrome.storage`) + `ttl.ts` (how long an entry
@@ -31,8 +42,9 @@ a video.
 - `src/popup/` — the toolbar popup (React); the extension's only UI.
 - `src/shared/config.ts` — build-time constants baked from Vite env vars
   (`VITE_API_BASE_URL`, `VITE_WEB_BASE_URL`). Not user data; nothing is stored.
-- `src/shared/messages.ts` — the `RESOLVE_CHANNEL` (popup ↔ content) and
-  `LOOKUP_CHANNEL` (popup ↔ background) message contracts.
+- `src/shared/messages.ts` — the `LOOKUP_CHANNEL` (popup ↔ background) message
+  contract. Channel resolution is no longer a page message; the popup injects
+  `resolveChannelIdInPage` directly (see above).
 - `manifest.config.ts` — MV3 manifest; permissions kept to the documented
   minimum (see "Privacy" below).
 - `tests/fixtures/` — sanitized real YouTube page snapshots used by the
@@ -112,21 +124,26 @@ The extension **persists no user data at all**. It sends only the YouTube
 channel ID and its own version to the API — no page URL, no video ID, no
 cookies, no user identity, no telemetry. The lookup cache is an in-memory `Map`
 in the service worker (gone on restart); there is **no `chrome.storage`** and
-**no `storage` permission**. `manifest.config.ts` requests no API permissions —
-only host access to `youtube.com` (the minimal channel-ID resolver) and the
-configured API origin (background lookups). See `PRIVACY.md` (repo root) for the
-full policy.
+**no `storage` permission**. The one API permission is `scripting`, used solely
+to inject the one-shot channel-ID reader into the active watch tab **when the
+popup opens** — it runs only on click and reads nothing but the channel ID.
+Host access is limited to `youtube.com` (where that reader runs; `scripting`
+acts only within granted host permissions) and the configured API origin
+(background lookups). See `PRIVACY.md` (repo root) for the full policy.
 
 ## Selector health
 
-YouTube changes its DOM constantly. Every selector the content script uses is
-centralized in `src/content/selectors.ts`; `tests/selector_health/` at the
-repo root runs each one against stored page snapshots and fails loudly,
-naming the exact selector, if a match it used to make stops matching. If that
-suite fails after a YouTube markup change, fix the fallbacks in
-`selectors.ts` first — the extension is designed to fail silently in
-production (never break the YouTube page), so this test suite is the actual
-signal that something needs attention.
+YouTube changes its DOM constantly. Every YouTube selector is centralized in
+`src/content/selectors.ts` (used by the reference resolver and mirrored, inlined,
+inside the injected `resolveChannelIdInPage`); `tests/selector_health/` at the
+repo root runs each one against stored page snapshots and fails loudly, naming
+the exact selector, if a match it used to make stops matching, and the injected
+resolver's own canary (`tests/content/inject-resolver.test.ts`) proves a real
+watch-page snapshot still yields a channel ID. If those fail after a YouTube
+markup change, fix the fallbacks in `selectors.ts` (and the mirrored selectors
+in `inject-resolver.ts`) — the extension is designed to fail silently in
+production (never break the YouTube page), so these suites are the actual signal
+that something needs attention.
 
 ## Manual end-to-end script
 
