@@ -139,10 +139,15 @@ export function cors(webOrigin: string): MiddlewareHandler {
       c.header("Access-Control-Allow-Origin", origin);
       c.header("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTIONS");
       c.header("Access-Control-Allow-Headers", "Content-Type");
-      // Credentialed requests: the authed `/review` console sends the session
-      // cookie (fetch `credentials: "include"`). This requires a specific
-      // reflected origin (never `*`, enforced above) plus this header.
-      c.header("Access-Control-Allow-Credentials", "true");
+      // Credentials are reflected ONLY for the exact web origin: the authed
+      // `/review` console sends the session cookie (fetch `credentials:
+      // "include"`), which requires a specific reflected origin (never `*`,
+      // enforced above) plus this header. The browser extension's lookups are
+      // uncredentialed, so its origin must NOT be granted credentials — that
+      // would needlessly widen the credentialed surface to every install.
+      if (origin === webOrigin) {
+        c.header("Access-Control-Allow-Credentials", "true");
+      }
       c.header("Access-Control-Max-Age", "600");
     }
     if (c.req.method === "OPTIONS") {

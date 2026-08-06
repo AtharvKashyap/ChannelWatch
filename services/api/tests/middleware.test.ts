@@ -1,6 +1,7 @@
 import { describe, it, expect, afterEach } from "vitest";
 import type { Context } from "hono";
-import { clientIp } from "../src/http/middleware.js";
+import { Hono } from "hono";
+import { clientIp, cors } from "../src/http/middleware.js";
 
 /**
  * Unit tests for `clientIp` — the rate-limit key resolver. The security-relevant
@@ -87,5 +88,40 @@ describe("clientIp", () => {
   it("falls back to the socket address when trusted but no forwarding headers", () => {
     process.env.TRUSTED_PROXY = "1";
     expect(clientIp(fakeCtx({}, "10.0.0.9"))).toBe("10.0.0.9");
+  });
+});
+
+/**
+ * CORS: credentials are reflected ONLY for the exact WEB_ORIGIN (the authed
+ * /review console). The extension's origins are admitted for uncredentialed
+ * reads but must NOT receive `Access-Control-Allow-Credentials`.
+ */
+describe("cors", () => {
+  const WEB_ORIGIN = "https://console.example.com";
+  const EXT_ORIGIN = "chrome-extension://abcdefghijklmnopabcdefghijklmnop";
+
+  function appWithCors() {
+    const app = new Hono();
+    app.use("*", cors(WEB_ORIGIN));
+    app.get("/x", (c) => c.json({ ok: true }));
+    return app;
+  }
+
+  it("reflects credentials:true only for the exact web origin", async () => {
+    const res = await appWithCors().request("/x", { headers: { Origin: WEB_ORIGIN } });
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBe(WEB_ORIGIN);
+    expect(res.headers.get("Access-Control-Allow-Credentials")).toBe("true");
+  });
+
+  it("admits an extension origin WITHOUT credentials", async () => {
+    const res = await appWithCors().request("/x", { headers: { Origin: EXT_ORIGIN } });
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBe(EXT_ORIGIN);
+    expect(res.headers.get("Access-Control-Allow-Credentials")).toBeNull();
+  });
+
+  it("does not set CORS headers for a disallowed origin", async () => {
+    const res = await appWithCors().request("/x", { headers: { Origin: "https://evil.example" } });
+    expect(res.headers.get("Access-Control-Allow-Origin")).toBeNull();
+    expect(res.headers.get("Access-Control-Allow-Credentials")).toBeNull();
   });
 });
