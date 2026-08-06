@@ -2,8 +2,8 @@
  * Toolbar popup — the extension's ONLY user interface (the M3 redesign removed
  * all page injection). On open it determines whether the active tab is a
  * YouTube WATCH page; if so it resolves the currently-playing video's channel
- * (via the minimal content script) and looks up its ownership record (via the
- * background SW), then renders the ownership record.
+ * (via a one-shot function injected into the tab with `chrome.scripting`) and
+ * looks up its ownership record (via the background SW), then renders it.
  *
  * The look is a PRINTED OWNERSHIP RECORD, not a dashboard card: a quiet masthead
  * over a hairline, a serif (Newsreader) channel headline, the verdict as a plain
@@ -67,7 +67,7 @@ function isWatchUrl(url: string | null): boolean {
 export interface PopupDeps {
   /** URL of the active tab (null when unavailable / permission not granted). */
   getActiveTabUrl: () => Promise<string | null>;
-  /** Resolve the current watch-page channel id via the content script (null on failure). */
+  /** Resolve the current watch-page channel id via an injected one-shot reader (null on failure). */
   resolveChannel: () => Promise<string | null>;
   /** Look up an ownership record via the background SW. */
   lookup: (channelId: string) => Promise<LookupChannelResponse>;
