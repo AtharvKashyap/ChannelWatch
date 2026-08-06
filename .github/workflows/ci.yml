@@ -35,7 +35,7 @@ jobs:
       DATABASE_URL: postgres://channelwatch:channelwatch@localhost:5432/channelwatch
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Enable corepack
         run: corepack enable
