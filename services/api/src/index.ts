@@ -36,10 +36,11 @@ export function createApp(): Hono {
       await getSql()`select 1`;
       return c.json({ status: "ok", db: "up" });
     } catch (err) {
-      return c.json(
-        { status: "degraded", db: "down", error: err instanceof Error ? err.message : String(err) },
-        503,
-      );
+      // Log the raw DB error server-side only; NEVER return it to the client (a
+      // health probe is unauthenticated, and the error string can leak the
+      // connection host/driver internals).
+      console.error("healthz db check failed:", err instanceof Error ? err.message : String(err));
+      return c.json({ status: "degraded", db: "down" }, 503);
     }
   });
 
