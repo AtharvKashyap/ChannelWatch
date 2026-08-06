@@ -63,6 +63,17 @@ services:
       # Coarse abuse counters at the reviewer-guarded /api/v1/reviewer/metrics.
       - key: ABUSE_METRICS
         value: "on"
+      # Trust the upstream proxy's X-Forwarded-For so the per-IP rate limiter
+      # keys on the REAL client, not Render's shared router address (which all
+      # clients share -> one global bucket -> trivial DoS). The client IP is
+      # derived from the RIGHT-most XFF entry (appended by the trusted proxy,
+      # not client-spoofable), stripping TRUSTED_PROXY_HOPS hops from the right.
+      - key: TRUSTED_PROXY
+        value: "on"
+      # ASSUMPTION: Render prepends exactly ONE hop (its router). RE-VERIFY this
+      # against Render's actual forwarding once deployed; bump if it adds more.
+      - key: TRUSTED_PROXY_HOPS
+        value: "1"
 
       # ---- secrets (set in the Render dashboard; never committed) ----
       # Neon Postgres connection string. Use the POOLED connection string here

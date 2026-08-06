@@ -52,25 +52,68 @@ export function errorEnvelope(code: string, message: string, details?: unknown):
  * lets an attacker spoof a fresh IP per request and bypass the limiter. We
  * therefore trust forwarding headers ONLY when `TRUSTED_PROXY` is set in the
  * environment (the operator confirming the API sits behind a proxy that
- * rewrites XFF). Otherwise we key on the direct socket/connection address from
- * the Node server, falling back to a single `"unknown"` bucket when no address
- * is available (e.g. in-process test requests) — the limiter still functions,
- * it just cannot distinguish those callers.
+ * rewrites XFF).
+ *
+ * XFF is a comma-separated chain that grows LEFT-to-RIGHT: `client, proxy1,
+ * proxy2, …`, where each hop APPENDS the address it received the connection
+ * from. The left-most entry is therefore client-supplied and spoofable; only
+ * the right-most entries — appended by proxies we control — are trustworthy.
+ * With N trusted proxies in front of us, the real client is the entry N from
+ * the right, i.e. `xff[len - hops]`. `TRUSTED_PROXY_HOPS` sets N (default 1 when
+ * trust is enabled).
+ *
+ * ASSUMPTION: behind Render, exactly ONE hop (Render's router) prepends/appends
+ * to XFF, so `TRUSTED_PROXY_HOPS=1`. This must be RE-VERIFIED against Render's
+ * actual forwarding behavior once deployed — if Render inserts more than one
+ * hop, bump TRUSTED_PROXY_HOPS to match or the derived IP will be a proxy
+ * address (one shared bucket) again.
+ *
+ * When trust is DISABLED we key on the direct socket/connection address from the
+ * Node server, falling back to a single `"unknown"` bucket when no address is
+ * available (e.g. in-process test requests) — the limiter still functions, it
+ * just cannot distinguish those callers.
  */
 export function clientIp(c: Context): string {
+  const socketAddress = () => {
+    // Direct connection address from @hono/node-server (undefined under
+    // `app.request` in tests, where there is no socket).
+    const env = c.env as { incoming?: { socket?: { remoteAddress?: string } } } | undefined;
+    return env?.incoming?.socket?.remoteAddress || "unknown";
+  };
+
   if (process.env.TRUSTED_PROXY) {
+    const hops = trustedProxyHops();
     const forwarded = c.req.header("x-forwarded-for");
     if (forwarded) {
-      const first = forwarded.split(",")[0]?.trim();
-      if (first) return first;
+      const chain = forwarded
+        .split(",")
+        .map((h) => h.trim())
+        .filter((h) => h.length > 0);
+      // Take the hop appended by the immediately-upstream trusted proxy: N from
+      // the right. This is NOT client-spoofable — a client can only prepend
+      // entries on the left, which get pushed further from this index.
+      const client = chain[chain.length - hops];
+      if (client) return client;
     }
     const real = c.req.header("x-real-ip")?.trim();
     if (real) return real;
+    // XFF absent/malformed: fall back to the socket address rather than a shared
+    // bucket.
+    return socketAddress();
   }
-  // Direct connection address from @hono/node-server (undefined under
-  // `app.request` in tests, where there is no socket).
-  const env = c.env as { incoming?: { socket?: { remoteAddress?: string } } } | undefined;
-  return env?.incoming?.socket?.remoteAddress || "unknown";
+  return socketAddress();
+}
+
+/**
+ * Number of trusted proxy hops to strip from the right of `X-Forwarded-For`.
+ * Reads `TRUSTED_PROXY_HOPS` (default 1 when proxy trust is enabled). A
+ * non-positive or non-integer value is clamped to 1.
+ */
+function trustedProxyHops(): number {
+  const raw = process.env.TRUSTED_PROXY_HOPS?.trim();
+  if (!raw) return 1;
+  const n = Number.parseInt(raw, 10);
+  return Number.isInteger(n) && n > 0 ? n : 1;
 }
 
 /** Origins the API allows via CORS: the browser extension(s) + configured web origin. */
