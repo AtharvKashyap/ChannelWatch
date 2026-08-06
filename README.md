@@ -88,6 +88,7 @@ The dataset grows one well-sourced channel at a time, and that's the most valuab
 
 - 📓 [`docs/research-authoring-prompt.md`](./docs/research-authoring-prompt.md) — exactly what to gather, the evidence standards (tiers, dates, sourcing), the output format, and a copy-paste research prompt.
 - 📁 [`data/research/README.md`](./data/research/README.md) — the authoring + review workflow.
+- 📋 [`docs/covered-channels.md`](./docs/covered-channels.md) — the **244 channels covered so far**; [`data/research/_TARGETS.md`](./data/research/_TARGETS.md) is the backlog (goal: **1,000+**).
 
 TL;DR: copy [`data/research/_TEMPLATE.yaml`](./data/research/_TEMPLATE.yaml) → `data/research/<channel>.yaml`, fill it with sourced ownership edges, run `npx pnpm@9 import:research` to validate, open a PR. The importer computes the label; a human reviewer publishes it.
 

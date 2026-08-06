@@ -1,0 +1,24 @@
+# Dependabot keeps dependencies patched (the one attack surface that isn't our
+# own code). It opens PRs; nothing merges without review, and CI tests each one.
+# Security alerts/updates are enabled separately in Settings ▸ Security.
+version: 2
+updates:
+  # JS/TS dependencies across the pnpm workspace (root lockfile).
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # One grouped PR for routine bumps, instead of a flood of individual ones.
+      dependencies:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+    labels: ["dependencies"]
+
+  # Keep the GitHub Actions (CI + import) pinned versions current.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    labels: ["dependencies", "ci"]

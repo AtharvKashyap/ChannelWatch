@@ -268,3 +268,92 @@ The importer ignores this file (it only reads `.yaml`), so it's safe here.
 - [x] Unlearning Economics — `@UnlearningEconomics`
 - [x] Coffeezilla — `@Coffeezilla`
 - [x] Our Changing Climate — `@OurChangingClimate`
+
+---
+
+## Future target: 1,000+ channels
+
+The 244 records above are the seed. The goal is **1,000+ researched channels**, so
+the extension is useful on most videos a person actually watches. Because
+hand-listing 1,000 exact channels reliably isn't practical (and every candidate
+gets its channel ID + ownership verified at research time regardless), this
+backlog is a **systematic method + a large categorized candidate pool**, not a
+fabricated flat list. Handles are omitted here on purpose — verify the canonical
+`UC…` ID from the channel page at research time (see the authoring guide).
+
+### How we reach 1,000 (method)
+
+1. **Top-by-subscribers tiers.** Work down a reputable most-subscribed list
+   (global, then per major market: US, India, Brazil, Indonesia, Russia, LatAm,
+   MENA, SE Asia) in batches of ~8–12 via the research-agent pipeline. The very
+   top is ownership-rich (music labels, TV networks, kids studios) — high value.
+2. **Per-category sweeps** — fill each bucket below to depth.
+3. **Request-research flow** (post-launch) — when a user opens the popup on an
+   un-researched channel, queue it → LLM drafts a record → a human approves it.
+   Real usage then drives coverage toward the long tail.
+
+Track progress by category; a channel is "done" when it has a reviewed record in
+`data/research/`. See [`docs/covered-channels.md`](../../docs/covered-channels.md)
+for what's live.
+
+### Candidate pool (categories to fill)
+
+**Gaming & streaming** — Kai Cenat, IShowSpeed, xQc, Adin Ross, Valkyrae,
+Pokimane, Sykkuno, Disguised Toast, TimTheTatman, NICKMERCS, CouRage, Sapnap,
+GeorgeNotFound, TommyInnit, Wilbur Soot, Ranboo, SSundee, CaptainSparklez, Grian,
+Mumbo Jumbo, Dream SMP-adjacent creators, RTGame, CoryxKenshin, penguinz0
+(MoistCr1TiKaL), videogamedunkey, Jacksfilms, LazarBeam, Lachlan, Muselk, Fresh,
+Loserfruit, Jelly, Slogo, Crainer, Shroud, Valkyrae, Ludwig-adjacent (OTK),
+Jynxzi, Typical Gamer, DanTDM-adjacent, Aphmau-adjacent.
+
+**Tech / science / education** — 3Blue1Brown, Numberphile, Computerphile,
+minutephysics, minuteearth, PBS Space Time, Physics Girl, Steve Mould, The Action
+Lab, ElectroBOOM, Great Scott, DIY Perks, Techquickie, ShortCircuit, Dave2D,
+JerryRigEverything, Austin Evans, Snazzy Labs, Two Minute Papers, Fireship,
+freeCodeCamp, The Coding Train, CrashCourse, Khan Academy, TED-Ed, TED, Practical
+Engineering, Half as Interesting, Real Science, Be Smart (PBS), Domain of Science,
+Vsauce2, Vsauce3, SciShow Space.
+
+**News, geopolitics & business** — The Telegraph, The Times, Politico, Axios,
+Semafor, The Intercept, ProPublica, Middle East Eye, Times Radio, LBC, Rebel News,
+The Grayzone, Forbes, Business Insider, Yahoo Finance, Fortune, The Atlantic, The
+New Yorker, RealLifeLore-adjacent explainers, PolyMatter-adjacent, Not Just Bikes,
+CityNerd, RMTransit, Climate Town, Andrewism, Adam Something, BadEmpanada.
+
+**Political & cultural commentary** — Joe Rogan (PowerfulJRE), H3 Podcast,
+Flagrant (Andrew Schulz), This Past Weekend (Theo Von), Shawn Ryan Show, Diary of
+a CEO (Steven Bartlett), Modern Wisdom (Chris Williamson), Huberman Lab, Call Her
+Daddy, Impaulsive, Full Send (NELK), hbomberguy, Shaun, Three Arrows, Big Joel,
+Folding Ideas, Lindsay Ellis, Wisecrack, Innuendo Studios, Destiny, Vaush.
+
+**Music & record labels (ownership-rich)** — Universal Music Group, Sony Music,
+Warner Music, Atlantic Records, Republic Records, Interscope, Columbia, Def Jam,
+Coldplay, Maroon 5, Katy Perry, Rihanna, Shakira, Bruno Mars, Adele, Drake (OVO),
+Post Malone, Doja Cat, SZA, Olivia Rodrigo, Sabrina Carpenter, Lady Gaga,
+Beyoncé, TWICE, Stray Kids, NewJeans, SEVENTEEN.
+
+**Kids & family** — Ms Rachel (Songs for Littles), Sesame Street, PAW Patrol
+Official, Peppa Pig Official, Netflix Jr, WildBrain, plus remaining Moonbug /
+pocket.watch / TheSoul brands (reuse those shared entities).
+
+**Sports & leagues (corporate-owned)** — NFL, FIFA, UEFA, Premier League, La Liga,
+Formula 1, MLB, NHL, ESPN, Sky Sports, DAZN, UFC, Barstool Sports.
+
+**Film / studios / franchises (conglomerate-owned)** — Marvel Entertainment, Star
+Wars, Warner Bros. Pictures, Universal Pictures, Sony Pictures, Disney, Pixar,
+DreamWorks, A24, HBO, Crunchyroll, IGN, GameSpot, Screen Junkies.
+
+**Food & cooking** — Joshua Weissman, Bon Appétit, Gordon Ramsay, Nick DiGiovanni,
+Guga Foods, Sorted Food, Epicurious, Adam Ragusea, Ethan Chlebowski, Pro Home
+Cooks, Maangchi, Internet Shaquille.
+
+**Beauty & lifestyle** — James Charles, NikkieTutorials, Jeffree Star, Tati, Huda
+Beauty, Jackie Aina, Bretman Rock, Zoe Sugg.
+
+**India** — BB Ki Vines (Bhuvan Bam), Ashish Chanchlani, Amit Bhadana, Round2hell,
+Harsh Beniwal, Dhruv Rathee, Sandeep Maheshwari, Technical Guruji, Flying Beast,
+MostlySane, Emiway Bantai, plus the major label/TV channels already noted.
+
+**Latin America, MENA & SE Asia** — Yuya, Werevertumorro, Badabun, plus the
+top-per-market lists (method step 1) for Brazil, Indonesia, the Philippines,
+Mexico, Egypt, and the Gulf.
