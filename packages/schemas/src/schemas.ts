@@ -25,6 +25,25 @@ import {
 const isoDateString = z.string().min(1);
 
 /**
+ * An evidence/source URL restricted to the `http:`/`https:` schemes. A plain
+ * `z.url()` accepts dangerous schemes like `javascript:` and `data:`; since
+ * these URLs are rendered as clickable links in the public web app, admitting
+ * such a scheme is a stored-XSS/redirect vector. All existing research data is
+ * http(s), so this only rejects malicious/malformed input.
+ */
+const isHttpScheme = (u: string): boolean => {
+  try {
+    return /^https?:$/.test(new URL(u).protocol);
+  } catch {
+    return false;
+  }
+};
+const httpUrl = z.url().refine(isHttpScheme, "must be an http(s) URL");
+
+/** Nullable+optional variant of `httpUrl` for columns that may be unset. */
+const httpUrlNullish = httpUrl.nullable().optional();
+
+/**
  * Zod schemas for CHANNELWATCH data structures. Shapes track docs/SPEC.md
  * (notably §15.3 relationship properties and the §17.2 example response).
  */
@@ -77,7 +96,7 @@ export type Relationship = z.infer<typeof Relationship>;
 /** An evidence source backing one or more claims (§7.1, §8.2). */
 export const Source = z.object({
   id: z.string().min(1),
-  url: z.url(),
+  url: httpUrl,
   // `tier` (source_tier) and `status` are nullable TEXT/INTEGER columns (SPEC
   // §16): a source can exist before it is graded/triaged. A null column is a
   // legitimate "not yet assigned" state, so these tolerate null rather than
@@ -85,7 +104,7 @@ export const Source = z.object({
   // enum/tier taxonomy.
   tier: SourceTierSchema.nullable().optional(),
   status: EvidenceStatusSchema.nullable().optional(),
-  archive_url: z.url().nullable().optional(),
+  archive_url: httpUrlNullish,
   content_hash: z.string().nullable().optional(),
   retrieved_at: z.string().nullable().optional(),
   title: z.string().nullable().optional(),
@@ -301,7 +320,7 @@ export type CorrectionSubmission = z.infer<typeof CorrectionSubmission>;
  */
 export const ResearchLeadSubmission = z.object({
   youtube_channel_id: YoutubeChannelId,
-  evidence_url: z.url().max(2000).optional(),
+  evidence_url: z.url().max(2000).refine(isHttpScheme, "must be an http(s) URL").optional(),
   submitter_name: z.string().min(1).max(200).optional(),
   submitter_email: z.email().max(320).optional(),
   note: z.string().min(1).max(5000).optional(),
@@ -341,14 +360,14 @@ export type ChannelSearchResponse = z.infer<typeof ChannelSearchResponse>;
  */
 export const ChannelEvidenceItem = z.object({
   id: z.string().min(1),
-  url: z.url(),
+  url: httpUrl,
   title: z.string().nullable().optional(),
   publisher: z.string().nullable().optional(),
   tier: SourceTierSchema.nullable().optional(),
   source_type: SourceTypeSchema.nullable().optional(),
   status: EvidenceStatusSchema.nullable().optional(),
   published_at: z.string().nullable().optional(),
-  archive_url: z.url().nullable().optional(),
+  archive_url: httpUrlNullish,
   excerpt: z.string().nullable().optional(),
 });
 export type ChannelEvidenceItem = z.infer<typeof ChannelEvidenceItem>;

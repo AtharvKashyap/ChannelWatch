@@ -149,6 +149,25 @@ describe("Source", () => {
   it("rejects a non-url", () => {
     expect(() => Source.parse({ id: "s", url: "not-a-url", tier: 1, status: "ACTIVE" })).toThrow();
   });
+
+  it("rejects a javascript: (non-http) scheme on url and archive_url (XSS guard)", () => {
+    expect(() =>
+      Source.parse({ id: "s", url: "javascript:alert(1)", tier: 1, status: "ACTIVE" }),
+    ).toThrow();
+    expect(() =>
+      Source.parse({
+        id: "s",
+        url: "https://example.com/ok",
+        archive_url: "javascript:alert(1)",
+        tier: 1,
+        status: "ACTIVE",
+      }),
+    ).toThrow();
+    // data: URLs are likewise rejected; only http(s) validates.
+    expect(() =>
+      Source.parse({ id: "s", url: "data:text/html,<script>1</script>", tier: 1 }),
+    ).toThrow();
+  });
 });
 
 describe("Claim (§7, §8.3, §16)", () => {
