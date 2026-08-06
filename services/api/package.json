@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@hono/node-server": "1.14.4",
-    "@types/node": "^20.17.9",
+    "@types/node": "^26.1.2",
     "drizzle-kit": "0.31.5",
     "tsx": "4.23.1",
     "vitest": "2.1.9"
